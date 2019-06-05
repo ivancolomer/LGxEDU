@@ -150,7 +150,7 @@ directory on the system owned by "lg" user.
 ## Backup images from the container where liquid-galaxy is installed in order to have a backup
 
 In order to make the backup:
-`lxc publish penguin --alias backup`
+`lxc publish penguin --alias backup --force`
 
 In order to import the backup:
 ```
@@ -159,6 +159,5 @@ lxc init backup penguin
 lxc start penguin
 ```
 
-In order to create a new container with Google Debian Stretch versions:
-
-`run_container.sh --container_name lgxedu --shell --user lg`
+In order to watch the list of containers:
+`lxc list`

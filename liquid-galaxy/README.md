@@ -8,8 +8,10 @@ Press CTR-ALT-T to open a crosh terminal.
 
 Write those commands to open the bash terminal from the Linux Container:
 
-```vmc start termina
-lxc exec penguin -- bash```
+```
+vmc start termina
+lxc exec penguin -- bash
+```
 
 Then execute this to change the user name to lg:
 ```
@@ -20,7 +22,8 @@ usermod -md /home/lg -l lg $USER_BEFORE
 usermod -aG users lg
 loginctl enable-linger lg
 passwd lg < echo lgxedu
-shutdown -h now```
+shutdown -h now
+```
 
 
 ## Installation

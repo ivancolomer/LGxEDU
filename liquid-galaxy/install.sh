@@ -132,7 +132,7 @@ echo "Upgrading system packages ..."
 sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
-sudo apt-get install -yq git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish network-manager bc lsb-core
+sudo apt-get install -yq git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish network-manager bc lsb-compat
 sudo apt-get install -yq libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 #
@@ -159,6 +159,7 @@ if [ $IS_MASTER != true ]; then
 fi
 
 sudo cp -r $GIT_FOLDER_NAME/gnu_linux/home/lg/. $HOME
+sudo chmod 
 
 cd $HOME"/dotfiles/"
 for file in *; do
@@ -168,6 +169,7 @@ sudo cp -r . $HOME
 cd - > /dev/null
 
 sudo cp -r $GIT_FOLDER_NAME/gnu_linux/etc/ $GIT_FOLDER_NAME/gnu_linux/patches/ $GIT_FOLDER_NAME/gnu_linux/sbin/ / #Estem aqui!!
+sudo chmod -R g+x $HOME/bin
 
 sudo chmod 0440 /etc/sudoers.d/42-lg
 sudo chown -R $LOCAL_USER:$LOCAL_USER $HOME

@@ -1,0 +1,20 @@
+# Commands
+www-data ALL=(lg) NOPASSWD: /home/lg/bin/lg-sudo
+www-data ALL=(lg) NOPASSWD: /home/lg/bin/lg-relaunch
+
+# Scripts
+www-data ALL=(lg) NOPASSWD: /bin/cp Charts/* /var/www/benchmarking/img
+lg ALL=(ALL) NOPASSWD: /bin/cp Charts/* /var/www/benchmarking/img
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Chart-gen/getCharts.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Scripts/Analize.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Scripts/CopyData.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Scripts/Benchmark.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Scripts/fullBenchmark.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Scripts/stopAll.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Scripts/clearCache.sh
+
+# Peruse-a-rue Scripts
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Web-Benchmarking/Benchmark/Monitor/Benchmark.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Web-Benchmarking/Benchmark/Parse/Analyze.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Web-Benchmarking/Benchmark/Charts-gen/getCharts.sh
+www-data ALL=(lg) NOPASSWD: /home/lg/LG_Web-Benchmarking/cleanBench.sh

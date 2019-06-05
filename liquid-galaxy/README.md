@@ -13,7 +13,7 @@ Tested with:
 
 Get and execute installation file on the target machine (from any user folder):
 
-`bash <(curl -s https://raw.githubusercontent.com/ivancolomer/lgxedu/master/liquid-galaxy/install.sh)`
+`bash <(curl https://raw.githubusercontent.com/ivancolomer/lgxedu/master/liquid-galaxy/install.sh)`
 
 **Master:**
 

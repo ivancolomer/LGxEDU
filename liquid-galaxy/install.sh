@@ -34,7 +34,7 @@ GIT_FOLDER_NAME="LGxEDU"
 
 EARTH_FOLDER="/usr/bin/"
 NETWORK_INTERFACE=$(/sbin/route -n | grep "^0.0.0.0" | rev | cut -d' ' -f1 | rev)
-NETWORK_INTERFACE_MAC=$(/sbin/ifconfig | grep $NETWORK_INTERFACE | awk '{print $5}')
+NETWORK_INTERFACE_MAC=$(cat /sys/class/net/$NETWORK_INTERFACE/address)
 
 read -p "Machine id (i.e. 1 for lg1) (1 == master): " MACHINE_ID
 if [ "$(echo $MACHINE_ID | cut -c-2)" == "lg" ]; then
@@ -97,7 +97,7 @@ GIT_URL: $GIT_URL
 GIT_FOLDER: $GIT_FOLDER_NAME
 
 EARTH_FOLDER: $EARTH_FOLDER
-NETWORK_INTERFACE: $INTERFACE
+NETWORK_INTERFACE: $NETWORK_INTERFACE
 NETWORK_MAC_ADDRESS: $NETWORK_INTERFACE_MAC
 
 Is it correct? Press any key to continue or CTRL-C to exit
@@ -220,7 +220,7 @@ DHCP_LG_SCREEN="$(( ${FRAME_NO} + 1 ))"
 DHCP_LG_SCREEN_COUNT=1
 DHCP_OCTET=$OCTET
 DHCP_LG_PHPIFACE="http://lg1:81/"
-DHCP_NETWORK_INTERFACE=$INTERFACE
+DHCP_NETWORK_INTERFACE=$NETWORK_INTERFACE
 
 DHCP_EARTH_PORT=45678
 DHCP_EARTH_BUILD="latest"
@@ -232,19 +232,14 @@ EOF
 sudo $HOME/bin/personality.sh $MACHINE_ID $OCTET > /dev/null
 
 # Network configuration
-sudo tee -a "/etc/network/interfaces" > /dev/null 2>&1 << EOM
-auto $INTERFACE
-iface $INTERFACE inet dhcp
 
-auto $INTERFACE:$MACHINE_ID
-iface $INTERFACE:$MACHINE_ID inet static
-address 10.42.$OCTET.$MACHINE_ID
-gateway 10.42.42.0
-netmask 255.255.255.0
-EOM
+#sudo tee -a "/etc/network/interfaces" > /dev/null 2>&1 << EOM
+#auto $NETWORK_INTERFACE
+#iface $NETWORK_INTERFACE inet dhcp
+#EOM
 
 # In-session network configuration
-sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $INTERFACE
+sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $NETWORK_INTERFACE
 
 sudo sed -i "s/\(managed *= *\).*/\1true/" /etc/NetworkManager/NetworkManager.conf
 echo "SUBSYSTEM==\"net\",ACTION==\"add\",ATTR{address}==\"$NETWORK_INTERFACE_MAC\",KERNEL==\"$NETWORK_INTERFACE\",NAME=\"$INTERFACE\"" | sudo tee /etc/udev/rules.d/10-network.rules > /dev/null

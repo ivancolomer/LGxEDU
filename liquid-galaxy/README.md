@@ -158,3 +158,7 @@ lxc delete penguin
 lxc init backup penguin
 lxc start penguin
 ```
+
+In order to create a new container with Google Debian Stretch versions:
+
+`run_container.sh --container_name lgxedu --shell --user lg`

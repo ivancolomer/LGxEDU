@@ -104,7 +104,7 @@ Is it correct? Press any key to continue or CTRL-C to exit
 EOM
 read
 
-if [ "$(cat /etc/os-release | grep NAME=\"DEBIAN GNU/Linux\")" == "" ]; then
+if [ "$(cat /etc/os-release | grep 'NAME=\"Debian GNU/Linux\"')" == "" ]; then
 	echo "Warning!! This script is meant to be run on an DEBIAN GNU/Linux. It may not work as expected."
 	echo -n "Press any key to continue or CTRL-C to exit"
 	read

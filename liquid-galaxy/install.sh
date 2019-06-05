@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GIT_URL="https://github.com/ivancolomer/LGxEDU"
+GIT_URL="https://github.com/ivancolomer/LGxEDU/"
 
 cat << "EOM"
  _ _             _     _               _                  
@@ -30,7 +30,7 @@ TOTAL_MACHINES="3"
 LG_FRAMES="lg3 lg1 lg2"
 OCTET="42"
 SCREEN_ORIENTATION="V"
-GIT_FOLDER_NAME="LGxEDU"
+GIT_FOLDER_NAME="LGxEDU/liquid-galaxy"
 
 EARTH_FOLDER="/usr/bin/"
 NETWORK_INTERFACE=$(/sbin/route -n | grep "^0.0.0.0" | rev | cut -d' ' -f1 | rev)
@@ -136,7 +136,7 @@ sudo apt-get install -yq git openssh-server sshpass squid3 squid-cgi apache2 xdo
 sudo apt-get install -yq libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 echo "Installing Google Earth..."
-sudo dpkg -i google-earth-pro-stable_7.1.8.3036-r0_amd64.deb
+sudo dpkg -i $GIT_FOLDER_NAME/google-earth-pro-stable_7.1.8.3036-r0_amd64.deb
 sudo apt-get -f install -y
 
 #

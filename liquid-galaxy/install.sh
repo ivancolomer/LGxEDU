@@ -323,4 +323,4 @@ sudo /etc/init.d/network-manager restart
 echo "Liquid Galaxy installation completed! :-)"
 echo "Press ENTER key to exit"
 read
-sudo poweroff
+sudo shutdown -h now

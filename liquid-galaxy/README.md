@@ -7,39 +7,23 @@ with other distributions.
 
 Tested with:
 
-- Ubuntu 16.04 LTS
-- <strike>Ubuntu 15.10</strike>
-
-### Distribution installation details:
-
-Machine name: lgX (x = screen number*)<br>
-Username: lg
-
-\* set them clockwise (i.e. lg4 lg5 lg1 lg2 lg3). lg1 is always the master.
-
-Other details such as the account name or user password are not relevant, write whatever. As a general rule, autologin can be set on the installation, however it is not mandatory since it will be done by the script later.
+- Crostini Container (with Debian GNU/Linux 9 and Linux Kernel 4.19.26-03278-g71dc68f9c9d0)
 
 ### Installation script
 
 Get and execute installation file on the target machine (from any user folder):
 
-`bash <(curl -s https://raw.githubusercontent.com/LiquidGalaxyLAB/liquid-galaxy/master/install.sh)`
-
-x64 bits OS might require these additional libraries in order to start Google Earth:
-
-`sudo apt-get install -y libfontconfig1:i386 libx11-6:i386​ libxrender1:i386 libxext6:i386 libglu1-mesa:i386 libglib2.0-0:i386 libsm6:i386`
+`bash <(curl -s https://raw.githubusercontent.com/ivancolomer/lgxedu/master/liquid-galaxy/install.sh)`
 
 **Master:**
 
 Machine id: the number that identifies your machine (only the number part of the lgX machine name).<br>
 Total machines count: the number of machines running your liquid galaxy.<br>
-LG frames: how the final setup will look like (use clockwise order).<br>
 Unique number (octet): Unique number that identifies your installation (to avoid conflict with other liquid galaxy installations in your network).
 
 Example filled in form (with a 3 machines setup):<br>
 Machine id: 1<br>
 Total machines count: 3<br>
-LG frames: lg3 lg1 lg2<br>
 Unique number (octet): 42
 
 During the installation you will be asked for a SSH passphrase and its verification, just press `enter` twice.
@@ -58,18 +42,9 @@ Machine id: 2<br>
 Master machine IP: 192.168.1.10<br>
 Master local user password: 1234<br>
 Total machines count: 3<br>
-LG frames: lg3 lg1 lg2<br>
 Unique number (octet): 42
 
 Once the slaves installation has completed (including the reboot), you might have to reload master to send them the init signal. `lg-relaunch`
-
-### Other installation details
-
-- Device GPU drivers might not be enabled by default. Make sure to install your device's latest drivers.
-- If your Liquid Galaxy setup is using the screens in vertical, you will have to rotate them manually (on Ubuntu: Launchpad -> Displays -> Rotation -> Counterclockwise).
-- When booting Ubuntu Installation from your USB, if the USB doesn't appear as a boot option in the list of the BIOS, please make sure your CSM (Compatibility Support Module) allows booting from both Legacy and UEFI systems.
-- When opening Google Earth Pro application, if the screen doesn't properly load, it might be due to the incompatiblity between Google Earth Pro 7.3 and X.Org X server. Install Nvidia driver in order to solve the problem with this command:
-`sudo apt-get install nvidia-384 && shutdown -r now`
 
 ### [Optional] API
 

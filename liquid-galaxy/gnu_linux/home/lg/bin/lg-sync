@@ -1,0 +1,53 @@
+#!/bin/bash
+# Copyright 2010 Google Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+## This script uses rsync to ensure files or directories 
+## are synced FROM master TO client systems
+
+# source common configuration (gets rsync options)
+. ${HOME}/etc/shell.conf
+
+lg-ctl-master
+
+if [[ ${#@} -lt 2 ]]; then
+    echo "This sync is a bit dangerous! Be sure to at least provide SRC and DEST:
+\$ $0 SRC DEST
+"
+    exit 1
+fi
+
+if [[ "$1" == "--really-sync" ]]; then
+    shift
+else
+    echo "THIS WILL BE A \"DRY RUN\" sync unless the _first_ argument is \"--really-sync\"!"
+    echo "rsync options are configured within \"${HOME}/etc/shell.conf\"."
+    sleep 1
+    RSYNCOPTS="-n $RSYNCOPTS"
+fi
+self=$( hostname )
+specified_source=$1
+specified_destination=$2
+
+for lg in $LG_FRAMES; do
+    if [[ "$lg" = "$self" ]]; then
+        echo "skipping self"
+    else
+        echo
+        echo "Syncing \"$specified_source\" to \"lg@$lg:${specified_destination}\": "
+        rsync $RSYNCOPTS $specified_source lg@${lg}:${specified_destination}
+    fi
+done
+
+exit 0

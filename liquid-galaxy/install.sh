@@ -135,10 +135,6 @@ echo "Installing new packages..."
 sudo apt-get install -yq git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish network-manager bc
 sudo apt-get install -yq libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
-echo "Installing Google Earth..."
-sudo dpkg -i $GIT_FOLDER_NAME/google-earth-pro-stable_7.1.8.3036-r0_amd64.deb
-sudo apt-get -f install -y
-
 #
 # Liquid Galaxy
 #
@@ -146,6 +142,10 @@ sudo apt-get -f install -y
 # Setup Liquid Galaxy files
 echo "Setting up Liquid Galaxy..."
 git clone $GIT_URL
+
+echo "Installing Google Earth..."
+sudo dpkg -i $GIT_FOLDER_NAME/google-earth-pro-stable_7.1.8.3036-r0_amd64.deb
+sudo apt-get -f install -y
 
 sudo cp -r $GIT_FOLDER_NAME/earth/ $HOME
 sudo ln -s $EARTH_FOLDER $HOME/earth/builds/latest

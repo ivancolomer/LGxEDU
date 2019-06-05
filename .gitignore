@@ -8,11 +8,6 @@
 # Java class files
 *.class
 
-# Generated files
-bin/
-gen/
-out/
-
 # Gradle files
 .gradle/
 build/

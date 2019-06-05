@@ -161,3 +161,5 @@ lxc start penguin
 
 In order to watch the list of containers:
 `lxc list`
+
+https://askubuntu.com/questions/598395/ping-to-lxc-container

@@ -41,6 +41,7 @@ if [ "$(echo $MACHINE_ID | cut -c-2)" == "lg" ]; then
 	MACHINE_ID="$(echo $MACHINE_NAME | cut -c3-)"
 fi
 MACHINE_NAME="lg"$MACHINE_ID
+echo "$MACHINE_IDa"
 if [ $MACHINE_ID == "1" ]; then
 	IS_MASTER=true
 else

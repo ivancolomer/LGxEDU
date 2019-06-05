@@ -159,7 +159,8 @@ if [ $IS_MASTER != true ]; then
 fi
 
 sudo cp -r $GIT_FOLDER_NAME/gnu_linux/home/lg/. $HOME
-sudo chmod 
+sudo chmod -R u+x $HOME/bin
+sudo chmod -R u+x $HOME/tools
 
 cd $HOME"/dotfiles/"
 for file in *; do
@@ -169,8 +170,6 @@ sudo cp -r . $HOME
 cd - > /dev/null
 
 sudo cp -r $GIT_FOLDER_NAME/gnu_linux/etc/ $GIT_FOLDER_NAME/gnu_linux/patches/ $GIT_FOLDER_NAME/gnu_linux/sbin/ / #Estem aqui!!
-sudo chmod -R u+x $HOME/bin
-sudo chmod -R u+x $HOME/tools
 
 sudo chmod 0440 /etc/sudoers.d/42-lg
 sudo chown -R $LOCAL_USER:$LOCAL_USER $HOME

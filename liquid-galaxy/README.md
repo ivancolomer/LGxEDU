@@ -146,3 +146,15 @@ within the "lg" user's home directory:
 
 Using example scripts and tools within this repo, there should also be a "/lg"
 directory on the system owned by "lg" user.
+
+## Backup images from the container where liquid-galaxy is installed in order to have a backup
+
+In order to make the backup:
+`lxc publish penguin --alias backup`
+
+In order to import the backup:
+```
+lxc delete penguin
+lxc init backup penguin
+lxc start penguin
+```

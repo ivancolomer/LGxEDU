@@ -21,7 +21,7 @@ groupmod -n lg $USER_BEFORE
 usermod -md /home/lg -l lg $USER_BEFORE
 usermod -aG users lg
 loginctl enable-linger lg
-passwd lg < echo lgxedu
+passwd lg <<< "lgxedu"
 shutdown -h now
 ```
 

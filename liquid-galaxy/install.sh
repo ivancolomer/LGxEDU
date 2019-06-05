@@ -52,7 +52,6 @@ else
 fi
 read -p "Total machines count (i.e. 3): " TOTAL_MACHINES
 read -p "Unique number that identifies your Galaxy (octet) (i.e. 42): " OCTET
-read -p "Do you want to install extra drivers? (y/n): " INSTALL_DRIVERS_CHAR
 
 #
 # Pre-start

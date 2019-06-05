@@ -1,5 +1,28 @@
 # Liquid Galaxy
 
+## Before Installation
+
+After you have enabled Linux (Beta) on ChromeBook:
+
+Press CTR-ALT-T to open a crosh terminal.
+
+Write those commands to open the bash terminal from the Linux Container:
+
+```vmc start termina
+lxc exec penguin -- bash```
+
+Then execute this to change the user name to lg:
+```
+USER_BEFORE=$(ls /home)
+killall -u $USER_BEFORE
+groupmod -n lg $USER_BEFORE
+usermod -md /home/lg -l lg $USER_BEFORE
+usermod -aG users lg
+loginctl enable-linger lg
+passwd lg < echo lgxedu
+shutdown -h now```
+
+
 ## Installation
 
 The installation script (`install.sh`) is intended to be used with Ubuntu. It might not work

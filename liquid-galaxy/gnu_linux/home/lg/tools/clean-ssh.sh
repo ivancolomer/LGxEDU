@@ -60,9 +60,9 @@ sudo sh -c "echo \"lg*,10.42.*.* $host_pubrsa\" >> $KNOWN_HOSTS"
 
 # ensure permissions and dir/file exists using safe operations
 mkdir -p ${HOME}/.ssh
-chmod 0700 ${HOME}/.ssh
+sudo chmod 0700 ${HOME}/.ssh
 touch $AUTH_KEYS
-chmod 0600 $AUTH_KEYS
+sudo chmod 0600 $AUTH_KEYS
 
 # overwrite local authorized_keys
 cat $LG_PUBKEY > $AUTH_KEYS

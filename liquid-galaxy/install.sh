@@ -235,10 +235,19 @@ sudo $HOME/bin/personality.sh $MACHINE_ID $OCTET > /dev/null
 
 # Network configuration
 
-#sudo tee -a "/etc/network/interfaces" > /dev/null 2>&1 << EOM
-#auto $NETWORK_INTERFACE
-#iface $NETWORK_INTERFACE inet dhcp
-#EOM
+sudo tee "/etc/network/interfaces" > /dev/null 2>&1 << EOM
+auto lo
+iface lo inter loopback
+
+auto $NETWORK_INTERFACE
+iface $NETWORK_INTERFACE inet dhcp
+
+auto $INTERFACE:$MACHINE_ID
+iface $INTERFACE:$MACHINE_ID inet static
+address 10.42.$OCTET.$MACHINE_ID
+gateway 0.0.0.0
+netmask 255.255.255.0
+EOM
 
 # In-session network configuration
 sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $NETWORK_INTERFACE

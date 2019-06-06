@@ -9,10 +9,10 @@ repositories {
 android {
     signingConfigs {
         DebugSignIn {
-            keyAlias 'Testing'
-            keyPassword 'LGxEDU'
-            storeFile file('../../key.jks')
-            storePassword 'LGxEDU'
+            keyAlias 'key'
+            keyPassword 'lgxedu_ivan'
+            storeFile file('../../../key.jks')
+            storePassword 'lg_ivan_edu'
         }
     }
     compileSdkVersion 28

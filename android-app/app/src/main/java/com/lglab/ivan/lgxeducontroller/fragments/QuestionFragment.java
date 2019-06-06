@@ -18,6 +18,9 @@ import com.lglab.ivan.lgxeducontroller.games.quiz.Question;
 import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
+import github.chenupt.multiplemodel.ItemEntity;
+import github.chenupt.multiplemodel.ItemEntityUtil;
+
 public class QuestionFragment extends Fragment {
     private static final POI EARTH_POI = new POI()
             .setLongitude(10.52668d)
@@ -48,7 +51,8 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        questionNumber = getArguments().getInt("data");
+        ItemEntity<Integer> itemEntity = ItemEntityUtil.getModelData(this);
+        questionNumber = itemEntity.getContent();
         question = QuizManager.getInstance().getQuiz().questions.get(questionNumber);
     }
 

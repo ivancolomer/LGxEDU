@@ -18,8 +18,10 @@ import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import github.chenupt.multiplemodel.ItemEntity;
+import github.chenupt.multiplemodel.ItemEntityUtil;
 import github.chenupt.multiplemodel.viewpager.ModelPagerAdapter;
-import github.chenupt.multiplemodel.viewpager.PagerModelManager;
+import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
 import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
@@ -40,8 +42,11 @@ public class QuizActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         SpringIndicator springIndicator = findViewById(R.id.indicator);
 
-        PagerModelManager manager = new PagerModelManager();
-        manager.addCommonFragment(QuestionFragment.class, getQuestionsIds(), getTitles());
+        List<ItemEntity> list = new ArrayList<>();
+        for (int i = 0; i < QuizManager.getInstance().getQuiz().questions.size(); i++) {
+            ItemEntityUtil.create(i).setModelView(QuestionFragment.class).attach(list);
+        }
+        PagerManager manager = PagerManager.begin().addFragments(list).setTitles(getTitles());
 
         ModelPagerAdapter adapter = new ModelPagerAdapter(getSupportFragmentManager(), manager);
         viewPager.setAdapter(adapter);
@@ -61,18 +66,6 @@ public class QuizActivity extends AppCompatActivity {
 
         for (int i = 0; i < size; i++) {
             list.add(String.valueOf(i + 1));
-        }
-
-        return list;
-    }
-
-    private List<Integer> getQuestionsIds() {
-        int size = QuizManager.getInstance().getQuiz().questions.size();
-
-        ArrayList<Integer> list = new ArrayList<>(size);
-
-        for (int i = 0; i < size; i++) {
-            list.add(i);
         }
 
         return list;

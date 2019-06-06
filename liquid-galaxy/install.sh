@@ -244,7 +244,7 @@ sudo $HOME/bin/personality.sh $MACHINE_ID $OCTET > /dev/null
 sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $NETWORK_INTERFACE
 
 sudo sed -i "s/\(managed *= *\).*/\1true/" /etc/NetworkManager/NetworkManager.conf
-echo "SUBSYSTEM==\"net\",ACTION==\"add\",ATTR{address}==\"$NETWORK_INTERFACE_MAC\",KERNEL==\"$NETWORK_INTERFACE\",NAME=\"$INTERFACE\"" | sudo tee /etc/udev/rules.d/10-network.rules > /dev/null
+echo "SUBSYSTEM==\"net\",ACTION==\"add\",ATTR{address}==\"$NETWORK_INTERFACE_MAC\",KERNEL==\"$NETWORK_INTERFACE\",NAME=\"$NETWORK_INTERFACE\"" | sudo tee /etc/udev/rules.d/10-network.rules > /dev/null
 sudo sed -i '/lgX.liquid.local/d' /etc/hosts
 sudo sed -i '/kh.google.com/d' /etc/hosts
 sudo sed -i '/10.42./d' /etc/hosts

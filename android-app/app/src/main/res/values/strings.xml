@@ -1,0 +1,291 @@
+<resources>
+    <string name="server_client_id">570014662901-v9p1r3dqtfspmisad8o5gp264o7r181q.apps.googleusercontent.com</string>
+    <string name="app_name">LGxEdu Controller</string>
+    <string name="navigate">Navigate</string>
+    <string name="play">Play</string>
+    <string name="create_question">Create Question</string>
+
+    <!-- Create Question -->
+    <string name="question_text_edit">Question</string>
+    <string name="correct_answer">Correct answer</string>
+    <string name="question_POI">Initial POI</string>
+    <string name="bubble_text">Additional information for the answer</string>
+    <string name="answer_1">Answer 1</string>
+    <string name="answer_2">Answer 2</string>
+    <string name="answer_3">Answer 3</string>
+    <string name="answer_4">Answer 4</string>
+    <string name="answer_1_POI">Answer 1 POI</string>
+    <string name="answer_2_POI">Answer 2 POI</string>
+    <string name="answer_3_POI">Answer 3 POI</string>
+    <string name="answer_4_POI">Answer 4 POI</string>
+    <!-- End Create Question -->
+
+    <!-- Legacy -->
+    <string name="tittle">Liquid Galaxy Controller</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_resetDB">Reset Database</string>
+    <string name="POIs_button">POIS</string>
+    <string name="TOURs_button">TOURs</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="admin">Administration tools</string>
+    <string name="title_activity_admin">Liquid Galaxy Tools</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="incorrect_pass">Incorrect Password</string>
+    <string name="new_poi">New POI</string>
+    <string name="new_category">New Category</string>
+    <string name="new_tour">New TOUR</string>
+    <string name="create_poi">Create POI</string>
+    <string name="create_category">Create Category</string>
+    <string name="create_tour">Create Tour</string>
+    <string name="update_category">Update Category</string>
+    <string name="update_tour">Update Tour</string>
+    <string name="update_poi">Update POI</string>
+    <string name="add_pois">Add POIs</string>
+    <string name="categories_button">Categories</string>
+    <string name="edit_poi">Edit</string>
+    <string name="delete_poi">Delete</string>
+    <string name="title_activity_create_item">New Item</string>
+    <string name="title_activity_update_item">Update Item</string>
+    <string name="new_poi_here">New POI inside this category</string>
+    <string name="new_tour_here">New TOUR inside this category</string>
+    <string name="new_category_here">New Category inside this category</string>
+    <string name="see_all">See all elements</string>
+    <string name="see_by_category">See elements by category</string>
+    <string name="next_subcategory">See subcategory</string>
+    <string name="back">Back</string>
+    <string name="back_start">Back to Start</string>
+    <string name="global_interval_text">Duration of each POI (25 by default)</string>
+    <string name="tour_pois">Tour POIs</string>
+    <string name="title_activity_help">Help</string>
+    <string name="title_activity_lgpc">Liquid Galaxy POIs Controller</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_activity_lgpcadmin">Liquid Galaxy Administration</string>
+    <string name="inst_send_POI_tittle"><u>Instructions to send a POI to Liquid Galaxy system:</u></string>
+    <string name="inst_send_POI_">1.	Check whether all the settings are correct by making click on ‘Settings’ option inside the menu located on the main screen’s top right corner. If they are incorrect, modify them. The settings to check are: user name, password, host IP and port.\n2.	After checking settings correctness, you are able to select one POI to watch it in LG screens.\n</string>
+    <string name="inst_send_TOUR_tittle"><u>Instructions to send a Tour to Liquid Galaxy system:</u></string>
+    <string name="inst_send_TOUR">1.	Check whether all the settings are correct by making click on ‘Settings’ option inside the menu located on the main screen’s top right corner. If they are incorrect, modify them. The settings to check are: user name, password, host IP and port.\n2.	After checking settings correctness, you are able to select one POI to watch it in LG screens.\n3.	To stop the Tour view in the LG screens, click on the red STOP button located on the bottom right corner of the main screen.\n</string>
+    <string name="icons_tittle"><u>Icons meaning</u></string>
+    <string name="add">It has two functionalities: the first and most used works in order to add a new item (POI, Tour or Category) inside the data base; the other is used to add an existing POI inside a Tour when the administration user is creating or updating it.</string>
+    <string name="edit">Its functionality is to edit one existing item, being a POI, Tour or Category.</string>
+    <string name="cancelButton">Cancels any operation which could consists in creating, updating, adding…</string>
+    <string name="delete">Removes an existing item, being a POI, Tour or Category.</string>
+    <string name="confirm">Confirms one action as creating or updating one item.</string>
+    <string name="stop">Stops the Tours view on one Liquid Galaxy system.</string>
+    <string name="addBox">It is used to add one item (POI, Tour or Category) inside the category which is current shown in the screen, better said, it is added inside the category that the user is seeing on the screen.</string>
+    <string name="searchText">When user clicks on it, the place written inside the field of the left side is searched in the Liquid Galaxy system.</string>
+    <string name="import_pois_tittle"><u>Instructions to import POIs:</u></string>
+    <string name="import_introduction">To be able to import POIs, you must keep an eye on the following mandatory steps, but I firstly have to say that the importation process would be absolutely effective or not depending on the file explorer you use. The once that always works is the once called Root Explorer: <a href="https://play.google.com/store/apps/details?id=com.speedsoftware.rootexplorer&amp;hl=es">Root Explorer Download</a></string>
+    <string name="import_instructions">1.	Create one folder and put some place-marks in Google Earth corresponding on the POIs you want to save.\n2.	Save that place (foler with all POIs) and export it with a kmz extension.\n3.	Extract the <i>doc.kml</i> file which is inside the kmz that you have just created.\n4.	Download and execute the script of the following link: <a href="https://github.com/asherat/LG_Benchmarking/blob/master/Tools/kml2query.sh">KML to query.txt</a> by typing in a console: <i>sh kml2query.sh doc.kml</i>\n5.	Now you get a <i>query.txt</i> file. This file contains your POIs. Finally, you only have to change its name and set the Category name where you want the POIs to be saved.\n6.	Save that <i>CATEGORY_NAME.txt</i> file inside your device.\n7.	After these steps, go to your LGPC app, travel to the Administration Tools section and click on IMPORT POIS button.\n8.	Select your file explorer, preferably Root Explorer once, and select the X.txt file you want to import.\n
+</string>
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="more_information">All the complete information to help you with the Liquid Galaxy POIs Controller correct use is in: <a href="https://github.com/LiquidGalaxyLAB/Liquid-Galaxy-POIs-Controller/wiki">Liquid Galaxy POIs Controller Wiki</a>\n</string>
+
+    <!--Added by Ivan Josa on GSOC 2016-->
+    <!--import dialog-->
+    <string name="import_pois_dialog_title">Import POIS</string>
+    <string name="import_pois_dialog_msg">Choose the way you want to import POIS</string>
+    <string name="import_pois_dialog_fromFile">Import from file</string>
+    <string name="import_pois_dialog_fromPW">Import from Physical Web Beacon</string>
+    <!--**********-->
+
+    <!--Beacons-->
+    <string name="discovery_service_prefs_key">org.physical_web.physicalweb.DISCOVERY_SERVICE_PREFS</string>
+    <plurals name="numFoundBeacons">
+        <item quantity="one">Beacon Nearby</item>
+        <item quantity="other">Beacons Nearby</item>
+    </plurals>
+    <string name="summary_notification_pull_down">Pull down to see them.</string>
+    <string name="nearby_beacon_favicon_content_description">favicon for the given URL for this entry</string>
+    <string name="notification_view_more_beacons">View more beacons</string>
+    <string name="empty_nearby_beacons_list_text">Searching for beacons</string>
+    <string name="title_nearby_beacons">Found Physical Web Beacons</string>
+
+
+    <string name="importingContents">Importing Contents</string>
+    <string name="parsingError">Parsing Document Error</string>
+    <string name="viewing_poi">Viewing POI in LG</string>
+    <string name="parsingContents">Reading contents from Physical Web Beacon</string>
+    <string name="something_wrong">Ops! Something went wrong</string>
+    <string name="connection_failure">Error connecting with Liquid Galaxy system. Try changing username, password, port or the host ip</string>
+    <string name="please_enter_search">Please, first type some place to search.</string>
+    <string name="searching">Searching…</string>
+    <string name="sending_command">Sending Command to LG</string>
+    <string name="getting_connection">Getting Connection to LG</string>
+    <string name="desc_lg_icon">Liquid Galaxy</string>
+    <string name="context_menu_edit_task">Edit task</string>
+    <string name="context_menu_launch_task">Launch Script in Liquid Galaxy</string>
+    <string name="context_menu_delete_task">Delete Task</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="add_task_header">Add New Task</string>
+    <string name="save_new_task">Save</string>
+    <string name="new_task_script">Execution Script</string>
+    <string name="new_task_description">Task Description</string>
+    <string name="new_task_name">Task Title</string>
+    <string name="empty_name_error">The name must not be empty</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="task_added_ok">The task was successfully created</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="task_updated_ok">The task was successfully updated</string>
+
+    <string name="name">Name</string>
+
+    <string name="altitude_prompt">Elevation Type</string>
+    <string name="place_visit">Place to visit</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="altitude">Altitude</string>
+    <string name="heading">Heading</string>
+    <string name="tilt">Tilt</string>
+    <string name="range">Range</string>
+    <string name="global_interval_tour_text">Global interval (in seconds) for each POI</string>
+    <string name="error_galaxy">Error connecting with Liquid Galaxy. Please, try changing settings.</string>
+    <string name="error_reading_pois"><![CDATA[Error reading POIs. Remember POI name must be between two \'@\' and other features between \'<featureName>\' fields.]]></string>
+    <string name="select_task_logo">Select a Logo for this task</string>
+    <string name="task_logo">Task Logo</string>
+    <string name="update_task_logo">Change Task Logo</string>
+    <string name="delete_task_logo">Remove Task Logo</string>
+    <string name="logOut">Log Out</string>
+    <string name="help">Help</string>
+    <string name="administration_tools">Administration Tools</string>
+    <string name="category">CATEGORY</string>
+    <string name="poi">POI</string>
+    <string name="add_poi">Add Poi</string>
+    <string name="add_poi_tour">Add POI to Tour</string>
+    <string name="please_enter_password">Please, enter the password:</string>
+    <string name="search_some_place">Search some place on Liquid Galaxy…</string>
+    <string name="search_some_quiz">Find Quiz…</string>
+    <string name="seconds">(s)</string>
+    <string name="import_pois">Import POIs</string>
+    <string name="password">Password</string>
+    <string name="categories">Categories:</string>
+    <string name="slash">/</string>
+    <string name="relaunch_lg">Relaunch LG</string>
+    <string name="reboot_lg">Reboot LG</string>
+    <string name="shutdown_lg">Shut Down LG</string>
+    <string name="pois">POIs</string>
+    <string name="stop_tour">STOP</string>
+    <string name="new_task_shutdown_script">Shutdown Script</string>
+    <string name="new_task_ip">IP where launch the task</string>
+    <string name="new_task_user">SSH UserName</string>
+    <string name="new_task_password">SSH Password</string>
+    <string name="new_task_browser_URL">Open Browser URL</string>
+    <string name="context_menu_stop_task">Stop Task</string>
+
+    <string name="uploadExecutionFileScript">Upload Execution Script</string>
+    <string name="uploadShutdownScript">Upload Shutdown Script</string>
+    <string name="visibility">Visibility</string>
+    <string name="poiNumericFields">The attributes \'Longitude, Latitude, Altitude, Heading, Tilt and Range\' must have numeric values.</string>
+    <string name="categoryExists">This category already exists. Modify the attribute \'Name\'</string>
+    <string name="TourNameExisting">Name field can\'t be empty. Please, write a name for the Tour.</string>
+    <string name="durationIntervalNumeric">The duration of each POI must be in seconds (numeric type).</string>
+    <string name="typeInterval">You must type a global POI interval in seconds.</string>
+    <string name="noRouteText">NO ROUTE</string>
+    <string name="taskListHelpTitle">Task Management Help</string>
+    <string name="playTaskHelpText">Run the script stored in the task with its configuration, if specified. If not, it takes the global configuration of the app</string>
+    <string name="stopTaskHelpText">If the task has been executed before, it runs the shutdown script stored in the task</string>
+    <string name="editTaskHelpText">Edit the task configuration</string>
+    <string name="deleteTaskHelpText">Deletes the task</string>
+    <string name="gotIt">Got it!</string>
+    <string-array name="altitudeMode">
+        <item>absolute</item>
+        <item>clampToGround</item>
+        <item>clampToSeaFloor</item>
+        <item>relativeToGround</item>
+        <item>relativeToSeaFloor</item>
+    </string-array>
+    <string name="taskDialogHelpText"><b>Task title</b>: The task Title\n\n
+        <b>Task Description</b>:The task description\n\n
+        <b>Execution Script</b>:The script executed when the task is launched\n\n
+        <b>Upload Execution Script</b>:Upload a file containing the run script\n\n
+        <b>Shutdown Script</b>:The Script executed when the task is stopped\n\n
+        <b>Upload Shutdown Script</b>:Upload a file containing the stop script\n\n
+        <b>IP where launch the task</b>:The IP of the server where the task should be executed. If no specified, then the default value from the application setting will be used\n\n
+        <b>SSH UserName</b>:The username to connect to the server via ssh. If no specified, then the default value from the application setting will be used\n\n
+        <b>SSH Password</b>:The password to connect to the server via ssh. If no specified, then the default value from the application setting will be used\n\n
+        <b>Open Browser URL</b>:If specified, when the task finishes its initial script, a web browser pointing to this URL will be opened\n\n
+        <b>Select a Logo for this task</b>:Offers the possibility to upload an image associated with this task that will be displayed next to the task title in the list\n\n
+        <b>Save</b>:Save the task\n\n
+        <b>Cancel</b>:Cancel and close the dialog
+    </string>
+    <string name="changingPlanet">Changing Celestial Body…</string>
+
+    <string name="speech_prompt">Say something&#8230;</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="tap_on_mic">Tap on mic to speak</string>
+    <string name="bluetoothNotAvailable">The device does not support bluetooth</string>
+
+    <!--TreeView-->
+    <string name="ic_folder">&#xe09d;</string>
+    <string name="ic_keyboard_arrow_down">&#xe0c5;</string>
+    <string name="ic_keyboard_arrow_right">&#xe0c7;</string>
+    <string name="ic_email">&#xe087;</string>
+    <string name="ic_add">&#xe006;</string>
+    <string name="ic_close">&#xe048;</string>
+    <string name="categoriesRoot">Categories</string>
+    <string name="loadingTree">Loading…</string>
+    <string name="action_exportDB">Export Database to local storage</string>
+    <string name="importAsTourStr">Import as Tour</string>
+    <string name="tourValues">Create new Tour</string>
+    <string name="save">Save</string>
+    <string name="empty_duration_error">The duration must not be empty</string>
+    <string name="importingContentsTour">Importing contents into tour</string>
+    <string name="cancelImporting">Cancel Import</string>
+    <string name="are_you_sure_delete_database">This action will delete all the data inside the application. Are you sure?</string>
+    <string name="readingFile">Reading File…</string>
+    <string name="readingFileAndImportingPois">Reading Pois and importing them</string>
+    <string name="deletingPoisInCategory">Deleting Pois inside the category</string>
+    <string name="viewing_category">Current Category: </string>
+    <string name="viewing">Visualizing</string>
+    <string name="inLG">in Liquid Galaxy</string>
+    <string name="visualizationCanceled">Visualization Canceled</string>
+
+    <string name="show_all">Show All</string>
+    <string name="showByCategories">Show by categories</string>
+
+    <!--About dialog-->
+    <string name="about">About</string>
+    <string name="close">Close</string>
+    <string name="aboutDocText1">This app has been developed thanks to Intership students as a new application from GSOC 2016 Project</string>
+    <string name="aboutDocText2">Developed originally by Rafa Durán Sàez(rafaduransaez@gmail.com) and Ivan Josa Llovera (ivanjosallovera@gmail.com), continued by Ivan Colomer, Aleks Genov, Albert Planes, Albert Merino, Oscar Carrasco and Deniz Yüksel</string>
+    <string name="aboutDocText3">https://github.com/LiquidGalaxyLAB/Liquid-Galaxy-for-Education-Controller.git</string>
+    <string name="aboutDocText4">Developed thanks to the TIC Laboratories of the Scientific Park of Lleida, Liquid Galaxy LAB &amp; LleidaDrone LAB,  Polytechnic School of Lleida, End Point Corp (NY), Wonderama LAB from Western University (Sydney), Gigabyte, Benq, HP, Corsair, and  Hemav Academics.</string>
+    <string name="about_Controller_message">About Liquid Galaxy for Education Controller</string>
+    <string name="hidden">Hidden</string>
+    <string name="visible">Visible</string>
+    <string name="tours">Tours</string>
+    <string name="NO_ROUTE">NO ROUTE</string>
+
+
+    <string name="speedx2">x2</string>
+    <string name="speedx4">x4</string>
+
+    <string name="speeddiv2">x/2</string>
+    <string name="speeddiv4">x/4</string>
+    <string name="lessSpeed">Less Rotation Speed</string>
+    <string name="pref_header_general">General Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="creating_tour">Creating Tour…</string>
+    <string name="server_port">Server port variable for advanced tasks</string>
+    <string name="server_ip">Server Ip variable for advanced tasks</string>
+    <string name="task_explanation">The following substitution variables are available:\n
+        $lgIp: IP address of the LG Master\n
+        $serverIp: IP address of the server where the task will be launched\n
+        $serverPort: Port in which the browser will be opened
+    </string>
+    <string name="stopOtherTasks">Another task is running. Please stop it before launching another.</string>
+    <string name="taskIpDefault">$serverIp</string>
+    <string name="taskBrowserUrlDefault">$serverIp:$serverPort</string>
+    <string name="clean_KML">Clean KMLS</string>
+    <string name="app_label">LGxEDU</string>
+    <string name="search_hint">Search a quiz</string>
+    <string name="update_question">Update Question</string>
+    <!-- Legacy -->
+
+
+</resources>

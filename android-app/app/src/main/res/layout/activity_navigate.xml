@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.NavigateActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/wifi_gif"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wifi"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:gravity="bottom"
+        android:padding="8dp"
+        android:text="Instructions:\n1- Use one finger for rotating the earth.\n2- Use two fingers for up and down to change the tilt.\n3- Use two fingers for left and right to change the heading\n4- Either move your two fingers together or separate them to in the direction of the heading."
+        android:textColor="@color/material_grey"
+        android:textSize="24sp" />
+
+</LinearLayout>

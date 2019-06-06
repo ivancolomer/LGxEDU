@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lglab.ivan.lgxeducontroller">
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="false"
+        android:requiresSmallestWidthDp="600"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- Required for the kiosk mode -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="sensorLandscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.NavigateActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".activities.CreateItemActivity_Copy"
+            android:noHistory="true"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".activities.PlayActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".activities.CreateQuestionActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".activities.PopUpCancel" />
+        <activity
+            android:name=".legacy.CreateItemActivity"
+            android:screenOrientation="sensorLandscape" />
+
+        <!-- Google Maps Fragment API Key Data -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBl-RQEjb-Y6_BdWRa8UjdVvi2X9-QncZk" />
+
+        <provider
+            android:name=".legacy.data.POIsProvider"
+            android:authorities="com.lglab.ivan.lgxeducontroller"
+            android:enabled="true"
+            android:exported="true" />
+
+        <!-- <uses-sdk android:minSdkVersion="21" /> -->
+
+        <activity
+            android:name="legacy.CreateItemActivity"
+            android:label="@string/title_activity_create_item"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".legacy.UpdateItemActivity"
+            android:label="@string/title_activity_update_item"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".legacy.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".legacy.LGPC"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activities.LGPC_Copy"
+            android:label="@string/app_name"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".legacy.LGPCAdminActivity"
+            android:label="" />
+        <activity
+            android:name=".legacy.InfoActivity"
+            android:label="@string/title_activity_info" />
+        <activity
+            android:name=".legacy.Help"
+            android:label="@string/title_activity_help" />
+
+        <service
+            android:name=".legacy.PW.UrlDeviceDiscoveryService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".legacy.PW.ScreenListenerService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver android:name=".legacy.PW.AutostartPwoDiscoveryServiceReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- This is required for the scan library. -->
+        <service
+            android:name="org.uribeacon.scan.compat.ScanWakefulService"
+            android:exported="false" />
+        <service
+            android:name="org.uribeacon.config.GattService"
+            android:exported="false" />
+
+        <!-- This is required for the scan library. -->
+        <receiver android:name="org.uribeacon.scan.compat.ScanWakefulBroadcastReceiver" />
+
+        <!-- This is required for the kiosk mode. -->
+        <receiver android:name=".legacy.utils.kioskModeUtils.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".activities.QuizActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".activities.ResultsActivity"
+            android:screenOrientation="sensorLandscape" />
+    </application>
+
+</manifest>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="partners_icons">
+        <item>@android:drawable/star_big_on</item>
+        <item>@android:drawable/star_big_on</item>
+        <item>@android:drawable/star_big_on</item>
+        <item>@android:drawable/star_big_on</item>
+        <item>@android:drawable/star_big_on</item>
+    </integer-array>
+</resources>

@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.support.v4.util.Pair;
 import android.provider.DocumentsContract.Document;
+import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -37,6 +38,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -47,6 +49,11 @@ import java.util.concurrent.Executors;
 public class DriveServiceHelper {
     private final Executor mExecutor = Executors.newSingleThreadExecutor();
     private final Drive mDriveService;
+    private String drive_app_folder;
+    private List<File> files;
+
+    private static final String FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
+    private static final String JSON_MIME_TYPE = "application/json";
 
     public DriveServiceHelper(Drive driveService) {
         mDriveService = driveService;
@@ -59,7 +66,7 @@ public class DriveServiceHelper {
         return Tasks.call(mExecutor, () -> {
             File metadata = new File()
                     .setParents(Collections.singletonList("root"))
-                    .setMimeType("application/json")
+                    .setMimeType(JSON_MIME_TYPE)
                     .setName("Untitled file");
 
             File googleFile = mDriveService.files().create(metadata).execute();
@@ -115,17 +122,57 @@ public class DriveServiceHelper {
         });
     }
 
-    /**
-     * Returns a {@link FileList} containing all the visible files in the user's My Drive.
-     *
-     * <p>The returned list will only contain files visible to this app, i.e. those which were
-     * created by this app. To perform operations on files not created by the app, the project must
-     * request Drive Full Scope in the <a href="https://play.google.com/apps/publish">Google
-     * Developer's Console</a> and be submitted to Google for verification.</p>
-     */
-    public Task<FileList> queryFiles() {
+    private Task<String> createAppFolderID() {
+        return Tasks.call(mExecutor, () -> {
+
+            List<String> root = Collections.singletonList("root");
+
+            File metadata = new File()
+                    .setParents(root)
+                    .setMimeType(FOLDER_MIME_TYPE)
+                    .setName("LGxEDU");
+
+            File googleFile = mDriveService.files().create(metadata).execute();
+            if (googleFile == null) {
+                throw new IOException("Null result when requesting file creation.");
+            }
+
+            return googleFile.getId();
+        });
+    }
+
+
+    public void searchForAppFolderID() {
+        Tasks.call(mExecutor, () ->
+            mDriveService.files().list().setQ("mimeType = '" + FOLDER_MIME_TYPE + "' and name = 'LGxEDU' ").setSpaces("drive").execute())
+                .addOnSuccessListener(fileList -> {
+                    List<File> files = fileList.getFiles();
+                    if(files.size() > 0) {
+                        drive_app_folder = files.get(0).getId();
+                        Log.d(GoogleDriveManager.TAG, "App folder was already created: " + drive_app_folder);
+                        searchForFilesInsideAppFolderID();
+                    }
+                    else {
+                        createAppFolderID()
+                                .addOnSuccessListener(file -> {
+                                    drive_app_folder = file;
+                                    Log.d(GoogleDriveManager.TAG, "App folder created: " + drive_app_folder);
+                                    searchForFilesInsideAppFolderID();
+                                })
+                                .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for appfolder", exception));
+                    }
+                }).addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for appfolder", exception));
+    }
+
+    private void searchForFilesInsideAppFolderID() {
+        queryFiles()
+                .addOnSuccessListener(fileList -> files = fileList.getFiles())
+                .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for for files inside appfolder", exception));
+    }
+
+    private Task<FileList> queryFiles() {
         return Tasks.call(mExecutor, () ->
-                mDriveService.files().list().setSpaces("drive").execute());
+                mDriveService.files().list().setQ("mimeType = 'application/json' and parents in '" + drive_app_folder + "' ").setSpaces("drive").execute());
     }
 
     /**
@@ -135,20 +182,10 @@ public class DriveServiceHelper {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-        intent.setType("text/plain");
-        String[] mimetypes = {"application/json"};
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
+        intent.setType(JSON_MIME_TYPE);
 
-        return intent;
-    }
-
-    /**
-     * Returns an {@link Intent} for opening the Storage Access Framework file picker.
-     */
-    public Intent createFolderPickerIntent() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType(Document.MIME_TYPE_DIR);
+        /*String[] mimetypes = {"application/json"};
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);*/
 
         return intent;
     }
@@ -160,6 +197,7 @@ public class DriveServiceHelper {
     public Task<Pair<String, String>> openFileUsingStorageAccessFramework(
             ContentResolver contentResolver, Uri uri) {
         return Tasks.call(mExecutor, () -> {
+
             // Retrieve the document's display name from its metadata.
             String name;
             try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {

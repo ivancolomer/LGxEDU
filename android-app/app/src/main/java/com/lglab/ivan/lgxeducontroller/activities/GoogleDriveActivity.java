@@ -48,14 +48,6 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case GoogleDriveManager.RC_OPEN_FOLDER:
-                if (resultCode == RESULT_OK && resultData != null) {
-                    Uri uri = resultData.getData();
-                    if (uri != null) {
-                        openFolderFromFolderPicker(uri);
-                    }
-                }
-                break;
         }
 
         super.onActivityResult(requestCode, resultCode, resultData);
@@ -97,15 +89,15 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
                     // Use the authenticated account to sign in to the Drive service.
                     GoogleAccountCredential credential =
                             GoogleAccountCredential.usingOAuth2(
-                                    this, Collections.singleton(DriveScopes.DRIVE_FILE)); //SCOPE_FILE
+                                    this, Collections.singleton(DriveScopes.DRIVE_FILE)); //DRIVE
                     credential.setSelectedAccount(googleAccount.getAccount());
                     Drive googleDriveService = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
                             .setApplicationName("LGxEDU")
                             .build();
 
                     GoogleDriveManager.DriveServiceHelper = new DriveServiceHelper(googleDriveService);
+                    GoogleDriveManager.DriveServiceHelper.searchForAppFolderID();
 
-                    openFilePicker();
                 })
                 .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to sign in.", exception));
     }
@@ -126,20 +118,6 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Opens the Storage Access Framework file picker using GoogleDriveManager.RC_OPEN_FOLDER.
-     */
-    private void openFolderPicker() {
-        if (GoogleDriveManager.DriveServiceHelper != null) {
-            Log.d(GoogleDriveManager.TAG, "Opening folder picker.");
-
-            Intent pickerIntent = GoogleDriveManager.DriveServiceHelper.createFolderPickerIntent();
-
-            // The result of the SAF Intent is handled in onActivityResult.
-            startActivityForResult(pickerIntent, GoogleDriveManager.RC_OPEN_FOLDER);
-        }
-    }
-
 
     /**
      * Opens a file from its {@code uri} returned from the Storage Access Framework file picker
@@ -149,39 +127,8 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
         if (GoogleDriveManager.DriveServiceHelper != null) {
             Log.d(GoogleDriveManager.TAG, "Opening " + uri.getPath());
 
-            GoogleDriveManager.DriveServiceHelper.openFileUsingStorageAccessFramework(getContentResolver(), uri)
-                    .addOnSuccessListener(nameAndContent -> {
-                        String name = nameAndContent.first;
-                        String content = nameAndContent.second;
+            GoogleDriveManager.DriveServiceHelper.openFileUsingStorageAccessFramework(getContentResolver(), uri);
 
-                        // Files opened through SAF cannot be modified.
-                        GoogleDriveManager.setReadOnlyMode(name, content);
-                        Log.d(GoogleDriveManager.TAG, name + ": " + content);
-                    })
-                    .addOnFailureListener(exception ->
-                            Log.e(GoogleDriveManager.TAG, "Unable to open file from picker.", exception));
-        }
-    }
-
-    /**
-     * Opens a file from its {@code uri} returned from the Storage Access Framework file picker
-     * initiated by {@link #openFilePicker()}.
-     */
-    private void openFolderFromFolderPicker(Uri uri) {
-        if (GoogleDriveManager.DriveServiceHelper != null) {
-            Log.d(GoogleDriveManager.TAG, "Opening " + uri.getPath());
-
-            GoogleDriveManager.DriveServiceHelper.openFileUsingStorageAccessFramework(getContentResolver(), uri)
-                    .addOnSuccessListener(nameAndContent -> {
-                        String name = nameAndContent.first;
-                        String content = nameAndContent.second;
-
-                        // Files opened through SAF cannot be modified.
-                        GoogleDriveManager.setReadOnlyMode(name, content);
-                        Log.d(GoogleDriveManager.TAG, name + ": " + content);
-                    })
-                    .addOnFailureListener(exception ->
-                            Log.e(GoogleDriveManager.TAG, "Unable to open file from picker.", exception));
         }
     }
 
@@ -202,6 +149,7 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
 
     public void importQuiz() {
         Toast.makeText(this, "importQuiz", Toast.LENGTH_SHORT).show();
+        openFilePicker();
         /*if (GoogleDriveManager.DriveClient != null && GoogleDriveManager.DriveResourceClient != null) {
             pickTextFile()
                     .addOnSuccessListener(this,

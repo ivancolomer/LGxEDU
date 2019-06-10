@@ -8,7 +8,6 @@ public class GoogleDriveManager {
 
     public static final int RC_SIGN_IN = 0;
     public static final int RC_OPEN_FILE = 1;
-    public static final int RC_OPEN_FOLDER = 2;
 
     public static GoogleSignInClient GoogleSignInClient;
     public static DriveServiceHelper DriveServiceHelper;

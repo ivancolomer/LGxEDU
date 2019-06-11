@@ -121,7 +121,7 @@ public class LGPCAdminActivity extends AppCompatActivity {
         } else if (id == R.id.action_about) {
             showAboutDialog();
             return true;
-        } else if (id != R.id.log_out) {
+        } else if (id == R.id.log_out) {
             onSupportNavigateUp();
             return true;
         }

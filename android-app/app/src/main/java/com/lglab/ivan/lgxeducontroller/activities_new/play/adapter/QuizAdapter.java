@@ -19,23 +19,16 @@ import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
 
 import java.util.List;
 
-/**
- * Created by enyason on 10/4/18.
- */
-
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
 
 
-    private List<Quiz> movieList;
+    private List<Quiz> quizList;
     private Context context;
 
     public QuizAdapter(List<Quiz> list, Context context) {
-        this.movieList = list;
+        this.quizList = list;
         this.context = context;
-
-
     }
-
 
     @NonNull
     @Override
@@ -47,11 +40,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     @Override
     public void onBindViewHolder(@NonNull final QuizViewHolder holder, final int position) {
 
-        Quiz movie = movieList.get(position);
+        Quiz quiz = quizList.get(position);
 
 
-        holder.textViewTitle.setText(movie.name);
-        holder.textViewGenre.setText(movie.category);
+        holder.textViewTitle.setText(quiz.name);
+        holder.textViewGenre.setText("the type of the quiz");
 
         new DownloadImageTask(holder.imageViewMovie).execute("https://i.ytimg.com/vi/ymIhLJ5AKpE/maxresdefault.jpg");
 
@@ -59,12 +52,10 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         /*Picasso.with(context).
                 load(context.getResources().getString(R.string.image_url) + movie.getPoster())
                 .into(holder.imageViewMovie);*/
-
-
     }
 
     private void startQuiz(GoogleDriveActivity activity, final int position) {
-        QuizManager.getInstance().startQuiz(movieList.get(position));
+        QuizManager.getInstance().startQuiz(quizList.get(position));
 
         Intent intent = new Intent(activity, QuizActivity.class);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -73,20 +64,16 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
     @Override
     public int getItemCount() {
-
-        return movieList.size();
-
+        return quizList.size();
     }
 
-
-    public class QuizViewHolder extends RecyclerView.ViewHolder {
+    class QuizViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textViewTitle;
         private TextView textViewGenre;
         private ImageView imageViewMovie;
-
-
-        public QuizViewHolder(View itemView) {
+        
+        QuizViewHolder(View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.quiz_name);
             textViewGenre = itemView.findViewById(R.id.quiz_type);

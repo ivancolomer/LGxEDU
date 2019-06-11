@@ -39,9 +39,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final QuizViewHolder holder, final int position) {
-
         Quiz quiz = quizList.get(position);
-
 
         holder.textViewTitle.setText(quiz.name);
         holder.textViewGenre.setText("the type of the quiz");

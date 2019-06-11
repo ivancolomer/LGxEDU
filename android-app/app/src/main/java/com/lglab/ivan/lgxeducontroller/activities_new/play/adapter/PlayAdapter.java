@@ -16,12 +16,7 @@ import com.lglab.ivan.lgxeducontroller.utils.Category;
 import java.util.List;
 
 
-/**
- * Created by enyason on 10/4/18.
- */
-
 public class PlayAdapter extends RecyclerView.Adapter<PlayAdapter.PlayViewHolder> {
-
 
     private Context context;
     private List<Category> data;
@@ -31,42 +26,29 @@ public class PlayAdapter extends RecyclerView.Adapter<PlayAdapter.PlayViewHolder
     public PlayAdapter(List<Category> data, Context context) {
         this.data = data;
         this.context = context;
-
         recycledViewPool = new RecyclerView.RecycledViewPool();
 
     }
 
-
     @NonNull
     @Override
     public PlayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View theView = LayoutInflater.from(context).inflate(R.layout.activity_play_row_new, parent, false);
-
-
         return new PlayViewHolder(theView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PlayViewHolder holder, final int position) {
-
         holder.textViewCategory.setText(data.get(position).getTitle());
-
         horizontalAdapter = new QuizAdapter(data.get(position).getItems(), context);
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
-
         holder.recyclerViewHorizontal.setRecycledViewPool(recycledViewPool);
-
-
     }
-
 
     @Override
     public int getItemCount() {
         return data.size();
-
     }
-
 
     public class PlayViewHolder extends RecyclerView.ViewHolder {
 
@@ -85,12 +67,6 @@ public class PlayAdapter extends RecyclerView.Adapter<PlayAdapter.PlayViewHolder
             recyclerViewHorizontal.setItemAnimator(new DefaultItemAnimator());
 
             textViewCategory = itemView.findViewById(R.id.quiz_category);
-
-
         }
-
-
     }
-
-
 }

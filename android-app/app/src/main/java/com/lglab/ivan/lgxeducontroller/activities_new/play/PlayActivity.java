@@ -62,7 +62,7 @@ public class PlayActivity extends GoogleDriveActivity {
         recyclerView = findViewById(R.id.play_rv);
         progressBar = findViewById(R.id.play_pb);
 
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

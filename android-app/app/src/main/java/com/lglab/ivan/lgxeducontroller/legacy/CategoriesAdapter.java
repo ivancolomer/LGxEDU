@@ -19,7 +19,7 @@ public class CategoriesAdapter extends CursorAdapter {
     private static final int CATEGORY_COLUMN_NAME = 1;
 
 
-    CategoriesAdapter(Context context, Cursor c, int flags) {
+    public CategoriesAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 

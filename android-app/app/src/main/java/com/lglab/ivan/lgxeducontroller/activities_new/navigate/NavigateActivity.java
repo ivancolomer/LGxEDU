@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities;
+package com.lglab.ivan.lgxeducontroller.activities_new.navigate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,10 +14,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.lgpc.LGPC;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate.data.PointerDetector;
 import com.lglab.ivan.lgxeducontroller.connection.ILGConnection;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
-import com.lglab.ivan.lgxeducontroller.utils.PointerDetector;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,6 +27,8 @@ import java.util.Map;
 import pl.droidsonroids.gif.GifImageView;
 
 public class NavigateActivity extends AppCompatActivity implements ILGConnection {
+
+    private static final String TAG = NavigateActivity.class.getSimpleName();
 
     private final HashMap<Integer, PointerDetector> pointers = new HashMap<>();
     private long canMoveTime = 0;
@@ -74,7 +77,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
 
         switch (item.getItemId()) {
             case R.id.go_to_pois_and_tours:
-                Intent intent = new Intent(this, LGPC_Copy.class);
+                Intent intent = new Intent(this, LGPC.class);
                 startActivity(intent);
                 return true;
             default:
@@ -121,11 +124,11 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
         if (pointers.size() != 2) {
             if (PointerDetector.isZoomingIn) {
                 PointerDetector.isZoomingIn = false;
-                updateKeyToLG(PointerDetector.isZoomingIn, PointerDetector.KEY_ZOOM_IN);
+                updateKeyToLG(false, PointerDetector.KEY_ZOOM_IN);
             }
             if (PointerDetector.isZoomingOut) {
                 PointerDetector.isZoomingOut = false;
-                updateKeyToLG(PointerDetector.isZoomingOut, PointerDetector.KEY_ZOOM_OUT);
+                updateKeyToLG(false, PointerDetector.KEY_ZOOM_OUT);
             }
         }
 
@@ -134,7 +137,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
 
         if (pointers.size() == 1) {
             PointerDetector pointer = pointers.entrySet().iterator().next().getValue();
-            if (pointer.isMoving() && canMove1()) {
+            if (pointer.isMoving() && canMove()) {
                 LGConnectionManager.getInstance().addCommandToLG(new LGCommand("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; " +
                         "xdotool mouseup 1 " +
                         "mousemove --polar --sync 0 0 " +
@@ -148,34 +151,34 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
             PointerDetector pointer1 = iterator.next().getValue();
             PointerDetector pointer2 = iterator.next().getValue();
 
-            setNotMovable1(200);
+            setNotMovable();
 
             short zoomInteractionType = pointer1.getZoomInteractionType(pointer2);
             if (zoomInteractionType == PointerDetector.ZOOM_IN && !PointerDetector.isZoomingIn) {
                 if (PointerDetector.isZoomingOut) {
                     PointerDetector.isZoomingOut = false;
-                    updateKeyToLG(PointerDetector.isZoomingOut, PointerDetector.KEY_ZOOM_OUT);
+                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_OUT);
                 }
                 PointerDetector.isZoomingIn = true;
-                updateKeyToLG(PointerDetector.isZoomingIn, PointerDetector.KEY_ZOOM_IN);
+                updateKeyToLG(true, PointerDetector.KEY_ZOOM_IN);
             } else if (zoomInteractionType == PointerDetector.ZOOM_OUT && !PointerDetector.isZoomingOut) {
                 if (PointerDetector.isZoomingIn) {
                     PointerDetector.isZoomingIn = false;
-                    updateKeyToLG(PointerDetector.isZoomingIn, PointerDetector.KEY_ZOOM_IN);
+                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_IN);
                 }
                 PointerDetector.isZoomingOut = true;
-                updateKeyToLG(PointerDetector.isZoomingOut, PointerDetector.KEY_ZOOM_OUT);
+                updateKeyToLG(true, PointerDetector.KEY_ZOOM_OUT);
             }
 
             double angleDiff = getAngleDiff(pointer1.getTraveledAngle(), pointer2.getTraveledAngle());
             if (angleDiff <= 30 && pointer1.isMoving() && pointer2.isMoving() && zoomInteractionType == PointerDetector.ZOOM_NONE) {
                 if (PointerDetector.isZoomingIn) {
                     PointerDetector.isZoomingIn = false;
-                    updateKeyToLG(PointerDetector.isZoomingIn, PointerDetector.KEY_ZOOM_IN);
+                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_IN);
                 }
                 if (PointerDetector.isZoomingOut) {
                     PointerDetector.isZoomingOut = false;
-                    updateKeyToLG(PointerDetector.isZoomingOut, PointerDetector.KEY_ZOOM_OUT);
+                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_OUT);
                 }
 
                 LGConnectionManager.getInstance().addCommandToLG(new LGCommand("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; " +
@@ -206,11 +209,11 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
     }
 
 
-    private void setNotMovable1(int millis) {
-        canMoveTime = System.currentTimeMillis() + millis;
+    private void setNotMovable() {
+        canMoveTime = System.currentTimeMillis() + 200;
     }
 
-    private boolean canMove1() {
+    private boolean canMove() {
         return canMoveTime <= System.currentTimeMillis();
     }
 

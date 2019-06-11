@@ -41,9 +41,6 @@ public class PoisGridViewAdapter extends BaseAdapter {
         this.poiList = poiList;
         this.context = context;
         this.activity = activity;
-
-        GetSessionTask getSessionTask = new GetSessionTask();
-        getSessionTask.execute();
     }
 
     @Override
@@ -155,7 +152,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
                 } catch (Exception e) {
 
                 }
-            }, 10000);
+            }, 5000);
         });
 
         layout.addView(poiName);
@@ -347,10 +344,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
                                     "<gx:altitudeMode>" + this.currentPoi.getAltitudeMode() + "</gx:altitudeMode>" +
                                     "</LookAt>' > /tmp/query.txt";
 
-
-                            //LGUtils.setConnectionWithLiquidGalaxy(session, commandRotate, activity);
                             LGConnectionManager.getInstance().addCommandToLG(new LGCommand(commandRotate, LGCommand.CRITICAL_MESSAGE));
-                            //session.sendKeepAliveMsg();
 
                             if (isFirst) {
                                 isFirst = false;
@@ -363,22 +357,6 @@ public class PoisGridViewAdapter extends BaseAdapter {
                 }
 
                 return "";
-
-            /*} catch (JSchException e) {
-                this.cancel(true);
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-                activity.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, context.getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                return null;
-            */
             } catch (InterruptedException e) {
                 activity.runOnUiThread(() -> Toast.makeText(context, context.getResources().getString(R.string.visualizationCanceled), Toast.LENGTH_LONG).show());
                 return null;
@@ -399,27 +377,4 @@ public class PoisGridViewAdapter extends BaseAdapter {
             }
         }
     }
-
-    private class GetSessionTask extends AsyncTask<Void, Void, Void> {
-
-        GetSessionTask() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            //session = LGUtils.getSession(activity);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void success) {
-            super.onPostExecute(success);
-        }
-    }
-
 }

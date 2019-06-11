@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities_new.main.MainActivity">
 
     <ImageView
         android:id="@+id/imageViewLogo"

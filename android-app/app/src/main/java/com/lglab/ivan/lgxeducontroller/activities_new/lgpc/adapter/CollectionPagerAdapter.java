@@ -1,8 +1,12 @@
-package com.lglab.ivan.lgxeducontroller.legacy;
+package com.lglab.ivan.lgxeducontroller.activities_new.lgpc.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.lglab.ivan.lgxeducontroller.legacy.POISFragment;
+import com.lglab.ivan.lgxeducontroller.activities_new.lgpc.fragment.SearchFragment;
+import com.lglab.ivan.lgxeducontroller.legacy.TourUserFragment;
 
 public class CollectionPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -13,6 +17,7 @@ public class CollectionPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
+    @Override
     public Fragment getItem(int position) {
         switch (position) {
             case SEARCH:
@@ -23,14 +28,16 @@ public class CollectionPagerAdapter extends FragmentStatePagerAdapter {
             case PAGE_TOURS:
                 return new TourUserFragment();
             default:
-                return null;
+                return getItem(SEARCH);
         }
     }
 
+    @Override
     public int getCount() {
         return 2;
     }
 
+    @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case SEARCH:

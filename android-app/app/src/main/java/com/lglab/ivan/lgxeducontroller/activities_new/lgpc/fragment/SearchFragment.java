@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.legacy;
+package com.lglab.ivan.lgxeducontroller.activities_new.lgpc.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -29,6 +29,7 @@ import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
+import com.lglab.ivan.lgxeducontroller.legacy.CategoriesAdapter;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.Category;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
@@ -44,7 +45,7 @@ public class SearchFragment extends Fragment {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     View rootView;
     GridView poisGridView;
-    Session session;
+
     private EditText editSearch;
     private FloatingActionButton buttonSearch;
     private ImageView earth, moon, mars;
@@ -64,52 +65,40 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
-        editSearch = (EditText) rootView.findViewById(R.id.search_edittext);
-        buttonSearch = (FloatingActionButton) rootView.findViewById(R.id.searchButton);
-        earth = (ImageView) rootView.findViewById(R.id.earth);
-        moon = (ImageView) rootView.findViewById(R.id.moon);
-        mars = (ImageView) rootView.findViewById(R.id.mars);
+        editSearch = rootView.findViewById(R.id.search_edittext);
+        buttonSearch = rootView.findViewById(R.id.searchButton);
+        earth = rootView.findViewById(R.id.earth);
+        moon = rootView.findViewById(R.id.moon);
+        mars = rootView.findViewById(R.id.mars);
 
-        btnSpeak = (FloatingActionButton) rootView.findViewById(R.id.btnSpeak);
+        btnSpeak = rootView.findViewById(R.id.btnSpeak);
 
-        categoriesListView = (ListView) rootView.findViewById(R.id.categories_listview);
-        backIcon = (ImageView) rootView.findViewById(R.id.back_icon);
-        backStartIcon = (ImageView) rootView.findViewById(R.id.back_start_icon);//comes back to the initial category
-        categorySelectorTitle = (TextView) rootView.findViewById(R.id.current_category);
+        categoriesListView = rootView.findViewById(R.id.categories_listview);
+        backIcon = rootView.findViewById(R.id.back_icon);
+        backStartIcon = rootView.findViewById(R.id.back_start_icon);//comes back to the initial category
+        categorySelectorTitle = rootView.findViewById(R.id.current_category);
 
-        btnSpeak.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                promptSpeechInput();
-            }
-        });
+        btnSpeak.setOnClickListener(v -> promptSpeechInput());
 
         screenSizeTreatment();
         setSearchInLGButton();
         setPlanetsButtonsBehaviour();
 
-        poisGridView = (GridView) rootView.findViewById(R.id.POISgridview);
+        poisGridView = rootView.findViewById(R.id.POISgridview);
 
-        backStartIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backIDs.clear();
-                Category category = getCategoryByName(currentPlanet);
-                backIDs.add(String.valueOf(category.getId()));
+        backStartIcon.setOnClickListener(v -> {
+            backIDs.clear();
+            Category category = getCategoryByName(currentPlanet);
+            backIDs.add(String.valueOf(category.getId()));
 
-                showPoisByCategory();
-            }
+            showPoisByCategory();
         });
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (backIDs.size() > 1) {
-                    backIDs.remove(0);
-                }
-                showPoisByCategory();
+        backIcon.setOnClickListener(v -> {
+            if (backIDs.size() > 1) {
+                backIDs.remove(0);
             }
+            showPoisByCategory();
         });
 
         return rootView;
@@ -141,18 +130,15 @@ public class SearchFragment extends Fragment {
         if (queryCursor.getCount() > 0) {
             categoriesListView.setAdapter(adapter);
 
-            categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            categoriesListView.setOnItemClickListener((parent, view, position, id) -> {
 
-                    Cursor cursor = (Cursor) parent.getItemAtPosition(position);//gets the category selected
-                    if (cursor != null) {
-                        int itemSelectedID = cursor.getInt(0);
-                        backIDs.add(0, String.valueOf(itemSelectedID));
-                        //this method is call to see AGAIN the categories list. However, the view will
-                        //correspond to the categories inside the current category just clicked.
-                        showPoisByCategory();
-                    }
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);//gets the category selected
+                if (cursor != null) {
+                    int itemSelectedID = cursor.getInt(0);
+                    backIDs.add(0, String.valueOf(itemSelectedID));
+                    //this method is call to see AGAIN the categories list. However, the view will
+                    //correspond to the categories inside the current category just clicked.
+                    showPoisByCategory();
                 }
             });
         } else {
@@ -246,9 +232,6 @@ public class SearchFragment extends Fragment {
         backIDs.add(String.valueOf(category.getId()));
         Cursor queryCursor = POIsContract.CategoryEntry.getNotHiddenCategoriesByFatherID(getActivity(), String.valueOf(category.getId()));
         showCategoriesOnScreen(queryCursor);
-
-        GetSessionTask getSessionTask = new GetSessionTask();
-        getSessionTask.execute();
     }
 
     private void setPlanetsButtonsBehaviour() {
@@ -499,9 +482,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                GetSessionTask getSessionTask = new GetSessionTask();
-                getSessionTask.execute();
-
                 String placeToSearch = editSearch.getText().toString();
                 if (!placeToSearch.equals("") && placeToSearch != null) {
 
@@ -518,31 +498,6 @@ public class SearchFragment extends Fragment {
 
     private String buildSearchCommand(String search) {
         return "echo 'search=" + search + "' > /tmp/query.txt";
-    }
-
-    private class GetSessionTask extends AsyncTask<Void, Void, Void> {
-
-        public GetSessionTask() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (getActivity() != null) {
-                //OLD CODE
-                //session = LGUtils.getSession(getActivity());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void success) {
-            super.onPostExecute(success);
-        }
     }
 
     private class SearchTask extends AsyncTask<Void, Void, String> {

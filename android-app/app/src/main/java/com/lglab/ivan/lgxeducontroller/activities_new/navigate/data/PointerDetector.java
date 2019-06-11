@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.utils;
+package com.lglab.ivan.lgxeducontroller.activities_new.navigate.data;
 
 public class PointerDetector {
 

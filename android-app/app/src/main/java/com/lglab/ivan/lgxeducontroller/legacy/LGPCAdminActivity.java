@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.lgpc.LGPC;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsDbHelper;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
@@ -85,16 +86,10 @@ public class LGPCAdminActivity extends AppCompatActivity implements TabListener 
             final AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(getResources().getString(R.string.are_you_sure_delete_database));
 
-            alert.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    resetDatabase();
-                }
-            });
+            alert.setPositiveButton(getResources().getString(R.string.yes), (dialog, whichButton) -> resetDatabase());
 
             alert.setNegativeButton(getResources().getString(R.string.no),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
+                    (dialog, whichButton) -> {
                     });
             alert.show();
 

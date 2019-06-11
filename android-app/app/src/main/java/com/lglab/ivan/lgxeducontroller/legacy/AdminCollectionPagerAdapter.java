@@ -43,7 +43,7 @@ public class AdminCollectionPagerAdapter extends FragmentStatePagerAdapter {
             case PAGE_BEACONS:
                 return NearbyBeaconsFragment.newInstance();
             default:
-                return null;
+                return NewPOISList.newInstance();
         }
     }
 

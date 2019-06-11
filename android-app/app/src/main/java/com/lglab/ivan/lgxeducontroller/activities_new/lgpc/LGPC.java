@@ -33,14 +33,11 @@ public class LGPC extends AppCompatActivity {
         }
 
         tabLayout = findViewById(R.id.tabLayout);
-
         viewPager = findViewById(R.id.pager);
-
         adapter = new CollectionPagerAdapter(getSupportFragmentManager());
 
         //Adding adapter to pager
         viewPager.setAdapter(adapter);
-
 
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -51,14 +48,11 @@ public class LGPC extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
-
         });
     }
 

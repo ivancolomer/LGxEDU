@@ -72,7 +72,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         private TextView textViewTitle;
         private TextView textViewGenre;
         private ImageView imageViewMovie;
-        
+
         QuizViewHolder(View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.quiz_name);

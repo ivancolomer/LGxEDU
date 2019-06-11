@@ -84,22 +84,17 @@ public class LGTools extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        GetSessionTask getSessionTask = new GetSessionTask();
-        getSessionTask.execute();
     }
 
     /*SHUT DOWN*/
     //When shut down Liquid Galaxy button is clicked, the sentence to achieve it is send to the LG.
     private void setShutDownButtonBehaviour() {
-        shutDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    String sentence = "/home/lg/bin/lg-poweroff > /home/lg/log.txt";
-                    showAlertAndExecution(sentence, "shut down");
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-                }
+        shutDown.setOnClickListener(v -> {
+            try {
+                String sentence = "/home/lg/bin/lg-poweroff > /home/lg/log.txt";
+                showAlertAndExecution(sentence, "shut down");
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -107,15 +102,12 @@ public class LGTools extends Fragment {
     /*REBOOT*/
     //When reboot Liquid Galaxy button is clicked, the sentence to achieve it is send to the LG.
     private void setRebootButtonBehaviour() {
-        reboot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    String sentence = "/home/lg/bin/lg-reboot > /home/lg/log.txt";
-                    showAlertAndExecution(sentence, "reboot");
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-                }
+        reboot.setOnClickListener(v -> {
+            try {
+                String sentence = "/home/lg/bin/lg-reboot > /home/lg/log.txt";
+                showAlertAndExecution(sentence, "reboot");
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -123,15 +115,12 @@ public class LGTools extends Fragment {
     /*RELAUNCH*/
     //When relaunch Liquid Galaxy button is clicked, the sentence to achieve it is send to the LG.
     private void setRelaunchButtonBehaviour() {
-        relaunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    String sentence = "/home/lg/bin/lg-relaunch > /home/lg/log.txt";
-                    showAlertAndExecution(sentence, "relaunch");
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-                }
+        relaunch.setOnClickListener(v -> {
+            try {
+                String sentence = "/home/lg/bin/lg-relaunch > /home/lg/log.txt";
+                showAlertAndExecution(sentence, "relaunch");
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -145,25 +134,20 @@ public class LGTools extends Fragment {
         alertbox.setMessage("Are you sure to " + action + " Liquid Galaxy?");
 
         // set a positive/yes button and create a listener
-        alertbox.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-
-            // When button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                try {
-                    LGUtils.setConnectionWithLiquidGalaxy(session, sentence, getActivity());
-                } catch (JSchException e) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        // When button is clicked
+        alertbox.setPositiveButton(getResources().getString(R.string.yes), (arg0, arg1) -> {
+            try {
+                LGUtils.setConnectionWithLiquidGalaxy(session, sentence, getActivity());
+            } catch (JSchException e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
         // set a negative/no button and create a listener
-        alertbox.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-            // When button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-            }
+        // When button is clicked
+        alertbox.setNegativeButton(getResources().getString(R.string.no), (arg0, arg1) -> {
         });
         // display box
         alertbox.show();
@@ -172,39 +156,26 @@ public class LGTools extends Fragment {
 
     /*IMPORT POIS*/
     private void setImportPOIsButtonBehaviour() {
-        importPois.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        importPois.setOnClickListener(v -> {
 
 
-                final AlertDialog chooseDialog = new AlertDialog.Builder(getActivity()).create();
-                chooseDialog.setTitle(getResources().getString(R.string.import_pois_dialog_title));
-                chooseDialog.setMessage(getResources().getString(R.string.import_pois_dialog_msg));
-                chooseDialog.setButton(Dialog.BUTTON_NEGATIVE, getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        chooseDialog.dismiss();
-                    }
-                });
+            final AlertDialog chooseDialog = new AlertDialog.Builder(getActivity()).create();
+            chooseDialog.setTitle(getResources().getString(R.string.import_pois_dialog_title));
+            chooseDialog.setMessage(getResources().getString(R.string.import_pois_dialog_msg));
+            chooseDialog.setButton(Dialog.BUTTON_NEGATIVE, getResources().getString(R.string.cancel), (dialog, which) -> chooseDialog.dismiss());
 
-                chooseDialog.setButton(Dialog.BUTTON_NEUTRAL, getResources().getString(R.string.import_pois_dialog_fromFile), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Complete procedure to get the file with the POIs to import
-                        selectFileToImport();
-                    }
-                });
+            chooseDialog.setButton(Dialog.BUTTON_NEUTRAL, getResources().getString(R.string.import_pois_dialog_fromFile), (dialog, which) -> {
+                //Complete procedure to get the file with the POIs to import
+                selectFileToImport();
+            });
 
-                chooseDialog.setButton(Dialog.BUTTON_POSITIVE, getResources().getString(R.string.import_pois_dialog_fromPW), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        openBluetoothImport();
-                    }
-                });
-                chooseDialog.show();
-            }
+            chooseDialog.setButton(Dialog.BUTTON_POSITIVE, getResources().getString(R.string.import_pois_dialog_fromPW), (dialog, which) -> openBluetoothImport());
+            chooseDialog.show();
         });
     }
 
     private void openBluetoothImport() {
-        ((LGPCAdminActivity) getActivity()).mViewPager.setCurrentItem(AdminCollectionPagerAdapter.PAGE_BEACONS);
+        ((LGPCAdminActivity) getActivity()).viewPager.setCurrentItem(AdminCollectionPagerAdapter.PAGE_BEACONS);
     }
 
     @Override
@@ -385,12 +356,7 @@ public class LGTools extends Fragment {
                 importingDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 importingDialog.setCancelable(true);
                 importingDialog.setCanceledOnTouchOutside(false);
-                importingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        cancel(true);
-                    }
-                });
+                importingDialog.setOnCancelListener(dialog -> cancel(true));
                 importingDialog.show();
             }
         }
@@ -528,27 +494,4 @@ public class LGTools extends Fragment {
             return categoryId;
         }
     }
-
-    private class GetSessionTask extends AsyncTask<Void, Void, Void> {
-
-        GetSessionTask() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            session = LGUtils.getSession(getActivity());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void success) {
-            super.onPostExecute(success);
-        }
-    }
-
 }

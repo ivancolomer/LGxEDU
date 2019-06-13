@@ -17,7 +17,7 @@ import com.lglab.ivan.lgxeducontroller.activities.CreateQuestionActivity;
 import com.lglab.ivan.lgxeducontroller.asynctask.InsertQuizTask;
 import com.lglab.ivan.lgxeducontroller.asynctask.RemoveQuizTask;
 import com.lglab.ivan.lgxeducontroller.asynctask.UpdateQuizTask;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
 import com.unnamed.b.atv.model.TreeNode;
 
 /**

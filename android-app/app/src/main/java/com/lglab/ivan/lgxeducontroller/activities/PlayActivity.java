@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.utils.Category;
 import com.lglab.ivan.lgxeducontroller.utils.CategoryAdapter;

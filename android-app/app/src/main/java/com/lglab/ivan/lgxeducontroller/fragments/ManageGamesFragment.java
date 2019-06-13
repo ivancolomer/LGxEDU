@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Question;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Question;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.legacy.utils.CustomAndroidTreeView;
 import com.lglab.ivan.lgxeducontroller.utils.Category;

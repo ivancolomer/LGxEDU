@@ -14,8 +14,8 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities.QuizActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.play.asynctask.DownloadImageTask;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Quiz;
-import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
 
 import java.util.List;
 

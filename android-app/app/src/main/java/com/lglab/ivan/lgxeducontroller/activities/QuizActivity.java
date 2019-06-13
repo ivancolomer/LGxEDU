@@ -13,7 +13,7 @@ import android.view.View;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.fragments.ExitFromQuizFragment;
 import com.lglab.ivan.lgxeducontroller.fragments.QuestionFragment;
-import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
 
 import java.util.ArrayList;
 import java.util.List;

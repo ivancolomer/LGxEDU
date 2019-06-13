@@ -1,7 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.activities;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +16,10 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.File;
 
 import com.lglab.ivan.lgxeducontroller.drive.DriveServiceHelper;
 import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
 
 import java.util.Collections;
 

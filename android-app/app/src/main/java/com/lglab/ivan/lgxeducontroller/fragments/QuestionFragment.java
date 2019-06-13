@@ -14,8 +14,8 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.QuizActivity;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Question;
-import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Question;
+import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import github.chenupt.multiplemodel.ItemEntity;

@@ -9,7 +9,7 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
 import com.lglab.ivan.lgxeducontroller.utils.ResultsAdapter;
 
 public class ResultsActivity extends AppCompatActivity {

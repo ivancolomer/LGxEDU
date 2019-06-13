@@ -1,6 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.utils;
 
-import com.lglab.ivan.lgxeducontroller.games.quiz.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.ArrayList;

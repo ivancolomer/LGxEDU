@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.games.quiz;
+package com.lglab.ivan.lgxeducontroller.games.trivia;
 
 import android.os.Parcel;
 import android.os.Parcelable;

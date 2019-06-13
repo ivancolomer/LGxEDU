@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.fragments.ExitFromQuizFragment;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Question;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Question;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.utils.Exceptions.MissingInformationException;

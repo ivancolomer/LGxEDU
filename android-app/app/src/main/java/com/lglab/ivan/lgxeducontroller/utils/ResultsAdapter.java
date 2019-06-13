@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.quiz.Question;
-import com.lglab.ivan.lgxeducontroller.games.quiz.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Question;
+import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsViewHolder> {
 

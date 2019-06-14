@@ -22,7 +22,7 @@ public abstract class GameManager {
         if(INSTANCE != null)
             throw new IllegalStateException("There's already an instance of GameManager active!");
 
-        GameManager gameManager = getGameManagerByGame(game);
+        GameManager gameManager = game.createManager();
         if(gameManager == null)
             throw new IllegalStateException("No GameManager found for that game!");
 
@@ -34,23 +34,6 @@ public abstract class GameManager {
         if(INSTANCE == null)
             throw new IllegalStateException("There isn't any instance of GameManager active!");
         INSTANCE = null;
-    }
-
-    private static GameManager getGameManagerByGame(Game game) {
-        switch(game.getType()) {
-            case TRIVIA:
-                return new TriviaManager(game);
-            case VERSUS_TRIVIA:
-                break;
-            case MILLIONAIRE:
-                break;
-            case FIND_LOCATION:
-                break;
-            case HANGMAN:
-                break;
-        }
-
-        return null;
     }
 
     public static Game unpackGame(JSONObject obj) throws JSONException {

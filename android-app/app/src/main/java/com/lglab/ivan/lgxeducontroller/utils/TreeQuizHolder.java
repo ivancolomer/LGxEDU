@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ import com.lglab.ivan.lgxeducontroller.asynctask.UpdateGameTask;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.unnamed.b.atv.model.TreeNode;
+
+import org.json.JSONException;
 
 
 public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.IconTreeItem> {
@@ -84,7 +87,7 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
                 editButton.setOnClickListener(view12 -> {
                     showToast("Edit question");
                     Intent intent = new Intent(context, CreateQuestionActivity.class);
-                    intent.putExtra("quiz", value.game);
+                    intent.putExtra("game", value.game);
                     intent.putExtra("index", id);
                     intent.putExtra("type", CreateQuestionActivity.UpdateNew.UPDATE);
                     context.startActivity(intent);

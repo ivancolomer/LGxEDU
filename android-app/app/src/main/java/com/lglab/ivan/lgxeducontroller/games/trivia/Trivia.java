@@ -3,6 +3,7 @@ package com.lglab.ivan.lgxeducontroller.games.trivia;
 import android.os.Parcel;
 
 import com.lglab.ivan.lgxeducontroller.games.Game;
+import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.Question;
 
 import org.json.JSONException;
@@ -58,5 +59,10 @@ public class Trivia extends Game {
     @Override
     public Question createQuestion() {
         return new TriviaQuestion();
+    }
+
+    @Override
+    public GameManager createManager() {
+        return new TriviaManager(this);
     }
 }

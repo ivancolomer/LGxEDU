@@ -63,7 +63,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_question);
-        quiz = getIntent().getParcelableExtra("quiz");
+        quiz = getIntent().getParcelableExtra("game");
         index = getIntent().getIntExtra("index", -1);
         type = (UpdateNew) getIntent().getSerializableExtra("type");
         ActionBar actionBar = getSupportActionBar();
@@ -106,7 +106,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
         POIButton(R.id.addAnswer3POIButton, 3);
         POIButton(R.id.addAnswer4POIButton, 4);
 
-        additionalInformation = (EditText) findViewById(R.id.informationTextEdit);
+        additionalInformation = findViewById(R.id.informationTextEdit);
 
         if (type == UpdateNew.NEW) {
             question = new TriviaQuestion();

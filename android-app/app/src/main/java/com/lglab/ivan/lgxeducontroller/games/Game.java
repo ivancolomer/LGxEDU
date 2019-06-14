@@ -34,7 +34,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         name = in.readString();
         category = in.readString();
         type = GameEnum.findByName(in.readString());
-        in.readArrayList(createQuestion().getClass().getClassLoader());
+        questions = in.readArrayList(createQuestion().getClass().getClassLoader());
     }
 
     @Override
@@ -93,6 +93,8 @@ public abstract class Game implements IJsonPacker, Parcelable {
     }
 
     public abstract Question createQuestion();
+
+    public abstract GameManager createManager();
 
     public long getId() {
         return id;

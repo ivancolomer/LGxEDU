@@ -2,6 +2,7 @@ package com.lglab.ivan.lgxeducontroller.games.trivia;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.lglab.ivan.lgxeducontroller.games.Question;
 import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;

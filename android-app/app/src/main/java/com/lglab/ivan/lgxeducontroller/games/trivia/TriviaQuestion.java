@@ -26,7 +26,7 @@ public class TriviaQuestion extends Question {
             return new TriviaQuestion[size];
         }
     };
-    private static final int MAX_ANSWERS = 4;
+    public static final int MAX_ANSWERS = 4;
 
     public int correctAnswer;
     public String[] answers;
@@ -36,6 +36,8 @@ public class TriviaQuestion extends Question {
 
     public TriviaQuestion() {
         super("");
+        answers = new String[MAX_ANSWERS];
+        pois = new POI[MAX_ANSWERS];
     }
 
     public TriviaQuestion(Parcel in) {

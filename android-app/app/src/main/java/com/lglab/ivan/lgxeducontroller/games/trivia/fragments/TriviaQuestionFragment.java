@@ -1,5 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia.fragments;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -72,7 +73,7 @@ public class TriviaQuestionFragment extends Fragment {
         textView = view.findViewById(R.id.question_title);
         textView.setText(question.getQuestion());
 
-        answerViews = new TextView[4];
+        answerViews = new TextView[TriviaQuestion.MAX_ANSWERS];
         answerViews[0] = getView().findViewById(R.id.answerText1);
         answerViews[1] = getView().findViewById(R.id.answerText2);
         answerViews[2] = getView().findViewById(R.id.answerText3);
@@ -118,7 +119,7 @@ public class TriviaQuestionFragment extends Fragment {
                 hasClicked = true;
 
                 boolean hadAlreadyClicked = ((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(questionNumber);
-                if(hadAlreadyClicked)
+                if(!hadAlreadyClicked)
                     ((TriviaManager) GameManager.getInstance()).answerQuestion(questionNumber, i + 1);
 
                 view.findViewById(R.id.answerCard1 + question.correctAnswer - 1).setBackgroundColor(Color.parseColor("#5cd65c"));
@@ -145,8 +146,8 @@ public class TriviaQuestionFragment extends Fragment {
                         sendPOI(buildCommand(question.pois[question.correctAnswer - 1]));
                     }
 
-                    builder.setNegativeButton("SKIP", (dialog, id) -> dialog.cancel());
                     builder.setOnCancelListener(dialog -> checkQuizProgress());
+                    builder.setNegativeButton("SKIP", (dialog, id) -> dialog.cancel());
 
                     activeAlertDialog = builder.create();
                     activeAlertDialog.show();

@@ -23,6 +23,7 @@ import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.utils.Category;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -129,7 +130,7 @@ public class PlayActivity extends GoogleDriveActivity {
                 } else {
                     category.getItems().add(newGame);
                 }
-            } catch (Exception e) {
+            } catch (JSONException e) {
                 Log.e("TAG", e.toString());
             }
         }

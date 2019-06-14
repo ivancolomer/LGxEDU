@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Question;
-import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsViewHolder> {
 
@@ -21,19 +22,18 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsV
     @Override
     public ResultsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_results, viewGroup, false);
-        ResultsViewHolder pvh = new ResultsViewHolder(v);
-        return pvh;
+        return new ResultsViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ResultsViewHolder personViewHolder, int i) {
-        Question question = QuizManager.getInstance().getQuiz().questions.get(i);
+        TriviaQuestion question = (TriviaQuestion) GameManager.getInstance().getGame().getQuestions().get(i);
 
-        personViewHolder.questionName.setText(question.question);
+        personViewHolder.questionName.setText(question.getQuestion());
         personViewHolder.questionNumber.setText(String.valueOf(i + 1));
         personViewHolder.questionSolution.setText(question.answers[question.correctAnswer - 1]);
 
-        if (question.selectedAnswer == question.correctAnswer) {
+        if (((TriviaManager) GameManager.getInstance()).isCorrectAnswer(i)) {
             personViewHolder.rl.setBackgroundColor(Color.parseColor("#5cd65c"));
         } else {
             personViewHolder.rl.setBackgroundColor(Color.parseColor("#ff3333"));
@@ -42,7 +42,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsV
 
     @Override
     public int getItemCount() {
-        return QuizManager.getInstance().getQuiz().questions.size();
+        return GameManager.getInstance().getGame().getQuestions().size();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsV
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public static class ResultsViewHolder extends RecyclerView.ViewHolder {
+    static class ResultsViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView questionNumber;
         TextView questionName;

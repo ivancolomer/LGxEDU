@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.fragments.ExitFromQuizFragment;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Question;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.utils.Exceptions.MissingInformationException;
@@ -56,8 +56,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
     private EditText additionalInformation;
 
-    private Quiz quiz;
-    private Question question;
+    private Trivia quiz;
+    private TriviaQuestion question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +77,13 @@ public class CreateQuestionActivity extends AppCompatActivity {
 
         getPOIStringsFromDatabase();
 
-        questionEditText = (EditText) findViewById(R.id.questionTextEdit);
-        correctAnswerRadioButton = (RadioGroup) findViewById(R.id.radio_group_correct_answer);
+        questionEditText = findViewById(R.id.questionTextEdit);
+        correctAnswerRadioButton = findViewById(R.id.radio_group_correct_answer);
 
-        textAnswer1 = (EditText) findViewById(R.id.answer1TextEdit);
-        textAnswer2 = (EditText) findViewById(R.id.answer2TextEdit);
-        textAnswer3 = (EditText) findViewById(R.id.answer3TextEdit);
-        textAnswer4 = (EditText) findViewById(R.id.answer4TextEdit);
+        textAnswer1 = findViewById(R.id.answer1TextEdit);
+        textAnswer2 = findViewById(R.id.answer2TextEdit);
+        textAnswer3 = findViewById(R.id.answer3TextEdit);
+        textAnswer4 = findViewById(R.id.answer4TextEdit);
 
 
         textQuestionPOI = findViewById(R.id.questionPOITextEdit);
@@ -109,10 +109,10 @@ public class CreateQuestionActivity extends AppCompatActivity {
         additionalInformation = (EditText) findViewById(R.id.informationTextEdit);
 
         if (type == UpdateNew.NEW) {
-            question = new Question();
+            question = new TriviaQuestion();
         } else {
-            question = quiz.questions.get(index);
-            questionEditText.setText(question.question);
+            question = (TriviaQuestion)quiz.getQuestions().get(index);
+            questionEditText.setText(question.getQuestion());
             ((RadioButton) correctAnswerRadioButton.getChildAt(question.correctAnswer - 1)).setChecked(true);
             textAnswer1.setText(question.answers[0]);
             textAnswer2.setText(question.answers[1]);
@@ -211,7 +211,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
                     break;
 
                 case 6:
-                    //Code for intent from Manager (get the quiz Quiz and if editing only one question or the whole quiz Boolean)
+                    //Code for intent from Manager (get the quiz Trivia and if editing only one question or the whole quiz Boolean)
                     break;
             }
         }
@@ -233,7 +233,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 //If edit question, id := question id. Else add new id := last quiz id + 1
 
 
-                //Question stuff
+                //TriviaQuestion stuff
                 String questionS = getTextFromEditText(questionEditText, getString(R.string.question_text_edit));
 
                 //Correct Answer
@@ -256,23 +256,23 @@ public class CreateQuestionActivity extends AppCompatActivity {
                 }
 
                 String information = additionalInformation.getText().toString();
-                question.question = questionS;
+                question.setQuestion(questionS);
                 question.answers = answers;
                 question.correctAnswer = correctAnswer;
                 question.information = information;
 
                 if (type == UpdateNew.NEW) {
-                    question.id = quiz.questions.size();
-                    quiz.questions.add(question);
+                    //question.id = quiz.questions.size();
+                    quiz.getQuestions().add(question);
                 } else {
-                    question.id = quiz.questions.get(this.index).id;
-                    quiz.questions.set(this.index, question);
+                    //question.id = quiz.questions.get(this.index).id;
+                    quiz.getQuestions().set(this.index, question);
                 }
-                Log.i(TAG, "acceptButton: " + question.id + " " + question + " " + correctAnswer + " " + Arrays.toString(answers) + " " + information + " " + Arrays.toString(question.pois) + " " + question.initialPOI);
+                Log.i(TAG, "acceptButton: " + question + " " + correctAnswer + " " + Arrays.toString(answers) + " " + information + " " + Arrays.toString(question.pois) + " " + question.initialPOI);
                 Log.i(TAG, "acceptButton: " + quiz);
 
                 try {
-                    POIsProvider.updateQuizById((int) quiz.id, quiz.pack().toString());
+                    POIsProvider.updateQuizById((int) quiz.getId(), quiz.pack().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -300,7 +300,7 @@ public class CreateQuestionActivity extends AppCompatActivity {
     }
 
     private void questionPOIText() {
-        AutoCompleteTextView textPOI = (AutoCompleteTextView) findViewById(R.id.questionPOITextEdit);
+        AutoCompleteTextView textPOI = findViewById(R.id.questionPOITextEdit);
         textPOI.setAdapter(poiStringList);
 
         textPOI.setOnItemClickListener((parent, view, position, id) -> {

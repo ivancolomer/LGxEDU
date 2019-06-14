@@ -5,7 +5,7 @@
     <string name="play">Play</string>
     <string name="create_question">Create Question</string>
 
-    <!-- Create Question -->
+    <!-- Create TriviaQuestion -->
     <string name="question_text_edit">Question</string>
     <string name="correct_answer">Correct answer</string>
     <string name="question_POI">Initial POI</string>
@@ -18,7 +18,7 @@
     <string name="answer_2_POI">Answer 2 POI</string>
     <string name="answer_3_POI">Answer 3 POI</string>
     <string name="answer_4_POI">Answer 4 POI</string>
-    <!-- End Create Question -->
+    <!-- End Create TriviaQuestion -->
 
     <!-- Legacy -->
     <string name="tittle">Liquid Galaxy Controller</string>

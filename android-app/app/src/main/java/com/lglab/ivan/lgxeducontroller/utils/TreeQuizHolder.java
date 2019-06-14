@@ -15,14 +15,13 @@ import android.widget.Toast;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.CreateQuestionActivity;
 import com.lglab.ivan.lgxeducontroller.asynctask.InsertQuizTask;
-import com.lglab.ivan.lgxeducontroller.asynctask.RemoveQuizTask;
-import com.lglab.ivan.lgxeducontroller.asynctask.UpdateQuizTask;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
+import com.lglab.ivan.lgxeducontroller.asynctask.RemoveGameTask;
+import com.lglab.ivan.lgxeducontroller.asynctask.UpdateGameTask;
+import com.lglab.ivan.lgxeducontroller.games.Game;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.unnamed.b.atv.model.TreeNode;
 
-/**
- * Created by Albert Merino on 02/10/18.
- */
+
 public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.IconTreeItem> {
     public static final String TAG = TreeQuizHolder.class.getSimpleName();
     private ImageView arrowView;
@@ -60,15 +59,15 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
                 deleteButton.setVisibility(View.VISIBLE);
 
                 addPOIButton.setOnClickListener(view12 -> {
-                    showToast("Add Question ");
+                    showToast("Add TriviaQuestion ");
                     Intent intent = new Intent(context, CreateQuestionActivity.class);
-                    intent.putExtra("quiz", value.quiz);
+                    intent.putExtra("game", value.game);
                     intent.putExtra("type", CreateQuestionActivity.UpdateNew.NEW);
                     context.startActivity(intent);
                 });
                 deleteButton.setOnClickListener(view12 -> {
                     showToast("Deleted Game");
-                    new RemoveQuizTask(value.quiz).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new RemoveGameTask(value.game).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     getTreeView().removeNode(node);
                 });
                 break;
@@ -85,16 +84,16 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
                 editButton.setOnClickListener(view12 -> {
                     showToast("Edit question");
                     Intent intent = new Intent(context, CreateQuestionActivity.class);
-                    intent.putExtra("quiz", value.quiz);
+                    intent.putExtra("quiz", value.game);
                     intent.putExtra("index", id);
                     intent.putExtra("type", CreateQuestionActivity.UpdateNew.UPDATE);
                     context.startActivity(intent);
                 });
                 deleteButton.setOnClickListener(view12 -> {
 
-                    showToast("Deleted Question " + id);
-                    value.quiz.questions.remove(id);
-                    new UpdateQuizTask(value.quiz).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    showToast("Deleted GameQuestion " + id);
+                    value.game.getQuestions().remove(id);
+                    new UpdateGameTask(value.game).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     getTreeView().removeNode(node);
                 });
                 break;
@@ -116,9 +115,9 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
 
         alertDialog.setPositiveButton(android.R.string.yes,
                 (dialog, which) -> {
-                    Quiz quiz = new Quiz();
-                    quiz.name = input.getText().toString();
-                    showToast("Adding game " + quiz.name);
+                    Trivia quiz = new Trivia();
+                    quiz.setName(input.getText().toString());
+                    showToast("Adding game " + quiz.getName());
                     new InsertQuizTask(quiz).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 });
 
@@ -144,18 +143,18 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
         public int icon;
         public long id;
         public TreeQuizType type;
-        public Quiz quiz;
+        public Game game;
 
         public IconTreeItem(int icon, String text, long id, TreeQuizType type) {
             this(icon, text, id, type, null);
         }
 
-        public IconTreeItem(int icon, String text, long id, TreeQuizType type, Quiz quiz) {
+        public IconTreeItem(int icon, String text, long id, TreeQuizType type, Game game) {
             this.icon = icon;
             this.text = text;
             this.type = type;
             this.id = id;
-            this.quiz = quiz;
+            this.game = game;
         }
     }
 

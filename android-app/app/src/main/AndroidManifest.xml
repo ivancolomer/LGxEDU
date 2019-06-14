@@ -53,9 +53,6 @@
             android:noHistory="true"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities.PlayActivity"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".activities_new.play.PlayActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
@@ -138,10 +135,10 @@
         </receiver>
 
         <activity
-            android:name=".activities.QuizActivity"
+            android:name=".games.trivia.activities.TriviaActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities.ResultsActivity"
+            android:name=".games.trivia.activities.TriviaResultsActivity"
             android:screenOrientation="sensorLandscape" />
     </application>
 

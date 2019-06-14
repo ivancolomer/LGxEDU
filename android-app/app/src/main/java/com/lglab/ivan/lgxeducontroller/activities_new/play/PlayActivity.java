@@ -17,7 +17,9 @@ import android.widget.ProgressBar;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.play.adapter.PlayAdapter;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.Game;
+import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.utils.Category;
 
@@ -38,7 +40,7 @@ public class PlayActivity extends GoogleDriveActivity {
 
     private List<Category> dataList;
 
-    private List<Category> allQuizes;
+    private List<Category> allGames;
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
@@ -82,16 +84,16 @@ public class PlayActivity extends GoogleDriveActivity {
     }
 
     private void searchCategories() {
-        if(allQuizes == null) {
+        if(allGames == null) {
             makeCategories();
         }
 
         dataList.clear();
 
-        for(Category c : allQuizes) {
+        for(Category c : allGames) {
             Category new_category = new Category(c);
             for(int i = new_category.getItemCount() - 1; i >= 0; i--){
-                if (!searchInput.isEmpty() && !new_category.getItems().get(i).name.toLowerCase().startsWith(searchInput))
+                if (!searchInput.isEmpty() && !new_category.getItems().get(i).getName().toLowerCase().startsWith(searchInput))
                     new_category.getItems().remove(i);
             }
             if(new_category.getItemCount() > 0) {
@@ -112,20 +114,20 @@ public class PlayActivity extends GoogleDriveActivity {
         }
 
 
-        Cursor quiz_cursor = POIsProvider.getAllQuizes();
-        while (quiz_cursor.moveToNext()) {
-            long quizId = quiz_cursor.getLong(quiz_cursor.getColumnIndexOrThrow("_id"));
-            String questData = quiz_cursor.getString(quiz_cursor.getColumnIndexOrThrow("Data"));
+        Cursor game_cursor = POIsProvider.getAllQuizes();
+        while (game_cursor.moveToNext()) {
+            long gameId = game_cursor.getLong(game_cursor.getColumnIndexOrThrow("_id"));
+            String questData = game_cursor.getString(game_cursor.getColumnIndexOrThrow("Data"));
             try {
-                Quiz newQuiz = new Quiz().unpack(new JSONObject(questData));
-                newQuiz.id = quizId;
+                Game newGame = GameManager.unpackGame(new JSONObject(questData));
+                newGame.setId(gameId);
 
-                Category category = categories.get(newQuiz.category.toLowerCase());
+                Category category = categories.get(newGame.getCategory().toLowerCase());
                 if (category == null) {
-                    long id = POIsProvider.insertCategory(newQuiz.category);
-                    categories.put(newQuiz.category.toLowerCase(), new Category(id, newQuiz.category, Collections.singletonList(newQuiz)));
+                    long id = POIsProvider.insertCategory(newGame.getCategory());
+                    categories.put(newGame.getCategory().toLowerCase(), new Category(id, newGame.getCategory(), Collections.singletonList(newGame)));
                 } else {
-                    category.getItems().add(newQuiz);
+                    category.getItems().add(newGame);
                 }
             } catch (Exception e) {
                 Log.e("TAG", e.toString());
@@ -141,22 +143,20 @@ public class PlayActivity extends GoogleDriveActivity {
             }
         }
 
-        allQuizes = new ArrayList<>(categories.values());
+        allGames = new ArrayList<>(categories.values());
 
         //ORDER CATEGORIES BY ID
-        Collections.sort(allQuizes, (p1, p2) -> Long.compare(p1.id, p2.id));
+        Collections.sort(allGames, (p1, p2) -> Long.compare(p1.id, p2.id));
     }
 
 
     @Override
     public void handleStringFromDrive(String input) {
         try {
-            new Quiz().unpack(new JSONObject(input)); //Checking if the json is fine ;)
-
+            GameManager.unpackGame(new JSONObject(input)); //Checking if the json is fine ;)
             POIsProvider.insertQuiz(input);
             reloadAdapter();
-
-            showMessage("Quiz imported successfully");
+            showMessage("Game imported successfully");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
             showMessage("Couldn't import the file");

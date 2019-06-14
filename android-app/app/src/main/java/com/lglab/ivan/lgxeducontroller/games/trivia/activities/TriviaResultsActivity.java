@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities;
+package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,10 +9,11 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.utils.ResultsAdapter;
 
-public class ResultsActivity extends AppCompatActivity {
+public class TriviaResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class ResultsActivity extends AppCompatActivity {
         ResultsAdapter adapter = new ResultsAdapter();
         rv.setAdapter(adapter);
 
-        ((TextView) findViewById(R.id.textViewScore)).setText("You have scored " + String.valueOf(QuizManager.getInstance().correctAnsweredQuestionsCount()) + " out of " + String.valueOf(QuizManager.getInstance().getQuiz().questions.size()) + "!");
+        ((TextView) findViewById(R.id.textViewScore)).setText("You have scored " + ((TriviaManager) GameManager.getInstance()).correctAnsweredQuestionsCount() + " out of " + GameManager.getInstance().getGame().getQuestions().size() + "!");
     }
 
     @Override

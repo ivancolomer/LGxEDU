@@ -307,9 +307,9 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
     private ViewHolderPoi setPOILayoutSettings(LayoutInflater inflater, ViewGroup container) {
 
         rootView = inflater.inflate(R.layout.fragment_create_or_update_poi, container, false);
-        final ViewHolderPoi viewHolder = new ViewHolderPoi(rootView);
-        viewHolder.updatePOI.setVisibility(View.GONE);
-        viewHolder.createPOI.setVisibility(View.VISIBLE);
+        ViewHolderPoi viewHolder = new ViewHolderPoi(rootView);
+        viewHolder.updatePOI.hide();
+        viewHolder.createPOI.show();
 
 
         //If user has clicked on Create Here, obviously, no spinner categories option will be shown.
@@ -413,9 +413,9 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
 
     private ViewHolderCategory setCategoryLayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_category, container, false);
-        final ViewHolderCategory viewHolder = new ViewHolderCategory(rootView);
-        viewHolder.updateCategory.setVisibility(View.GONE);
-        viewHolder.createCategory.setVisibility(View.VISIBLE);
+        ViewHolderCategory viewHolder = new ViewHolderCategory(rootView);
+        viewHolder.updateCategory.hide();
+        viewHolder.createCategory.show();
 
         if (creationType.endsWith("HERE")) {
             viewHolder.fatherID.setVisibility(View.GONE);
@@ -499,17 +499,17 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
 
         ViewHolderPoi(final View rootView) {
 
-            name = (EditText) rootView.findViewById(R.id.name);
-            visitedPlaceET = (EditText) rootView.findViewById(R.id.visited_place);
-            longitudeET = (EditText) rootView.findViewById(R.id.longitude);
-            latitudeET = (EditText) rootView.findViewById(R.id.latitude);
-            altitudeET = (EditText) rootView.findViewById(R.id.altitude);
-            headingET = (EditText) rootView.findViewById(R.id.heading);
-            tiltET = (EditText) rootView.findViewById(R.id.tilt);
-            rangeET = (EditText) rootView.findViewById(R.id.range);
-            spinnerAltitudeMode = (Spinner) rootView.findViewById(R.id.spinnerAltitude);
+            name = rootView.findViewById(R.id.name);
+            visitedPlaceET = rootView.findViewById(R.id.visited_place);
+            longitudeET = rootView.findViewById(R.id.longitude);
+            latitudeET = rootView.findViewById(R.id.latitude);
+            altitudeET = rootView.findViewById(R.id.altitude);
+            headingET = rootView.findViewById(R.id.heading);
+            tiltET = rootView.findViewById(R.id.tilt);
+            rangeET = rootView.findViewById(R.id.range);
+            spinnerAltitudeMode = rootView.findViewById(R.id.spinnerAltitude);
 
-            categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
+            categoryID = rootView.findViewById(R.id.categoryID_spinner);
             categoryID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long selectedItemId) {
@@ -533,10 +533,10 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
                 }
             });
 
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
-            createPOI = (FloatingActionButton) rootView.findViewById(R.id.create_poi);
-            updatePOI = (FloatingActionButton) rootView.findViewById(R.id.update_poi);
-            cancel = (FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
+            createPOI = rootView.findViewById(R.id.create_poi);
+            updatePOI = rootView.findViewById(R.id.update_poi);
+            cancel = rootView.findViewById(R.id.cancel_come_back);
         }
     }
 
@@ -551,12 +551,12 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
 
         ViewHolderCategory(View rootView) {
 
-            categoryName = (EditText) rootView.findViewById(R.id.category_name);
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
-            fatherID = (Spinner) rootView.findViewById(R.id.father_spinner);
-            createCategory = (FloatingActionButton) rootView.findViewById(R.id.create_category);
-            updateCategory = (FloatingActionButton) rootView.findViewById(R.id.update_category);
-            cancel = (FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
+            categoryName = rootView.findViewById(R.id.category_name);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
+            fatherID = rootView.findViewById(R.id.father_spinner);
+            createCategory = rootView.findViewById(R.id.create_category);
+            updateCategory = rootView.findViewById(R.id.update_category);
+            cancel = rootView.findViewById(R.id.cancel_come_back);
         }
 
     }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="6"
-    tools:context=".activities.ResultsActivity">
+    tools:context=".games.trivia.activities.TriviaResultsActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"

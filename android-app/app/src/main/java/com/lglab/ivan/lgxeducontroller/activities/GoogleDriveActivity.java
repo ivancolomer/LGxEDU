@@ -19,7 +19,7 @@ import com.google.api.services.drive.DriveScopes;
 
 import com.lglab.ivan.lgxeducontroller.drive.DriveServiceHelper;
 import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Quiz;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 
 import java.util.Collections;
 
@@ -159,7 +159,7 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
         }*/
     }
 
-    public void exportQuiz(Quiz quiz) {
+    public void exportQuiz(Trivia quiz) {
         /*if (GoogleDriveManager.DriveClient != null && GoogleDriveManager.DriveResourceClient != null) {
             pickFolder()
                     .addOnSuccessListener(this,
@@ -220,7 +220,7 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
                             }
 
                             handleStringFromDrive(builder.toString());
-                            //quiz = new Quiz().unpack(new JSONObject(builder.toString()));
+                            //quiz = new Trivia().unpack(new JSONObject(builder.toString()));
                         }
 
                         Task<Void> discardTask = GoogleDriveManager.DriveResourceClient.discardContents(contents);
@@ -234,7 +234,7 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
         }
     }*/
 
-    /*private void handleSaveItem(final DriveFolder parent, Quiz quiz) {
+    /*private void handleSaveItem(final DriveFolder parent, Trivia quiz) {
         GoogleDriveManager.DriveResourceClient
                 .createContents()
                 .continueWithTask(task -> {

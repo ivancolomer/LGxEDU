@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.fragments;
+package com.lglab.ivan.lgxeducontroller.games.trivia.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,17 +11,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities.QuizActivity;
+import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Question;
-import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import github.chenupt.multiplemodel.ItemEntity;
 import github.chenupt.multiplemodel.ItemEntityUtil;
 
-public class QuestionFragment extends Fragment {
+public class TriviaQuestionFragment extends Fragment {
     private static final POI EARTH_POI = new POI()
             .setLongitude(10.52668d)
             .setLatitude(40.085941d)
@@ -38,11 +39,11 @@ public class QuestionFragment extends Fragment {
             .setTilt(0.0d)
             .setRange(3000000.0d)
             .setAltitudeMode("relativeToSeaFloor");
-    //LiquidGalaxyAnswerTourView activeTour;
+
     AlertDialog activeAlertDialog;
     private View view;
     private int questionNumber;
-    private Question question;
+    private TriviaQuestion question;
     private TextView textView;
     private TextView[] answerViews;
     private boolean sendInitialPOIOnCreate = false;
@@ -53,7 +54,7 @@ public class QuestionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ItemEntity<Integer> itemEntity = ItemEntityUtil.getModelData(this);
         questionNumber = itemEntity.getContent();
-        question = QuizManager.getInstance().getQuiz().questions.get(questionNumber);
+        question = (TriviaQuestion) GameManager.getInstance().getGame().getQuestions().get(questionNumber);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class QuestionFragment extends Fragment {
         hasClicked = false;
 
         textView = view.findViewById(R.id.question_title);
-        textView.setText(question.question);
+        textView.setText(question.getQuestion());
 
         answerViews = new TextView[4];
         answerViews[0] = getView().findViewById(R.id.answerText1);
@@ -115,8 +116,11 @@ public class QuestionFragment extends Fragment {
         view.findViewById(R.id.answerCard1 + i).setOnClickListener(v -> {
             if (!hasClicked) {
                 hasClicked = true;
-                boolean hadAlreadyClicked = question.selectedAnswer != 0;
-                question.selectedAnswer = i + 1;
+
+                boolean hadAlreadyClicked = ((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(questionNumber);
+                if(hadAlreadyClicked)
+                    ((TriviaManager) GameManager.getInstance()).answerQuestion(questionNumber, i + 1);
+
                 view.findViewById(R.id.answerCard1 + question.correctAnswer - 1).setBackgroundColor(Color.parseColor("#5cd65c"));
                 answerViews[question.correctAnswer - 1].setTextColor(Color.parseColor("#000000"));
 
@@ -128,14 +132,13 @@ public class QuestionFragment extends Fragment {
                 if (!hadAlreadyClicked) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                    if (question.selectedAnswer != question.correctAnswer) {
+                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(questionNumber)) {
                         builder.setTitle("Oops! You've chosen a wrong answer!");
-                        builder.setMessage("Going to " + question.pois[question.selectedAnswer - 1].getName());
+                        builder.setMessage("Going to " + question.pois[i].getName());
                         builder.setPositiveButton("SHOW CORRECT ANSWER", (dialog, id) -> {
                             //We override this later in order to prevent alertdialog from closing after clicking this button
                         });
-
-                        sendPOI(buildCommand(question.pois[question.selectedAnswer - 1]));
+                        sendPOI(buildCommand(question.pois[i]));
                     } else {
                         builder.setTitle("Great! You're totally right!");
                         builder.setMessage("Going to " + question.pois[question.correctAnswer - 1].getName());
@@ -148,7 +151,7 @@ public class QuestionFragment extends Fragment {
                     activeAlertDialog = builder.create();
                     activeAlertDialog.show();
 
-                    if (question.selectedAnswer != question.correctAnswer) {
+                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(i)) {
 
                         /*final Handler handler = new Handler();
                         handler.postDelayed(() -> {
@@ -167,14 +170,14 @@ public class QuestionFragment extends Fragment {
             }
         });
 
-        if (question.selectedAnswer == i + 1) {
+        if (((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(questionNumber) && ((TriviaManager) GameManager.getInstance()).getAnswerIdOfQuestion(questionNumber) == i + 1) {
             view.findViewById(R.id.answerCard1 + i).performClick();
         }
     }
 
     private void checkQuizProgress() {
-        if (QuizManager.getInstance().hasAnsweredAllQuestions()) {
-            ((QuizActivity) getActivity()).showFloatingExitButton();
+        if (((TriviaManager) GameManager.getInstance()).hasAnsweredAllQuestions()) {
+            ((TriviaActivity) getActivity()).showFloatingExitButton();
         }
     }
 

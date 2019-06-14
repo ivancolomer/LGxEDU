@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities;
+package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +8,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.fragments.ExitFromQuizFragment;
-import com.lglab.ivan.lgxeducontroller.fragments.QuestionFragment;
-import com.lglab.ivan.lgxeducontroller.games.trivia.QuizManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
 import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
-public class QuizActivity extends AppCompatActivity {
+public class TriviaActivity extends AppCompatActivity {
 
     ScrollerViewPager viewPager;
     FloatingActionButton exitButton;
@@ -37,14 +36,14 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(QuizManager.getInstance().getQuiz().name);
+        actionBar.setTitle(TriviaManager.getInstance().getGame().getName());
 
         viewPager = findViewById(R.id.view_pager);
         SpringIndicator springIndicator = findViewById(R.id.indicator);
 
         List<ItemEntity> list = new ArrayList<>();
-        for (int i = 0; i < QuizManager.getInstance().getQuiz().questions.size(); i++) {
-            ItemEntityUtil.create(i).setModelView(QuestionFragment.class).attach(list);
+        for (int i = 0; i < TriviaManager.getInstance().getGame().getQuestions().size(); i++) {
+            ItemEntityUtil.create(i).setModelView(TriviaQuestionFragment.class).attach(list);
         }
         PagerManager manager = PagerManager.begin().addFragments(list).setTitles(getTitles());
 
@@ -60,7 +59,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private List<String> getTitles() {
-        int size = QuizManager.getInstance().getQuiz().questions.size();
+        int size = TriviaManager.getInstance().getGame().getQuestions().size();
 
         ArrayList<String> list = new ArrayList<>(size);
 
@@ -87,13 +86,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void showFloatingExitButton() {
-        exitButton.setVisibility(View.VISIBLE);
+        exitButton.show();
     }
 
     public void exit() {
         Log.d("HEY", "EXIT");
 
-        Intent i = new Intent(this, ResultsActivity.class);
+        Intent i = new Intent(this, TriviaResultsActivity.class);
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); //Adds the FLAG_ACTIVITY_NO_HISTORY flag
         startActivity(i);
     }

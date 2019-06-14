@@ -20,7 +20,7 @@ public class PlayAdapter extends RecyclerView.Adapter<PlayAdapter.PlayViewHolder
 
     private Context context;
     private List<Category> data;
-    private QuizAdapter horizontalAdapter;
+    private GameAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
     public PlayAdapter(List<Category> data, Context context) {
@@ -40,7 +40,7 @@ public class PlayAdapter extends RecyclerView.Adapter<PlayAdapter.PlayViewHolder
     @Override
     public void onBindViewHolder(@NonNull PlayViewHolder holder, final int position) {
         holder.textViewCategory.setText(data.get(position).getTitle());
-        horizontalAdapter = new QuizAdapter(data.get(position).getItems(), context);
+        horizontalAdapter = new GameAdapter(data.get(position).getItems(), context);
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setRecycledViewPool(recycledViewPool);
     }

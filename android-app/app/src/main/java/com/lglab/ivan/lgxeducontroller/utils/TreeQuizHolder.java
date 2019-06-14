@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.CreateQuestionActivity;
-import com.lglab.ivan.lgxeducontroller.asynctask.InsertQuizTask;
+import com.lglab.ivan.lgxeducontroller.asynctask.InsertGameTask;
 import com.lglab.ivan.lgxeducontroller.asynctask.RemoveGameTask;
 import com.lglab.ivan.lgxeducontroller.asynctask.UpdateGameTask;
 import com.lglab.ivan.lgxeducontroller.games.Game;
@@ -118,7 +118,7 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
                     Trivia quiz = new Trivia();
                     quiz.setName(input.getText().toString());
                     showToast("Adding game " + quiz.getName());
-                    new InsertQuizTask(quiz).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    new InsertGameTask(quiz).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 });
 
         alertDialog.setNegativeButton(android.R.string.cancel, null);

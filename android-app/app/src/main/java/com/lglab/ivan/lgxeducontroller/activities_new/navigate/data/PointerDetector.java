@@ -33,12 +33,7 @@ public class PointerDetector {
     }
 
     public double getTraveledAngle() {
-        double angle = Math.toDegrees(Math.atan2(yAfter - yBefore, xAfter - xBefore));
-        angle -= 270;
-        while (angle < 0) {
-            angle += 360;
-        }
-        return angle % 360;
+        return Math.atan2(yAfter - yBefore, xAfter - xBefore) - 1.5d * Math.PI;
     }
 
     public void update(float x, float y) {

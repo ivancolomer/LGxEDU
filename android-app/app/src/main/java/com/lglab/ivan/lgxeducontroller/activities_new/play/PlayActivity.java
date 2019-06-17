@@ -1,7 +1,9 @@
 package com.lglab.ivan.lgxeducontroller.activities_new.play;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.widget.ProgressBar;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.play.adapter.PlayAdapter;
+import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
@@ -76,11 +79,11 @@ public class PlayActivity extends GoogleDriveActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        /*reloadAdapter();
+        reloadAdapter();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "10.160.67.80"), Integer.parseInt(prefs.getString("Port", "22")));
-        */
+
     }
 
     private void searchCategories() {

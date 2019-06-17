@@ -8,7 +8,7 @@ public class POIController {
 
     private static POIController INSTANCE = null;
 
-    private static final POI EARTH_POI = new POI()
+    public static final POI EARTH_POI = new POI()
             .setLongitude(10.52668d)
             .setLatitude(40.085941d)
             .setAltitude(0.0d)
@@ -22,6 +22,8 @@ public class POIController {
             INSTANCE = new POIController();
         return INSTANCE;
     }
+
+    private static double STEP_XY = 0.00001; //0.001% of RANGE
 
     private POI currentPOI;
     private POI previousPOI;
@@ -38,8 +40,27 @@ public class POIController {
     }
 
     public synchronized void moveXY(double angle, double percentDistance) {
-        //.setLongitude() [-180 to +180]: X
-        //.setLatitude() [-90 to +90]: Y
+        //.setLongitude() [-180 to +180]: X (cos)
+        //.setLatitude() [-90 to +90]: Y (sin)
+
+        POI newPoi = new POI(currentPOI);
+        newPoi.setLongitude(newPoi.getLongitude() + Math.cos(angle)*percentDistance*STEP_XY*newPoi.getRange());
+        while(newPoi.getLongitude() > 180) {
+            newPoi.setLongitude(newPoi.getLatitude() - 360);
+        }
+        while(newPoi.getLongitude() < -180) {
+            newPoi.setLongitude(newPoi.getLatitude() + 360);
+        }
+
+        newPoi.setLongitude(newPoi.getLongitude() + Math.sin(angle)*percentDistance*STEP_XY*newPoi.getRange());
+        while(newPoi.getLatitude() > 90) {
+            newPoi.setLatitude(newPoi.getLatitude() - 180);
+        }
+        while(newPoi.getLatitude() < -90) {
+            newPoi.setLatitude(newPoi.getLatitude() + 180);
+        }
+
+        moveToPOI(newPoi, true);
     }
 
     public synchronized void moveCameraAngle(double angle, double percentDistance) {
@@ -60,7 +81,7 @@ public class POIController {
             LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE));
             return true;
         }
-        if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE))) {
+        if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE), false)) {
             currentPOI = new POI(previousPOI);
             return false;
         }
@@ -68,6 +89,6 @@ public class POIController {
     }
 
     private static String buildCommand(POI poi) {
-        return "echo 'flytoview=<gx:duration>3</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>" + poi.getLongitude() + "</longitude><latitude>" + poi.getLatitude() + "</latitude><altitude>" + poi.getAltitude() + "</altitude><heading>" + poi.getHeading() + "</heading><tilt>" + poi.getTilt() + "</tilt><range>" + poi.getRange() + "</range><gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
+        return "echo 'flytoview=<gx:duration>1.9</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>" + poi.getLongitude() + "</longitude><latitude>" + poi.getLatitude() + "</latitude><altitude>" + poi.getAltitude() + "</altitude><heading>" + poi.getHeading() + "</heading><tilt>" + poi.getTilt() + "</tilt><range>" + poi.getRange() + "</range><gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
     }
 }

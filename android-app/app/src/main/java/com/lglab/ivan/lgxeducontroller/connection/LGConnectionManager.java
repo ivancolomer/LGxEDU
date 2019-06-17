@@ -29,6 +29,8 @@ public class LGConnectionManager implements Runnable {
     private LGCommand lgCommandToReSend;
     private ILGConnection activity;
 
+    private boolean shouldRestartMapNavigation;
+
     public LGConnectionManager() {
         user = "lg";
         password = "lg";
@@ -39,7 +41,7 @@ public class LGConnectionManager implements Runnable {
         queue = new LinkedBlockingDeque<>();
         itemsToDequeue = 0;
         lgCommandToReSend = null;
-
+        shouldRestartMapNavigation = false;
         //loadDataFromDB();
     }
 
@@ -119,7 +121,7 @@ public class LGConnectionManager implements Runnable {
         }
     }
 
-    public synchronized boolean sendLGCommand(LGCommand lgCommand) {
+    public synchronized boolean sendLGCommand(LGCommand lgCommand, boolean isSearchCommand) {
         lgCommandToReSend = lgCommand;
 
         Session session = getSession();
@@ -149,6 +151,9 @@ public class LGConnectionManager implements Runnable {
 
         channelSsh.disconnect();
         //baos.toString();
+        if(isSearchCommand) {
+            shouldRestartMapNavigation = true;
+        }
         return true;
     }
 
@@ -196,7 +201,7 @@ public class LGConnectionManager implements Runnable {
 
                 long timeBefore = System.currentTimeMillis();
 
-                if (!sendLGCommand(lgCommand)) {
+                if (!sendLGCommand(lgCommand, false)) {
                     //Command not sent
                     itemsToDequeue = queue.size();
                 } else if (System.currentTimeMillis() - timeBefore >= 2000) {
@@ -227,5 +232,9 @@ public class LGConnectionManager implements Runnable {
 
     public int getPort() {
         return port;
+    }
+
+    public boolean isShouldRestartMapNavigation() {
+        return shouldRestartMapNavigation;
     }
 }

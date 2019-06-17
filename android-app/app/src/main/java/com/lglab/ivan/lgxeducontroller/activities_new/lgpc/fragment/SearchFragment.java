@@ -501,7 +501,7 @@ public class SearchFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(command, LGCommand.CRITICAL_MESSAGE))) {
+            if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(command, LGCommand.CRITICAL_MESSAGE), true)) {
                 if (dialog != null) {
                     dialog.dismiss();
                 }

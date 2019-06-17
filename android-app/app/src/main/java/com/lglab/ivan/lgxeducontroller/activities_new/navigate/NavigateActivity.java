@@ -61,6 +61,9 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "10.160.67.80"), Integer.parseInt(prefs.getString("Port", "22")));
         isOnChromeBook = prefs.getBoolean("isOnChromeBook", false);
+
+        if(LGConnectionManager.getInstance().isShouldRestartMapNavigation())
+            POIController.getInstance().moveToPOI(POIController.EARTH_POI, true);
     }
 
     @Override
@@ -138,13 +141,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
         if (pointers.size() == 1) {
             PointerDetector pointer = pointers.entrySet().iterator().next().getValue();
             if (pointer.isMoving() && canMove()) {
-                LGConnectionManager.getInstance().addCommandToLG(new LGCommand("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; " +
-                        "xdotool mouseup 1 " +
-                        "mousemove --polar --sync 0 0 " +
-                        "mousedown 1 " +
-                        "mousemove --polar --sync " + (int) pointer.getTraveledAngle() + " " + (isOnChromeBook ? 3 : 1) * (int) Math.min(pointer.getTraveledDistance(), 250) + " " +
-                        "mouseup 1;", LGCommand.NON_CRITICAL_MESSAGE)
-                );
+                POIController.getInstance().moveXY(pointer.getTraveledAngle(), Math.min(pointer.getTraveledDistance(), 250) / 250.0d);
             }
         } else if (pointers.size() == 2) {
             Iterator<Map.Entry<Integer, PointerDetector>> iterator = pointers.entrySet().iterator();

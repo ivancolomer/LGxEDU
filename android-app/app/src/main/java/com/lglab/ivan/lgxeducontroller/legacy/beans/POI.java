@@ -1,12 +1,19 @@
 package com.lglab.ivan.lgxeducontroller.legacy.beans;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
 
 import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;
+import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class POI implements IJsonPacker, Parcelable {
 
@@ -54,15 +61,30 @@ public class POI implements IJsonPacker, Parcelable {
         this.id = in.readLong();
         this.name = in.readString();
         this.visited_place = in.readString();
-        this.longitude = in.readLong();
-        this.latitude = in.readLong();
-        this.altitude = in.readLong();
-        this.heading = in.readLong();
-        this.tilt = in.readLong();
-        this.range = in.readLong();
+        this.longitude = in.readDouble();
+        this.latitude = in.readDouble();
+        this.altitude = in.readDouble();
+        this.heading = in.readDouble();
+        this.tilt = in.readDouble();
+        this.range = in.readDouble();
         this.altitudeMode = in.readString();
         this.hidden = in.readInt() != 0;
         this.categoryId = in.readInt();
+    }
+
+    public POI(POI poi) {
+        this.id = poi.id;
+        this.name = poi.name;
+        this.visited_place = poi.visited_place;
+        this.longitude = poi.longitude;
+        this.latitude = poi.latitude;
+        this.altitude = poi.altitude;
+        this.heading = poi.heading;
+        this.tilt = poi.tilt;
+        this.range = poi.range;
+        this.altitudeMode = poi.altitudeMode;
+        this.hidden = poi.hidden;
+        this.categoryId = poi.categoryId;
     }
 
     public long getId() {
@@ -232,5 +254,15 @@ public class POI implements IJsonPacker, Parcelable {
         parcel.writeString(altitudeMode);
         parcel.writeInt(hidden ? 1 : 0);
         parcel.writeInt(categoryId);
+    }
+
+    public static POI getPOIByIDFromDB(int id) {
+        Cursor c = POIsContract.POIEntry.getPoiByID(id);
+
+        if (c.moveToNext()) {
+            return new POI(id, c.getString(1), c.getString(2), c.getDouble(3), c.getDouble(4), c.getDouble(5), c.getDouble(6), c.getDouble(7), c.getDouble(8), c.getString(9), c.getInt(10) != 0, c.getInt(11));
+        }
+
+        return null;
     }
 }

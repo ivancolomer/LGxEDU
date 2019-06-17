@@ -10,8 +10,10 @@ import android.util.Log;
 
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.BuildConfig;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
+import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,19 +31,17 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         TAG = LiquidGalaxyTourView.class.getSimpleName();
     }
 
-    Session session;
     private FragmentActivity poisFragmentAct;
 
     public LiquidGalaxyTourView(FragmentActivity activity) {
         this.poisFragmentAct = activity;
-        //session = LGUtils.getSession(this.poisFragmentAct);
     }
 
     protected String doInBackground(String... params) {
 
-        List<HashMap<String, String>> pois = new ArrayList();
-        List<Integer> poisDuration = new ArrayList();
-        if (params.length == 0 || params == null) {
+        ArrayList<POI> pois = new ArrayList<>();
+        ArrayList<Integer> poisDuration = new ArrayList<>();
+        if (params == null || params.length == 0) {
             return "Error. There's no item selected.";
         }
         try {
@@ -67,11 +67,11 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         cancel(true);
         POISFragment.resetTourSettings();
         if (s.startsWith("Error")) {
-            Builder alertbox = new Builder(this.poisFragmentAct);
-            alertbox.setTitle("Error");
-            alertbox.setMessage("There's probably no POI inside this Tour");
-            alertbox.setPositiveButton("OK", new TourDialog());
-            alertbox.show();
+            new Builder(this.poisFragmentAct)
+                .setTitle("Error")
+                .setMessage("There's probably no POI inside this Tour")
+                .setPositiveButton("OK", new TourDialog())
+                .show();
         }
     }
 
@@ -79,36 +79,23 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         this.poisFragmentAct = activity;
     }
 
-    private HashMap<String, String> getPOIData(int id) throws Exception {
-        Cursor c = POIEntry.getPOIByID(this.poisFragmentAct, String.valueOf(id));
-        HashMap<String, String> poi = new HashMap();
-        if (c.moveToNext()) {
-            poi.put("completeName", c.getString(1));
-            poi.put("longitude", String.valueOf(c.getFloat(3)));
-            poi.put("latitude", String.valueOf(c.getFloat(4)));
-            poi.put("altitude", String.valueOf(c.getFloat(5)));
-            poi.put("heading", String.valueOf(c.getFloat(6)));
-            poi.put("tilt", String.valueOf(c.getFloat(7)));
-            poi.put("range", String.valueOf(c.getFloat(8)));
-            poi.put("altitudeMode", c.getString(9));
+    private POI getPOIData(int id) throws Exception {
+        POI poi = POI.getPOIByIDFromDB(id);
+        if (poi != null) {
             return poi;
         }
         throw new Exception("There is no POI with this features inside the data base. Try creating once correct.");
     }
 
-    private String buildCommand(HashMap<String, String> poi) {
-        return "echo 'flytoview=<LookAt><longitude>" + poi.get("longitude") + "</longitude><latitude>" + poi.get("latitude") + "</latitude><altitude>" + poi.get("altitude") + "</altitude><heading>" + poi.get("heading") + "</heading><tilt>" + poi.get("tilt") + "</tilt><range>" + poi.get("range") + "</range><gx:altitudeMode>" + poi.get("altitudeMode") + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
-    }
-
-    private void sendTourPOIs(List<HashMap<String, String>> pois, List<Integer> poisDuration) {
-        sendFirstTourPOI((HashMap) pois.get(0));
+    private void sendTourPOIs(List<POI> pois, List<Integer> poisDuration) {
+        sendFirstTourPOI(pois.get(0));
         sendOtherTourPOIs(pois, poisDuration);
     }
 
-    private void sendOtherTourPOIs(List<HashMap<String, String>> pois, List<Integer> poisDuration) {
+    private void sendOtherTourPOIs(List<POI> pois, List<Integer> poisDuration) {
         int i = 1;
         while (!isCancelled()) {
-            sendTourPOI(Integer.valueOf(poisDuration.get(i).intValue()), buildCommand((HashMap) pois.get(i)));
+            sendTourPOI(poisDuration.get(i), pois.get(i));
             i++;
             if (i == pois.size()) {
                 i = 0;
@@ -116,39 +103,32 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         }
     }
 
-    private void sendFirstTourPOI(HashMap<String, String> firstPoi) {
-        //try {
-        //LGUtils.setConnectionWithLiquidGalaxy(session, buildCommand(firstPoi), poisFragmentAct);
-        LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(firstPoi), LGCommand.CRITICAL_MESSAGE));
-        Log.d(TAG, "First send");
-        /*} catch (JSchException e) {
+    private void sendFirstTourPOI(POI firstPoi) {
+        if(POIController.getInstance().moveToPOI(firstPoi, false)) {
+            Log.d(TAG, "First send");
+        }
+        else {
             Log.d(TAG, "Error in connection with Liquid Galaxy.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        }
     }
 
-    private void sendTourPOI(Integer duration, String command) {
+    private void sendTourPOI(Integer duration, POI poi) {
         try {
             Thread.sleep((long) (duration * 1000));
-            //LGUtils.setConnectionWithLiquidGalaxy(session, command, poisFragmentAct);
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, LGCommand.CRITICAL_MESSAGE));
+
+            if(!POIController.getInstance().moveToPOI(poi, false)) {
+                Log.d(TAG, "Error in connection with Liquid Galaxy.");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
             Log.d(TAG, "Error in duration of POIs.");
-        } /*catch (JSchException e2) {
-            Log.d(TAG, "Error connecting with LG.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        }
     }
 
     protected void onCancelled() {
         super.onCancelled();
     }
 
-
-    /* renamed from: legacy.LiquidGalaxyTourView.1 */
     class TourDialog implements OnClickListener {
         TourDialog() {
         }

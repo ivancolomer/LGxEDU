@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.CategoriesAdapter;
@@ -172,24 +173,21 @@ public class SearchFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-            case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == Activity.RESULT_OK && null != data) {
+        if (requestCode == REQ_CODE_SPEECH_INPUT) {
+            if (resultCode == Activity.RESULT_OK && null != data) {
 
-                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                    String placeToSearch = result.get(0);
-                    if (placeToSearch != null && !placeToSearch.equals("")) {
-                        editSearch.setText(placeToSearch);
-                        String command = buildSearchCommand(placeToSearch);
-                        SearchTask searchTask = new SearchTask(command, false);
-                        searchTask.execute();
+                String placeToSearch = result.get(0);
+                if (placeToSearch != null && !placeToSearch.equals("")) {
+                    editSearch.setText(placeToSearch);
+                    String command = buildSearchCommand(placeToSearch);
+                    SearchTask searchTask = new SearchTask(command, false);
+                    searchTask.execute();
 
-                    } else {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_search), Toast.LENGTH_LONG).show();
-                    }
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_search), Toast.LENGTH_LONG).show();
                 }
-                break;
             }
         }
     }
@@ -258,25 +256,9 @@ public class SearchFragment extends Fragment {
     }
 
     private POI getPoiData(int poiId) {
-        POI poiEntry = new POI();
-        Cursor poiCursor = POIsContract.POIEntry.getPoiByID(poiId);
-
-        if (poiCursor.moveToNext()) {
-
-            poiEntry.setId(poiCursor.getLong(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_ID)));
-            poiEntry.setName(poiCursor.getString(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_COMPLETE_NAME)));
-            poiEntry.setAltitude(poiCursor.getDouble(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_ALTITUDE)));
-            poiEntry.setAltitudeMode(poiCursor.getString(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_ALTITUDE_MODE)));
-            poiEntry.setCategoryId(poiCursor.getInt(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_CATEGORY_ID)));
-            poiEntry.setHeading(poiCursor.getDouble(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_HEADING)));
-            poiEntry.setLatitude(poiCursor.getDouble(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_LATITUDE)));
-            poiEntry.setLongitude(poiCursor.getDouble(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_LONGITUDE)));
-            poiEntry.setHidden(poiCursor.getInt(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_HIDE)) == 1);
-            poiEntry.setRange(poiCursor.getDouble(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_RANGE)));
-            poiEntry.setTilt(poiCursor.getDouble(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_TILT)));
-            poiEntry.setVisited_place(poiCursor.getString(poiCursor.getColumnIndex(POIsContract.POIEntry.COLUMN_VISITED_PLACE_NAME)));
-        }
-        poiCursor.close();
+        POI poiEntry = POI.getPOIByIDFromDB(poiId);
+        if(poiEntry == null)
+            return new POI();
         return poiEntry;
     }
 
@@ -295,17 +277,40 @@ public class SearchFragment extends Fragment {
     }
 
     private void Earth() {
-        earth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String command = "echo 'planet=earth' > /tmp/query.txt";
+        earth.setOnClickListener(v -> {
+            String command = "echo 'planet=earth' > /tmp/query.txt";
 
-                if (!currentPlanet.equals("EARTH")) {
-                    SearchTask searchTask = new SearchTask(command, true);
-                    searchTask.execute();
-                    currentPlanet = "EARTH";
-                }
+            if (!currentPlanet.equals("EARTH")) {
+                SearchTask searchTask = new SearchTask(command, true);
+                searchTask.execute();
+                currentPlanet = "EARTH";
+            }
 
+            Category category = getCategoryByName(currentPlanet);
+            categorySelectorTitle.setText(category.getName());
+
+            backIDs = new ArrayList<>();
+            backIDs.add(String.valueOf(category.getId()));
+
+            Cursor queryCursor = POIsContract.CategoryEntry.getNotHiddenCategoriesByFatherID(getActivity(), String.valueOf(category.getId()));
+            showCategoriesOnScreen(queryCursor);
+
+            final List<POI> poisList = getPoisList(category.getId());
+            if (poisList != null) {
+                poisGridView.setAdapter(new PoisGridViewAdapter(poisList, getActivity(), getActivity()));
+            }
+        });
+    }
+
+    private void Moon() {
+
+        moon.setOnClickListener(v -> {
+            String command = "echo 'planet=moon' > /tmp/query.txt";
+            if (!currentPlanet.equals("MOON")) {
+                //setConnectionWithLiquidGalaxy(command);
+                SearchTask searchTask = new SearchTask(command, true);
+                searchTask.execute();
+                currentPlanet = "MOON";
                 Category category = getCategoryByName(currentPlanet);
                 categorySelectorTitle.setText(category.getName());
 
@@ -316,62 +321,30 @@ public class SearchFragment extends Fragment {
                 showCategoriesOnScreen(queryCursor);
 
                 final List<POI> poisList = getPoisList(category.getId());
-                if (poisList != null) {
-                    poisGridView.setAdapter(new PoisGridViewAdapter(poisList, getActivity(), getActivity()));
-                }
-            }
-        });
-    }
-
-    private void Moon() {
-
-        moon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String command = "echo 'planet=moon' > /tmp/query.txt";
-                if (!currentPlanet.equals("MOON")) {
-                    //setConnectionWithLiquidGalaxy(command);
-                    SearchTask searchTask = new SearchTask(command, true);
-                    searchTask.execute();
-                    currentPlanet = "MOON";
-                    Category category = getCategoryByName(currentPlanet);
-                    categorySelectorTitle.setText(category.getName());
-
-                    backIDs = new ArrayList<>();
-                    backIDs.add(String.valueOf(category.getId()));
-
-                    Cursor queryCursor = POIsContract.CategoryEntry.getNotHiddenCategoriesByFatherID(getActivity(), String.valueOf(category.getId()));
-                    showCategoriesOnScreen(queryCursor);
-
-                    final List<POI> poisList = getPoisList(category.getId());
-                    poisGridView.setAdapter(new PoisGridViewAdapter(poisList, getActivity(), getActivity()));
-                }
+                poisGridView.setAdapter(new PoisGridViewAdapter(poisList, getActivity(), getActivity()));
             }
         });
     }
 
     private void Mars() {
 
-        mars.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String command = "echo 'planet=mars' > /tmp/query.txt";
-                if (!currentPlanet.equals("MARS")) {
-                    SearchTask searchTask = new SearchTask(command, true);
-                    searchTask.execute();
-                    currentPlanet = "MARS";
-                    Category category = getCategoryByName(currentPlanet);
-                    categorySelectorTitle.setText(category.getName());
+        mars.setOnClickListener(v -> {
+            String command = "echo 'planet=mars' > /tmp/query.txt";
+            if (!currentPlanet.equals("MARS")) {
+                SearchTask searchTask = new SearchTask(command, true);
+                searchTask.execute();
+                currentPlanet = "MARS";
+                Category category = getCategoryByName(currentPlanet);
+                categorySelectorTitle.setText(category.getName());
 
-                    backIDs = new ArrayList<>();
-                    backIDs.add(String.valueOf(category.getId()));
+                backIDs = new ArrayList<>();
+                backIDs.add(String.valueOf(category.getId()));
 
-                    Cursor queryCursor = POIsContract.CategoryEntry.getNotHiddenCategoriesByFatherID(getActivity(), String.valueOf(category.getId()));
-                    showCategoriesOnScreen(queryCursor);
+                Cursor queryCursor = POIsContract.CategoryEntry.getNotHiddenCategoriesByFatherID(getActivity(), String.valueOf(category.getId()));
+                showCategoriesOnScreen(queryCursor);
 
-                    final List<POI> poisList = getPoisList(category.getId());
-                    poisGridView.setAdapter(new PoisGridViewAdapter(poisList, getActivity(), getActivity()));
-                }
+                final List<POI> poisList = getPoisList(category.getId());
+                poisGridView.setAdapter(new PoisGridViewAdapter(poisList, getActivity(), getActivity()));
             }
         });
     }
@@ -407,7 +380,7 @@ public class SearchFragment extends Fragment {
             mars.requestLayout();
             categoriesListView.getLayoutParams().width = 350;
             if (rootView.findViewById(R.id.layoutPlanets) != null) {
-                LinearLayout layoutPlanets = (LinearLayout) rootView.findViewById(R.id.layoutPlanets);
+                LinearLayout layoutPlanets = rootView.findViewById(R.id.layoutPlanets);
                 LinearLayout.LayoutParams actualParams = (LinearLayout.LayoutParams) layoutPlanets.getLayoutParams();
                 actualParams.setMarginStart(0);
                 layoutPlanets.setLayoutParams(actualParams);
@@ -450,13 +423,13 @@ public class SearchFragment extends Fragment {
             mars.requestLayout();
             categoriesListView.getLayoutParams().width = 450;
             if (rootView.findViewById(R.id.layoutPlanets) != null) {
-                LinearLayout layoutPlanets = (LinearLayout) rootView.findViewById(R.id.layoutPlanets);
+                LinearLayout layoutPlanets = rootView.findViewById(R.id.layoutPlanets);
                 LinearLayout.LayoutParams actualParams = (LinearLayout.LayoutParams) layoutPlanets.getLayoutParams();
                 actualParams.setMarginStart(0);
                 layoutPlanets.setLayoutParams(actualParams);
             }
             if (rootView.findViewById(R.id.searchLayout) != null) {
-                LinearLayout searchLayout = (LinearLayout) rootView.findViewById(R.id.searchLayout);
+                LinearLayout searchLayout = rootView.findViewById(R.id.searchLayout);
                 LinearLayout.LayoutParams actualParams = (LinearLayout.LayoutParams) searchLayout.getLayoutParams();
                 actualParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
                 searchLayout.setLayoutParams(actualParams);
@@ -478,20 +451,16 @@ public class SearchFragment extends Fragment {
 
     private void setSearchInLGButton() {
 
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonSearch.setOnClickListener(v -> {
+            String placeToSearch = editSearch.getText().toString();
+            if (placeToSearch != null && !placeToSearch.equals("")) {
 
-                String placeToSearch = editSearch.getText().toString();
-                if (!placeToSearch.equals("") && placeToSearch != null) {
+                String command = "echo 'search=" + placeToSearch + "' > /tmp/query.txt";
+                SearchTask searchTask = new SearchTask(command, false);
+                searchTask.execute();
 
-                    String command = "echo 'search=" + placeToSearch + "' > /tmp/query.txt";
-                    SearchTask searchTask = new SearchTask(command, false);
-                    searchTask.execute();
-
-                } else {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_search), Toast.LENGTH_LONG).show();
-                }
+            } else {
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_search), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -525,32 +494,19 @@ public class SearchFragment extends Fragment {
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(true);
                 dialog.setCanceledOnTouchOutside(false);
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        cancel(true);
-                    }
-                });
+                dialog.setOnCancelListener(dialog -> cancel(true));
                 dialog.show();
             }
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            //OLD CODE
-            /*try {
-                //return LGUtils.setConnectionWithLiquidGalaxy(session, command, getActivity());
-            } catch (JSchException e) {
+            if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(command, LGCommand.CRITICAL_MESSAGE))) {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                return null;
             }
-            return null;
-            */
-
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, LGCommand.CRITICAL_MESSAGE));
             return "";
         }
 

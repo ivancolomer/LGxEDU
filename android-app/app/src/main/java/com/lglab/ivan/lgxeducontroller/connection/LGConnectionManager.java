@@ -119,7 +119,7 @@ public class LGConnectionManager implements Runnable {
         }
     }
 
-    private boolean sendLGCommand(LGCommand lgCommand) {
+    public synchronized boolean sendLGCommand(LGCommand lgCommand) {
         lgCommandToReSend = lgCommand;
 
         Session session = getSession();

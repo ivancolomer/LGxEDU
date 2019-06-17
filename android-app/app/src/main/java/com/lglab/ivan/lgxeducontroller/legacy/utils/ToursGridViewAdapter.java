@@ -19,8 +19,10 @@ import android.widget.Button;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
+import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.Tour;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 
@@ -37,16 +39,12 @@ public class ToursGridViewAdapter extends BaseAdapter {
     private List<Tour> tourList;
     private Context context;
     private FragmentActivity activity;
-    private Session session;
 
 
     public ToursGridViewAdapter(List<Tour> tourList, Context context, FragmentActivity activity) {
         this.tourList = tourList;
         this.context = context;
         this.activity = activity;
-
-        GetSessionTask getSessionTask = new GetSessionTask();
-        getSessionTask.execute();
     }
 
     @Override
@@ -85,12 +83,9 @@ public class ToursGridViewAdapter extends BaseAdapter {
 
         button.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_rounded_grey, null));
         button.setLayoutParams(params);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LaunchTourTask tourTask = new LaunchTourTask(currentTour);
-                tourTask.execute();
-            }
+        button.setOnClickListener(view1 -> {
+            LaunchTourTask tourTask = new LaunchTourTask(currentTour);
+            tourTask.execute();
         });
 
         return button;
@@ -117,20 +112,12 @@ public class ToursGridViewAdapter extends BaseAdapter {
                 dialog.setIndeterminate(false);
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(true);
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getResources().getString(R.string.stop_tour), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        cancel(true);
-                    }
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getResources().getString(R.string.stop_tour), (dialog, which) -> {
+                    dialog.dismiss();
+                    cancel(true);
                 });
                 dialog.setCanceledOnTouchOutside(false);
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        cancel(true);
-                    }
-                });
+                dialog.setOnCancelListener(dialog -> cancel(true));
                 dialog.show();
             }
         }
@@ -138,7 +125,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            List<HashMap<String, String>> pois = new ArrayList<>();
+            List<POI> pois = new ArrayList<>();
             List<Integer> poisDuration = new ArrayList<>();
 
             try {
@@ -149,7 +136,9 @@ public class ToursGridViewAdapter extends BaseAdapter {
                     pois.add(getPOIData(poiID));
                 }
                 try {
-                    sendTourPOIs(pois, poisDuration);
+                    if(!sendTourPOIs(pois, poisDuration)) {
+                        return false;
+                    }
                     return true;
                 } catch (IndexOutOfBoundsException e) {
                     return false;
@@ -159,59 +148,44 @@ public class ToursGridViewAdapter extends BaseAdapter {
             }
         }
 
-        private void sendTourPOIs(List<HashMap<String, String>> pois, List<Integer> poisDuration) throws IOException, JSchException {
-            sendFirstTourPOI(pois.get(0));
-            sendOtherTourPOIs(pois, poisDuration);
+        private boolean sendTourPOIs(List<POI> pois, List<Integer> poisDuration) {
+            if(!sendFirstTourPOI(pois.get(0)))
+                return false;
+            return sendOtherTourPOIs(pois, poisDuration);
         }
 
-        private void sendOtherTourPOIs(List<HashMap<String, String>> pois, List<Integer> poisDuration) throws IOException, JSchException {
+        private boolean sendOtherTourPOIs(List<POI> pois, List<Integer> poisDuration) {
             int i = 1;
             while (!isCancelled()) {
-                sendTourPOI(poisDuration.get(i), buildCommand(pois.get(i)));
+                if(!sendTourPOI(poisDuration.get(i), pois.get(i % pois.size())))
+                    return false;
                 i++;
-                if (i == pois.size()) {
-                    i = 0;
-                }
             }
+            return true;
         }
 
-        private void sendFirstTourPOI(HashMap<String, String> firstPoi) throws IOException, JSchException {
-            //LGUtils.setConnectionWithLiquidGalaxy(session, buildCommand(firstPoi), activity);
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(firstPoi), LGCommand.CRITICAL_MESSAGE));
+        private boolean sendFirstTourPOI(POI firstPoi) {
+            return POIController.getInstance().moveToPOI(firstPoi, false);
         }
 
-        private void sendTourPOI(Integer duration, String command) throws IOException, JSchException {
+        private boolean sendTourPOI(Integer duration, POI poi) {
             try {
                 Thread.sleep((long) ((duration * 2) * 1000));
-                // LGUtils.setConnectionWithLiquidGalaxy(session, command, activity);
-                LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, LGCommand.CRITICAL_MESSAGE));
+                return POIController.getInstance().moveToPOI(poi, false);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            return false;
         }
 
 
-        private HashMap<String, String> getPOIData(int id) throws Exception {
-            Cursor c = POIsContract.POIEntry.getPOIByID(activity, String.valueOf(id));
-            HashMap<String, String> poi = new HashMap<>();
-            if (c.moveToNext()) {
-                poi.put("completeName", c.getString(c.getColumnIndex(POIsContract.POIEntry.COLUMN_COMPLETE_NAME)));
-                poi.put("longitude", String.valueOf(c.getFloat(c.getColumnIndex(POIsContract.POIEntry.COLUMN_LONGITUDE))));
-                poi.put("latitude", String.valueOf(c.getFloat(c.getColumnIndex(POIsContract.POIEntry.COLUMN_LATITUDE))));
-                poi.put("altitude", String.valueOf(c.getFloat(c.getColumnIndex(POIsContract.POIEntry.COLUMN_ALTITUDE))));
-                poi.put("heading", String.valueOf(c.getFloat(c.getColumnIndex(POIsContract.POIEntry.COLUMN_HEADING))));
-                poi.put("tilt", String.valueOf(c.getFloat(c.getColumnIndex(POIsContract.POIEntry.COLUMN_TILT))));
-                poi.put("range", String.valueOf(c.getFloat(c.getColumnIndex(POIsContract.POIEntry.COLUMN_RANGE))));
-                poi.put("altitudeMode", c.getString(c.getColumnIndex(POIsContract.POIEntry.COLUMN_ALTITUDE_MODE)));
+        private POI getPOIData(int id) throws Exception {
+            POI poi = POI.getPOIByIDFromDB(id);
+            if (poi != null) {
                 return poi;
             }
             throw new Exception("There is no POI with this features inside the data base. Try creating once correct.");
         }
-
-        private String buildCommand(HashMap<String, String> poi) {
-            return "echo 'flytoview=<gx:duration>5</gx:duration><LookAt><longitude>" + poi.get("longitude") + "</longitude><latitude>" + poi.get("latitude") + "</latitude><altitude>" + poi.get("altitude") + "</altitude><heading>" + poi.get("heading") + "</heading><tilt>" + poi.get("tilt") + "</tilt><range>" + poi.get("range") + "</range><gx:altitudeMode>" + poi.get("altitudeMode") + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
-        }
-
 
         @Override
         protected void onPostExecute(Boolean success) {
@@ -225,9 +199,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
                 alertbox.setMessage("There's probably no POI inside this Tour");
 
                 // set a positive/yes button and create a listener
-                alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                    }
+                alertbox.setPositiveButton("OK", (arg0, arg1) -> {
                 });
                 alertbox.show();
             }
@@ -247,39 +219,12 @@ public class ToursGridViewAdapter extends BaseAdapter {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setMessage("The tour running on LG has been stopped.")
                     .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //do things
-                        }
+                    .setPositiveButton("OK", (dialog, id) -> {
+                        //do things
                     });
             AlertDialog alert = builder.create();
             alert.show();
         }
 
     }
-
-
-    private class GetSessionTask extends AsyncTask<Void, Void, Void> {
-
-        GetSessionTask() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            //session = LGUtils.getSession(activity);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void success) {
-            super.onPostExecute(success);
-        }
-    }
-
-
 }

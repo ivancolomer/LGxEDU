@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
@@ -106,11 +107,11 @@ public class TriviaQuestionFragment extends Fragment {
     private void sendInitialPoi() {
         long poiId = question.initialPOI.getId();
         if (poiId == -1)
-            sendPOI(buildCommand(EARTH_POI));
+            POIController.getInstance().moveToPOI(EARTH_POI, true);
         else if (poiId == -2)
-            sendPOI(buildCommand(EUROPE_POI));
+            POIController.getInstance().moveToPOI(EUROPE_POI, true);
         else
-            sendPOI(buildCommand(question.initialPOI));
+            POIController.getInstance().moveToPOI(question.initialPOI, true);
     }
 
     public void setClickListener(final int i) {
@@ -139,11 +140,11 @@ public class TriviaQuestionFragment extends Fragment {
                         builder.setPositiveButton("SHOW CORRECT ANSWER", (dialog, id) -> {
                             //We override this later in order to prevent alertdialog from closing after clicking this button
                         });
-                        sendPOI(buildCommand(question.pois[i]));
+                        POIController.getInstance().moveToPOI(question.pois[i], true);
                     } else {
                         builder.setTitle("Great! You're totally right!");
                         builder.setMessage("Going to " + question.pois[question.correctAnswer - 1].getName());
-                        sendPOI(buildCommand(question.pois[question.correctAnswer - 1]));
+                        POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
                     }
 
                     builder.setOnCancelListener(dialog -> checkQuizProgress());
@@ -162,7 +163,7 @@ public class TriviaQuestionFragment extends Fragment {
                         }, 15000);*/
 
                         activeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v1 -> {
-                            sendPOI(buildCommand(question.pois[question.correctAnswer - 1]));
+                            POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
                             activeAlertDialog.setMessage("And now going to " + question.pois[question.correctAnswer - 1].getName());
                             v1.setEnabled(false);
                         });
@@ -180,13 +181,5 @@ public class TriviaQuestionFragment extends Fragment {
         if (((TriviaManager) GameManager.getInstance()).hasAnsweredAllQuestions()) {
             ((TriviaActivity) getActivity()).showFloatingExitButton();
         }
-    }
-
-    private String buildCommand(POI poi) {
-        return "echo 'flytoview=<LookAt><longitude>" + poi.getLongitude() + "</longitude><latitude>" + poi.getLatitude() + "</latitude><altitude>" + poi.getAltitude() + "</altitude><heading>" + poi.getHeading() + "</heading><tilt>" + poi.getTilt() + "</tilt><range>" + poi.getRange() + "</range><gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
-    }
-
-    private void sendPOI(String command) {
-        LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, LGCommand.CRITICAL_MESSAGE));
     }
 }

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <com.lglab.ivan.lgxeducontroller.utils.DynamicSquareLayout
+        <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
             android:id="@+id/number_question"
             android:layout_width="96dp"
             android:layout_height="96dp"
@@ -31,7 +31,7 @@
                 android:textSize="42sp"
                 android:textStyle="bold" />
 
-        </com.lglab.ivan.lgxeducontroller.utils.DynamicSquareLayout>
+        </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

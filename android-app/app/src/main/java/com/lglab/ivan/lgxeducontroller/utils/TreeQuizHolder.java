@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -15,14 +14,12 @@ import android.widget.Toast;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.CreateQuestionActivity;
-import com.lglab.ivan.lgxeducontroller.asynctask.InsertGameTask;
-import com.lglab.ivan.lgxeducontroller.asynctask.RemoveGameTask;
-import com.lglab.ivan.lgxeducontroller.asynctask.UpdateGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctask.InsertGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctask.RemoveGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctask.UpdateGameTask;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.unnamed.b.atv.model.TreeNode;
-
-import org.json.JSONException;
 
 
 public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.IconTreeItem> {

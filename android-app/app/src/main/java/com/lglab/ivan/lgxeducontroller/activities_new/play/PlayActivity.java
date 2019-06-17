@@ -19,9 +19,8 @@ import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.play.adapter.PlayAdapter;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
-import com.lglab.ivan.lgxeducontroller.utils.Category;
+import com.lglab.ivan.lgxeducontroller.games.Category;
 
 import org.json.JSONException;
 import org.json.JSONObject;

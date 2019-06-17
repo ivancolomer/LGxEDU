@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.utils;
+package com.lglab.ivan.lgxeducontroller.games.trivia.adapters;
 
 import android.content.Context;
 import android.util.AttributeSet;

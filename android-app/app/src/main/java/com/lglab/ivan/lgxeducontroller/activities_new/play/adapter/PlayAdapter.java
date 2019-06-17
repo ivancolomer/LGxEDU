@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.utils.Category;
+import com.lglab.ivan.lgxeducontroller.games.Category;
 
 import java.util.List;
 

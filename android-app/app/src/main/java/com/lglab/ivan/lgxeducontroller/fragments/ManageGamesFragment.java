@@ -14,10 +14,9 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.Question;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
-import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.legacy.utils.CustomAndroidTreeView;
-import com.lglab.ivan.lgxeducontroller.utils.Category;
+import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.utils.TreeQuizHolder;
 import com.unnamed.b.atv.model.TreeNode;
 

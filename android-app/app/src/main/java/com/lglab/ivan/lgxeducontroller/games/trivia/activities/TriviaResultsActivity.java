@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
-import com.lglab.ivan.lgxeducontroller.utils.ResultsAdapter;
+import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.ResultsAdapter;
 
 public class TriviaResultsActivity extends AppCompatActivity {
 

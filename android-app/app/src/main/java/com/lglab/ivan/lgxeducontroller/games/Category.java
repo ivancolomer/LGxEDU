@@ -1,6 +1,5 @@
-package com.lglab.ivan.lgxeducontroller.utils;
+package com.lglab.ivan.lgxeducontroller.games;
 
-import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.asynctask;
+package com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctask;
 
 import android.os.AsyncTask;
 import android.util.Log;

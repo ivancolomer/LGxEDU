@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,7 +60,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
         currentStatus = 0;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "10.160.67.80"), Integer.parseInt(prefs.getString("Port", "22")));
+        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.36"), Integer.parseInt(prefs.getString("Port", "22")));
         isOnChromeBook = prefs.getBoolean("isOnChromeBook", false);
 
         if(LGConnectionManager.getInstance().isShouldRestartMapNavigation())
@@ -141,7 +142,14 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
         if (pointers.size() == 1) {
             PointerDetector pointer = pointers.entrySet().iterator().next().getValue();
             if (pointer.isMoving() && canMove()) {
-                POIController.getInstance().moveXY(pointer.getTraveledAngle(), Math.min(pointer.getTraveledDistance(), 250) / 250.0d);
+                //POIController.getInstance().moveXY(pointer.getTraveledAngle(), Math.min(pointer.getTraveledDistance(), 100) / 100.0d);
+                LGConnectionManager.getInstance().addCommandToLG(new LGCommand("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; " +
+                        "xdotool mouseup 1 " +
+                        "mousemove --polar --sync 0 0 " +
+                        "mousedown 1 " +
+                        "mousemove --polar --sync " + (int) pointer.getTraveledAngle() + " " + (isOnChromeBook ? 3 : 0.75) * (int) Math.min(pointer.getTraveledDistance(), 100) + " " +
+                        "mouseup 1;", LGCommand.NON_CRITICAL_MESSAGE)
+                );
             }
         } else if (pointers.size() == 2) {
             Iterator<Map.Entry<Integer, PointerDetector>> iterator = pointers.entrySet().iterator();
@@ -168,6 +176,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
             }
 
             double angleDiff = getAngleDiff(pointer1.getTraveledAngle(), pointer2.getTraveledAngle());
+            //Log.d("ConnectionManager", String.valueOf(angleDiff));
             if (angleDiff <= 30 && pointer1.isMoving() && pointer2.isMoving() && zoomInteractionType == PointerDetector.ZOOM_NONE) {
                 if (PointerDetector.isZoomingIn) {
                     PointerDetector.isZoomingIn = false;
@@ -182,7 +191,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
                         "xdotool mouseup 1 " +
                         "mousemove --polar --sync 0 0 " +
                         "mousedown 2 " +
-                        "mousemove --polar --sync " + (int) getAverageAngle(pointer1.getTraveledAngle(), pointer2.getTraveledAngle(), angleDiff) + " " + (isOnChromeBook ? 3 : 1) * (int) Math.min((pointer1.getTraveledDistance() + pointer2.getTraveledDistance()) / 2, 250) + " " +
+                        "mousemove --polar --sync " + (int) getAverageAngle(pointer1.getTraveledAngle(), pointer2.getTraveledAngle(), angleDiff) + " " + (isOnChromeBook ? 3 : 1) * (int) Math.min((pointer1.getTraveledDistance() + pointer2.getTraveledDistance()) / 2, 100) + " " +
                         "mouseup 2;", LGCommand.NON_CRITICAL_MESSAGE)
                 );
             }

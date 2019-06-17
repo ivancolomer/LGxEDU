@@ -23,7 +23,7 @@ public class POIController {
         return INSTANCE;
     }
 
-    private static double STEP_XY = 0.00001; //0.001% of RANGE
+    private static double STEP_XY = 0.000001; //0.0001% of RANGE
 
     private POI currentPOI;
     private POI previousPOI;
@@ -46,13 +46,13 @@ public class POIController {
         POI newPoi = new POI(currentPOI);
         newPoi.setLongitude(newPoi.getLongitude() + Math.cos(angle)*percentDistance*STEP_XY*newPoi.getRange());
         while(newPoi.getLongitude() > 180) {
-            newPoi.setLongitude(newPoi.getLatitude() - 360);
+            newPoi.setLongitude(newPoi.getLongitude() - 360);
         }
         while(newPoi.getLongitude() < -180) {
-            newPoi.setLongitude(newPoi.getLatitude() + 360);
+            newPoi.setLongitude(newPoi.getLongitude() + 360);
         }
 
-        newPoi.setLongitude(newPoi.getLongitude() + Math.sin(angle)*percentDistance*STEP_XY*newPoi.getRange());
+        newPoi.setLatitude(newPoi.getLatitude() - Math.sin(angle)*percentDistance*STEP_XY*newPoi.getRange());
         while(newPoi.getLatitude() > 90) {
             newPoi.setLatitude(newPoi.getLatitude() - 180);
         }
@@ -89,6 +89,6 @@ public class POIController {
     }
 
     private static String buildCommand(POI poi) {
-        return "echo 'flytoview=<gx:duration>1.9</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>" + poi.getLongitude() + "</longitude><latitude>" + poi.getLatitude() + "</latitude><altitude>" + poi.getAltitude() + "</altitude><heading>" + poi.getHeading() + "</heading><tilt>" + poi.getTilt() + "</tilt><range>" + poi.getRange() + "</range><gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
+        return "echo 'flytoview=<gx:duration>1.5</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>" + poi.getLongitude() + "</longitude><latitude>" + poi.getLatitude() + "</latitude><altitude>" + poi.getAltitude() + "</altitude><heading>" + poi.getHeading() + "</heading><tilt>" + poi.getTilt() + "</tilt><range>" + poi.getRange() + "</range><gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
     }
 }

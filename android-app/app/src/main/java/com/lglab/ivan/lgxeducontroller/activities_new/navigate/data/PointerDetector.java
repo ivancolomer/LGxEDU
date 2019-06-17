@@ -2,8 +2,8 @@ package com.lglab.ivan.lgxeducontroller.activities_new.navigate.data;
 
 public class PointerDetector {
 
-    public final static int MINIUM_DISTANCE_MOVE = 8;
-    public final static int MINIUM_DISTANCE_ZOOM = 30;
+    public final static double MINIMUM_DISTANCE_MOVE = 12.5d;
+    public final static double MINIMUM_DISTANCE_ZOOM = 35.0d;
 
 
     public static final String KEY_ZOOM_IN = "Page_Up";
@@ -33,11 +33,17 @@ public class PointerDetector {
     }
 
     public double getTraveledAngle() {
-        return Math.atan2(yAfter - yBefore, xAfter - xBefore) - 1.5d * Math.PI;
+        //return Math.atan2(yAfter - yBefore, xAfter - xBefore) - 1.5d * Math.PI;
+        double angle = Math.toDegrees(Math.atan2(yAfter - yBefore, xAfter - xBefore));
+        angle -= 270;
+        while (angle < 0) {
+            angle += 360;
+        }
+        return angle % 360;
     }
 
     public void update(float x, float y) {
-        if (Math.sqrt(Math.pow(xAfter - x, 2) + Math.pow(yAfter - y, 2)) >= MINIUM_DISTANCE_MOVE) {
+        if (Math.sqrt(Math.pow(xAfter - x, 2) + Math.pow(yAfter - y, 2)) >= MINIMUM_DISTANCE_MOVE) {
             xBefore = xAfter;
             yBefore = yAfter;
 
@@ -60,7 +66,7 @@ public class PointerDetector {
 
     public short getZoomInteractionType(PointerDetector pointer) {
         double distance = getDistanceFromPointerAfter(pointer) - getDistanceFromPointerBefore(pointer);
-        return xBefore == -1 ? ZOOM_NONE : distance >= MINIUM_DISTANCE_ZOOM ? ZOOM_IN : distance <= -MINIUM_DISTANCE_ZOOM ? ZOOM_OUT : ZOOM_NONE;
+        return xBefore == -1 ? ZOOM_NONE : distance >= MINIMUM_DISTANCE_ZOOM ? ZOOM_IN : distance <= -MINIMUM_DISTANCE_ZOOM ? ZOOM_OUT : ZOOM_NONE;
     }
 }
 

@@ -1,6 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.connection;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -33,8 +34,8 @@ public class LGConnectionManager implements Runnable {
 
     public LGConnectionManager() {
         user = "lg";
-        password = "lg";
-        hostname = "10.160.67.56";
+        password = "lqgalaxy";
+        hostname = "192.168.86.36";
         port = 22;
 
         session = null;
@@ -102,7 +103,7 @@ public class LGConnectionManager implements Runnable {
             try {
                 session.connect(Integer.MAX_VALUE);
             } catch (Exception e) {
-                e.printStackTrace();
+                //Log.d("ConnectionManager", e.getMessage());
                 return null;
             }
 
@@ -123,7 +124,7 @@ public class LGConnectionManager implements Runnable {
 
     public synchronized boolean sendLGCommand(LGCommand lgCommand, boolean isSearchCommand) {
         lgCommandToReSend = lgCommand;
-
+        //Log.d("ConnectionManager", "sending a lgcommand: " + lgCommand.getCommand());
         Session session = getSession();
         if (session == null || !session.isConnected()) {
             return false;
@@ -145,7 +146,7 @@ public class LGConnectionManager implements Runnable {
         try {
             channelSsh.connect();
         } catch (Exception e) {
-            e.printStackTrace();
+            //Log.d("ConnectionManager", "exception: " + e.getMessage());
             return false;
         }
 

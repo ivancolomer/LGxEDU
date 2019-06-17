@@ -27,8 +27,7 @@
     <!-- Required for the kiosk mode -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -49,14 +48,14 @@
             android:name=".activities_new.navigate.NavigateActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities.CreateItemActivity_Copy"
+            android:name=".activities_new.manager.CreatePOIActivity"
             android:noHistory="true"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".activities_new.play.PlayActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities.CreateQuestionActivity"
+            android:name=".activities.CreateTriviaQuestionActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".legacy.CreateItemActivity"
@@ -126,13 +125,6 @@
 
         <!-- This is required for the scan library. -->
         <receiver android:name="org.uribeacon.scan.compat.ScanWakefulBroadcastReceiver" />
-
-        <!-- This is required for the kiosk mode. -->
-        <receiver android:name=".legacy.utils.kioskModeUtils.BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".games.trivia.activities.TriviaActivity"

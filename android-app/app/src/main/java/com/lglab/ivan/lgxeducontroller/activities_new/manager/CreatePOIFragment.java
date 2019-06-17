@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities;
+package com.lglab.ivan.lgxeducontroller.activities_new.manager;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -40,70 +37,34 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.POISFragment;
+import com.lglab.ivan.lgxeducontroller.legacy.PW.model.Point;
+import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
+import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 /*This fragment is the responsible to create POIs, Tours and Categories*/
-public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener, LocationListener, GoogleMap.OnMapLongClickListener {
+public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener, LocationListener, GoogleMap.OnMapLongClickListener {
 
     private static final long MIN_TIME = 400;
     private static final float MIN_DISTANCE = 1000;
-    static CreateItemFragment_Copy fragment;
+    static CreatePOIFragment fragment;
     private static View rootView = null;
     private static Map<String, String> spinnerIDsAndShownNames;
 
-    GoogleMap map;
+    private GoogleMap map;
     private LocationManager locationManager;
-    private String creationType;
-    private int button;
-    private Cursor queryCursor;
+    private int POIButton = 0;
 
-
-    public CreateItemFragment_Copy() {
-
-    }
-
-    public static CreateItemFragment_Copy newInstance() {
-        fragment = new CreateItemFragment_Copy();
+    public static CreatePOIFragment newInstance() {
+        fragment = new CreatePOIFragment();
         return fragment;
-    }
-
-    /*    To be able to add one POI inside the Tour POIs List, as it is said inside setTourLayoutSettings method,
-         user will select one POI by clicking on one instance of POIsFragment and adding it to the list and
-        for this reason is why this method is called by POIsFragment class.*/
-
-    private static void screenSizeTreatment(ImageView delete) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        FragmentActivity act = (FragmentActivity) rootView.getContext();
-        act.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
-        float scaleFactor = metrics.density;
-
-
-        //The size of the diagonal in inches is equal to the square root of the height in inches squared plus the width in inches squared.
-        float widthDp = widthPixels / scaleFactor;
-        float heightDp = heightPixels / scaleFactor;
-
-        float smallestWidth = Math.min(widthDp, heightDp);
-
-        if (smallestWidth >= 1000) {
-            delete.setImageResource(R.drawable.ic_remove_circle_black_36dp);
-        }
-    }
-
-    private static boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
     }
 
     @Override
@@ -124,46 +85,27 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         Bundle extras = getActivity().getIntent().getExtras();
         rootView = null;
 
         if (extras != null) {
-            this.creationType = extras.getString("CREATION_TYPE");
-            try {
-                this.button = extras.getInt("Button");
-            } catch (Exception e) {
-
-            }
+            POIButton = extras.getInt("POI_BUTTON");
         }
-
-        //When creation button (the once with the arrow's symbol inside, located in POIsFragment) is
-        //clicked, this class looks at extras Bundle to know what kind of item it has to create.
-        if (creationType != null && creationType.startsWith("POI")) {
-            getActivity().setTitle(getResources().getString(R.string.new_poi));
-            //If admin user is creating a POI, first of all layout settings are shown on the screen.
-            final ViewHolderPoi viewHolder = setPOILayoutSettings(inflater, container);
-            viewHolder.createPOI.setOnClickListener(v -> {//When POIs Creation button is clicked
-                createPOI(viewHolder);
-            });
-
-            SupportMapFragment fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-            fragment.getMapAsync(this);
-        } else {//CATEGORY
-            getActivity().setTitle(getResources().getString(R.string.new_category));
-            final ViewHolderCategory viewHolder = setCategoryLayoutSettings(inflater, container);
-            viewHolder.createCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createCategory(viewHolder);
-                }
-            });
-        }
+        getActivity().setTitle(getResources().getString(R.string.new_poi));
+        //If admin user is creating a POI, first of all layout settings are shown on the screen.
+        final ViewHolderPoi viewHolder = setPOILayoutSettings(inflater, container);
+        viewHolder.createPOI.setOnClickListener(v -> {//When POIs Creation button is clicked
+            createPOI(viewHolder);
+        });
+        SupportMapFragment fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        fragment.getMapAsync(this);
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
-        } catch (SecurityException e) {
+        }
+        catch (SecurityException ignored) {
+
         }
         return rootView;
     }
@@ -177,7 +119,9 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
         map.getUiSettings().setMapToolbarEnabled(true);
         try {
             map.setMyLocationEnabled(true);
-        } catch (SecurityException e) {
+        }
+        catch (SecurityException ignored) {
+
         }
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         map.setOnMapLongClickListener(this);
@@ -241,23 +185,20 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
     /*POIs TREATMENT*/
     private void createPOI(ViewHolderPoi viewHolder) {
         try {
-            //We get the values that user has typed inside input objects.
-            ContentValues contentValues = getContentValuesFromDataFromPOIInputForm(viewHolder);
-
-            POIsContract.POIEntry.createNewPOI(getActivity(), contentValues);
-
-            //After creation, the next view page on screen would be the once corresponding to the
-            //admin once.
-            Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-            intent.putExtra("comeFrom", "pois");
-            startActivity(intent);
+            POI poi = getPOIFromInputForm(viewHolder);
+            long id = POIsProvider.insertPOI(poi);
+            poi.setId(id);
+            Intent data = new Intent();
+            data.putExtra("POI", poi);
+            getActivity().setResult(POIButton, data);
+            getActivity().finish();
 
         } catch (NumberFormatException e) {
             Toast.makeText(getActivity(), getResources().getString(R.string.poiNumericFields), Toast.LENGTH_LONG).show();
         }
     }
 
-    private ContentValues getContentValuesFromDataFromPOIInputForm(ViewHolderPoi viewHolder) {
+    private POI getPOIFromInputForm(ViewHolderPoi viewHolder) {
 
         int categoryID;
 
@@ -273,35 +214,24 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
 
         String altitudeMode = viewHolder.spinnerAltitudeMode.getSelectedItem().toString();
 
-        //If, in POIsFragment, admin has clicked Creation Here button, the algorythm takes the
-        //category ID of the once shown on screen.
-        if (creationType.endsWith("HERE")) {
-            categoryID = POISFragment.routeID;
-        } else if (creationType.endsWith("HERENEW")) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            categoryID = Integer.parseInt(extras.getString("CATEGORY_ID"));
-        } else {
-            //Contrary, the algorythm takes the category name selected and gets its ID.
-            String shownName = getShownNameValueFromInputForm(viewHolder.categoryID);
-            categoryID = getFatherIDValueFromInputForm(shownName);
-        }
+        String shownName = getShownNameValueFromInputForm(viewHolder.categoryID);
+        categoryID = getFatherIDValueFromInputForm(shownName);
 
 
-        ContentValues contentValues = new ContentValues();
+        POI newPoi = new POI();
+        newPoi.setName(completeName);
+        newPoi.setVisited_place(visitedPlace);
+        newPoi.setLongitude(longitude);
+        newPoi.setLatitude(latitude);
+        newPoi.setAltitude(altitude);
+        newPoi.setHeading(heading);
+        newPoi.setTilt(tilt);
+        newPoi.setRange(range);
+        newPoi.setAltitudeMode(altitudeMode);
+        newPoi.setHidden(hide != 0);
+        newPoi.setCategoryId(categoryID);
 
-        contentValues.put(POIsContract.POIEntry.COLUMN_COMPLETE_NAME, completeName);
-        contentValues.put(POIsContract.POIEntry.COLUMN_VISITED_PLACE_NAME, visitedPlace);
-        contentValues.put(POIsContract.POIEntry.COLUMN_LONGITUDE, longitude);
-        contentValues.put(POIsContract.POIEntry.COLUMN_LATITUDE, latitude);
-        contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE, altitude);
-        contentValues.put(POIsContract.POIEntry.COLUMN_HEADING, heading);
-        contentValues.put(POIsContract.POIEntry.COLUMN_TILT, tilt);
-        contentValues.put(POIsContract.POIEntry.COLUMN_RANGE, range);
-        contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE_MODE, altitudeMode);
-        contentValues.put(POIsContract.POIEntry.COLUMN_HIDE, hide);
-        contentValues.put(POIsContract.POIEntry.COLUMN_CATEGORY_ID, categoryID);
-
-        return contentValues;
+        return newPoi;
     }
 
     private ViewHolderPoi setPOILayoutSettings(LayoutInflater inflater, ViewGroup container) {
@@ -311,73 +241,17 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
         viewHolder.updatePOI.hide();
         viewHolder.createPOI.show();
 
-
-        //If user has clicked on Create Here, obviously, no spinner categories option will be shown.
-        if (creationType.endsWith("HERE")) {
-            viewHolder.categoryID.setVisibility(View.GONE);
-
-            Cursor categories = POIsContract.CategoryEntry.getCategoriesByName(getActivity(), "EARTH");
-            long earthCategorycategoryId;
-
-            if (categories != null && categories.moveToFirst()) {
-                //Category Exists, we fetch it
-                earthCategorycategoryId = POIsContract.CategoryEntry.getIdByShownName(getActivity(), "EARTH/");
-
-                if (POISFragment.routeID != 0 && earthCategorycategoryId != POISFragment.routeID) {
-                    rootView.findViewById(R.id.mapPOILayout).setVisibility(View.GONE);
-                } else {
-                    rootView.findViewById(R.id.mapPOILayout).setVisibility(View.VISIBLE);
-                }
-            }
-        } else if (creationType.endsWith("HERENEW")) {
-            viewHolder.categoryID.setVisibility(View.GONE);
-
-            Bundle extras = getActivity().getIntent().getExtras();
-            POISFragment.routeID = Integer.parseInt(extras.getString("CATEGORY_ID"));
-
-            Cursor categories = POIsContract.CategoryEntry.getCategoriesByName(getActivity(), "EARTH");
-            long earthCategorycategoryId;
-
-            if (categories != null && categories.moveToFirst()) {
-                //Category Exists, we fetch it
-                earthCategorycategoryId = POIsContract.CategoryEntry.getIdByShownName(getActivity(), "EARTH/");
-
-                //We check if category belongs to earth in order to display the map
-                if (categories.getString(categories.getColumnIndex(POIsContract.CategoryEntry.COLUMN_SHOWN_NAME)).toUpperCase().contains("EARTH")) {
-                    rootView.findViewById(R.id.mapPOILayout).setVisibility(View.VISIBLE);
-                } else if (POISFragment.routeID != 0 && earthCategorycategoryId != POISFragment.routeID) {
-                    rootView.findViewById(R.id.mapPOILayout).setVisibility(View.GONE);
-                } else {
-                    rootView.findViewById(R.id.mapPOILayout).setVisibility(View.VISIBLE);
-                }
-            }
-        } else {
-            try {
-                fillCategorySpinner(viewHolder.categoryID);
-            } catch (Exception e) {
-            }
+        try {
+            fillCategorySpinner(viewHolder.categoryID);
         }
+        catch (Exception ignored) {
+
+        }
+
         //On the screen there is a button to cancel the creation and return to the main administration view
         setCancelComeBackBehaviour(viewHolder.cancel);
 
         return viewHolder;
-    }
-
-    /*CATEGORIES TREATMENT*/
-    private void createCategory(ViewHolderCategory viewHolder) {
-        //The same with POIs, but with categories
-        ContentValues contentValues = getContentValuesFromDataFromCategoryInputForm(viewHolder);
-
-        try {
-
-            POIsContract.CategoryEntry.createNewCategory(getActivity(), contentValues);
-
-            Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-            intent.putExtra("comeFrom", "categories");
-            startActivity(intent);
-        } catch (android.database.SQLException e) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.categoryExists), Toast.LENGTH_LONG).show();
-        }
     }
 
     private ContentValues getContentValuesFromDataFromCategoryInputForm(ViewHolderCategory viewHolder) {
@@ -388,20 +262,10 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
         int fatherID;
         String shownName;
 
-        if (creationType.endsWith("HERE")) {
-            fatherID = POISFragment.routeID;
-            shownName = POIsContract.CategoryEntry.getShownNameByID(getActivity(), fatherID)
-                    + viewHolder.categoryName.getText().toString() + "/";
-        } else if (creationType.endsWith("HERENEW")) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            fatherID = Integer.parseInt(extras.getString("CATEGORY_ID"));
-            shownName = POIsContract.CategoryEntry.getShownNameByID(getActivity(), fatherID)
-                    + viewHolder.categoryName.getText().toString() + "/";
-        } else {
-            shownName = getShownNameValueFromInputForm(viewHolder.fatherID);
-            fatherID = getFatherIDValueFromInputForm(shownName);
-            shownName = shownName + viewHolder.categoryName.getText().toString() + "/";
-        }
+
+        shownName = getShownNameValueFromInputForm(viewHolder.fatherID);
+        fatherID = getFatherIDValueFromInputForm(shownName);
+        shownName = shownName + viewHolder.categoryName.getText().toString() + "/";
 
         contentValues.put(POIsContract.CategoryEntry.COLUMN_NAME, categoryName);
         contentValues.put(POIsContract.CategoryEntry.COLUMN_FATHER_ID, fatherID);
@@ -417,27 +281,18 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
         viewHolder.updateCategory.hide();
         viewHolder.createCategory.show();
 
-        if (creationType.endsWith("HERE")) {
-            viewHolder.fatherID.setVisibility(View.GONE);
-        } else if (creationType.endsWith("HERENEW")) {
-            viewHolder.fatherID.setVisibility(View.GONE);
-        } else {
-            fillCategorySpinner(viewHolder.fatherID);
-        }
+        fillCategorySpinner(viewHolder.fatherID);
+
         setCancelComeBackBehaviour(viewHolder.cancel);
         return viewHolder;
     }
 
-    /*OTHER UTILITIES*/
     private void fillCategorySpinner(Spinner spinner) {
-
         List<String> list = new ArrayList<>();
         list.add(getResources().getString(R.string.noRouteText));
         spinnerIDsAndShownNames = new HashMap<>();
 
-        //We get all the categories IDs and ShownNames
-        queryCursor = POIsContract.CategoryEntry.getIDsAndShownNamesOfAllCategories(getActivity());
-
+        Cursor queryCursor = POIsContract.CategoryEntry.getIDsAndShownNamesOfAllCategories(getActivity());
         while (queryCursor.moveToNext()) {
             spinnerIDsAndShownNames.put(queryCursor.getString(1), String.valueOf(queryCursor.getInt(0)));
             list.add(queryCursor.getString(1));
@@ -446,7 +301,7 @@ public class CreateItemFragment_Copy extends Fragment implements OnMapReadyCallb
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-    } //Fill the spinner with all the categories.
+    }
 
     private int getHideValueFromInputForm(Switch switchButton) {
         int hideValue = 1;

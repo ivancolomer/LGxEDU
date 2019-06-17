@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.lglab.ivan.lgxeducontroller.fragments.ManageGamesFragment;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.ManageGamesFragment;
 import com.lglab.ivan.lgxeducontroller.legacy.PW.NearbyBeaconsFragment;
 import com.lglab.ivan.lgxeducontroller.legacy.advancedTools.AdvancedToolsFragment;
 
@@ -58,7 +58,7 @@ public class AdminCollectionPagerAdapter extends FragmentStatePagerAdapter {
             case PAGE_TOURS:
                 return "TOURS";
             case PAGE_GAMES:
-                return "MANAGE QUIZES";
+                return "MANAGE GAMES";
             case PAGE_TOOLS:
                 return "TOOLS";
             case PAGE_TASKS:

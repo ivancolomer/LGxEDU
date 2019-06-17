@@ -1,11 +1,9 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia;
 
+import com.lglab.ivan.lgxeducontroller.activities.CreateTriviaQuestionActivity;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +11,7 @@ import java.util.List;
 public class TriviaManager extends GameManager {
 
     private static final Class<?> GAME_ACTIVITY = TriviaActivity.class;
+    private static final Class<?> GAME_MANAGER_ACTIVITY = CreateTriviaQuestionActivity.class;
 
     private List<Integer> selectedAnswers;
 
@@ -26,6 +25,11 @@ public class TriviaManager extends GameManager {
     @Override
     public Class<?> getGameActivity() {
         return GAME_ACTIVITY;
+    }
+
+    @Override
+    public Class<?> getManagerGameActivity() {
+        return GAME_MANAGER_ACTIVITY;
     }
 
     public boolean hasAnsweredAllQuestions() {

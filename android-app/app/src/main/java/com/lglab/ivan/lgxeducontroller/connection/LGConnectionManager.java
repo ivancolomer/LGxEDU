@@ -177,7 +177,7 @@ public class LGConnectionManager implements Runnable {
     public void addCommandToLG(LGCommand lgCommand) {
         try {
             queue.offer(lgCommand);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

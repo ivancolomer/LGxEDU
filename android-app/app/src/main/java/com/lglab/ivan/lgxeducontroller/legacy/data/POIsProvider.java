@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract.POIEntry;
 
 import static com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract.CONTENT_AUTHORITY;
@@ -143,6 +144,24 @@ public class POIsProvider extends ContentProvider {
         ContentValues values = new ContentValues();
         values.put("Name", data);
         return mOpenHelper.getReadableDatabase().insert("quiz_category", "", values);
+    }
+
+    public static long insertPOI(POI poi) {
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(POIsContract.POIEntry.COLUMN_COMPLETE_NAME, poi.getName());
+        contentValues.put(POIsContract.POIEntry.COLUMN_VISITED_PLACE_NAME, poi.getVisited_place());
+        contentValues.put(POIsContract.POIEntry.COLUMN_LONGITUDE, poi.getLongitude());
+        contentValues.put(POIsContract.POIEntry.COLUMN_LATITUDE, poi.getLatitude());
+        contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE, poi.getAltitude());
+        contentValues.put(POIsContract.POIEntry.COLUMN_HEADING, poi.getHeading());
+        contentValues.put(POIsContract.POIEntry.COLUMN_TILT, poi.getTilt());
+        contentValues.put(POIsContract.POIEntry.COLUMN_RANGE, poi.getRange());
+        contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE_MODE, poi.getAltitudeMode());
+        contentValues.put(POIsContract.POIEntry.COLUMN_HIDE, poi.isHidden() ? 1 : 0);
+        contentValues.put(POIsContract.POIEntry.COLUMN_CATEGORY_ID, poi.getCategoryId());
+
+        return mOpenHelper.getReadableDatabase().insert("poi", "", contentValues);
     }
 
     public boolean onCreate() {

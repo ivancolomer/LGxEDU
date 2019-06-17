@@ -85,4 +85,6 @@ public abstract class GameManager {
     }
 
     public abstract Class<?> getGameActivity();
+
+    public abstract Class<?> getManagerGameActivity();
 }

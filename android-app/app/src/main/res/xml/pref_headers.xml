@@ -3,7 +3,7 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="legacy.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.lglab.ivan.lgxeducontroller.legacy.SettingsActivity"
         android:title="@string/pref_header_general" />
 
 

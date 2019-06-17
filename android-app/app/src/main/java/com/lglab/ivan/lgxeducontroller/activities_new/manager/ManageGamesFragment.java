@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.fragments;
+package com.lglab.ivan.lgxeducontroller.activities_new.manager;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import com.lglab.ivan.lgxeducontroller.legacy.utils.CustomAndroidTreeView;
 import com.lglab.ivan.lgxeducontroller.games.Category;
-import com.lglab.ivan.lgxeducontroller.utils.TreeQuizHolder;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.holders.TreeGameHolder;
 import com.unnamed.b.atv.model.TreeNode;
 
 import org.json.JSONObject;
@@ -31,7 +31,6 @@ import java.util.Map;
 
 public class ManageGamesFragment extends Fragment {
 
-    private static final String TAG = ManageGamesFragment.class.getSimpleName();
     private CustomAndroidTreeView tView;
 
     public static ManageGamesFragment newInstance() {
@@ -42,25 +41,25 @@ public class ManageGamesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.new_fragment_pois, null, false);
-        ViewGroup containerView = (ViewGroup) rootView.findViewById(R.id.container);
+        ViewGroup containerView = rootView.findViewById(R.id.container);
 
         TreeNode root = TreeNode.root();
 
 
-        TreeNode categoriesRoot = new TreeNode(new TreeQuizHolder.IconTreeItem(R.drawable.ic_home_black_24dp, "Subjects", 0, TreeQuizHolder.TreeQuizType.NONE));
+        TreeNode categoriesRoot = new TreeNode(new TreeGameHolder.IconTreeItem(R.drawable.ic_home_black_24dp, "Subjects", 0, TreeGameHolder.TreeQuizType.NONE));
 
         List<Category> categories = makeCategories();
         for (Category category : categories) {
-            TreeQuizHolder.IconTreeItem parentNode = new TreeQuizHolder.IconTreeItem(android.R.drawable.ic_delete, category.getTitle(), category.id, TreeQuizHolder.TreeQuizType.SUBJECT);
-            final TreeNode parent = new TreeNode(parentNode).setViewHolder(new TreeQuizHolder(getActivity()));
+            TreeGameHolder.IconTreeItem parentNode = new TreeGameHolder.IconTreeItem(android.R.drawable.ic_delete, category.getTitle(), category.id, TreeGameHolder.TreeQuizType.SUBJECT);
+            final TreeNode parent = new TreeNode(parentNode).setViewHolder(new TreeGameHolder(getActivity()));
             for (Game game : category.getItems()) {
-                TreeNode quizNode = new TreeNode(new TreeQuizHolder.IconTreeItem(R.drawable.ic_place_black_24dp, game.getName() + " (" + game.getQuestions().size() + ")", game.getId(), TreeQuizHolder.TreeQuizType.GAME, game));
-                quizNode.setViewHolder(new TreeQuizHolder(getActivity()));
+                TreeNode quizNode = new TreeNode(new TreeGameHolder.IconTreeItem(R.drawable.ic_place_black_24dp, game.getName() + " (" + game.getQuestions().size() + ")", game.getId(), TreeGameHolder.TreeQuizType.GAME, game));
+                quizNode.setViewHolder(new TreeGameHolder(getActivity()));
 
                 List<Question> questions = game.getQuestions();
                 for (int i = 0; i < questions.size(); i++) {
                     Question question = questions.get(i);
-                    TreeNode questionNode = new TreeNode(new TreeQuizHolder.IconTreeItem(R.drawable.ic_add_circle_black_48dp, question.getQuestion(), i, TreeQuizHolder.TreeQuizType.QUESTION, game));
+                    TreeNode questionNode = new TreeNode(new TreeGameHolder.IconTreeItem(R.drawable.ic_add_circle_black_48dp, question.getQuestion(), i, TreeGameHolder.TreeQuizType.QUESTION, game));
                     quizNode.addChild(questionNode);
                 }
                 parent.addChild(quizNode);
@@ -72,7 +71,7 @@ public class ManageGamesFragment extends Fragment {
         tView = new CustomAndroidTreeView(getActivity(), root);
         tView.setDefaultAnimation(false);
         tView.setDefaultContainerStyle(R.style.TreeNodeStyleCustom);
-        tView.setDefaultViewHolder(TreeQuizHolder.class);
+        tView.setDefaultViewHolder(TreeGameHolder.class);
 
         containerView.addView(tView.getView());
 

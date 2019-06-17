@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.utils;
+package com.lglab.ivan.lgxeducontroller.activities_new.manager.holders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,20 +13,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities.CreateQuestionActivity;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctask.InsertGameTask;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctask.RemoveGameTask;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctask.UpdateGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.InsertGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.UpdateGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.enums.QuestionCreateEnum;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.unnamed.b.atv.model.TreeNode;
 
 
-public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.IconTreeItem> {
-    public static final String TAG = TreeQuizHolder.class.getSimpleName();
+public class TreeGameHolder extends TreeNode.BaseNodeViewHolder<TreeGameHolder.IconTreeItem> {
+    public static final String TAG = TreeGameHolder.class.getSimpleName();
     private ImageView arrowView;
 
-    public TreeQuizHolder(Context context) {
+    public TreeGameHolder(Context context) {
         super(context);
     }
 
@@ -60,9 +60,9 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
 
                 addPOIButton.setOnClickListener(view12 -> {
                     showToast("Add TriviaQuestion ");
-                    Intent intent = new Intent(context, CreateQuestionActivity.class);
+                    Intent intent = new Intent(context, value.game.createManager().getManagerGameActivity());
                     intent.putExtra("game", value.game);
-                    intent.putExtra("type", CreateQuestionActivity.UpdateNew.NEW);
+                    intent.putExtra("type", QuestionCreateEnum.NEW);
                     context.startActivity(intent);
                 });
                 deleteButton.setOnClickListener(view12 -> {
@@ -83,10 +83,10 @@ public class TreeQuizHolder extends TreeNode.BaseNodeViewHolder<TreeQuizHolder.I
 
                 editButton.setOnClickListener(view12 -> {
                     showToast("Edit question");
-                    Intent intent = new Intent(context, CreateQuestionActivity.class);
+                    Intent intent = new Intent(context, value.game.createManager().getManagerGameActivity());
                     intent.putExtra("game", value.game);
                     intent.putExtra("index", id);
-                    intent.putExtra("type", CreateQuestionActivity.UpdateNew.UPDATE);
+                    intent.putExtra("type", QuestionCreateEnum.UPDATE);
                     context.startActivity(intent);
                 });
                 deleteButton.setOnClickListener(view12 -> {

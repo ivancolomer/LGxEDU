@@ -27,7 +27,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/list_item_add_game"
+                android:id="@+id/list_item_edit_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
@@ -36,7 +36,7 @@
                 android:tint="@color/blue" />
 
             <ImageView
-                android:id="@+id/list_item_delete"
+                android:id="@+id/list_delete_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"

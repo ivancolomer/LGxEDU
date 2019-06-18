@@ -146,7 +146,7 @@ public class CreateTriviaQuestionActivity extends AppCompatActivity {
                 quiz.getQuestions().set(this.index, question);
 
             try {
-                POIsProvider.updateQuizById((int) quiz.getId(), quiz.pack().toString());
+                POIsProvider.updateGameById((int) quiz.getId(), quiz.pack().toString());
                 //Log.d("save", quiz.pack().toString());
             } catch (JSONException e) {
                 e.printStackTrace();

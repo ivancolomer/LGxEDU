@@ -20,4 +20,8 @@ public class Category extends ExpandableGroup<Game> {
 
         this.id = c.id;
     }
+
+    public long getId() {
+        return id;
+    }
 }

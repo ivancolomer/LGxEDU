@@ -18,7 +18,7 @@ public class UpdateGameTask extends AsyncTask<Void, Integer, Void> {
     protected Void doInBackground(Void... params) {
         try {
             Log.i(TAG, "doInBackground: " + game.pack().toString());
-            POIsProvider.updateQuizById((int) game.getId(), game.pack().toString());
+            POIsProvider.updateGameById((int) game.getId(), game.pack().toString());
         } catch (Exception e) {
             cancel(true);
         }

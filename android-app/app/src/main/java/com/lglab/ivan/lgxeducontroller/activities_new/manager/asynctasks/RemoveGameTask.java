@@ -18,7 +18,7 @@ public class RemoveGameTask extends AsyncTask<Void, Integer, Void> {
     protected Void doInBackground(Void... params) {
         try {
             Log.i(TAG, "doInBackground: deleting " + game.getName());
-            POIsProvider.removeQuizById((int) game.getId());
+            POIsProvider.removeGameById((int) game.getId());
         } catch (Exception e) {
             cancel(true);
         }

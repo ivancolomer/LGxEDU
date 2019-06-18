@@ -25,8 +25,8 @@ public class POIsDbHelper extends SQLiteOpenHelper {
         db.execSQL(createTourEntryTable());
         db.execSQL(createTourPOIsEntryTable());
         db.execSQL(createTasksEntryTable());
-        db.execSQL(createQuizTable());
-        db.execSQL(createQuizCategoryTable());
+        db.execSQL(createGameTable());
+        db.execSQL(createGameCategoryTable());
         db.execSQL(createLGConnectionTable());
         createBaseCategories(db);
         createDefaultLgTasks(db);
@@ -136,12 +136,12 @@ public class POIsDbHelper extends SQLiteOpenHelper {
         return "CREATE TABLE LG_TASK (_id INTEGER PRIMARY KEY AUTOINCREMENT,Title TEXT NOT NULL, Description TEXT, Script TEXT NOT NULL, Shutdown_Script TEXT NOT NULL, Image BLOB, IP TEXT, User TEXT, Password TEXT,URL TEXT, isRunning INTEGER);";
     }
 
-    private String createQuizTable() {
-        return "CREATE TABLE quiz (_id INTEGER PRIMARY KEY AUTOINCREMENT, Data TEXT NOT NULL);";
+    private String createGameTable() {
+        return "CREATE TABLE game (_id INTEGER PRIMARY KEY AUTOINCREMENT, Data TEXT NOT NULL);";
     }
 
-    private String createQuizCategoryTable() {
-        return "CREATE TABLE quiz_category (_id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL);";
+    private String createGameCategoryTable() {
+        return "CREATE TABLE game_category (_id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL);";
     }
 
     private String createLGConnectionTable() {
@@ -155,8 +155,8 @@ public class POIsDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS tour");
         db.execSQL("DROP TABLE IF EXISTS Tour_POIs");
         db.execSQL("DROP TABLE IF EXISTS LG_TASK");
-        db.execSQL("DROP TABLE IF EXISTS quiz");
-        db.execSQL("DROP TABLE IF EXISTS quiz_category");
+        db.execSQL("DROP TABLE IF EXISTS game");
+        db.execSQL("DROP TABLE IF EXISTS game_category");
         db.execSQL("DROP TABLE IF EXISTS lg_connection_info");
         onCreate(db);
     }
@@ -168,8 +168,8 @@ public class POIsDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS tour");
         db.execSQL("DROP TABLE IF EXISTS Tour_POIs");
         db.execSQL("DROP TABLE IF EXISTS LG_TASK");
-        db.execSQL("DROP TABLE IF EXISTS quiz");
-        db.execSQL("DROP TABLE IF EXISTS quiz_category");
+        db.execSQL("DROP TABLE IF EXISTS game");
+        db.execSQL("DROP TABLE IF EXISTS game_category");
         db.execSQL("DROP TABLE IF EXISTS lg_connection_info");
         onCreate(db);
     }

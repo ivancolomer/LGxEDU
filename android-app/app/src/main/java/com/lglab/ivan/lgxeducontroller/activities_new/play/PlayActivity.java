@@ -107,7 +107,7 @@ public class PlayActivity extends GoogleDriveActivity {
 
         HashMap<String, Category> categories = new HashMap<>();
 
-        Cursor category_cursor = POIsProvider.getAllCategories();
+        Cursor category_cursor = POIsProvider.getAllGameCategories();
         while (category_cursor.moveToNext()) {
             long categoryId = category_cursor.getLong(category_cursor.getColumnIndexOrThrow("_id"));
             String categoryName = category_cursor.getString(category_cursor.getColumnIndexOrThrow("Name"));
@@ -115,7 +115,7 @@ public class PlayActivity extends GoogleDriveActivity {
         }
         category_cursor.close();
 
-        Cursor game_cursor = POIsProvider.getAllQuizes();
+        Cursor game_cursor = POIsProvider.getAllGames();
         while (game_cursor.moveToNext()) {
             long gameId = game_cursor.getLong(game_cursor.getColumnIndexOrThrow("_id"));
             String questData = game_cursor.getString(game_cursor.getColumnIndexOrThrow("Data"));
@@ -125,7 +125,7 @@ public class PlayActivity extends GoogleDriveActivity {
 
                 Category category = categories.get(newGame.getCategory().toLowerCase());
                 if (category == null) {
-                    long id = POIsProvider.insertCategory(newGame.getCategory());
+                    long id = POIsProvider.insertCategoryGame(newGame.getCategory());
                     categories.put(newGame.getCategory().toLowerCase(), new Category(id, newGame.getCategory(), Collections.singletonList(newGame)));
                 } else {
                     category.getItems().add(newGame);
@@ -156,7 +156,7 @@ public class PlayActivity extends GoogleDriveActivity {
     public void handleStringFromDrive(String input) {
         try {
             GameManager.unpackGame(new JSONObject(input)); //Checking if the json is fine ;)
-            POIsProvider.insertQuiz(input);
+            POIsProvider.insertGame(input);
             reloadAdapter();
             showMessage("Game imported successfully");
         } catch (Exception e) {

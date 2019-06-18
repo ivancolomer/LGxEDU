@@ -10,11 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.Button;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters.CategoryManagerAdapter;
-import com.lglab.ivan.lgxeducontroller.activities_new.play.adapters.PlayAdapter;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -36,8 +35,8 @@ public class ManageGamesFragment extends Fragment {
         return new ManageGamesFragment();
     }
 
-    public CategoryManagerAdapter adapter;
-    RecyclerView recyclerView;
+    private CategoryManagerAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -49,6 +48,17 @@ public class ManageGamesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         reloadAdapter();
         //rootView.findViewById(R.id.import_from_drive).setOnClickListener(view -> importQuiz());
+
+        rootView.findViewById(R.id.add_category).setOnClickListener(view -> {
+            //Check if already exists on sql
+            //if no
+            //long id = POIsProvider.insertCategoryGame(newGame.getCategory());
+            //categories.put(newGame.getCategory().toLowerCase(), new Category(id, newGame.getCategory(), Collections.singletonList(newGame)));
+        });
+
+        rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
+
+        });
 
         return rootView;
     }
@@ -63,7 +73,7 @@ public class ManageGamesFragment extends Fragment {
 
         HashMap<String, Category> categories = new HashMap<>();
 
-        Cursor category_cursor = POIsProvider.getAllCategories();
+        Cursor category_cursor = POIsProvider.getAllGameCategories();
         while (category_cursor.moveToNext()) {
             long categoryId = category_cursor.getLong(category_cursor.getColumnIndexOrThrow("_id"));
             String categoryName = category_cursor.getString(category_cursor.getColumnIndexOrThrow("Name"));
@@ -71,7 +81,7 @@ public class ManageGamesFragment extends Fragment {
         }
 
 
-        Cursor game_cursor = POIsProvider.getAllQuizes();
+        Cursor game_cursor = POIsProvider.getAllGames();
         while (game_cursor.moveToNext()) {
             long gameId = game_cursor.getLong(game_cursor.getColumnIndexOrThrow("_id"));
             String questData = game_cursor.getString(game_cursor.getColumnIndexOrThrow("Data"));
@@ -81,7 +91,7 @@ public class ManageGamesFragment extends Fragment {
 
                 Category category = categories.get(newGame.getCategory().toLowerCase());
                 if (category == null) {
-                    long id = POIsProvider.insertCategory(newGame.getCategory());
+                    long id = POIsProvider.insertCategoryGame(newGame.getCategory());
                     categories.put(newGame.getCategory().toLowerCase(), new Category(id, newGame.getCategory(), Collections.singletonList(newGame)));
                 } else {
                     category.getItems().add(newGame);

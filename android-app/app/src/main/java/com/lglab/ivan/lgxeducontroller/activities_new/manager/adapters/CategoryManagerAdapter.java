@@ -1,5 +1,8 @@
 package com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters;
 
+import android.nfc.cardemulation.CardEmulation;
+import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveCategoryTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveGameTask;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
@@ -46,19 +51,44 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
     public void onBindGroupViewHolder(CategoryViewHolder holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setCategoryTitle(group);
+        final Category category = (Category) group;
+        holder.setButtons(category, this);
     }
 
     public static class CategoryViewHolder extends GroupViewHolder {
 
         private TextView categoryTitle;
+        private ImageView addGameButton;
+        private ImageView deleteCategoryButton;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
             categoryTitle = itemView.findViewById(R.id.list_item_category_name);
+            addGameButton = itemView.findViewById(R.id.list_add_game);
+            deleteCategoryButton = itemView.findViewById(R.id.list_remove_category);
         }
 
         public void setCategoryTitle(ExpandableGroup group) {
             categoryTitle.setText(group.getTitle());
+        }
+
+        public void setButtons(final Category category, CategoryManagerAdapter adapter) {
+
+
+            addGameButton.setOnClickListener(arg0 -> {
+
+            });
+
+            deleteCategoryButton.setOnClickListener(arg0 -> new AlertDialog.Builder(itemView.getContext())
+                    .setTitle("Are you sure you want to delete \"" + category.getTitle() + "\"?")
+                    .setMessage("The category will be deleted immediately. You can't undo this action.")
+                    .setPositiveButton("Delete", (dialog, id) -> {
+                        new RemoveCategoryTask(category).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        adapter.notifyItemRemoved(getAdapterPosition());
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
+                    .create()
+                    .show());
         }
     }
 

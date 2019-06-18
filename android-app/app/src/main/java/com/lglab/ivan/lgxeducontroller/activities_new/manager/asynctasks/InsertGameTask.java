@@ -18,7 +18,7 @@ public class InsertGameTask extends AsyncTask<Void, Integer, Void> {
     protected Void doInBackground(Void... params) {
         try {
             Log.i(TAG, "doInBackground: " + game.pack().toString());
-            POIsProvider.insertQuiz(game.pack().toString());
+            POIsProvider.insertGame(game.pack().toString());
         } catch (Exception e) {
             cancel(true);
         }

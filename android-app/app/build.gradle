@@ -90,7 +90,6 @@ dependencies {
     implementation files('libs/jsch-0.1.53.jar')
     implementation files('libs/jzlib-1.1.1.jar')
     implementation 'com.github.kanytu:android-parallax-recyclerview:v1.7'
-    implementation 'com.thoughtbot:expandablerecyclerview:1.3'
     implementation 'com.github.chenupt.android:springindicator:1.0.2@aar'
     implementation 'com.github.chenupt.android:multiplemodel:2.0.1@aar'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'

@@ -27,7 +27,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/list_item_edit_game"
+                android:id="@+id/list_edit_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"

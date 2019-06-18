@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters.CategoryManagerAdapter;
@@ -37,6 +38,7 @@ public class ManageGamesFragment extends Fragment {
 
     private CategoryManagerAdapter adapter;
     private RecyclerView recyclerView;
+    private TextView textView;
 
     @Nullable
     @Override
@@ -45,6 +47,9 @@ public class ManageGamesFragment extends Fragment {
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
+
+        textView = rootView.findViewById(R.id.no_games_found);
+        textView.setVisibility(View.GONE);
         recyclerView.setLayoutManager(layoutManager);
         reloadAdapter();
         //rootView.findViewById(R.id.import_from_drive).setOnClickListener(view -> importQuiz());
@@ -119,6 +124,7 @@ public class ManageGamesFragment extends Fragment {
     }
 
     private void reloadAdapter() {
+
         List<Category> categories = makeCategories();
         adapter = new CategoryManagerAdapter(categories);
         recyclerView.setAdapter(adapter);
@@ -128,6 +134,15 @@ public class ManageGamesFragment extends Fragment {
                 continue;
             }
             adapter.toggleGroup(i);
+        }
+
+        if(adapter.getGroups().size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+        }
+        else {
+            textView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
 
     }

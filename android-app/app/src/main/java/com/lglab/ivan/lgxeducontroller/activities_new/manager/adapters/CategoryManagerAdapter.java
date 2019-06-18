@@ -16,6 +16,7 @@ import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+import com.thoughtbot.expandablerecyclerview.models.ExpandableListPosition;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
@@ -43,7 +44,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
     public void onBindChildViewHolder(GameViewHolder holder, int flatPosition, ExpandableGroup group,
                                       int childIndex) {
         final Game game = ((Category) group).getItems().get(childIndex);
-        holder.onBind(game);
+        holder.onBind(game, this, flatPosition);
 
     }
 
@@ -51,44 +52,65 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
     public void onBindGroupViewHolder(CategoryViewHolder holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setCategoryTitle(group);
-        final Category category = (Category) group;
-        holder.setButtons(category, this);
+        //final Category category = (Category) group;
+        //holder.setButtons(category, this, flatPosition);
+    }
+
+    public void removeItem(int position) {
+        ExpandableListPosition listPos = expandableList.getUnflattenedPosition(position);
+        ExpandableGroup group = expandableList.getExpandableGroup(listPos);
+        switch (listPos.type) {
+            case ExpandableListPosition.CHILD:
+                group.remove(listPos.childPos);
+                if (group.getItemCount() == 0) {
+                    expandableList.remove(listPos.groupPos);
+                    notifyItemRangeRemoved(position - 1, 2);
+                } else {
+                    notifyItemRemoved(position);
+                }
+                break;
+            case ExpandableListPosition.GROUP:
+                expandableList.remove(listPos.groupPos);
+                notifyItemRangeRemoved(position, group.getItemCount() + 1);
+                break;
+        }
     }
 
     public static class CategoryViewHolder extends GroupViewHolder {
 
         private TextView categoryTitle;
-        private ImageView addGameButton;
-        private ImageView deleteCategoryButton;
+        //private ImageView addGameButton;
+        //private ImageView deleteCategoryButton;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
             categoryTitle = itemView.findViewById(R.id.list_item_category_name);
-            addGameButton = itemView.findViewById(R.id.list_add_game);
-            deleteCategoryButton = itemView.findViewById(R.id.list_remove_category);
+            //addGameButton = itemView.findViewById(R.id.list_add_game);
+            //deleteCategoryButton = itemView.findViewById(R.id.list_remove_category);
         }
 
         public void setCategoryTitle(ExpandableGroup group) {
             categoryTitle.setText(group.getTitle());
         }
 
-        public void setButtons(final Category category, CategoryManagerAdapter adapter) {
+        public void setButtons(final Category category, CategoryManagerAdapter adapter, int flatPosition) {
 
 
-            addGameButton.setOnClickListener(arg0 -> {
+            /*addGameButton.setOnClickListener(arg0 -> {
 
-            });
+            });*/
 
-            deleteCategoryButton.setOnClickListener(arg0 -> new AlertDialog.Builder(itemView.getContext())
+            /*deleteCategoryButton.setOnClickListener(arg0 -> new AlertDialog.Builder(itemView.getContext())
                     .setTitle("Are you sure you want to delete \"" + category.getTitle() + "\"?")
                     .setMessage("The category will be deleted immediately. You can't undo this action.")
                     .setPositiveButton("Delete", (dialog, id) -> {
                         new RemoveCategoryTask(category).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                        adapter.notifyItemRemoved(getAdapterPosition());
+                        adapter.removeItem(flatPosition);
+
                     })
                     .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
                     .create()
-                    .show());
+                    .show());*/
         }
     }
 
@@ -96,35 +118,36 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
         public Game game;
         private TextView quizName;
-        private ImageView playButton;
-        private ImageView shareButton;
+        private ImageView editButton;
+        private ImageView deleteButton;
 
-        public GameViewHolder(View itemView) {
+        GameViewHolder(View itemView) {
             super(itemView);
+
             quizName = itemView.findViewById(R.id.list_item_quiz_name);
-            //shareButton = itemView.findViewById(R.id.list_item_category_share);
-            //playButton = itemView.findViewById(R.id.list_item_category_arrow);
+            editButton = itemView.findViewById(R.id.list_edit_game);
+            deleteButton = itemView.findViewById(R.id.list_delete_game);
         }
 
-        public void onBind(Game game) {
-            quizName.setText(game.getName());
+        void onBind(Game game, final CategoryManagerAdapter adapter, final int flatPosition) {
             this.game = game;
-            //this.itemView.setOnClickListener(arg0 -> startQuiz((GoogleDriveActivity) itemView.getContext()));
-            //this.playButton.setOnClickListener(arg0 -> startQuiz((GoogleDriveActivity) itemView.getContext()));
-            //this.shareButton.setOnClickListener(arg0 -> shareQuiz((GoogleDriveActivity) itemView.getContext()));
+            quizName.setText(game.getName());
+            this.editButton.setOnClickListener(view -> {
+                //https://developer.android.com/reference/android/app/DialogFragment
+            });
 
+            this.deleteButton.setOnClickListener(view ->
+                new AlertDialog.Builder(itemView.getContext())
+                    .setTitle("Are you sure you want to delete \"" + game.getName() + "\"?")
+                    .setMessage("The category will be deleted immediately. You can't undo this action.")
+                    .setPositiveButton("Delete", (dialog, id) -> {
+                        new RemoveGameTask(game).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                        adapter.removeItem(flatPosition);
+
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
+                    .create()
+                    .show());
         }
-
-        /*private void startQuiz(GoogleDriveActivity activity) {
-            QuizManager.getInstance().startQuiz(quiz);
-
-            Intent intent = new Intent(activity, QuizActivity.class);
-            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); //Adds the FLAG_ACTIVITY_NO_HISTORY flag
-            activity.startActivity(intent);
-        }
-
-        private void shareQuiz(GoogleDriveActivity activity) {
-            activity.exportQuiz(quiz);
-        }*/
     }
 }

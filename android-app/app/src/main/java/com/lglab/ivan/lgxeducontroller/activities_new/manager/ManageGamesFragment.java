@@ -32,6 +32,8 @@ import java.util.Map;
 public class ManageGamesFragment extends Fragment {
 
     private CustomAndroidTreeView tView;
+    private TreeNode root;
+    private ViewGroup containerView;
 
     public static ManageGamesFragment newInstance() {
         return new ManageGamesFragment();
@@ -41,10 +43,13 @@ public class ManageGamesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.new_fragment_pois, null, false);
-        ViewGroup containerView = rootView.findViewById(R.id.container);
+        containerView = rootView.findViewById(R.id.container);
+        return rootView;
+    }
 
-        TreeNode root = TreeNode.root();
-
+    private void updateTreeView() {
+        containerView.removeAllViews();
+        root = TreeNode.root();
 
         TreeNode categoriesRoot = new TreeNode(new TreeGameHolder.IconTreeItem(R.drawable.ic_home_black_24dp, "Subjects", 0, TreeGameHolder.TreeQuizType.NONE));
 
@@ -74,14 +79,12 @@ public class ManageGamesFragment extends Fragment {
         tView.setDefaultViewHolder(TreeGameHolder.class);
 
         containerView.addView(tView.getView());
+    }
 
-        if (savedInstanceState != null) {
-            String state = savedInstanceState.getString("tState");
-            if (!TextUtils.isEmpty(state)) {
-                tView.restoreState(state);
-            }
-        }
-        return rootView;
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateTreeView();
     }
 
     public List<Category> makeCategories() {
@@ -130,13 +133,6 @@ public class ManageGamesFragment extends Fragment {
         Collections.sort(orderedCategories, (p1, p2) -> Long.compare(p1.id, p2.id));
 
         return orderedCategories;
-    }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("tState", tView.getSaveState());
     }
 
 }

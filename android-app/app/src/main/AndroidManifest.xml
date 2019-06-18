@@ -55,7 +55,7 @@
             android:name=".activities_new.play.PlayActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities.CreateTriviaQuestionActivity"
+            android:name=".games.trivia.activities.CreateTriviaQuestionActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".legacy.CreateItemActivity"
@@ -64,7 +64,7 @@
         <!-- Google Maps Fragment API Key Data -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBl-RQEjb-Y6_BdWRa8UjdVvi2X9-QncZk" />
+            android:value="AIzaSyBnwM567GvW5bavnxOjKhM5GLw0UjrDuQg" />
 
         <provider
             android:name=".legacy.data.POIsProvider"

@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities;
+package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -121,6 +121,8 @@ public class CreateTriviaQuestionActivity extends AppCompatActivity {
             for(int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
                 String text = getTextFromEditText(textAnswers[i]);
                 if(text == null)
+
+
                     return;
                 answers[i] = text;
             }
@@ -210,21 +212,22 @@ public class CreateTriviaQuestionActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 0) {
+        if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
             POI returnedPOI = data.getParcelableExtra("POI");
+            int button = data.getIntExtra("button", -1);
             String namePOI = returnedPOI.getName();
             poiList.put(returnedPOI.getId(), returnedPOI);
             poiStringList.add(returnedPOI);
 
-            if(resultCode == 0) {
+            if(button == 0) {
                 question.initialPOI = returnedPOI;
                 textQuestionPOI.setText(namePOI);
             }
-            else if(resultCode >= 1 && resultCode <= 4) {
-                question.pois[resultCode - 1] = returnedPOI;
-                answersPOITextEdit[resultCode - 1].setText(namePOI);
+            else if(button >= 1 && button <= 4) {
+                question.pois[button - 1] = returnedPOI;
+                answersPOITextEdit[button - 1].setText(namePOI);
             }
-            else if(resultCode == 6) {
+            else if(button == 6) {
                 //Code for intent from Manager (get the quiz Trivia and if editing only one question or the whole quiz Boolean)
 
             }

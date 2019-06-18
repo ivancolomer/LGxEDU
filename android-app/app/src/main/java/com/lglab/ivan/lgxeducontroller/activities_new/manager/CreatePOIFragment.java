@@ -190,7 +190,8 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
             poi.setId(id);
             Intent data = new Intent();
             data.putExtra("POI", poi);
-            getActivity().setResult(POIButton, data);
+            data.putExtra("button", POIButton);
+            getActivity().setResult(RESULT_OK, data);
             getActivity().finish();
 
         } catch (NumberFormatException e) {

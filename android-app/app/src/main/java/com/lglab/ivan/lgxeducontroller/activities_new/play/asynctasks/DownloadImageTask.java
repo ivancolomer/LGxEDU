@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities_new.play.asynctask;
+package com.lglab.ivan.lgxeducontroller.activities_new.play.asynctasks;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

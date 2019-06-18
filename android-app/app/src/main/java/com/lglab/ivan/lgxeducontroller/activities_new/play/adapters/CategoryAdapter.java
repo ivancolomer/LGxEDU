@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities_new.play.adapter;
+package com.lglab.ivan.lgxeducontroller.activities_new.play.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,18 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.play.asynctask.DownloadImageTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.play.asynctasks.DownloadImageTask;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 
 import java.util.List;
 
-public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.GameViewHolder> {
 
     private List<Game> gameList;
     private Context context;
 
-    public GameAdapter(List<Game> list, Context context) {
+    public CategoryAdapter(List<Game> list, Context context) {
         this.gameList = list;
         this.context = context;
     }

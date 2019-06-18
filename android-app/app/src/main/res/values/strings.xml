@@ -20,6 +20,10 @@
     <string name="answer_4_POI">Answer 4 POI</string>
     <!-- End Create TriviaQuestion -->
 
+    <string name="create_game">Add a Game</string>
+    <string name="create_game_category">Add a Category</string>
+    <string name="manage_drive">Google Drive</string>
+
     <!-- Legacy -->
     <string name="tittle">Liquid Galaxy Controller</string>
     <string name="action_settings">Settings</string>

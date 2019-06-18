@@ -18,12 +18,12 @@ import android.widget.ProgressBar;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
-import com.lglab.ivan.lgxeducontroller.activities_new.play.adapter.PlayAdapter;
+import com.lglab.ivan.lgxeducontroller.activities_new.play.adapters.PlayAdapter;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
+import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
-import com.lglab.ivan.lgxeducontroller.games.Category;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,11 +79,9 @@ public class PlayActivity extends GoogleDriveActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        reloadAdapter();
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.36"), Integer.parseInt(prefs.getString("Port", "22")));
-
+        reloadAdapter();
     }
 
     private void searchCategories() {
@@ -115,7 +113,7 @@ public class PlayActivity extends GoogleDriveActivity {
             String categoryName = category_cursor.getString(category_cursor.getColumnIndexOrThrow("Name"));
             categories.put(categoryName.toLowerCase(), new Category(categoryId, categoryName, new ArrayList<>()));
         }
-
+        category_cursor.close();
 
         Cursor game_cursor = POIsProvider.getAllQuizes();
         while (game_cursor.moveToNext()) {
@@ -136,6 +134,7 @@ public class PlayActivity extends GoogleDriveActivity {
                 Log.e("TAG", e.toString());
             }
         }
+        game_cursor.close();
 
         //REMOVE EMPTY CATEGORIES
         Iterator<Map.Entry<String, Category>> iter = categories.entrySet().iterator();

@@ -39,6 +39,12 @@ public class TriviaResultsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        GameManager.getInstance().endGame();
+        super.onBackPressed();
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
             return onSupportNavigateUp();

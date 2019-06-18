@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities_new.play.adapter;
+package com.lglab.ivan.lgxeducontroller.activities_new.play.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -20,7 +20,7 @@ public class PlayAdapter extends RecyclerView.Adapter<PlayAdapter.PlayViewHolder
 
     private Context context;
     private List<Category> data;
-    private GameAdapter horizontalAdapter;
+    private CategoryAdapter horizontalAdapter;
     private RecyclerView.RecycledViewPool recycledViewPool;
 
     public PlayAdapter(List<Category> data, Context context) {
@@ -40,7 +40,7 @@ public class PlayAdapter extends RecyclerView.Adapter<PlayAdapter.PlayViewHolder
     @Override
     public void onBindViewHolder(@NonNull PlayViewHolder holder, final int position) {
         holder.textViewCategory.setText(data.get(position).getTitle());
-        horizontalAdapter = new GameAdapter(data.get(position).getItems(), context);
+        horizontalAdapter = new CategoryAdapter(data.get(position).getItems(), context);
         holder.recyclerViewHorizontal.setAdapter(horizontalAdapter);
         holder.recyclerViewHorizontal.setRecycledViewPool(recycledViewPool);
     }

@@ -56,10 +56,11 @@ public class LGConnectionManager implements Runnable {
         return instance;
     }
 
-    public synchronized void tick() {
+    public void tick() {
         ILGConnection activityCopy = activity;
         if (activityCopy != null) {
-            if (session == null || !session.isConnected()) {
+            Session oldSession = session;
+            if (oldSession == null || !oldSession.isConnected()) {
                 activityCopy.setStatus(LGConnectionManager.NOT_CONNECTED);
             } else if (lgCommandToReSend == null && queue.size() == 0) {
                 activityCopy.setStatus(LGConnectionManager.CONNECTED);
@@ -122,7 +123,7 @@ public class LGConnectionManager implements Runnable {
         }
     }
 
-    public synchronized boolean sendLGCommand(LGCommand lgCommand, boolean isSearchCommand) {
+    public boolean sendLGCommand(LGCommand lgCommand, boolean isSearchCommand) {
         lgCommandToReSend = lgCommand;
         //Log.d("ConnectionManager", "sending a lgcommand: " + lgCommand.getCommand());
         Session session = getSession();
@@ -158,11 +159,19 @@ public class LGConnectionManager implements Runnable {
         return true;
     }
 
+    private boolean firstStart = true;
+
     public void setData(String user, String password, String hostname, int port) {
+
+        //if(!firstStart)
+          //  return;
+
         this.user = user;
         this.password = password;
         this.hostname = hostname;
         this.port = port;
+
+        firstStart = false;
 
         session = null;
         tick();

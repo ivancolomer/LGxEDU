@@ -1,8 +1,10 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
 
@@ -74,14 +77,17 @@ public class TriviaActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Do you really want to exit from this page?")
                 .setMessage("If you continue, you will lose all your progress.")
-                .setPositiveButton("Yes", (dialog, id) -> {
-                    onBackPressed();
-                })
-                .setNegativeButton(R.string.cancel, (dialog, id) -> {
-                    dialog.cancel();
-                }).create()
+                .setPositiveButton("Yes", (dialog, id) -> onBackPressed())
+                .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
+                .create()
                 .show();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        GameManager.getInstance().endGame();
+        super.onBackPressed();
     }
 
     @Override

@@ -260,9 +260,11 @@ public class POI implements IJsonPacker, Parcelable {
         Cursor c = POIsContract.POIEntry.getPoiByID(id);
 
         if (c.moveToNext()) {
-            return new POI(id, c.getString(1), c.getString(2), c.getDouble(3), c.getDouble(4), c.getDouble(5), c.getDouble(6), c.getDouble(7), c.getDouble(8), c.getString(9), c.getInt(10) != 0, c.getInt(11));
+            POI poi = new POI(id, c.getString(1), c.getString(2), c.getDouble(3), c.getDouble(4), c.getDouble(5), c.getDouble(6), c.getDouble(7), c.getDouble(8), c.getString(9), c.getInt(10) != 0, c.getInt(11));
+            c.close();
+            return poi;
         }
-
+        c.close();
         return null;
     }
 }

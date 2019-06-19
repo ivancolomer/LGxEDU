@@ -1,8 +1,8 @@
 package com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters;
 
-import android.nfc.cardemulation.CardEmulation;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveCategoryTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.IGamesAdapterActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveGameTask;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
@@ -24,8 +24,11 @@ import java.util.List;
 
 public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<CategoryManagerAdapter.CategoryViewHolder, CategoryManagerAdapter.GameViewHolder> {
 
-    public CategoryManagerAdapter(List<? extends ExpandableGroup> groups) {
+    private IGamesAdapterActivity activity;
+
+    public CategoryManagerAdapter(List<? extends ExpandableGroup> groups, IGamesAdapterActivity activity) {
         super(groups);
+        this.activity = activity;
     }
 
     @Override
@@ -52,11 +55,9 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
     public void onBindGroupViewHolder(CategoryViewHolder holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setCategoryTitle(group);
-        //final Category category = (Category) group;
-        //holder.setButtons(category, this, flatPosition);
     }
 
-    public void removeItem(int position) {
+    private void removeItem(int position) {
         ExpandableListPosition listPos = expandableList.getUnflattenedPosition(position);
         ExpandableGroup group = expandableList.getExpandableGroup(listPos);
         switch (listPos.type) {
@@ -65,52 +66,31 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                 if (group.getItemCount() == 0) {
                     expandableList.remove(listPos.groupPos);
                     notifyItemRangeRemoved(position - 1, 2);
+                    activity.onGamesChanged(false);
                 } else {
                     notifyItemRemoved(position);
+                    activity.onGamesChanged(false);
                 }
                 break;
             case ExpandableListPosition.GROUP:
                 expandableList.remove(listPos.groupPos);
                 notifyItemRangeRemoved(position, group.getItemCount() + 1);
+                activity.onGamesChanged(false);
                 break;
         }
     }
 
-    public static class CategoryViewHolder extends GroupViewHolder {
+    static class CategoryViewHolder extends GroupViewHolder {
 
         private TextView categoryTitle;
-        //private ImageView addGameButton;
-        //private ImageView deleteCategoryButton;
 
-        public CategoryViewHolder(View itemView) {
+        CategoryViewHolder(View itemView) {
             super(itemView);
             categoryTitle = itemView.findViewById(R.id.list_item_category_name);
-            //addGameButton = itemView.findViewById(R.id.list_add_game);
-            //deleteCategoryButton = itemView.findViewById(R.id.list_remove_category);
         }
 
-        public void setCategoryTitle(ExpandableGroup group) {
+        void setCategoryTitle(ExpandableGroup group) {
             categoryTitle.setText(group.getTitle());
-        }
-
-        public void setButtons(final Category category, CategoryManagerAdapter adapter, int flatPosition) {
-
-
-            /*addGameButton.setOnClickListener(arg0 -> {
-
-            });*/
-
-            /*deleteCategoryButton.setOnClickListener(arg0 -> new AlertDialog.Builder(itemView.getContext())
-                    .setTitle("Are you sure you want to delete \"" + category.getTitle() + "\"?")
-                    .setMessage("The category will be deleted immediately. You can't undo this action.")
-                    .setPositiveButton("Delete", (dialog, id) -> {
-                        new RemoveCategoryTask(category).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                        adapter.removeItem(flatPosition);
-
-                    })
-                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
-                    .create()
-                    .show());*/
         }
     }
 

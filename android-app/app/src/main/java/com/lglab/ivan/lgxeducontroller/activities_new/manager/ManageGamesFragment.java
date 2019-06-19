@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class ManageGamesFragment extends Fragment {
+public class ManageGamesFragment extends Fragment implements IGamesAdapterActivity {
 
     public static ManageGamesFragment newInstance() {
         return new ManageGamesFragment();
@@ -52,26 +52,16 @@ public class ManageGamesFragment extends Fragment {
         textView.setVisibility(View.GONE);
         recyclerView.setLayoutManager(layoutManager);
         reloadAdapter();
-        //rootView.findViewById(R.id.import_from_drive).setOnClickListener(view -> importQuiz());
 
-        rootView.findViewById(R.id.add_category).setOnClickListener(view -> {
-            //Check if already exists on sql
-            //if no
-            //long id = POIsProvider.insertCategoryGame(newGame.getCategory());
-            //categories.put(newGame.getCategory().toLowerCase(), new Category(id, newGame.getCategory(), Collections.singletonList(newGame)));
+        rootView.findViewById(R.id.add_game).setOnClickListener(view -> {
+
         });
 
         rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
-
+            //Go to drive activity to manage the folder of the app...
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        reloadAdapter();
     }
 
     private List<Category> makeCategories() {
@@ -126,7 +116,7 @@ public class ManageGamesFragment extends Fragment {
     private void reloadAdapter() {
 
         List<Category> categories = makeCategories();
-        adapter = new CategoryManagerAdapter(categories);
+        adapter = new CategoryManagerAdapter(categories, this);
         recyclerView.setAdapter(adapter);
 
         for (int i = adapter.getGroups().size() - 1; i >= 0; i--) {
@@ -134,6 +124,17 @@ public class ManageGamesFragment extends Fragment {
                 continue;
             }
             adapter.toggleGroup(i);
+        }
+
+        onGamesChanged(false);
+
+    }
+
+    @Override
+    public void onGamesChanged(boolean reloadAdapter) {
+        if(reloadAdapter) {
+            reloadAdapter();
+            return;
         }
 
         if(adapter.getGroups().size() == 0) {
@@ -144,6 +145,5 @@ public class ManageGamesFragment extends Fragment {
             textView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-
     }
 }

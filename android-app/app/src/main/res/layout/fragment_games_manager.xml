@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_weight="14">
+        android:layout_weight="14"
+        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -41,12 +42,12 @@
         android:weightSum="4.5">
 
         <Button
-            android:id="@+id/add_category"
+            android:id="@+id/add_game"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:text="@string/create_game_category" />
+            android:text="@string/create_game" />
 
         <Space
             android:layout_width="0dp"

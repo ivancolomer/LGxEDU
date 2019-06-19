@@ -7,7 +7,7 @@
 
     <!-- Create TriviaQuestion -->
     <string name="question_text_edit">Question</string>
-    <string name="correct_answer">Correct answer</string>
+    <string name="correct_answer">A correct answer must be selected</string>
     <string name="question_POI">Initial POI</string>
     <string name="bubble_text">Additional information for the answer</string>
     <string name="answer_1">Answer 1</string>

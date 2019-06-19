@@ -17,4 +17,5 @@
     <style name="CMOptionsMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:popupBackground">@color/whiteGrey</item>
     </style>
+
 </resources>

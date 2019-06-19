@@ -18,6 +18,7 @@
     <color name="magenta">#FF00FF</color>
     <color name="red">#F44336</color>
     <color name="green">#4CAF50</color>
+    <color name="material_green">#43A047</color>
     <color name="yellow">#FFEB3B</color>
     <color name="material_grey">#9E9E9E</color>
     <color name="blue">#2196F3</color>

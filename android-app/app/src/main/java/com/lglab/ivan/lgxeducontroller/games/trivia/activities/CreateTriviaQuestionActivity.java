@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.CreatePOIActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.enums.QuestionCreateEnum;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
@@ -108,37 +109,46 @@ public class CreateTriviaQuestionActivity extends AppCompatActivity {
 
         findViewById(R.id.accept_button).setOnClickListener(view -> {
             String questionS = getTextFromEditText(questionEditText);
+            if(questionS == null || questionS.isEmpty()) {
+                Toast.makeText(context, "A text must be filled in the Question textbox", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int idSelectedRadioButton = correctAnswerRadioButton.getCheckedRadioButtonId();
             if (idSelectedRadioButton == -1) {
                 Toast.makeText(context, getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
                 return;
             }
-            RadioButton pressedRadioButton = findViewById(correctAnswerRadioButton.getCheckedRadioButtonId());
+            RadioButton pressedRadioButton = findViewById(idSelectedRadioButton);
             int correctAnswer = Integer.parseInt(pressedRadioButton.getText().toString());
 
             String[] answers = new String[TriviaQuestion.MAX_ANSWERS];
 
             for(int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
                 String text = getTextFromEditText(textAnswers[i]);
-                if(text == null)
-
-
+                if(text == null || text.isEmpty()) {
+                    Toast.makeText(context, "Answer " + (i + 1) + " POI", Toast.LENGTH_SHORT).show();
                     return;
+                }
                 answers[i] = text;
             }
 
             for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
                 if (this.question.pois[i] == null) {
-                    Toast.makeText(context, "Answer " + i + 1 + " POI", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "POI of the answer " + (i + 1) + " is not selected, please select one", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
 
-            String information = additionalInformation.getText().toString();
+            if(question.initialPOI == null) {
+                question.initialPOI = POIController.EARTH_POI;
+            }
+
+
             question.setQuestion(questionS);
             question.answers = answers;
             question.correctAnswer = correctAnswer;
-            question.information = information;
+            question.information = additionalInformation.getText().toString();
 
             if (type == QuestionCreateEnum.NEW)
                 quiz.getQuestions().add(question);
@@ -194,6 +204,7 @@ public class CreateTriviaQuestionActivity extends AppCompatActivity {
             }
 
         }
+        poiCursor.close();
         for (Map.Entry pair : poiList.entrySet()) {
             POI temp = (POI) pair.getValue();
             poiStringList.add(temp);
@@ -246,7 +257,6 @@ public class CreateTriviaQuestionActivity extends AppCompatActivity {
     private String getTextFromEditText(EditText editText) {
         String toReturn = editText.getText().toString();
         if (toReturn.isEmpty()) {
-            Toast.makeText(context, getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
             return null;
         }
         return toReturn;

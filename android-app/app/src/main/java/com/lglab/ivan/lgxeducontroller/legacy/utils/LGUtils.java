@@ -24,7 +24,7 @@ public class LGUtils {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         String user = prefs.getString("User", "lg");
         String password = prefs.getString("Password", "lg");
-        String hostname = prefs.getString("HostName", "10.160.67.24");
+        String hostname = prefs.getString("HostName", "192.168.86.39");
         int port = Integer.parseInt(prefs.getString("Port", "22"));
 
         JSch jsch = new JSch();

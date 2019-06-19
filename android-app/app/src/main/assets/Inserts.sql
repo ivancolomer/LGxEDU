@@ -691,7 +691,7 @@ INSERT INTO `Tour_POIs` (_id,Tour,POI,POI_Order,POI_Duration) VALUES (298,15,356
 INSERT INTO `Tour_POIs` (_id,Tour,POI,POI_Order,POI_Duration) VALUES (299,15,357,13,15);
 
 /******************************************************************DEFAULT QUIZES_CATEGORIES**************************************************************/
-INSERT INTO `lg_connection_info` (_id, user, password, hostname, port) VALUES (1, 'lg', 'lg', '10.160.67.56', 22);
+INSERT INTO `lg_connection_info` (_id, user, password, hostname, port) VALUES (1, 'lg', 'lg', '192.168.', 22);
 
 /******************************************************************DEFAULT QUIZES_CATEGORIES**************************************************************/
 INSERT INTO `game_category` (_id,Name) VALUES (1, 'Geography');

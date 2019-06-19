@@ -80,7 +80,7 @@ public class PlayActivity extends GoogleDriveActivity {
     protected void onStart() {
         super.onStart();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.36"), Integer.parseInt(prefs.getString("Port", "22")));
+        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
         reloadAdapter();
     }
 

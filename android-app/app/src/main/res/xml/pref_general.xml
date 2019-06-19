@@ -16,7 +16,7 @@
         android:title="Liquid Galaxy connection Password" />
 
     <EditTextPreference
-        android:defaultValue="10.160.67.80"
+        android:defaultValue="192.168.86.39"
         android:digits="0123456789."
         android:inputType="numberDecimal"
         android:key="HostName"

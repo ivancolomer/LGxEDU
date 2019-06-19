@@ -35,7 +35,7 @@ public class LGConnectionManager implements Runnable {
     public LGConnectionManager() {
         user = "lg";
         password = "lqgalaxy";
-        hostname = "192.168.86.36";
+        hostname = "192.168.86.39";
         port = 22;
 
         session = null;

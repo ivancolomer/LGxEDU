@@ -36,8 +36,6 @@ public class MainActivity extends GoogleDriveActivity {
 
         findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(context, NavigateActivity.class)));
         findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(context, PlayActivity.class)));
-
-
     }
 
     @Override

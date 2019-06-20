@@ -108,7 +108,7 @@ public class POIsProvider extends ContentProvider {
     }
 
     public static Cursor getAllGameCategories() {
-        String sql = "SELECT c._id, c.Name FROM game_category c";
+        String sql = "SELECT c._id, c.Name FROM game_category c ORDER BY c.Name ASC";
         return mOpenHelper.getReadableDatabase().rawQuery(sql, new String[]{});
     }
 

@@ -21,6 +21,11 @@ public class Category extends ExpandableGroup<Game> {
         this.id = c.id;
     }
 
+    @Override
+    public String toString() {
+        return this.getTitle();
+    }
+
     public long getId() {
         return id;
     }

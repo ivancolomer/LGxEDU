@@ -30,6 +30,17 @@ public abstract class GameManager {
         INSTANCE.startGame(activity);
     }
 
+    public static void editGame(Game game) throws IllegalStateException {
+        if(INSTANCE != null)
+            throw new IllegalStateException("There's already an instance of GameManager active!");
+
+        GameManager gameManager = game.createManager();
+        if(gameManager == null)
+            throw new IllegalStateException("No GameManager found for that game!");
+
+        INSTANCE = gameManager;
+    }
+
     public static void endGame() throws IllegalStateException {
         if(INSTANCE == null)
             throw new IllegalStateException("There isn't any instance of GameManager active!");
@@ -45,6 +56,7 @@ public abstract class GameManager {
         switch(gameEnum) {
             case TRIVIA:
                 game = new Trivia().unpack(obj);
+                break;
             case VERSUS_TRIVIA:
                 break;
             case MILLIONAIRE:
@@ -54,6 +66,27 @@ public abstract class GameManager {
             case HANGMAN:
                 break;
         }
+        return game;
+    }
+
+    public static Game createGame(String name, GameEnum type, String category) {
+        Game game = null;
+        switch(type) {
+            case TRIVIA:
+                game = new Trivia();
+                break;
+            case VERSUS_TRIVIA:
+                break;
+            case MILLIONAIRE:
+                break;
+            case FIND_LOCATION:
+                break;
+            case HANGMAN:
+                break;
+        }
+
+        game.setName(name);
+
         return game;
     }
 

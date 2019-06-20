@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters.CategoryManagerAdapter;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.fragments.AddGameFragment;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -53,9 +55,7 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         recyclerView.setLayoutManager(layoutManager);
         reloadAdapter();
 
-        rootView.findViewById(R.id.add_game).setOnClickListener(view -> {
-
-        });
+        rootView.findViewById(R.id.add_game).setOnClickListener(view -> AddGameFragment.newInstance().show(getFragmentManager(), "fragment_add_game"));
 
         rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
             //Go to drive activity to manage the folder of the app...
@@ -74,7 +74,7 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
             String categoryName = category_cursor.getString(category_cursor.getColumnIndexOrThrow("Name"));
             categories.put(categoryName.toLowerCase(), new Category(categoryId, categoryName, new ArrayList<>()));
         }
-
+        category_cursor.close();
 
         Cursor game_cursor = POIsProvider.getAllGames();
         while (game_cursor.moveToNext()) {

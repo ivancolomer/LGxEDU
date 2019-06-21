@@ -55,7 +55,7 @@
             android:name=".activities_new.play.PlayActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".games.trivia.activities.CreateTriviaQuestionActivity"
+            android:name=".games.trivia.activities.EditGameActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".legacy.CreateItemActivity"

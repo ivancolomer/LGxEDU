@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities_new.manager.holders;
+/*package com.lglab.ivan.lgxeducontroller.activities_new.manager.holders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -159,4 +159,4 @@ public class TreeGameHolder extends TreeNode.BaseNodeViewHolder<TreeGameHolder.I
     }
 
 
-}
+}*/

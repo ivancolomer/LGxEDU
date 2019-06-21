@@ -2,38 +2,26 @@ package com.lglab.ivan.lgxeducontroller.activities_new.manager.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.enums.QuestionCreateEnum;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameEnum;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.Question;
-import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
-import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
+import com.lglab.ivan.lgxeducontroller.games.trivia.activities.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AddGameFragment extends DialogFragment {
@@ -105,9 +93,11 @@ public class AddGameFragment extends DialogFragment {
             dialog.cancel();
 
             Game newGame = GameManager.createGame(gameTitleText.getText().toString(), selectedGameType, selectedCategory.getTitle());
+            newGame.getQuestions().add(newGame.createQuestion());
             GameManager.editGame(newGame);
 
-            Intent intent = new Intent(getContext(), GameManager.getInstance().getManagerGameActivity());
+            Intent intent = new Intent(getContext(), EditGameActivity.class);
+            intent.putExtra("is_new", true);
             getContext().startActivity(intent);
         })
         .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel());

@@ -86,7 +86,8 @@ public abstract class GameManager {
         }
 
         game.setName(name);
-
+        game.setType(type);
+        game.setCategory(category);
         return game;
     }
 
@@ -119,5 +120,5 @@ public abstract class GameManager {
 
     public abstract Class<?> getGameActivity();
 
-    public abstract Class<?> getManagerGameActivity();
+    public abstract Class<?> getGameEditFragment();
 }

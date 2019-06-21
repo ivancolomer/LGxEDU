@@ -18,7 +18,7 @@
             android:layout_marginLeft="@dimen/list_item_left_margin_2"
             android:layout_marginTop="16dp"
             android:text="Hello Card"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="@dimen/horizontal_margin"
+                android:layout_marginRight="32dp"
                 android:src="@drawable/ic_edit_black_24dp"
                 android:tint="@color/blue" />
 

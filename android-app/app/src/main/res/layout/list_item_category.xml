@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/list_item_left_margin"
         android:gravity="center_vertical"
-        android:textSize="20sp"
+        android:textSize="24sp"
         tools:text="Category" />
 
     <LinearLayout

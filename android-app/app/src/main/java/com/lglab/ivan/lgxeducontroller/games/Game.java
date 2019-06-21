@@ -116,8 +116,16 @@ public abstract class Game implements IJsonPacker, Parcelable {
         return category;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public GameEnum getType() {
         return type;
+    }
+
+    public void setType(GameEnum type) {
+        this.type = type;
     }
 
     public List<Question> getQuestions() {

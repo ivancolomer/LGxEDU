@@ -3,7 +3,6 @@ package com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,12 @@ import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveG
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.activities.EditGameActivity;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableListPosition;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
-
-import org.json.JSONException;
 
 import java.util.List;
 
@@ -118,10 +116,10 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             quizName.setText(game.getName());
             this.editButton.setOnClickListener(view -> {
 
-                this.game.getQuestions().add(this.game.createQuestion());
                 GameManager.editGame(this.game);
 
-                Intent intent = new Intent(itemView.getContext(), GameManager.getInstance().getManagerGameActivity());
+                Intent intent = new Intent(itemView.getContext(), EditGameActivity.class);
+                intent.putExtra("is_new", false);
                 itemView.getContext().startActivity(intent);
             });
 

@@ -1,47 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".games.trivia.activities.TriviaActivity">
+    android:orientation="horizontal">
 
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/main_layout_quiz"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3" />
 
         <github.chenupt.springindicator.viewpager.ScrollerViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
             android:layout_gravity="center" />
 
         <github.chenupt.springindicator.SpringIndicator
             android:id="@+id/indicator"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_height="0dp"
+
+            android:layout_gravity="end"
+            android:layout_weight="0.7"
             app:siIndicatorColor="@color/colorPrimary"
             app:siIndicatorColors="@array/indicator_colors"
             app:siSelectedTextColor="@android:color/white"
             app:siTextColor="@color/grey_700"
             app:siTextSize="18sp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5">
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/exit_from_quiz_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
-            android:layout_margin="24dp"
+            android:layout_margin="32dp"
             android:layout_weight="0"
             android:src="@drawable/baseline_exit_to_app_white_48"
             android:visibility="invisible"
-            app:backgroundTint="@color/colorPrimary"></android.support.design.widget.FloatingActionButton>
-
-    </FrameLayout>
-
+            app:backgroundTint="@color/colorPrimary" />
+    </LinearLayout>
 </RelativeLayout>

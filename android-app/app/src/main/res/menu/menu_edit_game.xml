@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/grp2asdas" android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/add_question"
+            android:title="Add a question"
+            android:visible="true"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_add_box_white_24dp" />
+
+        <item
+            android:id="@+id/remove_question"
+            android:title="Remove a question"
+            android:visible="true"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_delete_white_24dp" />
+    </group>
+
+    <group android:id="@+id/grp1aasd" android:checkableBehavior="single">
+        <item
+            android:id="@+id/save_game"
+            android:title="Save Game"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_check_white_24dp" />
+    </group>
+
+
+</menu>

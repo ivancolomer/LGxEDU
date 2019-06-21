@@ -53,7 +53,6 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         textView = rootView.findViewById(R.id.no_games_found);
         textView.setVisibility(View.GONE);
         recyclerView.setLayoutManager(layoutManager);
-        reloadAdapter();
 
         rootView.findViewById(R.id.add_game).setOnClickListener(view -> AddGameFragment.newInstance().show(getFragmentManager(), "fragment_add_game"));
 
@@ -62,6 +61,12 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        reloadAdapter();
     }
 
     private List<Category> makeCategories() {

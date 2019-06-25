@@ -73,7 +73,7 @@ public class PlayActivity extends GoogleDriveActivity {
 
         reloadAdapter();
 
-        findViewById(R.id.play_import).setOnClickListener(view -> importQuiz());
+        //findViewById(R.id.play_import).setOnClickListener(view -> importQuiz());
     }
 
     @Override

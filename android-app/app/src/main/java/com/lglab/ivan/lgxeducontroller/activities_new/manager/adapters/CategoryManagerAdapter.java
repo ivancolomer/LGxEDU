@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -105,8 +106,8 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
         public Game game;
         private TextView quizName;
-        private ImageView editButton;
-        private ImageView deleteButton;
+        private ImageButton editButton;
+        private ImageButton deleteButton;
 
         GameViewHolder(View itemView) {
             super(itemView);
@@ -120,10 +121,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             this.game = game;
             quizName.setText(game.getName());
 
-            this.quizName.setOnClickListener(view ->  {
-                AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity)itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game");
-
-            });
+            this.quizName.setOnClickListener(view -> AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity)itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game"));
 
             this.editButton.setOnClickListener(view -> {
 

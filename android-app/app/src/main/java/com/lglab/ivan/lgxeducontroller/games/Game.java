@@ -245,7 +245,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         String encodedImage;
         try {
             ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-            bitmapPicture = Bitmap.createScaledBitmap(bitmapPicture, 200, 200, true);
+            bitmapPicture = Bitmap.createScaledBitmap(bitmapPicture, 300, 300, true);
             bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
                     byteArrayBitmapStream);
             byte[] b = byteArrayBitmapStream.toByteArray();

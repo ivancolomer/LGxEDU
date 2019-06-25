@@ -12,10 +12,10 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -609,7 +609,7 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
         }
     }
 
-    private void setCancelComeBackBehaviour(android.support.design.widget.FloatingActionButton cancel) {
+    private void setCancelComeBackBehaviour(FloatingActionButton cancel) {
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -685,11 +685,11 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     public static class ViewHolderTour {
 
-        public android.support.design.widget.FloatingActionButton cancel;
+        public FloatingActionButton cancel;
         EditText tourName;
         Spinner categoryID;
-        android.support.design.widget.FloatingActionButton createTOUR;
-        android.support.design.widget.FloatingActionButton updateTOUR;
+        FloatingActionButton createTOUR;
+        FloatingActionButton updateTOUR;
         ListView addedPois;
         EditText globalInterval;
         private Switch switchButtonHide;
@@ -699,10 +699,10 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
             tourName = (EditText) rootView.findViewById(R.id.tour_name);
             switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
             categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
-            createTOUR = (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.create_tour);
-            updateTOUR = (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.update_tour);
+            createTOUR = (FloatingActionButton) rootView.findViewById(R.id.create_tour);
+            updateTOUR = (FloatingActionButton) rootView.findViewById(R.id.update_tour);
             addedPois = (ListView) rootView.findViewById(R.id.tour_pois_listview);
-            cancel = (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
+            cancel = (FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
             globalInterval = (EditText) rootView.findViewById(R.id.pois_interval);
         }
     }

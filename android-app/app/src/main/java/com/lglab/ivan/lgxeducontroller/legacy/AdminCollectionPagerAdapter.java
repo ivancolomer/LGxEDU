@@ -1,9 +1,9 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.ManageGamesFragment;
 import com.lglab.ivan.lgxeducontroller.legacy.PW.NearbyBeaconsFragment;

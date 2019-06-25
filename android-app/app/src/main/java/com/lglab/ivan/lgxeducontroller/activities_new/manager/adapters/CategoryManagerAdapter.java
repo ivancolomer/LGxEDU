@@ -2,7 +2,7 @@ package com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

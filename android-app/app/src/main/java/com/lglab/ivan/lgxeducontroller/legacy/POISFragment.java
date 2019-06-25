@@ -3,21 +3,19 @@ package com.lglab.ivan.lgxeducontroller.legacy;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,14 +25,11 @@ import android.widget.Toast;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
-import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
-import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.TourPOI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -812,7 +807,7 @@ public class POISFragment extends Fragment {
         tourIsWorking = true;
     }
 
-    private void showAlert(final android.support.design.widget.FloatingActionButton stopButton, final LiquidGalaxyTourView tour) {
+    private void showAlert(final FloatingActionButton stopButton, final LiquidGalaxyTourView tour) {
         // prepare the alert box
         AlertDialog.Builder alertbox = new AlertDialog.Builder(getActivity());
 
@@ -843,11 +838,11 @@ public class POISFragment extends Fragment {
 
     /*------------OTHER UTILITIES------------*/
     /*The following four methods works when user decides to Edit or Delete one item or when it cancels these just mentioned operations.*/
-    private void cancelButtonTreatment(android.support.design.widget.FloatingActionButton cancel, final Dialog dialog) {
+    private void cancelButtonTreatment(FloatingActionButton cancel, final Dialog dialog) {
         cancel.setOnClickListener(v -> dialog.dismiss());
     }
 
-    private void editButtonTreatment(final String itemSelectedId, final String type, android.support.design.widget.FloatingActionButton edit, final Dialog dialog) {
+    private void editButtonTreatment(final String itemSelectedId, final String type, FloatingActionButton edit, final Dialog dialog) {
         edit.setOnClickListener(v -> {
             dialog.dismiss();
             Intent updateCategoryIntent = new Intent(getActivity(), UpdateItemActivity.class);

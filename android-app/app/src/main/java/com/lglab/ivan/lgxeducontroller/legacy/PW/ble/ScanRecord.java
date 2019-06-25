@@ -23,7 +23,7 @@
 package com.lglab.ivan.lgxeducontroller.legacy.PW.ble;
 
 import android.os.ParcelUuid;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.SparseArray;
 
 import java.util.ArrayList;

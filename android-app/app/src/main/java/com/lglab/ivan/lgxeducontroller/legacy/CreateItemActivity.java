@@ -1,7 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lglab.ivan.lgxeducontroller.R;
 

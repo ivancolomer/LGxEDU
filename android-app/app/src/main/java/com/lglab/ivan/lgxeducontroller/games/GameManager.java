@@ -2,11 +2,9 @@ package com.lglab.ivan.lgxeducontroller.games;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
-import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

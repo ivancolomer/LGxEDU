@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0">
 
-        <pl.droidsonroids.gif.GifImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/wifi_gif"
             android:layout_width="96dp"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:src="@drawable/wifi"
             android:visibility="visible" />
     </RelativeLayout>
-
+h
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

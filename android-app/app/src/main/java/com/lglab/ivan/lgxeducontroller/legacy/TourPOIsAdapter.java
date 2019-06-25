@@ -1,7 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;

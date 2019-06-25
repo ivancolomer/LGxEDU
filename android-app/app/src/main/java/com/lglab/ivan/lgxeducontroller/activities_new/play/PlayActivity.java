@@ -4,10 +4,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -62,7 +62,7 @@ public class PlayActivity extends GoogleDriveActivity {
         dataList = new ArrayList<>();
 
         adapter = new PlayAdapter(dataList, this);
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
         recyclerView = findViewById(R.id.play_rv);
         progressBar = findViewById(R.id.play_pb);

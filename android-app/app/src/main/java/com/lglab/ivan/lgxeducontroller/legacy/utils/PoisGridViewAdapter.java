@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.core.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
-import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
-import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.List;

@@ -1,11 +1,11 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
 
 import android.os.Bundle;
-import android.support.v4.view.MenuCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.core.view.MenuCompat;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;

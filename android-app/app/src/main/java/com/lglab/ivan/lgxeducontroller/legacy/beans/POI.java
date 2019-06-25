@@ -3,17 +3,12 @@ package com.lglab.ivan.lgxeducontroller.legacy.beans;
 import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentActivity;
 
 import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class POI implements IJsonPacker, Parcelable {
 

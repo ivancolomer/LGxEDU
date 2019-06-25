@@ -5,21 +5,16 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 
-import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.BuildConfig;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
-import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
-import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import static com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract.POIEntry;
 import static com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract.TourPOIsEntry;
 
 public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {

@@ -5,9 +5,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,8 +26,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import pl.droidsonroids.gif.GifImageView;
-
 public class NavigateActivity extends AppCompatActivity implements ILGConnection {
 
     private static final String TAG = NavigateActivity.class.getSimpleName();
@@ -34,7 +33,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
     private final HashMap<Integer, PointerDetector> pointers = new HashMap<>();
     private long canMoveTime = 0;
 
-    private GifImageView wifiGif;
+    private AppCompatImageView wifiGif;
     private short currentStatus;
 
     private boolean isOnChromeBook = false;

@@ -8,27 +8,21 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.core.content.res.ResourcesCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
-import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
-import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.Tour;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

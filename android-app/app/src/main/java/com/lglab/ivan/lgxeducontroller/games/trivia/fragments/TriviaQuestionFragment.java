@@ -1,11 +1,10 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia.fragments;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
-import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
-import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;

@@ -52,7 +52,7 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         textView.setVisibility(View.GONE);
         recyclerView.setLayoutManager(layoutManager);
 
-        rootView.findViewById(R.id.add_game).setOnClickListener(view -> AddGameFragment.newInstance().show(getFragmentManager(), "fragment_add_game"));
+        rootView.findViewById(R.id.add_game).setOnClickListener(view -> AddGameFragment.newInstance(null, null, 0).show(getFragmentManager(), "fragment_add_game"));
 
         rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
             //Go to drive activity to manage the folder of the app...

@@ -53,10 +53,10 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     private static ViewHolderTour viewHolderTour;
     private static Map<String, String> spinnerIDsAndShownNames, categoriesOfPOIsSpinner;
     private static List<TourPOI> tourPois, newTourPOIS;
-    double latitude;
-    double longitude;
-    String poiName;
-    GoogleMap map;
+    private double latitude;
+    private double longitude;
+    private String poiName;
+    private GoogleMap map;
     private String updateType, newShownName;
     private Cursor queryCursor;
     private ArrayAdapter<String> adapter;
@@ -67,26 +67,23 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     }
 
     public static void deleteButtonTreatment(View view, final TourPOI tourPoi) {
-        final ImageView delete = (ImageView) view.findViewById(R.id.delete);
+        final ImageView delete = view.findViewById(R.id.delete);
         screenSizeTreatment(delete);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        delete.setOnClickListener(v -> {
 
-                if (tourPois.contains(tourPoi)) {
-                    tourPois.remove(tourPoi);
-                } else if (newTourPOIS.contains(tourPoi)) {
-                    newTourPOIS.remove(tourPoi);
-                }
-
-                String id = String.valueOf(tourPoi.getPoiID());
-                FragmentActivity activity = (FragmentActivity) rootView.getContext();
-                POIsContract.TourPOIsEntry.deleteByTourIdAndPoiID(activity, itemSelectedID, id);
-
-                TourPOIsAdapter.setType("updating");
-                TourPOIsAdapter adapter = new TourPOIsAdapter(activity, tourPois);
-                viewHolderTour.addedPois.setAdapter(adapter);
+            if (tourPois.contains(tourPoi)) {
+                tourPois.remove(tourPoi);
+            } else if (newTourPOIS.contains(tourPoi)) {
+                newTourPOIS.remove(tourPoi);
             }
+
+            String id = String.valueOf(tourPoi.getPoiID());
+            FragmentActivity activity = (FragmentActivity) rootView.getContext();
+            POIsContract.TourPOIsEntry.deleteByTourIdAndPoiID(activity, itemSelectedID, id);
+
+            TourPOIsAdapter.setType("updating");
+            TourPOIsAdapter adapter = new TourPOIsAdapter(activity, tourPois);
+            viewHolderTour.addedPois.setAdapter(adapter);
         });
     }
 
@@ -223,8 +220,8 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     private ViewHolderPoi setPOILayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_poi, container, false);
         final ViewHolderPoi viewHolder = new ViewHolderPoi(rootView);
-        viewHolder.createPOI.setVisibility(View.GONE);
-        viewHolder.updatePOI.setVisibility(View.VISIBLE);
+        viewHolder.createPOI.hide();
+        viewHolder.updatePOI.show();
         setCancelComeBackBehaviour(viewHolder.cancel);
 
         return viewHolder;
@@ -343,8 +340,8 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     private ViewHolderCategory setCategoryLayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_category, container, false);
         final ViewHolderCategory viewHolder = new ViewHolderCategory(rootView);
-        viewHolder.createCategory.setVisibility(View.GONE);
-        viewHolder.updateCategory.setVisibility(View.VISIBLE);
+        viewHolder.createCategory.hide();
+        viewHolder.updateCategory.show();
         setCancelComeBackBehaviour(viewHolder.cancel);
 
         return viewHolder;
@@ -560,8 +557,8 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     private ViewHolderTour setTOURLayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_tour, container, false);
         final ViewHolderTour viewHolder = new ViewHolderTour(rootView);
-        viewHolder.createTOUR.setVisibility(View.GONE);
-        viewHolder.updateTOUR.setVisibility(View.VISIBLE);
+        viewHolder.createTOUR.hide();
+        viewHolder.updateTOUR.show();
         setCancelComeBackBehaviour(viewHolder.cancel);
 
         return viewHolder;

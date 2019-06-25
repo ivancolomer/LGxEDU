@@ -1,8 +1,12 @@
 package com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.IGamesAdapterActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveGameTask;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.fragments.AddGameFragment;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -114,6 +119,12 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
         void onBind(Game game, final CategoryManagerAdapter adapter, final int flatPosition) {
             this.game = game;
             quizName.setText(game.getName());
+
+            this.quizName.setOnClickListener(view ->  {
+                AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity)itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game");
+
+            });
+
             this.editButton.setOnClickListener(view -> {
 
                 GameManager.editGame(this.game);
@@ -130,7 +141,6 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                     .setPositiveButton("Delete", (dialog, id) -> {
                         new RemoveGameTask(game).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         adapter.removeItem(flatPosition);
-
                     })
                     .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
                     .create()

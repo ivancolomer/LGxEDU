@@ -1,7 +1,10 @@
 package com.lglab.ivan.lgxeducontroller.games;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
@@ -67,7 +70,7 @@ public abstract class GameManager {
         return game;
     }
 
-    public static Game createGame(String name, GameEnum type, String category) {
+    public static Game createGame(String name, GameEnum type, Bitmap image, String category, Context context) {
         Game game = null;
         switch(type) {
             case TRIVIA:
@@ -85,6 +88,7 @@ public abstract class GameManager {
 
         game.setName(name);
         game.setType(type);
+        game.setNewImage(image, context);
         game.setCategory(category);
         return game;
     }

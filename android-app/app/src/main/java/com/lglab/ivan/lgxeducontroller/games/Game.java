@@ -1,7 +1,15 @@
 package com.lglab.ivan.lgxeducontroller.games;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
+import android.util.Log;
 
 import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;
 
@@ -9,14 +17,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class Game implements IJsonPacker, Parcelable {
+
+    private static Random random = new Random();
 
     private long id;
     private String name;
     private String category;
+    private String imageName;
     private GameEnum type;
     private List<Question> questions;
 
@@ -24,6 +42,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         id = 0;
         name = "";
         category = "";
+        imageName = "";
         type = null;
         questions = new ArrayList<>();
     }
@@ -33,6 +52,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         id = in.readLong();
         name = in.readString();
         category = in.readString();
+        imageName = in.readString();
         type = GameEnum.findByName(in.readString());
         questions = in.readArrayList(createQuestion().getClass().getClassLoader());
     }
@@ -41,6 +61,20 @@ public abstract class Game implements IJsonPacker, Parcelable {
     public Game unpack(JSONObject obj) throws JSONException {
         name = obj.getString("name");
         category = obj.getString("category");
+        imageName = obj.getString("imageName");
+        type = GameEnum.findByName(obj.getString("type"));
+        if(type == null)
+            throw new JSONException("No game type found!");
+
+        unpackQuestions(obj.getJSONArray("questions"));
+        return this;
+    }
+
+    public Game unpack_external(JSONObject obj, Context context) throws JSONException {
+        name = obj.getString("name");
+        category = obj.getString("category");
+        setNewImage(getBitmapFromString(obj.getString("image")), context);
+
         type = GameEnum.findByName(obj.getString("type"));
         if(type == null)
             throw new JSONException("No game type found!");
@@ -55,6 +89,24 @@ public abstract class Game implements IJsonPacker, Parcelable {
 
         obj.put("name", name);
         obj.put("category", category);
+        obj.put("imageName", imageName);
+        obj.put("type", type.name());
+
+        JSONArray array = new JSONArray();
+        for (int i = 0; i < questions.size(); i++) {
+            array.put(questions.get(i).pack());
+        }
+        obj.put("questions", array);
+
+        return obj;
+    }
+
+    public JSONObject pack_external(Context context) throws JSONException {
+        JSONObject obj = new JSONObject();
+
+        obj.put("name", name);
+        obj.put("category", category);
+        obj.put("image", getStringFromBitmap(getImage(context)));
         obj.put("type", type.name());
 
         JSONArray array = new JSONArray();
@@ -84,6 +136,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         parcel.writeLong(id);
         parcel.writeString(name);
         parcel.writeString(category);
+        parcel.writeString(imageName);
         parcel.writeString(type.name());
         parcel.writeList(questions);
     }
@@ -120,6 +173,61 @@ public abstract class Game implements IJsonPacker, Parcelable {
         this.category = category;
     }
 
+    public Bitmap getImage(Context context) {
+        if(imageName.startsWith("1234_")) {
+            // load image
+            try {
+                // get input stream
+                InputStream ims = context.getAssets().open(imageName.substring(5));
+                // load image as Drawable
+                return BitmapFactory.decodeStream(ims);
+            }
+            catch(IOException ex) {
+                return null;
+            }
+        }
+
+        return imageName != "" ? BitmapFactory.decodeFile(new File( context.getFilesDir().toString() + "/saved_images", imageName).getAbsolutePath()) : null;
+    }
+
+    public void setImage(File file) {
+        this.imageName = file.getName();
+    }
+
+    public void setNewImage(Bitmap bitmap, Context context) {
+        imageName = generateRandomString();
+
+        if(bitmap == null) {
+            Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+            bitmap = Bitmap.createBitmap(200, 200, conf);
+        }
+
+        final Bitmap bitmap1 = bitmap;
+
+        new Thread(() -> {
+            String root = context.getFilesDir().toString();
+            File myDir = new File(root + "/saved_images");
+            if (!myDir.exists()) {
+                myDir.mkdirs();
+            }
+
+            File file = new File (myDir, imageName);
+            if (file.exists ())
+                file.delete ();
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                out.flush();
+                out.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Log.i("image", "image saved to >>>" + file.getAbsolutePath());
+        }).start();
+    }
+
     public GameEnum getType() {
         return type;
     }
@@ -130,5 +238,49 @@ public abstract class Game implements IJsonPacker, Parcelable {
 
     public List<Question> getQuestions() {
         return questions;
+    }
+
+    private static String getStringFromBitmap(Bitmap bitmapPicture) {
+        final int COMPRESSION_QUALITY = 100;
+        String encodedImage;
+        try {
+            ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+            bitmapPicture = Bitmap.createScaledBitmap(bitmapPicture, 200, 200, true);
+            bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
+                    byteArrayBitmapStream);
+            byte[] b = byteArrayBitmapStream.toByteArray();
+            encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            return encodedImage;
+        }
+        catch(Exception e) {
+            Log.d("Game", e.getMessage());
+            return "";
+        }
+    }
+
+    private static Bitmap getBitmapFromString(String stringPicture) {
+        try {
+            byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            return decodedByte;
+        } catch (Exception e) {
+            Log.d("Game", e.getMessage());
+            return null;
+        }
+    }
+
+    private static String generateRandomString() {
+
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 30;
+
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
     }
 }

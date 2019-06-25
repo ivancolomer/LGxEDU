@@ -112,20 +112,20 @@ public class POIsProvider extends ContentProvider {
         return mOpenHelper.getReadableDatabase().rawQuery(sql, new String[]{});
     }
 
-    public static Cursor queryGame(int quizId) {
+    public static Cursor queryGame(long quizId) {
         String sql = "SELECT q._id, q.Data FROM game q WHERE q._ID = ?";
         return mOpenHelper.getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(quizId)});
     }
 
-    public static void updateGameById(int gameId, String data) {
+    public static void updateGameById(long gameId, String data) {
         mOpenHelper.getReadableDatabase().execSQL("UPDATE game SET data = '" + data + "' WHERE _id = ?", new String[]{String.valueOf(gameId)});
     }
 
-    public static void removeGameById(int gameId) {
+    public static void removeGameById(long gameId) {
         mOpenHelper.getReadableDatabase().execSQL("DELETE FROM game WHERE _ID = ?", new String[]{String.valueOf(gameId)});
     }
 
-    public static void removeCategoryGameById(int categoryId) {
+    public static void removeCategoryGameById(long categoryId) {
         mOpenHelper.getReadableDatabase().execSQL("DELETE FROM game_category WHERE _ID = ?", new String[]{String.valueOf(categoryId)});
     }
 

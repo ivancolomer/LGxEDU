@@ -113,4 +113,20 @@ public class MainActivity extends GoogleDriveActivity {
         dialogButton.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
+
+    private boolean isFirstTime()
+    {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        boolean ranBefore = preferences.getBoolean("RanBefore", false);
+        if (!ranBefore) {
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RanBefore", true);
+            editor.commit();
+            // Send the SMS
+
+        }
+        return ranBefore;
+
+    }
 }

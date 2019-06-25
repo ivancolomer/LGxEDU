@@ -121,11 +121,11 @@ public class POIsDbHelper extends SQLiteOpenHelper {
     }
 
     private String createCategoryEntryTable() {
-        return "CREATE TABLE category (_id INTEGER PRIMARY KEY AUTOINCREMENT,Name TEXT NOT NULL, Father_ID INTEGER NOT NULL, Shown_Name TEXT UNIQUE NOT NULL, Hide INTEGER NOT NULL  );";
+        return "CREATE TABLE category (_id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Father_ID INTEGER NOT NULL, Shown_Name TEXT UNIQUE NOT NULL, Hide INTEGER NOT NULL  );";
     }
 
     private String createTourEntryTable() {
-        return "CREATE TABLE tour (_id INTEGER PRIMARY KEY AUTOINCREMENT,Name TEXT NOT NULL, Category INTEGER NOT NULL, Hide INTEGER NOT NULL, Interval_of_time INTEGER NOT NULL, FOREIGN KEY (Category) REFERENCES category (_id)  );";
+        return "CREATE TABLE tour (_id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, Category INTEGER NOT NULL, Hide INTEGER NOT NULL, Interval_of_time INTEGER NOT NULL, FOREIGN KEY (Category) REFERENCES category (_id)  );";
     }
 
     private String createTourPOIsEntryTable() {

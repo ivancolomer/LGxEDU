@@ -4,14 +4,22 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.Category;
@@ -21,12 +29,21 @@ import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.activities.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class AddGameFragment extends DialogFragment {
+
+    private static int RESULT_LOAD_IMG = 1;
+
     private EditText gameTitleText;
     private Spinner gameTypeSpinner;
+    private ImageView gameImage;
+    private Button selectImageButton;
     private AutoCompleteTextView categoryAutoComplete;
     private ArrayAdapter<Category> categoryStringList;
     private ArrayAdapter<String> gameTypeStringList;
@@ -46,6 +63,9 @@ public class AddGameFragment extends DialogFragment {
 
         gameTitleText = dialogView.findViewById(R.id.game_title_text);
         gameTypeSpinner = dialogView.findViewById(R.id.game_type_spinner);
+        gameImage = dialogView.findViewById(R.id.image_create_game);
+        selectImageButton = dialogView.findViewById(R.id.select_image_button);
+
         categoryAutoComplete = dialogView.findViewById(R.id.game_category_autocomplete);
 
         List<String> list = new ArrayList<>();
@@ -85,6 +105,11 @@ public class AddGameFragment extends DialogFragment {
         categoryAutoComplete.setAdapter(categoryStringList);
         categoryAutoComplete.setOnItemClickListener((parent, view1, position, id) -> selectedCategory = categoryStringList.getItem(position));
 
+        selectImageButton.setOnClickListener((view) -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+        });
 
         // Show soft keyboard automatically and request focus to field
         gameTitleText.requestFocus();
@@ -92,7 +117,9 @@ public class AddGameFragment extends DialogFragment {
         builder.setPositiveButton("Create", (dialog, id) -> {
             dialog.cancel();
 
-            Game newGame = GameManager.createGame(gameTitleText.getText().toString(), selectedGameType, selectedCategory.getTitle());
+            BitmapDrawable drawable = (BitmapDrawable)gameImage.getDrawable();
+
+            Game newGame = GameManager.createGame(gameTitleText.getText().toString(), selectedGameType, drawable != null ? drawable.getBitmap() : null, selectedCategory.getTitle(), getContext());
             newGame.getQuestions().add(newGame.createQuestion());
             GameManager.editGame(newGame);
 
@@ -103,6 +130,27 @@ public class AddGameFragment extends DialogFragment {
         .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel());
 
         return builder.create();
+    }
+
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+        if (reqCode == RESULT_LOAD_IMG && resultCode == RESULT_OK) {
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                gameImage.setImageBitmap(selectedImage);
+                gameImage.setVisibility(View.VISIBLE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        } else {
+            Toast.makeText(getContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+        }
     }
 
     public static AddGameFragment newInstance() {

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.GameVi
         holder.textViewTitle.setText(game.getName());
         holder.textViewGenre.setText(game.getType().name());
 
-        new DownloadImageTask(holder.imageViewMovie).execute("https://i.ytimg.com/vi/ymIhLJ5AKpE/maxresdefault.jpg");
+        //new DownloadImageTask(holder.imageViewMovie).execute("https://i.ytimg.com/vi/ymIhLJ5AKpE/maxresdefault.jpg");
+        Bitmap image = game.getImage(this.context);
+        if(image != null)
+            holder.imageViewMovie.setImageBitmap(image);
 
         holder.itemView.setOnClickListener(arg0 -> startGame((Activity) holder.itemView.getContext(), position));
         /*Picasso.with(context).
@@ -69,7 +74,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.GameVi
             textViewTitle = itemView.findViewById(R.id.game_name);
             textViewGenre = itemView.findViewById(R.id.game_type);
             imageViewMovie = itemView.findViewById(R.id.image_view_game);
-
         }
     }
 }

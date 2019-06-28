@@ -39,11 +39,20 @@ cat >/etc/network/if-up.d/${TUPLE}-lg_alias <<EOF
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 # This file created automatically by $0
 # to define an alias where lg systems can communicate
-ifconfig eth0:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0
+
+sudo ifconfig \$IFACE:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up 
+if [ "\$IFACE" = "eth0" ]; then 
+    sudo ifconfig wlan0:0 down 
+else 
+    sudo ifconfig eth0:0 down 
+fi
+
 # end of file
 EOF
 
 chmod 0755 /etc/network/if-up.d/${TUPLE}-lg_alias
+
+
 
 FRAME=`expr $1 - 1`
 

@@ -34,7 +34,6 @@ GIT_FOLDER_NAME="LGxEDU/liquid-galaxy"
 
 EARTH_FOLDER="/usr/bin/"
 NETWORK_INTERFACE=$(/sbin/route -n | grep "^0.0.0.0" | rev | cut -d' ' -f1 | rev)
-NETWORK_INTERFACE_MAC=$(cat /sys/class/net/$NETWORK_INTERFACE/address)
 
 read -p "Machine id (i.e. 1 for lg1) (1 == master): " MACHINE_ID
 if [ "$(echo $MACHINE_ID | cut -c-2)" == "lg" ]; then
@@ -97,8 +96,6 @@ GIT_URL: $GIT_URL
 GIT_FOLDER: $GIT_FOLDER_NAME
 
 EARTH_FOLDER: $EARTH_FOLDER
-NETWORK_INTERFACE: $NETWORK_INTERFACE
-NETWORK_MAC_ADDRESS: $NETWORK_INTERFACE_MAC
 
 Is it correct? Press any key to continue or CTRL-C to exit
 EOM
@@ -132,7 +129,7 @@ echo "Upgrading system packages ..."
 sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
-sudo apt-get install -yq git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish network-manager bc lsb-compat iputils-ping nano
+sudo apt-get install -yq git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-compat iputils-ping nano
 sudo apt-get install -yq libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 #
@@ -239,21 +236,26 @@ sudo tee "/etc/network/interfaces" > /dev/null 2>&1 << EOM
 auto lo
 iface lo inter loopback
 
-auto $NETWORK_INTERFACE
-iface $NETWORK_INTERFACE inet dhcp
+auto eth0 
+iface eth0 inet dhcp
 
-auto $INTERFACE:$MACHINE_ID
-iface $INTERFACE:$MACHINE_ID inet static
-address 10.42.$OCTET.$MACHINE_ID
-gateway 0.0.0.0
+auto eth0:0 
+iface eth0:0 inet static 
+address 10.42.$OCTET.$MACHINE_ID 
+gateway 0.0.0.0 
 netmask 255.255.255.0
+
+auto wlan0 
+iface wlan0 inet dhcp
+
+auto wlan0:0 
+iface wlan0:0 inet static 
+address 10.42.$OCTET.$MACHINE_ID 
+gateway 0.0.0.0 
+netmask 255.255.255.0
+
 EOM
 
-# In-session network configuration
-sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $NETWORK_INTERFACE
-
-sudo sed -i "s/\(managed *= *\).*/\1true/" /etc/NetworkManager/NetworkManager.conf
-echo "SUBSYSTEM==\"net\",ACTION==\"add\",ATTR{address}==\"$NETWORK_INTERFACE_MAC\",KERNEL==\"$NETWORK_INTERFACE\",NAME=\"$NETWORK_INTERFACE\"" | sudo tee /etc/udev/rules.d/10-network.rules > /dev/null
 sudo sed -i '/lgX.liquid.local/d' /etc/hosts
 sudo sed -i '/kh.google.com/d' /etc/hosts
 sudo sed -i '/10.42./d' /etc/hosts
@@ -326,8 +328,6 @@ sudo rm -r $GIT_FOLDER_NAME
 #
 echo "Cleaning up..."
 sudo apt-get -yq autoremove
-
-sudo /etc/init.d/network-manager restart
 
 echo "Liquid Galaxy installation completed! :-)"
 echo "Press ENTER key to exit"

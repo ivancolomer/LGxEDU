@@ -36,13 +36,13 @@ with other distributions.
 
 Tested with:
 
-- Crostini Container (with Debian GNU/Linux 9 and Linux Kernel 4.19.26-03278-g71dc68f9c9d0)
+- Crouton (with Ubuntu 16.04 GNOME version)
 
 ### Installation script
 
 Get and execute installation file on the target machine (from any user folder):
 
-`bash <(curl https://raw.githubusercontent.com/ivancolomer/lgxedu/master/liquid-galaxy/install.sh)`
+`bash <(curl -s -H "Cache-Control: no-cache" https://raw.githubusercontent.com/ivancolomer/lgxedu/master/liquid-galaxy/install.sh)`
 
 **Master:**
 

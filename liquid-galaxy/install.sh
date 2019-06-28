@@ -129,7 +129,7 @@ echo "Upgrading system packages ..."
 sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
-sudo apt-get install -yq git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-compat iputils-ping nano
+sudo apt-get install -yq nano git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping
 sudo apt-get install -yq libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 #

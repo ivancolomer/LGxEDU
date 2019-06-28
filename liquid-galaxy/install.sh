@@ -33,7 +33,7 @@ SCREEN_ORIENTATION="V"
 GIT_FOLDER_NAME="LGxEDU/liquid-galaxy"
 
 EARTH_FOLDER="/usr/bin/"
-NETWORK_INTERFACE=$(/sbin/route -n | grep "^0.0.0.0" | rev | cut -d' ' -f1 | rev)
+NETWORK_INTERFACE=$(/sbin/route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)
 
 read -p "Machine id (i.e. 1 for lg1) (1 == master): " MACHINE_ID
 if [ "$(echo $MACHINE_ID | cut -c-2)" == "lg" ]; then
@@ -102,7 +102,7 @@ EOM
 read
 
 if [ "$(cat /etc/os-release | grep 'PRETTY_NAME=\"Ubuntu 16.04.6 LTS\"')" == "" ]; then
-	echo "Warning!! This script is meant to be run on an DEBIAN GNU/Linux. It may not work as expected."
+	echo "Warning!! This script is meant to be run on an Ubuntu 16.04.6 LTS. It may not work as expected."
 	echo -n "Press any key to continue or CTRL-C to exit"
 	read
 fi
@@ -119,7 +119,7 @@ sudo -v
 # General
 #
 
-export DEBIAN_FRONTEND=noninteractive
+# export DEBIAN_FRONTEND=noninteractive
 
 # Update OS
 echo "Checking for system updates..."

@@ -288,7 +288,7 @@ sudo chmod 0755 -R "$HOME"/earth/scripts
 
 # Launch on boot
 mkdir -p $HOME/.config/autostart/
-echo -e "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec=bash "$HOME"/bin/startup-script.sh\nTerminal=true\nType=Application\nX-GNOME-Autostart-enabled=true" > $HOME"/.config/autostart/lg.desktop"
+echo -e "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec="$HOME"/bin/startup-script.sh&\nTerminal=true\nType=Application\nX-GNOME-Autostart-enabled=true" > $HOME"/.config/autostart/lg.desktop"
 
 # Launch with 'liquidgalaxy' command
 if ! grep -Fq "liquidgalaxy" ~/.bashrc

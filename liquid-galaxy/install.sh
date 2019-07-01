@@ -297,7 +297,7 @@ then
     echo "alias liquidgalaxy='bash /home/$USER/bin/startup-script.sh'" >> ~/.bashrc
     source ~/.bashrc
     # Chromebooks launch on terminal
-    printf "echo -n \"Do you want to initialize LiquidGalaxy (y/n)? \"\nread answer\nif [ \"\$answer\" != \"\${answer#[Yy]}\" ] ;then\nliquidgalaxy\nfi" >> ~/.bashrc
+    printf "echo -n \"Do you want to initialize LiquidGalaxy (y/n)? \"\nread answer\nif [ \"\$answer\" != \"\${answer#[Yy]}\" ] ;then\nliquidgalaxy\nfi\n" >> ~/.bashrc
 fi
 
 if ! grep -Fq "setxkbmap" ~/.bashrc

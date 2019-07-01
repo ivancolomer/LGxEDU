@@ -28,7 +28,7 @@ echo "Machine ID = $MACHINE_ID"
 echo "Interface = $INTERFACE"
 
 if [[ -z $(/sbin/ifconfig | grep 10.42) ]]; then
-    #sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $INTERFACE
+    /etc/init.d/networking restart
 fi
 
 echo "DISPLAY = \"$DISPLAY\"."

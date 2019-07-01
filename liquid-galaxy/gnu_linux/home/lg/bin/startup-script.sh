@@ -15,7 +15,7 @@
 
 # Start ssh service if not started
 if [[ -z $(ps -A | grep sshd) ]]; then
-    /etc/init.d/ssh restart
+    sudo /etc/init.d/ssh restart
 fi
 
 # Add IP to interface if not done yet
@@ -28,7 +28,7 @@ echo "Machine ID = $MACHINE_ID"
 echo "Interface = $INTERFACE"
 
 if [[ -z $(/sbin/ifconfig | grep 10.42) ]]; then
-    /etc/init.d/networking restart
+    sudo /etc/init.d/networking restart
 fi
 
 echo "DISPLAY = \"$DISPLAY\"."

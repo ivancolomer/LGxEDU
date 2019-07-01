@@ -33,7 +33,8 @@ SCREEN_ORIENTATION="V"
 GIT_FOLDER_NAME="LGxEDU/liquid-galaxy"
 
 EARTH_FOLDER="/usr/bin/"
-NETWORK_INTERFACE=$(/sbin/route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)
+NETWORK_INTERFACE="wlan0"
+#$(/sbin/route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)
 
 read -p "Machine id (i.e. 1 for lg1) (1 == master): " MACHINE_ID
 if [ "$(echo $MACHINE_ID | cut -c-2)" == "lg" ]; then
@@ -238,20 +239,8 @@ sudo tee "/etc/network/interfaces" > /dev/null 2>&1 << EOM
 auto wlan0 
 iface wlan0 inet dhcp
 
-auto wlan0:0 
-iface wlan0:0 inet static 
-address 10.42.$OCTET.$MACHINE_ID 
-gateway 0.0.0.0 
-netmask 255.255.255.0
-
 auto eth0 
 iface eth0 inet dhcp
-
-auto eth0:0 
-iface eth0:0 inet static 
-address 10.42.$OCTET.$MACHINE_ID 
-gateway 0.0.0.0 
-netmask 255.255.255.0
 
 EOM
 
@@ -302,11 +291,14 @@ mkdir -p $HOME/.config/autostart/
 echo -e "[Desktop Entry]\nName=LG\nExec=bash "$HOME"/bin/startup-script.sh\nType=Application" > $HOME"/.config/autostart/lg.desktop"
 
 # Launch with 'liquidgalaxy' command
-echo "alias liquidgalaxy='bash /home/$USER/bin/startup-script.sh'" >> ~/.bashrc
-source ~/.bashrc
+#if ! grep -Fq "liquidgalaxy" ~/.bashrc
+#then
+#    echo "alias liquidgalaxy='bash /home/$USER/bin/startup-script.sh'" >> ~/.bashrc
+#    source ~/.bashrc
+#    # Chromebooks launch on terminal
+#    echo "liquidgalaxy" >> ~/.bashrc
+#fi
 
-# Chromebooks launch on terminal
-echo "liquidgalaxy" >> ~/.bashrc
 
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
 echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' sudo EDITOR='tee -a' visudo

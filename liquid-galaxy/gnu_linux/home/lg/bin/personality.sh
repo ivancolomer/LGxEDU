@@ -42,10 +42,10 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 if [ "\$IFACE" = "eth0" ]; then 
     sudo ifconfig wlan0:0 down
-    sudo ifconfig eth0:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up
+    sudo ifconfig eth0:0 10.42.${TUPLE}.${SCREEN}/24 up
 elif [ "\$IFACE" = "wlan0" ]; then 
     sudo ifconfig eth0:0 down
-    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up
+    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN}/24 up
 fi
 
 # end of file
@@ -59,7 +59,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 if [ "\$IFACE" = "eth0" ]; then
     sudo ifconfig eth0:0 down
-    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up
+    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN}/24 up
 elif [ "\$IFACE" = "wlan0" ]; then
     sudo ifconfig wlan0:0 down
 fi

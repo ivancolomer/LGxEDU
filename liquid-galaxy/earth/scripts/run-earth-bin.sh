@@ -78,7 +78,7 @@ while true ; do
     # shove mouse over to touchscreen interface
 
     # move mouse
-    DISPLAY=:1 /usr/bin/xdotool mousemove -screen 0 1190 1910
+    #DISPLAY=:1 /usr/bin/xdotool mousemove -screen 0 1190 1910
 
     logger -p local3.info -i "$0: running earth"
     ./google-earth-pro -style cleanlooks -font '-adobe-helvetica-bold-r-normal-*-3-*-*-*-p-*-iso8859-1'

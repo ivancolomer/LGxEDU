@@ -30,7 +30,8 @@ TOTAL_MACHINES="3"
 LG_FRAMES="lg3 lg1 lg2"
 OCTET="42"
 SCREEN_ORIENTATION="V"
-GIT_FOLDER_NAME="LGxEDU/liquid-galaxy"
+GIT_FOLDER_MAIN="LGxEDU"
+GIT_FOLDER_NAME="$GIT_FOLDER_MAIN/liquid-galaxy"
 
 EARTH_FOLDER="/usr/bin/"
 NETWORK_INTERFACE="wlan0"
@@ -307,6 +308,7 @@ fi
 
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
 echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
 
 # Web interface
 if [ $IS_MASTER == true ]; then
@@ -320,7 +322,7 @@ if [ $IS_MASTER == true ]; then
 fi
 
 # Cleanup
-sudo rm -r $GIT_FOLDER_NAME
+sudo rm -r $GIT_FOLDER_MAIN
 
 #
 # Global cleanup

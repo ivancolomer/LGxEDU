@@ -239,9 +239,13 @@ sudo tee "/etc/network/interfaces" > /dev/null 2>&1 << EOM
 
 auto wlan0 
 iface wlan0 inet dhcp
+post-up ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev wlan0
+down ip addr del 10.42.$OCTET.$MACHINE_ID/24 dev wlan0
 
 auto eth0 
 iface eth0 inet dhcp
+post-up ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev eth0
+down ip addr del 10.42.$OCTET.$MACHINE_ID/24 dev eth0
 
 EOM
 
@@ -308,7 +312,7 @@ fi
 
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
 echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/networking restart' | sudo tee -a /etc/sudoers
 
 # Web interface

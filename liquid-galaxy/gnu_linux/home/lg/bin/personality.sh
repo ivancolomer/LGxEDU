@@ -34,6 +34,7 @@ fi
 
 echo lg$SCREEN > /etc/hostname
 
+: '
 cat >/etc/network/if-up.d/${TUPLE}-lg_alias <<EOF
 #!/bin/sh
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
@@ -69,7 +70,7 @@ EOF
 
 chmod 0755 /etc/network/if-up.d/${TUPLE}-lg_alias
 chmod 0755 /etc/network/if-down.d/${TUPLE}-lg_alias
-
+'
 
 FRAME=`expr $1 - 1`
 

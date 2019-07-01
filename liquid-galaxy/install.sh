@@ -293,8 +293,8 @@ sudo chmod 0755 -R "$HOME"/earth/scripts
 sudo chmod 777 "$HOME"/bin/startup-script.sh
 
 # Launch on boot
-#mkdir -p $HOME/.config/autostart/
-#printf "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec=bash nohup $HOME/bin/startup-script.sh &>/dev\null &\nTerminal=true\nType=Application\nX-GNOME-Autostart-enabled=true\n" > $HOME"/.config/autostart/lg.desktop"
+mkdir -p $HOME/.config/autostart/
+printf "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec=bash nohup $HOME/bin/startup-script.sh >/dev/null 2>&1 &\nTerminal=true\nType=Application\nX-GNOME-Autostart-enabled=true\n" > $HOME"/.config/autostart/lg.desktop"
 
 # Launch with 'liquidgalaxy' command
 if ! grep -Fq "liquidgalaxy" ~/.bashrc
@@ -314,7 +314,7 @@ fi
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
 echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/networking restart' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
 
 # Web interface
 if [ $IS_MASTER == true ]; then

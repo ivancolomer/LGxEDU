@@ -233,23 +233,22 @@ sudo $HOME/bin/personality.sh $MACHINE_ID $OCTET > /dev/null
 # Network configuration
 
 sudo tee "/etc/network/interfaces" > /dev/null 2>&1 << EOM
-auto lo
-iface lo inter loopback
-
-auto eth0 
-iface eth0 inet dhcp
-
-auto eth0:0 
-iface eth0:0 inet static 
-address 10.42.$OCTET.$MACHINE_ID 
-gateway 0.0.0.0 
-netmask 255.255.255.0
+#interfaces used by if-up and if-down
 
 auto wlan0 
 iface wlan0 inet dhcp
 
 auto wlan0:0 
 iface wlan0:0 inet static 
+address 10.42.$OCTET.$MACHINE_ID 
+gateway 0.0.0.0 
+netmask 255.255.255.0
+
+auto eth0 
+iface eth0 inet dhcp
+
+auto eth0:0 
+iface eth0:0 inet static 
 address 10.42.$OCTET.$MACHINE_ID 
 gateway 0.0.0.0 
 netmask 255.255.255.0
@@ -293,7 +292,10 @@ if [ $IS_MASTER == true ]; then
 fi
 
 # In-session ssh daemon start
-sudo service ssh start
+sudo /etc/init.d/ssh start
+
+sudo chmod 0755 -R "$HOME"/bin/
+sudo chmod 0755 -R "$HOME"/earth/scripts
 
 # Launch on boot
 mkdir -p $HOME/.config/autostart/

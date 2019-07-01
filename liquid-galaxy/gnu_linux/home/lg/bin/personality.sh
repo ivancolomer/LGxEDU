@@ -40,11 +40,28 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 # This file created automatically by $0
 # to define an alias where lg systems can communicate
 
-sudo ifconfig \$IFACE:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up 
 if [ "\$IFACE" = "eth0" ]; then 
-    sudo ifconfig wlan0:0 down 
-else 
-    sudo ifconfig eth0:0 down 
+    sudo ifconfig wlan0:0 down
+    sudo ifconfig eth0:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up
+elif [ "\$IFACE" = "wlan0" ]; then 
+    sudo ifconfig eth0:0 down
+    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up
+fi
+
+# end of file
+EOF
+
+cat >/etc/network/if-down.d/${TUPLE}-lg_alias <<EOF
+#!/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+# This file created automatically by $0
+# to define an alias where lg systems can communicate
+
+if [ "\$IFACE" = "eth0" ]; then
+    sudo ifconfig eth0:0 down
+    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN} netmask 255.255.255.0 up
+elif [ "\$IFACE" = "wlan0" ]; then
+    sudo ifconfig wlan0:0 down
 fi
 
 # end of file

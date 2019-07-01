@@ -56,7 +56,7 @@ else
     #nitrogen --set-tiled ${XDG_PICTURES_DIR}/backgrounds/lg-bg-noframe.png &
 
     while [[ $IP_WAIT -le 9 ]]; do
-        PRIMARY_IP="$(ip addr show dev eth0 primary | awk '/inet\ / { print $2}')"
+        PRIMARY_IP="$(ip addr show dev wlan0 primary | awk '/inet\ / { print $2}')"
         if [[ -z $PRIMARY_IP ]]; then
             let IP_WAIT+=3
             sleep 3

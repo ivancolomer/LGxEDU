@@ -288,16 +288,16 @@ sudo chmod 0755 -R "$HOME"/earth/scripts
 
 # Launch on boot
 mkdir -p $HOME/.config/autostart/
-echo -e "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec="$HOME"/bin/startup-script.sh\nTerminal=false\nType=Application\nX-GNOME-Autostart-enabled=true" > $HOME"/.config/autostart/lg.desktop"
+echo -e "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec=bash "$HOME"/bin/startup-script.sh\nTerminal=true\nType=Application\nX-GNOME-Autostart-enabled=true" > $HOME"/.config/autostart/lg.desktop"
 
 # Launch with 'liquidgalaxy' command
-#if ! grep -Fq "liquidgalaxy" ~/.bashrc
-#then
-#    echo "alias liquidgalaxy='bash /home/$USER/bin/startup-script.sh'" >> ~/.bashrc
-#    source ~/.bashrc
+if ! grep -Fq "liquidgalaxy" ~/.bashrc
+then
+    echo "alias liquidgalaxy='bash /home/$USER/bin/startup-script.sh'" >> ~/.bashrc
+    source ~/.bashrc
 #    # Chromebooks launch on terminal
 #    echo "liquidgalaxy" >> ~/.bashrc
-#fi
+fi
 
 if ! grep -Fq "setxkbmap" ~/.bashrc
 then
@@ -306,7 +306,7 @@ then
 fi
 
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
-echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' sudo EDITOR='tee -a' visudo
+echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
 
 # Web interface
 if [ $IS_MASTER == true ]; then

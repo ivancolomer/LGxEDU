@@ -15,7 +15,7 @@
 
 # Start ssh service if not started
 if [[ -z $(ps -A | grep sshd) ]]; then
-    sudo service ssh start
+    sudo /etc/init.d/ssh start
 fi
 
 # Add IP to interface if not done yet

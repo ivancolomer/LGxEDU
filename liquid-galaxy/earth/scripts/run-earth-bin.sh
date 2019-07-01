@@ -39,7 +39,7 @@ if [[ "$( id -un )" == "lg" ]]; then
 fi
 
 [[ -n "${DISPLAY}" ]] || export DISPLAY=:1
-[ ${DISPLAY##*\.} -ne 0 ] && export SCREEN_NO=${DISPLAY##*\.}
+[ ${DISPLAY:1} -ne 0 ] && export SCREEN_NO=${DISPLAY##*\.}
 export __GL_SYNC_TO_VBLANK=1  # broken for nvidia when rotating screen
 
 cd ${SCRIPDIR} || exit 1

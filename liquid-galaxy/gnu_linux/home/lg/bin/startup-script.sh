@@ -27,7 +27,7 @@ echo "Octet = $OCTET"
 echo "Machine ID = $MACHINE_ID" 
 echo "Interface = $INTERFACE"
 
-if [[ -z $(/sbin/ifconfig | grep 10.42) ]]; then
+if [[ -z $(ip addr | grep 10.42) ]]; then
     sudo /etc/init.d/networking restart
 fi
 

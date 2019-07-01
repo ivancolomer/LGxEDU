@@ -40,12 +40,12 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 # This file created automatically by $0
 # to define an alias where lg systems can communicate
 
-if [ "\$IFACE" = "eth0" ]; then 
-    sudo ifconfig wlan0:0 down
-    sudo ifconfig eth0:0 10.42.${TUPLE}.${SCREEN}/24 up
+if [ "\$IFACE" = "eth0" ]; then
+    sudo ip addr del 10.42.${TUPLE}.${SCREEN}/24 dev wlan0
+    sudo ip addr add 10.42.${TUPLE}.${SCREEN}/24 dev eth0
 elif [ "\$IFACE" = "wlan0" ]; then 
-    sudo ifconfig eth0:0 down
-    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN}/24 up
+    sudo ip addr del 10.42.${TUPLE}.${SCREEN}/24 dev eth0
+    sudo ip addr add 10.42.${TUPLE}.${SCREEN}/24 dev wlan0
 fi
 
 # end of file
@@ -58,10 +58,10 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 # to define an alias where lg systems can communicate
 
 if [ "\$IFACE" = "eth0" ]; then
-    sudo ifconfig eth0:0 down
-    sudo ifconfig wlan0:0 10.42.${TUPLE}.${SCREEN}/24 up
+    sudo ip addr del 10.42.${TUPLE}.${SCREEN}/24 dev eth0
+    sudo ip addr add 10.42.${TUPLE}.${SCREEN}/24 dev wlan0
 elif [ "\$IFACE" = "wlan0" ]; then
-    sudo ifconfig wlan0:0 down
+    sudo ip addr del 10.42.${TUPLE}.${SCREEN}/24 dev wlan0
 fi
 
 # end of file

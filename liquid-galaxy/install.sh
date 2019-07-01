@@ -302,7 +302,7 @@ fi
 
 if ! grep -Fq "setxkbmap" ~/.bashrc
 then
-    echo "setxkbmap es" >> ~/.bashrc
+    printf "setxkbmap es\n" >> ~/.bashrc
     source ~/.bashrc
 fi
 

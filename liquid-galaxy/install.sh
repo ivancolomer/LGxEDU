@@ -309,6 +309,7 @@ fi
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
 echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/networking restart' | sudo tee -a /etc/sudoers
 
 # Web interface
 if [ $IS_MASTER == true ]; then

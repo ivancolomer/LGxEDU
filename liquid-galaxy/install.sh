@@ -290,15 +290,16 @@ sudo /etc/init.d/ssh start
 
 sudo chmod 0755 -R "$HOME"/bin/
 sudo chmod 0755 -R "$HOME"/earth/scripts
+sudo chmod 777 "$HOME"/bin/startup-script.sh
 
 # Launch on boot
-mkdir -p $HOME/.config/autostart/
-echo -e "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec=bash "$HOME"/bin/startup-script.sh\nTerminal=true\nType=Application\nX-GNOME-Autostart-enabled=true" > $HOME"/.config/autostart/lg.desktop"
+#mkdir -p $HOME/.config/autostart/
+#printf "[Desktop Entry]\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec=bash nohup $HOME/bin/startup-script.sh &>/dev\null &\nTerminal=true\nType=Application\nX-GNOME-Autostart-enabled=true\n" > $HOME"/.config/autostart/lg.desktop"
 
 # Launch with 'liquidgalaxy' command
 if ! grep -Fq "liquidgalaxy" ~/.bashrc
 then
-    echo "alias liquidgalaxy='bash /home/$USER/bin/startup-script.sh'" >> ~/.bashrc
+    echo "alias liquidgalaxy='bash $HOME/bin/startup-script.sh'" >> ~/.bashrc
     source ~/.bashrc
     # Chromebooks launch on terminal
     printf "echo -n \"Do you want to initialize LiquidGalaxy (y/n)? \"\nread answer\nif [ \"\$answer\" != \"\${answer#[Yy]}\" ] ;then\nliquidgalaxy\nfi\n" >> ~/.bashrc

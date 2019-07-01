@@ -68,7 +68,7 @@ fi
 EOF
 
 chmod 0755 /etc/network/if-up.d/${TUPLE}-lg_alias
-
+chmod 0755 /etc/network/if-down.d/${TUPLE}-lg_alias
 
 
 FRAME=`expr $1 - 1`

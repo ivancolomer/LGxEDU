@@ -333,6 +333,7 @@ fi
 echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables -P*' | sudo tee -a /etc/sudoers
 
 # Web interface
 if [ $IS_MASTER == true ]; then

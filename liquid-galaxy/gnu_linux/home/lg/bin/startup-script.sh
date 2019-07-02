@@ -18,6 +18,12 @@ if [[ -z $(ps -A | grep sshd) ]]; then
     sudo /etc/init.d/ssh restart
 fi
 
+# Allow iptables to forward and recieve traffic
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -F
+
 # Add IP to interface if not done yet
 OCTET=$(cat ~/personavars.txt | grep DHCP_OCTET | sed 's/=/\ /g' | awk '{print $2}')
 MACHINE_ID=$(cat ~/personavars.txt | grep DHCP_LG_SCREEN\= | sed 's/=/\ /g' | awk '{print $2}' | sed 's/\"//g') 

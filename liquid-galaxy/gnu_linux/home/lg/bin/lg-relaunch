@@ -41,7 +41,9 @@ while getopts :hf: opt; do
   esac
 done
 
-
+RELAUNCH_CMD="\
+bash ${HOME}/bin/startup-script.sh
+"
 
 if test "$frame"; then
   echo "${frame}:"

@@ -35,6 +35,6 @@ ps -o user,pid,%cpu,%mem,vsize,start,time,stat,comm -C googleearth-bin,lxdm-bina
 " 2>/dev/null
 echo
 echo "====Thermal===="
-${HOME}/bin/lg-run "nvidia-settings -c :0 --query 0/GPUCoreTemp | grep :0 | sed -e 's/^[[:space:]]*//'" 2>/dev/null
+${HOME}/bin/lg-run "nvidia-settings -c :1 --query 0/GPUCoreTemp | grep :1 | sed -e 's/^[[:space:]]*//'" 2>/dev/null
 
 exit 0

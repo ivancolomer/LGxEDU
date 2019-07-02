@@ -37,7 +37,8 @@ function _grab_frame {
 
   for target in ${LG_SCREENORDER?"LG_SCREENORDER must be set to use ${0##*/}.  Add it to ~/etc/shell.conf"}; do
     lg=${target//:*}
-    display=${target/${lg}}
+    display_temp=${target/${lg}}
+    display=${display_temp//*:}
     tempfile=${tempdir}/${lg}.${display//*.}.${frame}.anim.${grab_fmt}
     
     rm -f ${tempfile}

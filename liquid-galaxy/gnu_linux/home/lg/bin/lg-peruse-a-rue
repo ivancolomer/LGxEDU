@@ -38,7 +38,7 @@ for lg in $LG_FRAMES ; do
 	    frame="$(( ${frame} - ${LG_FRAMES_MAX} ))"
 	fi
 
-	CMD0="export DISPLAY=:0 && chromium-browser $peruse_ip:$port/display/?"
+	CMD0="export DISPLAY=:1 && chromium-browser $peruse_ip:$port/display/?"
 	if [[ $frame -eq 0 ]]
 	then
 		CMD=$CMD0"master=true"

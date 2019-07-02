@@ -21,7 +21,8 @@ ${HOME}/bin/lg-ctl-master
 
 for target in $LG_SCREENORDER; do
   lg=${target//:*}
-  display=${target/${lg}}
+  display_temp=${target/${lg}}
+  display=${display_temp//*:}
   tempfile=${tempdir}/${lg}.${display//*.}-asc.miff
   ssh -fqx lg@${lg} "xwd -display ${display} -root -silent | convert xwd:- -resize ${resize} miff:-" > ${tempfile} 2>/dev/null &
   MTAGE_FILES=( ${MTAGE_FILES[*]} ${tempfile} )

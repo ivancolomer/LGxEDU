@@ -24,7 +24,7 @@ trap "exit 1" INT
 
 . ${HOME}/etc/shell.conf
 
-export DISPLAY=:0
+export DISPLAY=:1
 
 ## VARS
 # beginning click-drag

@@ -33,7 +33,9 @@ echo "Machine ID = $MACHINE_ID"
 echo "Interface = $INTERFACE"
 echo "MY FRAME = \"${FRAME_NO}\"."
 echo "DISPLAY = \"$DISPLAY\"."
-echo "DISPLAY_portion = \"${DISPLAY:1}\"."
+echo "DISPLAY_portion = \"${DISPLAY//*:}\"."
+
+
 
 if [[ -z $(ip addr | grep 10.42) ]]; then
     INTERFACE_CONNECTED=$(route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)

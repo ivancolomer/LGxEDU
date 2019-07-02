@@ -23,7 +23,7 @@ if [[ "$( id -un )" == "lg" ]]; then
         if [[ -d ${screen} ]]; then
             screennum=${screen##/home/lgS}
             logger -p local3.info -i "$0: launching $ME for my screen \"${screennum}\""
-            sudo -u lgS${screennum} -H DISPLAY=:0.${screennum} ${HOME}/bin/${ME} $@ &
+            sudo -u lgS${screennum} -H DISPLAY=:1.${screennum} ${HOME}/bin/${ME} $@ &
             unset screennum
         fi
     done

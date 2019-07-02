@@ -19,7 +19,7 @@ MPLAYER_VFOPT="-vf screenshot"
 BCSCALE=3
 
 # try a last-ditch DISPLAY
-if [[ -z "$DISPLAY" ]]; then export DISPLAY=:0; fi
+if [[ -z "$DISPLAY" ]]; then export DISPLAY=:1; fi
 if [[ $FRAME_NO -eq 0 ]]; then
 	MPLAYER_UDPOPT="-udp-master -udp-ip 10.42.${LG_OCTET}.255 -udp-port"
 	MPLAYER_AOOPT="-ao alsa"

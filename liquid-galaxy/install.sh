@@ -132,7 +132,7 @@ sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
 sudo apt-get install -yq nano git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping
-sudo apt-get install -yq libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
+sudo apt-get install -yq libglib2.0-bin libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 #
 # Liquid Galaxy
@@ -295,6 +295,21 @@ sudo chmod 777 "$HOME"/bin/startup-script.sh
 # Launch on boot
 mkdir -p $HOME/.config/autostart/
 printf "[Desktop Entry]\nEncoding=UTF-8\nName=LG\nGenericName=LiquidGalaxy launcher\nComment=This script initializes google earth\nExec=bash $HOME/bin/startup-script.sh\nTerminal=false\nOnlyShowIn=GNOME\nType=Application\nStartupNotify=false\nX-GNOME-Autostart-enabled=true\n" > $HOME"/.config/autostart/lg.desktop"
+
+# Added screensaver off
+cat >"$HOME"/bin/screen-saver-off.sh <<EOF
+#!/bin/bash
+sleep 10 &&
+xset s 0 0
+xset s off
+gsettings set org.gnome.desktop.session idle-delay 0
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+
+EOF
+sudo chmod 777 "$HOME"/bin/screen-saver-off.sh
+printf "[Desktop Entry]\nEncoding=UTF-8\nName=LG-Screen\nGenericName=LiquidGalaxy screen-saver-off\nComment=This script turns screen-saver off\nExec=bash $HOME/bin/screen-saver-off.sh\nTerminal=false\nOnlyShowIn=GNOME\nType=Application\nStartupNotify=false\nX-GNOME-Autostart-enabled=true\n" > $HOME"/.config/autostart/lg-screen-saver-off.desktop"
+
+
 
 # Launch with 'liquidgalaxy' command
 if ! grep -Fq "liquidgalaxy" ~/.bashrc

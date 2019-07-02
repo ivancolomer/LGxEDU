@@ -23,23 +23,24 @@ OCTET=$(cat ~/personavars.txt | grep DHCP_OCTET | sed 's/=/\ /g' | awk '{print $
 MACHINE_ID=$(cat ~/personavars.txt | grep DHCP_LG_SCREEN\= | sed 's/=/\ /g' | awk '{print $2}' | sed 's/\"//g') 
 INTERFACE=$(cat ~/personavars.txt | grep DHCP_NETWORK_INTERFACE | sed 's/=/\ /g' | awk '{print $2}')
 
+. ${HOME}/etc/shell.conf
+
+FRAME_NO="$(cat /home/lg/frame)"
+MACHINE_ID=$(( ${FRAME_NO} + 1 ))
+
 echo "Octet = $OCTET"
 echo "Machine ID = $MACHINE_ID" 
 echo "Interface = $INTERFACE"
+echo "MY FRAME = \"${FRAME_NO}\"."
+echo "DISPLAY = \"$DISPLAY\"."
+echo "DISPLAY_portion = \"${DISPLAY:1}\"."
 
 if [[ -z $(ip addr | grep 10.42) ]]; then
     INTERFACE_CONNECTED=$(route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)
     sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $INTERFACE_CONNECTED
 fi
 
-echo "DISPLAY = \"$DISPLAY\"."
-echo "DISPLAY_portion = \"${DISPLAY:1}\"."
 
-. ${HOME}/etc/shell.conf
-
-FRAME_NO="$(cat /home/lg/frame)"
-
-echo "MY FRAME = \"${FRAME_NO}\"."
 
 
 if [[ $FRAME_NO = 0 ]]; then

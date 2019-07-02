@@ -168,7 +168,7 @@ done
 sudo cp -r . $HOME
 cd - > /dev/null
 
-sudo cp -r $GIT_FOLDER_NAME/gnu_linux/etc/ $GIT_FOLDER_NAME/gnu_linux/patches/ $GIT_FOLDER_NAME/gnu_linux/sbin/ / #Estem aqui!!
+sudo cp -r $GIT_FOLDER_NAME/gnu_linux/etc/ $GIT_FOLDER_NAME/gnu_linux/patches/ $GIT_FOLDER_NAME/gnu_linux/sbin/ / 
 
 sudo chmod 0440 /etc/sudoers.d/42-lg
 sudo chown -R $LOCAL_USER:$LOCAL_USER $HOME
@@ -327,6 +327,12 @@ if [ $IS_MASTER == true ]; then
 	sudo chown -R $LOCAL_USER:$LOCAL_USER /var/www/html/
 fi
 
+# Allow iptables to forward and recieve traffic
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -F
+
 # Cleanup
 sudo rm -r $GIT_FOLDER_MAIN
 
@@ -339,4 +345,4 @@ sudo apt-get -yq autoremove
 echo "Liquid Galaxy installation completed! :-)"
 echo "Press ENTER key to exit"
 read
-sudo shutdown -h now
+gnome-session-quit --no-prompt

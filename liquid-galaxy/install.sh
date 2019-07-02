@@ -302,8 +302,11 @@ cat >"$HOME"/bin/screen-saver-off.sh <<EOF
 sleep 10 &&
 xset s 0 0
 xset s off
+
+gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
 gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
 
 EOF
 sudo chmod 777 "$HOME"/bin/screen-saver-off.sh

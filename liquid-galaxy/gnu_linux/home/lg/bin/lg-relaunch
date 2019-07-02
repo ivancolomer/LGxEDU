@@ -47,7 +47,7 @@ bash ${HOME}/bin/startup-script.sh
 
 if test "$frame"; then
   echo "${frame}:"
-  ssh -x root@$frame "$RELAUNCH_CMD"
+  ssh -x lg@$frame "$RELAUNCH_CMD"
 else
   ${HOME}/bin/lg-sudo-bg "$RELAUNCH_CMD"
 fi

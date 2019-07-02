@@ -29,12 +29,12 @@ while [ $# -gt 0 ]; do
 done
 [ -z "${LG_FRAMES}" ] && echo "LG_FRAMES is empty" && exit 1
 
-lg-ctl-master -u root
+lg-ctl-master
 
 for lg in $LG_FRAMES ; do
     echo
     echo $lg:
-    ssh -x root@$lg "$CMD" &
+    ssh -x lg@$lg "$CMD" &
 done
 
 exit

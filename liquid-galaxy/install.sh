@@ -33,7 +33,7 @@ SCREEN_ORIENTATION="V"
 GIT_FOLDER_MAIN="LGxEDU"
 GIT_FOLDER_NAME="$GIT_FOLDER_MAIN/liquid-galaxy"
 
-EARTH_FOLDER="/opt/google/earth/pro"
+EARTH_FOLDER="/opt/google/earth/pro/"
 NETWORK_INTERFACE="wlan0"
 #$(/sbin/route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)
 

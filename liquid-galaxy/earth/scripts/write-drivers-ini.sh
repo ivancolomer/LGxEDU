@@ -43,7 +43,7 @@ if [[ -n "${SCREEN_NO}" ]]; then
         let "YAW -= $( echo $YAW_AMOUNT '*' $SCREEN_NO | bc -l )"
     fi  
 fi
-MYIPALIAS="$( awk '/^ifconfig/ {print $3}' /etc/network/if-up.d/*-lg_alias )"
+MYIPALIAS="$( ip addr show | grep 10.42 | tr -s ' ' | cut -d ' ' -f 3 )"
 VSYNCCHOP="${MYIPALIAS%.*}"
 VSYNCHOST="10.42.${VSYNCCHOP##*.}.255"
 VSYNCPORT="$EARTH_PORT"

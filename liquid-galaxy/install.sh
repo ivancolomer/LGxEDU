@@ -33,7 +33,7 @@ SCREEN_ORIENTATION="V"
 GIT_FOLDER_MAIN="LGxEDU"
 GIT_FOLDER_NAME="$GIT_FOLDER_MAIN/liquid-galaxy"
 
-EARTH_FOLDER="/usr/bin/"
+EARTH_FOLDER="/opt/google/earth/pro"
 NETWORK_INTERFACE="wlan0"
 #$(/sbin/route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)
 
@@ -148,7 +148,7 @@ sudo apt-get -f install -y
 
 sudo cp -r $GIT_FOLDER_NAME/earth/ $HOME
 sudo ln -s $EARTH_FOLDER $HOME/earth/builds/latest
-sudo ln -s /usr/lib/googleearth/drivers.ini $HOME/earth/builds/latest/drivers.ini
+#sudo ln -s /opt/google/earth/pro/drivers.ini $HOME/earth/builds/latest/drivers.ini
 awk '/LD_LIBRARY_PATH/{print "export LC_NUMERIC=en_US.UTF-8"}1' $HOME/earth/builds/latest/googleearth | sudo tee $HOME/earth/builds/latest/googleearth > /dev/null
 
 # Enable solo screen for slaves

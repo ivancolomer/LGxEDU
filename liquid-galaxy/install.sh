@@ -338,6 +338,7 @@ echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/ip-reloader.sh' | sudo tee -a /etc/sud
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/squid restart' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/apache2 restart' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables*' | sudo tee -a /etc/sudoers
 
 # Web interface
@@ -349,6 +350,8 @@ if [ $IS_MASTER == true ]; then
 	sudo rm /var/www/html/index.html
 	sudo cp -r $GIT_FOLDER_NAME/php-interface/. /var/www/html/
 	sudo chown -R $LOCAL_USER:$LOCAL_USER /var/www/html/
+
+	sudo systemctl enable apache2
 fi
 
 # Allow iptables to forward and recieve traffic

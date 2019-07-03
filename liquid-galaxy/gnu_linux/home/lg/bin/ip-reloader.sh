@@ -22,6 +22,11 @@ while true; do
         sudo /etc/init.d/squid restart
     fi
 
+    if [[ $FRAME_NO = 0 ]]; then
+        if [[ -z $(ps -A | grep apache2) ]]; then
+            sudo /etc/init.d/apache2 restart
+        fi
+    fi
     sudo iptables -P INPUT ACCEPT
     sudo iptables -P OUTPUT ACCEPT
     sudo iptables -P FORWARD ACCEPT

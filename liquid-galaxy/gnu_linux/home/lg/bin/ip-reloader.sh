@@ -27,13 +27,40 @@ while true; do
             sudo /etc/init.d/apache2 restart
         fi
     fi
-    sudo iptables -P INPUT ACCEPT
-    sudo iptables -P OUTPUT ACCEPT
-    sudo iptables -P FORWARD ACCEPT
-    sudo iptables -F
+    
+    if [[ -z $(sudo iptables -S | grep 10.42. |  head -1) ]]; then
+    sudo tee "/etc/iptables.conf" > /dev/null << EOM
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [43616:6594412]
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
+-A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 161 -j ACCEPT
+-A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 3401 -j ACCEPT
+-A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p udp -m multiport --dports 80,3128,3130 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 9335 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -d 10.42.$OCTET.255/32 -p udp -j ACCEPT
+-A INPUT -j DROP
+-A FORWARD -j DROP
+COMMIT
+*nat
+:PREROUTING ACCEPT [52902:8605309]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [358:22379]
+:POSTROUTING ACCEPT [358:22379]
+COMMIT
+EOM
 
-    if [[ -z $(ip addr | grep 10.42) ]]; then
-        INTERFACE_CONNECTED=$(route -n | grep "^0.0.0.0"| head -1 | rev | cut -d' ' -f1 | rev)
+    sudo iptables-restore < /etc/iptables.conf
+    fi
+
+    if [[ -z $(ip addr | grep 10.42.) ]]; then
+        INTERFACE_CONNECTED=$(route -n | grep "^0.0.0.0" | head -1 | rev | cut -d' ' -f1 | rev)
         sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $INTERFACE_CONNECTED
     fi
 

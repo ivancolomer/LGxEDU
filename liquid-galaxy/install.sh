@@ -283,13 +283,30 @@ sudo tee "/etc/iptables.conf" > /dev/null << EOM
 -A INPUT -i lo -j ACCEPT
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A INPUT -p icmp -j ACCEPT
--A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
+
+#-A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+
 -A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 161 -j ACCEPT
 -A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 3401 -j ACCEPT
--A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p udp -m multiport --dports 80,3128,3130 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 9335 -j ACCEPT
+
+#-A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 81 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 8111 -j ACCEPT
+
+#-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 3128 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 3130 -j ACCEPT
+
+#-A INPUT -s 10.42.$OCTET.0/24 -p udp -m multiport --dports 80,3128,3130 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 80 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 3128 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 3130 -j ACCEPT
+
+#-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 9335 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 9335 -j ACCEPT
+
 -A INPUT -s 10.42.$OCTET.0/24 -d 10.42.$OCTET.255/32 -p udp -j ACCEPT
 -A INPUT -j DROP
 -A FORWARD -j DROP
@@ -388,13 +405,30 @@ sudo tee "/etc/iptables.conf" > /dev/null << EOM
 -A INPUT -i lo -j ACCEPT
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A INPUT -p icmp -j ACCEPT
--A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
+
+#-A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+
 -A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 161 -j ACCEPT
 -A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 3401 -j ACCEPT
--A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p udp -m multiport --dports 80,3128,3130 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 9335 -j ACCEPT
+
+#-A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 81 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 8111 -j ACCEPT
+
+#-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 3128 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 3130 -j ACCEPT
+
+#-A INPUT -s 10.42.$OCTET.0/24 -p udp -m multiport --dports 80,3128,3130 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 80 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 3128 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 3130 -j ACCEPT
+
+#-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 9335 -j ACCEPT
+-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 9335 -j ACCEPT
+
 -A INPUT -s 10.42.$OCTET.0/24 -d 10.42.$OCTET.255/32 -p udp -j ACCEPT
 -A INPUT -j DROP
 -A FORWARD -j DROP

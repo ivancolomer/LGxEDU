@@ -131,7 +131,7 @@ echo "Upgrading system packages ..."
 sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
-sudo apt-get install -yq chromium-browser nano git openssh-server sshpass squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping
+sudo apt-get install -yq chromium-browser nano git openssh-server sshpass squid squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping
 sudo apt-get install -yq libglib2.0-bin libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 #
@@ -285,8 +285,11 @@ if [ $IS_MASTER == true ]; then
 	sudo systemctl enable ssh
 fi
 
+sudo systemctl enable squid
+
 # In-session ssh daemon start
 sudo /etc/init.d/ssh start
+sudo /etc/init.d/squid start
 
 sudo chmod 0755 -R "$HOME"/bin/
 sudo chmod 0755 -R "$HOME"/earth/scripts
@@ -331,8 +334,10 @@ fi
 
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
 echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/ip-reloader.sh' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/squid restart' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables*' | sudo tee -a /etc/sudoers
 
 # Web interface

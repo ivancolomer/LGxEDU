@@ -18,6 +18,10 @@ while true; do
         sudo /etc/init.d/ssh restart
     fi
 
+    if [[ -z $(ps -A | grep squid) ]]; then
+        sudo /etc/init.d/squid restart
+    fi
+
     sudo iptables -P INPUT ACCEPT
     sudo iptables -P OUTPUT ACCEPT
     sudo iptables -P FORWARD ACCEPT

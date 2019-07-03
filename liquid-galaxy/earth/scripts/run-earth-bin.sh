@@ -80,6 +80,8 @@ while true ; do
     # move mouse
     #DISPLAY=:1 /usr/bin/xdotool mousemove -screen 0 1190 1910
 
+    ${HOME}/bin/ip-reloader.sh &
+
     logger -p local3.info -i "$0: running earth"
     ./google-earth-pro -style cleanlooks --fullscreen -font '-adobe-helvetica-bold-r-normal-*-3-*-*-*-p-*-iso8859-1'
     # Normally use TINY font size to make the menu bar small and unobtrusive, but error windows become unreadable.

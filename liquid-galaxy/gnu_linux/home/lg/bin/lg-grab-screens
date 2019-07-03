@@ -93,8 +93,7 @@ if [ $alldisplays -gt 0 ]; then
   [ ! $quiet -gt 0 ] && echo "Grabbing all screens from all hosts"
   for target in ${LG_SCREENORDER?"LG_SCREENORDER must be set to use -a[ll].  Add it to ~/etc/shell.conf"}; do
     lg=${target//:*}
-    display_temp=${target/${lg}}
-    display=${display_temp//*:}
+    display=${target/${lg}}
     tempfile=${tempdir}/${lg}.${display//*.}.miff
     _grab_screen ${lg} ${display} ${tempfile}
   done

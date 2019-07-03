@@ -9,12 +9,17 @@ INTERFACE=$(cat ~/personavars.txt | grep DHCP_NETWORK_INTERFACE | sed 's/=/\ /g'
 
 MACHINE_ID=$(( ${FRAME_NO} + 1 ))
 
+if ! [[ $DISPLAY == *"."* ]]; then
+   DISPLAY="${DISPLAY}.0"
+   export DISPLAY=$DISPLAY
+fi
+
 echo "Octet = $OCTET"
 echo "Machine ID = $MACHINE_ID"
 echo "Interface = $INTERFACE"
-echo "MY FRAME = \"${FRAME_NO}\"."
-echo "DISPLAY = \"$DISPLAY\"."
-echo "DISPLAY_portion = \"${DISPLAY//*:}\"."
+echo "MY FRAME = \"${FRAME_NO}\""
+echo "DISPLAY = \"$DISPLAY\""
+echo "DISPLAY_portion = \"${DISPLAY//*:}\""
 
 if [[ $FRAME_NO = 0 ]]; then
     #nitrogen --set-zoom-fill ${XDG_PICTURES_DIR}/backgrounds/lg-bg-${FRAME_NO}.png &

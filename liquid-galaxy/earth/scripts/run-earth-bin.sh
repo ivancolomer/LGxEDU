@@ -39,6 +39,12 @@ if [[ "$( id -un )" == "lg" ]]; then
 fi
 
 [[ -n "${DISPLAY}" ]] || export DISPLAY=:1.0
+
+if ! [[ $DISPLAY == *"."* ]]; then
+   DISPLAY="${DISPLAY}.0"
+   export DISPLAY=$DISPLAY
+fi
+
 [ ${DISPLAY##*\.} -ne 0 ] && export SCREEN_NO=${DISPLAY##*\.}
 export __GL_SYNC_TO_VBLANK=1  # broken for nvidia when rotating screen
 

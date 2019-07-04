@@ -16,20 +16,23 @@ while true; do
 
     if [[ -z $(ps -A | grep sshd) ]]; then
         sudo /etc/init.d/ssh restart
+        echo 'ssh restarted'
     fi
 
     if [[ -z $(ps -A | grep squid) ]]; then
         sudo /etc/init.d/squid restart
+        echo 'squid restarted'
     fi
 
     if [[ $FRAME_NO = 0 ]]; then
         if [[ -z $(ps -A | grep apache2) ]]; then
             sudo /etc/init.d/apache2 restart
+            echo 'apache2 restarted'
         fi
     fi
-    
+
     if [[ -z $(sudo iptables -S | grep 10.42. |  head -1) ]]; then
-    sudo tee "/etc/iptables.conf" > /dev/null << EOM
+        sudo tee "/etc/iptables.conf" > /dev/null << EOM
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
@@ -73,12 +76,14 @@ COMMIT
 COMMIT
 EOM
 
-    sudo iptables-restore < /etc/iptables.conf
+        sudo iptables-restore < /etc/iptables.conf
+        echo 'iptables restarted'
     fi
 
     if [[ -z $(ip addr | grep 10.42.) ]]; then
         INTERFACE_CONNECTED=$(route -n | grep "^0.0.0.0" | head -1 | rev | cut -d' ' -f1 | rev)
         sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $INTERFACE_CONNECTED
+        echo 'subnet restarted'
     fi
 
     if [ "$(date +%s)" -gt "$(($LAST_TIME))" ]; then

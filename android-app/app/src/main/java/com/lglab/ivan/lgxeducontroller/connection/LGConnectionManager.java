@@ -104,7 +104,7 @@ public class LGConnectionManager implements Runnable {
             try {
                 session.connect(Integer.MAX_VALUE);
             } catch (Exception e) {
-                //Log.d("ConnectionManager", e.getMessage());
+                Log.d("ConnectionManager", e.getMessage());
                 return null;
             }
 
@@ -125,9 +125,10 @@ public class LGConnectionManager implements Runnable {
 
     public boolean sendLGCommand(LGCommand lgCommand, boolean isSearchCommand) {
         lgCommandToReSend = lgCommand;
-        //Log.d("ConnectionManager", "sending a lgcommand: " + lgCommand.getCommand());
+        Log.d("ConnectionManager", "sending a lgcommand: " + lgCommand.getCommand());
         Session session = getSession();
         if (session == null || !session.isConnected()) {
+            Log.d("ConnectionManager", "session not connected: " + lgCommand.getCommand());
             return false;
         }
 
@@ -135,6 +136,7 @@ public class LGConnectionManager implements Runnable {
         try {
             channelSsh = (ChannelExec) session.openChannel("exec");
         } catch (Exception e) {
+            Log.d("ConnectionManager", "couldn't open channel exec: " + lgCommand.getCommand());
             e.printStackTrace();
             return false;
         }
@@ -147,7 +149,7 @@ public class LGConnectionManager implements Runnable {
         try {
             channelSsh.connect();
         } catch (Exception e) {
-            //Log.d("ConnectionManager", "exception: " + e.getMessage());
+            Log.d("ConnectionManager", "connect exception: " + e.getMessage());
             return false;
         }
 

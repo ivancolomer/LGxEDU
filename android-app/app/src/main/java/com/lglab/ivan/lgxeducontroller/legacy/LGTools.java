@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,10 @@ import android.widget.Toast;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
+import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
-import com.lglab.ivan.lgxeducontroller.legacy.utils.LGUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -136,11 +140,11 @@ public class LGTools extends Fragment {
         // When button is clicked
         alertbox.setPositiveButton(getResources().getString(R.string.yes), (arg0, arg1) -> {
             try {
-                LGUtils.setConnectionWithLiquidGalaxy(session, sentence, getActivity());
+                Log.d("TAGG", "smth");
+                if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(sentence, LGCommand.CRITICAL_MESSAGE), false))
+                    throw new JSchException();
             } catch (JSchException e) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         });
 

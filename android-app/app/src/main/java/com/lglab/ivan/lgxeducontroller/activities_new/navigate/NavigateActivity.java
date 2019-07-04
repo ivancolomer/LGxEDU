@@ -57,7 +57,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
 
         LGConnectionManager.getInstance().setActivity(this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
+
         isOnChromeBook = prefs.getBoolean("isOnChromeBook", false);
         currentStatus = 0;
 

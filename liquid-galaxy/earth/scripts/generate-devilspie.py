@@ -18,7 +18,7 @@ def get_dimensions():
 
 if __name__ == '__main__':
 	dimensions = get_dimensions()
-	newDimensions = Dimension(dimensions.width, dimensions.height + 21) # 21px white earth menu
+	newDimensions = Dimension(dimensions.width, dimensions.height + 25) # 25px white earth menu
 
 	home = os.getenv('HOME', '/home/lg')
 	filename = '{0}/.devilspie/googleearth.ds'.format(home)

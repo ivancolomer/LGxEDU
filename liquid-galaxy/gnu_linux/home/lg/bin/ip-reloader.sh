@@ -10,7 +10,7 @@ INTERFACE=$(cat ~/personavars.txt | grep DHCP_NETWORK_INTERFACE | sed 's/=/\ /g'
 . ${HOME}/etc/shell.conf
 
 MACHINE_ID=$(( ${FRAME_NO} + 1 ))
-
+LAST_TIME=$(date +%s)
 
 while true; do
 
@@ -79,6 +79,11 @@ EOM
     if [[ -z $(ip addr | grep 10.42.) ]]; then
         INTERFACE_CONNECTED=$(route -n | grep "^0.0.0.0" | head -1 | rev | cut -d' ' -f1 | rev)
         sudo ip addr add 10.42.$OCTET.$MACHINE_ID/24 dev $INTERFACE_CONNECTED
+    fi
+
+    if [ "$(date +%s)" -gt "$(($LAST_TIME))" ]; then
+        xdotool key 'Escape'
+        LAST_TIME=$(( $(date +%s) + 120 )) #every 2minutes ESC key will be pressed to make chromebooks not sleep
     fi
 
     sleep 3

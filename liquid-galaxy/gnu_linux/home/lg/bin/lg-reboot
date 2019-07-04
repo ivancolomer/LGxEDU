@@ -2,14 +2,14 @@
 
 . ${HOME}/etc/shell.conf
 
-lg_current="$(hostname)"
+lg_current="lg$(( ${FRAME_NO} + 1 ))"
 	
 for lg in $LG_FRAMES; do
 	if [ "$lg" != "$lg_current" ]; then
-		ssh -t -x root@$lg "reboot";
+		ssh -t -x lg@$lg "gnome-session-quit --no-prompt";
 	fi
 done
 
-ssh -t -x root@${lg_current} "reboot"
+ssh -t -x lg@${lg_current} "gnome-session-quit --no-prompt"
 
 exit 0

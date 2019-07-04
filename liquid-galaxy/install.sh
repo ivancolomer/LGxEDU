@@ -131,7 +131,7 @@ echo "Upgrading system packages ..."
 sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
-sudo apt-get install -yq chromium-browser nano git openssh-server sshpass squid squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping
+sudo apt-get install -yq tcpdump chromium-browser nano git openssh-server sshpass squid squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping
 sudo apt-get install -yq libglib2.0-bin libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 #
@@ -383,6 +383,7 @@ echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/apache2 restart' | sudo tee -a /etc/sud
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables*' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /usr/bin/tee*' | sudo tee -a /etc/sudoers
 echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables-restore*' | sudo tee -a /etc/sudoers
+echo 'lg ALL=(ALL) NOPASSWD: /usr/sbin/tcpdump*' | sudo tee -a /etc/sudoers
 
 # Web interface
 if [ $IS_MASTER == true ]; then

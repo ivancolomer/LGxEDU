@@ -14,6 +14,10 @@ if ! [[ $DISPLAY == *"."* ]]; then
    export DISPLAY=$DISPLAY
 fi
 
+if [ -f $HOME/.xprofile ]; then
+    . $HOME/.xprofile
+fi
+
 echo "Octet = $OCTET"
 echo "Machine ID = $MACHINE_ID"
 echo "Interface = $INTERFACE"

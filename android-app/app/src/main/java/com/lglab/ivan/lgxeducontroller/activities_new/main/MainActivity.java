@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.NavigateActivity;
+import com.lglab.ivan.lgxeducontroller.activities_new.navigate_old.NavigateActivityOld;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.Help;
 import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
@@ -38,7 +39,7 @@ public class MainActivity extends GoogleDriveActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
 
-        findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(context, NavigateActivity.class)));
+        findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(context, NavigateActivityOld.class)));
         findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(context, PlayActivity.class)));
     }
 

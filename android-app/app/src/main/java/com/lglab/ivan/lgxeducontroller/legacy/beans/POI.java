@@ -24,8 +24,9 @@ public class POI implements IJsonPacker, Parcelable {
     private long id;
     private String name;
     private String visited_place;
-    private double longitude;
     private double latitude;
+    private double longitude;
+
     private double altitude;
     private double heading;
     private double tilt;

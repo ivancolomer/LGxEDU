@@ -18,7 +18,7 @@ import com.lglab.ivan.lgxeducontroller.activities_new.manager.fragments.AddGameF
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.activities.EditGameActivity;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.EditGameActivity;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableListPosition;

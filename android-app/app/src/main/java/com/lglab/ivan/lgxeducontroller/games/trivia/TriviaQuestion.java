@@ -1,17 +1,12 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia;
 
 import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
 import com.lglab.ivan.lgxeducontroller.games.Question;
-import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Arrays;
 
 public class TriviaQuestion extends Question {
 

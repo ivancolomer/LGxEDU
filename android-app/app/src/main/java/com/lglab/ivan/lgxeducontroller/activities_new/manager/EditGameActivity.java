@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
+package com.lglab.ivan.lgxeducontroller.activities_new.manager;
 
 import android.os.Bundle;
 import androidx.core.view.MenuCompat;

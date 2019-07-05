@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia;
 
-import com.lglab.ivan.lgxeducontroller.games.trivia.activities.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;

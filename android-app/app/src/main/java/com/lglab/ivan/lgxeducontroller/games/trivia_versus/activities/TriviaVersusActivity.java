@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
+package com.lglab.ivan.lgxeducontroller.games.trivia_versus.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,9 @@ import android.view.KeyEvent;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
 import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
+import com.lglab.ivan.lgxeducontroller.games.trivia_versus.fragments.TriviaVersusQuestionFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
 import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
-public class TriviaActivity extends AppCompatActivity {
+public class TriviaVersusActivity extends TriviaActivity {
 
     ScrollerViewPager viewPager;
     FloatingActionButton exitButton;
@@ -43,7 +45,7 @@ public class TriviaActivity extends AppCompatActivity {
 
         List<ItemEntity> list = new ArrayList<>();
         for (int i = 0; i < TriviaManager.getInstance().getGame().getQuestions().size(); i++) {
-            ItemEntityUtil.create(i).setModelView(TriviaQuestionFragment.class).attach(list);
+            ItemEntityUtil.create(i).setModelView(TriviaVersusQuestionFragment.class).attach(list);
         }
         PagerManager manager = PagerManager.begin().addFragments(list).setTitles(getTitles());
 
@@ -58,52 +60,11 @@ public class TriviaActivity extends AppCompatActivity {
         exitButton.setOnClickListener(view -> exit());
     }
 
-    public List<String> getTitles() {
-        int size = TriviaManager.getInstance().getGame().getQuestions().size();
-
-        ArrayList<String> list = new ArrayList<>(size);
-
-        for (int i = 0; i < size; i++) {
-            list.add(String.valueOf(i + 1));
-        }
-
-        return list;
-    }
-
     @Override
-    public boolean onSupportNavigateUp() {
-        new AlertDialog.Builder(this)
-                .setTitle("Do you really want to exit from this page?")
-                .setMessage("If you continue, you will lose all your progress.")
-                .setPositiveButton("Yes", (dialog, id) -> onBackPressed())
-                .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
-                .create()
-                .show();
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        GameManager.getInstance().endGame();
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-            return onSupportNavigateUp();
-
-        return super.onKeyDown(keyCode, event);
-    }
-
-    public void showFloatingExitButton() {
-        exitButton.show();
-    }
-
     public void exit() {
         Log.d("HEY", "EXIT");
 
-        Intent i = new Intent(this, TriviaResultsActivity.class);
+        Intent i = new Intent(this, TriviaVersusResultsActivity.class);
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); //Adds the FLAG_ACTIVITY_NO_HISTORY flag
         startActivity(i);
     }

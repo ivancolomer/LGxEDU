@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
+import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 

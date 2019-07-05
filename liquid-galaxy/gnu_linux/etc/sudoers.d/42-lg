@@ -11,3 +11,14 @@ www-data ALL=(lg) NOPASSWD: /home/lg/bin/lg-sudo-bg service lightdm restart
 www-data ALL=(lg) NOPASSWD: /home/lg/bin/lg-run-bg
 www-data ALL=(lg) NOPASSWD: /home/lg/bin/mp-control
 #www-data ALL=(lg) NOPASSWD: /home/lg/LG_Benchmarking/Chart-gen/getCharts.sh
+
+lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh
+lg ALL=(ALL) NOPASSWD: /home/lg/bin/ip-reloader.sh
+lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*
+lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart
+lg ALL=(ALL) NOPASSWD: /etc/init.d/squid restart
+lg ALL=(ALL) NOPASSWD: /etc/init.d/apache2 restart
+lg ALL=(ALL) NOPASSWD: /sbin/iptables*
+lg ALL=(ALL) NOPASSWD: /usr/bin/tee*
+lg ALL=(ALL) NOPASSWD: /sbin/iptables-restore*
+lg ALL=(ALL) NOPASSWD: /usr/sbin/tcpdump*

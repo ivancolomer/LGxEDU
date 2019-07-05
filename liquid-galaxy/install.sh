@@ -121,22 +121,12 @@ sudo -v
 # General
 #
 
-# export DEBIAN_FRONTEND=noninteractive
-
 # Update OS
 echo "Checking for system updates..."
-sudo apt-get update
-
-echo "Upgrading system packages ..."
-sudo apt-get -yq upgrade
+sudo apt-get -qq update && sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
-sudo apt-get install -yq tcpdump chromium-browser nano git openssh-server sshpass squid squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping
-sudo apt-get install -yq libglib2.0-bin libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
-
-#
-# Liquid Galaxy
-#
+sudo apt-get install -yq tcpdump chromium-browser nano git openssh-server sshpass squid squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping libglib2.0-bin libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6
 
 # Setup Liquid Galaxy files
 echo "Setting up Liquid Galaxy..."
@@ -153,8 +143,8 @@ awk '/LD_LIBRARY_PATH/{print "export LC_NUMERIC=en_US.UTF-8"}1' $HOME/earth/buil
 
 # Enable solo screen for slaves
 if [ $IS_MASTER != true ]; then
-	sudo sed -i -e 's/slave_x/slave_'${MACHINE_ID}'/g' $HOME/earth/kml/slave/myplaces.kml
-	sudo sed -i -e 's/sync_nlc_x/sync_nlc_'${MACHINE_ID}'/g' $HOME/earth/kml/slave/myplaces.kml
+    sudo sed -i -e 's/slave_x/slave_'${MACHINE_ID}'/g' $HOME/earth/kml/slave/myplaces.kml
+    sudo sed -i -e 's/sync_nlc_x/sync_nlc_'${MACHINE_ID}'/g' $HOME/earth/kml/slave/myplaces.kml
 fi
 
 sudo cp -r $GIT_FOLDER_NAME/gnu_linux/home/lg/. $HOME
@@ -179,15 +169,16 @@ if [ $IS_MASTER == true ]; then
 	echo "Setting up SSH..."
 	$HOME/tools/clean-ssh.sh
 else
-	echo "Starting SSH files sync with master..."
-	sshpass -p "$MASTER_PASSWORD" scp -o StrictHostKeyChecking=no $MASTER_IP:$MASTER_HOME/ssh-files.zip $HOME/
-	unzip $HOME/ssh-files.zip -d $HOME/ > /dev/null
-	sudo cp -r $HOME/ssh-files/etc/ssh /etc/
-	sudo cp -r $HOME/ssh-files/root/.ssh /root/ 2> /dev/null
-	sudo cp -r $HOME/ssh-files/user/.ssh $HOME/
-	sudo rm -r $HOME/ssh-files/
-	sudo rm $HOME/ssh-files.zip
+    echo "Starting SSH files sync with master..."
+    sshpass -p "$MASTER_PASSWORD" scp -o StrictHostKeyChecking=no $MASTER_IP:$MASTER_HOME/ssh-files.zip $HOME/
+    unzip $HOME/ssh-files.zip -d $HOME/ > /dev/null
+    sudo cp -r $HOME/ssh-files/etc/ssh /etc/
+    sudo cp -r $HOME/ssh-files/root/.ssh /root/ 2> /dev/null
+    sudo cp -r $HOME/ssh-files/user/.ssh $HOME/
+    sudo rm -r $HOME/ssh-files/
+    sudo rm $HOME/ssh-files.zip
 fi
+
 sudo chmod 0600 $HOME/.ssh/lg-id_rsa
 sudo chmod 0600 /root/.ssh/authorized_keys
 sudo chmod 0600 /etc/ssh/ssh_host_dsa_key
@@ -197,18 +188,18 @@ sudo chown -R $LOCAL_USER:$LOCAL_USER $HOME/.ssh
 
 # prepare SSH files for other nodes (slaves)
 if [ $IS_MASTER == true ]; then
-	mkdir -p ssh-files/etc
-	sudo cp -r /etc/ssh ssh-files/etc/
-	mkdir -p ssh-files/root/
-	sudo cp -r /root/.ssh ssh-files/root/ 2> /dev/null
-	mkdir -p ssh-files/user/
-	sudo cp -r $HOME/.ssh ssh-files/user/
-	sudo zip -FSr "ssh-files.zip" ssh-files
-	if [ $(pwd) != $HOME ]; then
-		sudo mv ssh-files.zip $HOME/ssh-files.zip
-	fi
-	sudo chown -R $LOCAL_USER:$LOCAL_USER $HOME/ssh-files.zip
-	sudo rm -r ssh-files/
+    mkdir -p ssh-files/etc
+    sudo cp -r /etc/ssh ssh-files/etc/
+    mkdir -p ssh-files/root/
+    sudo cp -r /root/.ssh ssh-files/root/ 2> /dev/null
+    mkdir -p ssh-files/user/
+    sudo cp -r $HOME/.ssh ssh-files/user/
+    sudo zip -FSr "ssh-files.zip" ssh-files
+    if [ $(pwd) != $HOME ]; then
+        sudo mv ssh-files.zip $HOME/ssh-files.zip
+    fi
+    sudo chown -R $LOCAL_USER:$LOCAL_USER $HOME/ssh-files.zip
+    sudo rm -r ssh-files/
 fi
 
 # Screens configuration
@@ -323,7 +314,7 @@ sudo iptables-restore < /etc/iptables.conf
 
 # If master, enable ssh daemon on startup
 if [ $IS_MASTER == true ]; then
-	sudo systemctl enable ssh
+    sudo systemctl enable ssh
 fi
 
 sudo systemctl enable squid
@@ -356,8 +347,6 @@ EOF
 sudo chmod 777 "$HOME"/bin/screen-saver-off.sh
 printf "[Desktop Entry]\nEncoding=UTF-8\nName=LG-Screen\nGenericName=LiquidGalaxy screen-saver-off\nComment=This script turns screen-saver off\nExec=bash $HOME/bin/screen-saver-off.sh\nTerminal=false\nOnlyShowIn=GNOME\nType=Application\nStartupNotify=false\nX-GNOME-Autostart-enabled=true\n" > $HOME"/.config/autostart/lg-screen-saver-off.desktop"
 
-
-
 # Launch with 'liquidgalaxy' command
 if ! grep -Fq "liquidgalaxy" ~/.bashrc
 then
@@ -374,83 +363,35 @@ then
 fi
 
 # Add lg user sudo permissions (NOPASSWD) for ~/bin/startup-script.sh
-echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/ip-reloader.sh' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/squid restart' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/apache2 restart' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables*' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /usr/bin/tee*' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables-restore*' | sudo tee -a /etc/sudoers
-echo 'lg ALL=(ALL) NOPASSWD: /usr/sbin/tcpdump*' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/startup-script.sh' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /home/lg/bin/ip-reloader.sh' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /sbin/ip addr add*' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/ssh restart' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/squid restart' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /etc/init.d/apache2 restart' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables*' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /usr/bin/tee*' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /sbin/iptables-restore*' | sudo tee -a /etc/sudoers
+#echo 'lg ALL=(ALL) NOPASSWD: /usr/sbin/tcpdump*' | sudo tee -a /etc/sudoers
 
 # Web interface
 if [ $IS_MASTER == true ]; then
-	echo "Installing web interface (master only)..."
-	sudo apt-get -yq install php php-cgi libapache2-mod-php
-	sudo touch /etc/apache2/httpd.conf
-	sudo sed -i '/accept.lock/d' /etc/apache2/apache2.conf
-	sudo rm /var/www/html/index.html
-	sudo cp -r $GIT_FOLDER_NAME/php-interface/. /var/www/html/
-	sudo chown -R $LOCAL_USER:$LOCAL_USER /var/www/html/
+    echo "Installing web interface (master only)..."
+    sudo apt-get -yq install php php-cgi libapache2-mod-php
+    sudo touch /etc/apache2/httpd.conf
+    sudo sed -i '/accept.lock/d' /etc/apache2/apache2.conf
+    sudo rm /var/www/html/index.html
+    sudo cp -r $GIT_FOLDER_NAME/php-interface/. /var/www/html/
+    sudo chown -R $LOCAL_USER:$LOCAL_USER /var/www/html/
 
-	sudo systemctl enable apache2
+    sudo systemctl enable apache2
 fi
 
-sudo tee "/etc/iptables.conf" > /dev/null << EOM
-*filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [43616:6594412]
--A INPUT -i lo -j ACCEPT
--A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
--A INPUT -p icmp -j ACCEPT
-
-#-A INPUT -p tcp -m multiport --dports 22 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-
--A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 161 -j ACCEPT
--A INPUT -s 10.42.0.0/16 -p udp -m udp --dport 3401 -j ACCEPT
-
-#-A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 81 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 8111 -j ACCEPT
-
-#-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 80 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 3128 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 3130 -j ACCEPT
-
-#-A INPUT -s 10.42.$OCTET.0/24 -p udp -m multiport --dports 80,3128,3130 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 80 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 3128 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p udp -m udp --dport 3130 -j ACCEPT
-
-#-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 9335 -j ACCEPT
--A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 9335 -j ACCEPT
-
--A INPUT -s 10.42.$OCTET.0/24 -d 10.42.$OCTET.255/32 -p udp -j ACCEPT
--A INPUT -j DROP
--A FORWARD -j DROP
-COMMIT
-*nat
-:PREROUTING ACCEPT [52902:8605309]
-:INPUT ACCEPT [0:0]
-:OUTPUT ACCEPT [358:22379]
-:POSTROUTING ACCEPT [358:22379]
-COMMIT
-EOM
-
-sudo iptables-restore < /etc/iptables.conf
-
 # Cleanup
-sudo rm -r $GIT_FOLDER_MAIN
 
-#
-# Global cleanup
-#
 echo "Cleaning up..."
+
+sudo rm -r $GIT_FOLDER_MAIN
 sudo apt-get -yq autoremove
 
 echo "Liquid Galaxy installation completed! :-)"

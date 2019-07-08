@@ -77,34 +77,26 @@ public class AdvancedToolsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.advanced_tools_list, container, false);
 
-        rv = (RecyclerView) rootView.findViewById(R.id.rv);
+        rv = rootView.findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        llm.setOrientation(RecyclerView.VERTICAL);
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
-        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefresh);
-        fab = (FloatingActionButton) rootView.findViewById(R.id.add_app);
+        refreshLayout = rootView.findViewById(R.id.swipeRefresh);
+        fab = rootView.findViewById(R.id.add_app);
 
 
-        documentListHelpBtn = (ImageButton) rootView.findViewById(R.id.documentListHelp);
+        documentListHelpBtn = rootView.findViewById(R.id.documentListHelp);
 
-        documentListHelpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // custom dialog
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.help_task_list_dialog);
-                dialog.setTitle(getResources().getString(R.string.taskListHelpTitle));
+        documentListHelpBtn.setOnClickListener(v -> {
+            // custom dialog
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.help_task_list_dialog);
+            dialog.setTitle(getResources().getString(R.string.taskListHelpTitle));
 
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
+            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+            dialogButton.setOnClickListener(v1 -> dialog.dismiss());
+            dialog.show();
         });
 
         populateUI();
@@ -116,21 +108,9 @@ public class AdvancedToolsFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        refreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        populateUI();
-                    }
-                }
-        );
+        refreshLayout.setOnRefreshListener(() -> populateUI());
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCreateDialog();
-            }
-        });
+        fab.setOnClickListener(v -> showCreateDialog());
     }
 
     public void populateUI() {
@@ -396,12 +376,7 @@ public class AdvancedToolsFragment extends Fragment {
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(true);
                 dialog.setCanceledOnTouchOutside(false);
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        cancel(true);
-                    }
-                });
+                dialog.setOnCancelListener(dialog -> cancel(true));
                 dialog.show();
             }
         }

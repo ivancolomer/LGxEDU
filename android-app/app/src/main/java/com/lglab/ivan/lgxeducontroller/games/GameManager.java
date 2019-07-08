@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 
 import org.json.JSONException;
@@ -20,11 +18,11 @@ public abstract class GameManager {
     }
 
     public static void startGame(Activity activity, Game game) throws IllegalStateException {
-        if(INSTANCE != null)
+        if (INSTANCE != null)
             throw new IllegalStateException("There's already an instance of GameManager active!");
 
         GameManager gameManager = game.createManager();
-        if(gameManager == null)
+        if (gameManager == null)
             throw new IllegalStateException("No GameManager found for that game!");
 
         INSTANCE = gameManager;
@@ -32,29 +30,29 @@ public abstract class GameManager {
     }
 
     public static void editGame(Game game) throws IllegalStateException {
-        if(INSTANCE != null)
+        if (INSTANCE != null)
             throw new IllegalStateException("There's already an instance of GameManager active!");
 
         GameManager gameManager = game.createManager();
-        if(gameManager == null)
+        if (gameManager == null)
             throw new IllegalStateException("No GameManager found for that game!");
 
         INSTANCE = gameManager;
     }
 
     public static void endGame() throws IllegalStateException {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
             throw new IllegalStateException("There isn't any instance of GameManager active!");
         INSTANCE = null;
     }
 
     public static Game unpackGame(JSONObject obj) throws JSONException {
         GameEnum gameEnum = GameEnum.findByName(obj.getString("type"));
-        if(gameEnum == null)
+        if (gameEnum == null)
             throw new JSONException("No type game found");
 
         Game game = null;
-        switch(gameEnum) {
+        switch (gameEnum) {
             case TRIVIA:
                 game = new Trivia().unpack(obj);
                 break;
@@ -72,7 +70,7 @@ public abstract class GameManager {
 
     public static Game createGame(String name, GameEnum type, Bitmap image, String category, Context context) {
         Game game = null;
-        switch(type) {
+        switch (type) {
             case TRIVIA:
                 game = new Trivia();
                 break;

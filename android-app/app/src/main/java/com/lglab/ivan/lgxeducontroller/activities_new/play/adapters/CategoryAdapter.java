@@ -2,9 +2,6 @@ package com.lglab.ivan.lgxeducontroller.activities_new.play.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.play.asynctasks.DownloadImageTask;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 
@@ -45,7 +44,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.GameVi
 
         //new DownloadImageTask(holder.imageViewMovie).execute("https://i.ytimg.com/vi/ymIhLJ5AKpE/maxresdefault.jpg");
         Bitmap image = game.getImage(this.context);
-        if(image != null)
+        if (image != null)
             holder.imageViewMovie.setImageBitmap(image);
 
         holder.itemView.setOnClickListener(arg0 -> startGame((Activity) holder.itemView.getContext(), position));

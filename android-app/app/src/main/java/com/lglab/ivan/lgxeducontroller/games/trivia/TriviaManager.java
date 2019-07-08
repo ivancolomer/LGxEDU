@@ -18,7 +18,7 @@ public class TriviaManager extends GameManager {
     public TriviaManager(Game game) {
         super(game);
         selectedAnswers = new ArrayList<>();
-        for(int i = 0; i < getGame().getQuestions().size(); i++)
+        for (int i = 0; i < getGame().getQuestions().size(); i++)
             selectedAnswers.add(0);
     }
 
@@ -60,6 +60,6 @@ public class TriviaManager extends GameManager {
     }
 
     public boolean isCorrectAnswer(Integer index) {
-        return selectedAnswers.get(index) == ((TriviaQuestion)getGame().getQuestions().get(index)).correctAnswer;
+        return selectedAnswers.get(index) == ((TriviaQuestion) getGame().getQuestions().get(index)).correctAnswer;
     }
 }

@@ -23,8 +23,9 @@
 package com.lglab.ivan.lgxeducontroller.legacy.PW.ble;
 
 import android.os.ParcelUuid;
-import androidx.annotation.Nullable;
 import android.util.SparseArray;
+
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

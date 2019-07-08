@@ -2,15 +2,16 @@ package com.lglab.ivan.lgxeducontroller.activities_new.manager;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters.CategoryManagerAdapter;
@@ -135,16 +136,15 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
 
     @Override
     public void onGamesChanged(boolean reloadAdapter) {
-        if(reloadAdapter) {
+        if (reloadAdapter) {
             reloadAdapter();
             return;
         }
 
-        if(adapter.getGroups().size() == 0) {
+        if (adapter.getGroups().size() == 0) {
             recyclerView.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             textView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }

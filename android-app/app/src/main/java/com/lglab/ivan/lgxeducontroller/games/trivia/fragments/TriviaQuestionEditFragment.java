@@ -3,9 +3,6 @@ package com.lglab.ivan.lgxeducontroller.games.trivia.fragments;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +12,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.CreatePOIActivity;
@@ -58,7 +58,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         ItemEntity<Integer> itemEntity = ItemEntityUtil.getModelData(this);
         questionNumber = itemEntity.getContent();
         trivia = (Trivia) GameManager.getInstance().getGame();
-        question = (TriviaQuestion)trivia.getQuestions().get(questionNumber);
+        question = (TriviaQuestion) trivia.getQuestions().get(questionNumber);
     }
 
     @Override
@@ -83,37 +83,37 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         textAnswers = new EditText[TriviaQuestion.MAX_ANSWERS];
         answersPOITextEdit = new AutoCompleteTextView[TriviaQuestion.MAX_ANSWERS];
 
-        for(int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-            textAnswers[i] = view.findViewById(R.id.answer1TextEdit + 2*i);
-            answersPOITextEdit[i] = view.findViewById(R.id.answer1POITextEdit + 2*i);
+        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
+            textAnswers[i] = view.findViewById(R.id.answer1TextEdit + 2 * i);
+            answersPOITextEdit[i] = view.findViewById(R.id.answer1POITextEdit + 2 * i);
             answerPOIText(i, answersPOITextEdit[i]);
-            POIButton(R.id.addAnswer1POIButton + i, i+1);
+            POIButton(R.id.addAnswer1POIButton + i, i + 1);
         }
 
         additionalInformation = view.findViewById(R.id.informationTextEdit);
 
-            questionEditText.setText(question.getQuestion());
+        questionEditText.setText(question.getQuestion());
 
-            if(question.correctAnswer > 0)
-                ((RadioButton) correctAnswerRadioButton.getChildAt(question.correctAnswer - 1)).setChecked(true);
+        if (question.correctAnswer > 0)
+            ((RadioButton) correctAnswerRadioButton.getChildAt(question.correctAnswer - 1)).setChecked(true);
 
-            for(int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-                if (question.answers[0] != null) {
-                    textAnswers[i].setText(question.answers[0]);
-                }
+        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
+            if (question.answers[0] != null) {
+                textAnswers[i].setText(question.answers[0]);
             }
+        }
 
-            if(question.initialPOI != null)
-                textQuestionPOI.setText(question.initialPOI.getName());
+        if (question.initialPOI != null)
+            textQuestionPOI.setText(question.initialPOI.getName());
 
-            for(int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-                if (question.pois[i] != null) {
-                    answersPOITextEdit[i].setText(question.pois[i].getName());
-                }
+        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
+            if (question.pois[i] != null) {
+                answersPOITextEdit[i].setText(question.pois[i].getName());
             }
+        }
 
-            if(question.information != null)
-                additionalInformation.setText(question.information);
+        if (question.information != null)
+            additionalInformation.setText(question.information);
     }
 
     @Override
@@ -174,15 +174,13 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
             poiList.put(returnedPOI.getId(), returnedPOI);
             poiStringList.add(returnedPOI);
 
-            if(button == 0) {
+            if (button == 0) {
                 question.initialPOI = returnedPOI;
                 textQuestionPOI.setText(namePOI);
-            }
-            else if(button >= 1 && button <= 4) {
+            } else if (button >= 1 && button <= 4) {
                 question.pois[button - 1] = returnedPOI;
                 answersPOITextEdit[button - 1].setText(namePOI);
-            }
-            else if(button == 6) {
+            } else if (button == 6) {
                 //Code for intent from Manager (get the quiz Trivia and if editing only one question or the whole quiz Boolean)
 
             }
@@ -216,7 +214,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
     @Override
     public void saveData() {
         String questionS = getTextFromEditText(questionEditText);
-        if(questionS == null || questionS.isEmpty()) {
+        if (questionS == null || questionS.isEmpty()) {
             //Toast.makeText(getContext(), "A text must be filled in the Question textbox", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -231,9 +229,9 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
 
         String[] answers = new String[TriviaQuestion.MAX_ANSWERS];
 
-        for(int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
+        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
             String text = getTextFromEditText(textAnswers[i]);
-            if(text == null || text.isEmpty()) {
+            if (text == null || text.isEmpty()) {
                 //Toast.makeText(getContext(), "Answer " + (i + 1) + " POI", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -247,7 +245,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
             }
         }
 
-        if(question.initialPOI == null) {
+        if (question.initialPOI == null) {
             question.initialPOI = POIController.EARTH_POI;
         }
 

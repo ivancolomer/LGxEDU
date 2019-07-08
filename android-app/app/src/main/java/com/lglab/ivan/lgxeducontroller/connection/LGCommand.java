@@ -7,17 +7,29 @@ public class LGCommand {
 
     private final String command;
     private final short priorityType;
+    private final TaskListener taskListener;
 
-    public LGCommand(String command, short priorityType) {
-        this.command = command;
-        this.priorityType = priorityType;
+    public interface TaskListener {
+        public void onFinished(String result);
     }
 
-    public String getCommand() {
+    public LGCommand(String command, short priorityType, TaskListener listener) {
+        this.command = command;
+        this.priorityType = priorityType;
+        this.taskListener = listener;
+    }
+
+    String getCommand() {
         return command;
     }
 
-    public short getPriorityType() {
+    short getPriorityType() {
         return priorityType;
+    }
+
+    void doAction(String result) {
+        if (this.taskListener != null) {
+            this.taskListener.onFinished(result);
+        }
     }
 }

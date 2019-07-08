@@ -5,8 +5,9 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.lglab.ivan.lgxeducontroller.BuildConfig;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
@@ -63,10 +64,10 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         POISFragment.resetTourSettings();
         if (s.startsWith("Error")) {
             new Builder(this.poisFragmentAct)
-                .setTitle("Error")
-                .setMessage("There's probably no POI inside this Tour")
-                .setPositiveButton("OK", new TourDialog())
-                .show();
+                    .setTitle("Error")
+                    .setMessage("There's probably no POI inside this Tour")
+                    .setPositiveButton("OK", new TourDialog())
+                    .show();
         }
     }
 
@@ -99,10 +100,9 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
     }
 
     private void sendFirstTourPOI(POI firstPoi) {
-        if(POIController.getInstance().moveToPOI(firstPoi, false)) {
+        if (POIController.getInstance().moveToPOI(firstPoi, false)) {
             Log.d(TAG, "First send");
-        }
-        else {
+        } else {
             Log.d(TAG, "Error in connection with Liquid Galaxy.");
         }
     }
@@ -111,7 +111,7 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         try {
             Thread.sleep((long) (duration * 1000));
 
-            if(!POIController.getInstance().moveToPOI(poi, false)) {
+            if (!POIController.getInstance().moveToPOI(poi, false)) {
                 Log.d(TAG, "Error in connection with Liquid Galaxy.");
             }
         } catch (InterruptedException e) {

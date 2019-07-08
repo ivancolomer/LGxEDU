@@ -11,9 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +18,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.jcraft.jsch.JSchException;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
@@ -139,13 +137,10 @@ public class LGTools extends Fragment {
         // set a positive/yes button and create a listener
         // When button is clicked
         alertbox.setPositiveButton(getResources().getString(R.string.yes), (arg0, arg1) -> {
-            try {
-                Log.d("TAGG", "smth");
-                if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(sentence, LGCommand.CRITICAL_MESSAGE), false))
-                    throw new JSchException();
-            } catch (JSchException e) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-            }
+            Log.d("TAGG", "smth");
+            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(sentence, LGCommand.CRITICAL_MESSAGE, (result) -> {
+
+            }));
         });
 
         // set a negative/no button and create a listener

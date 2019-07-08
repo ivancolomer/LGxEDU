@@ -12,13 +12,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.IGamesAdapterActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.asynctasks.RemoveGameTask;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.fragments.AddGameFragment;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.EditGameActivity;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableListPosition;
@@ -118,7 +118,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             this.game = game;
             quizName.setText(game.getName());
 
-            this.quizName.setOnClickListener(view -> AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity)itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game"));
+            this.quizName.setOnClickListener(view -> AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity) itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game"));
 
             this.editButton.setOnClickListener(view -> {
 
@@ -130,16 +130,16 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             });
 
             this.deleteButton.setOnClickListener(view ->
-                new AlertDialog.Builder(itemView.getContext())
-                    .setTitle("Are you sure you want to delete \"" + game.getName() + "\"?")
-                    .setMessage("The category will be deleted immediately. You can't undo this action.")
-                    .setPositiveButton("Delete", (dialog, id) -> {
-                        new RemoveGameTask(game).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                        adapter.removeItem(flatPosition);
-                    })
-                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
-                    .create()
-                    .show());
+                    new AlertDialog.Builder(itemView.getContext())
+                            .setTitle("Are you sure you want to delete \"" + game.getName() + "\"?")
+                            .setMessage("The category will be deleted immediately. You can't undo this action.")
+                            .setPositiveButton("Delete", (dialog, id) -> {
+                                new RemoveGameTask(game).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                adapter.removeItem(flatPosition);
+                            })
+                            .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
+                            .create()
+                            .show());
         }
     }
 }

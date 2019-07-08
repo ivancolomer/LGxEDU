@@ -1,9 +1,7 @@
 <resources>
-    <string name="server_client_id">570014662901-v9p1r3dqtfspmisad8o5gp264o7r181q.apps.googleusercontent.com</string>
     <string name="app_name">LGxEdu Controller</string>
     <string name="navigate">Navigate</string>
     <string name="play">Play</string>
-    <string name="create_question">Create Question</string>
 
     <!-- Create TriviaQuestion -->
     <string name="question_text_edit">Question</string>
@@ -21,7 +19,6 @@
     <!-- End Create TriviaQuestion -->
 
     <string name="create_game">Add a Game</string>
-    <string name="create_game_category">Add a Category</string>
     <string name="manage_drive">Google Drive</string>
 
     <!-- Legacy -->
@@ -30,10 +27,7 @@
     <string name="action_resetDB">Reset Database</string>
     <string name="POIs_button">POIS</string>
     <string name="TOURs_button">TOURs</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="admin">Administration tools</string>
-    <string name="title_activity_admin">Liquid Galaxy Tools</string>
-    <string name="hello_world">Hello world!</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="incorrect_pass">Incorrect Password</string>
@@ -46,7 +40,6 @@
     <string name="update_category">Update Category</string>
     <string name="update_tour">Update Tour</string>
     <string name="update_poi">Update POI</string>
-    <string name="add_pois">Add POIs</string>
     <string name="categories_button">Categories</string>
     <string name="edit_poi">Edit</string>
     <string name="delete_poi">Delete</string>
@@ -57,17 +50,10 @@
     <string name="new_category_here">New Category inside this category</string>
     <string name="see_all">See all elements</string>
     <string name="see_by_category">See elements by category</string>
-    <string name="next_subcategory">See subcategory</string>
     <string name="back">Back</string>
     <string name="back_start">Back to Start</string>
-    <string name="global_interval_text">Duration of each POI (25 by default)</string>
     <string name="tour_pois">Tour POIs</string>
     <string name="title_activity_help">Help</string>
-    <string name="title_activity_lgpc">Liquid Galaxy POIs Controller</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="title_activity_lgpcadmin">Liquid Galaxy Administration</string>
     <string name="inst_send_POI_tittle"><u>Instructions to send a POI to Liquid Galaxy system:</u></string>
     <string name="inst_send_POI_">1.	Check whether all the settings are correct by making click on ‘Settings’ option inside the menu located on the main screen’s top right corner. If they are incorrect, modify them. The settings to check are: user name, password, host IP and port.\n2.	After checking settings correctness, you are able to select one POI to watch it in LG screens.\n</string>
     <string name="inst_send_TOUR_tittle"><u>Instructions to send a Tour to Liquid Galaxy system:</u></string>
@@ -106,19 +92,16 @@
     <string name="nearby_beacon_favicon_content_description">favicon for the given URL for this entry</string>
     <string name="notification_view_more_beacons">View more beacons</string>
     <string name="empty_nearby_beacons_list_text">Searching for beacons</string>
-    <string name="title_nearby_beacons">Found Physical Web Beacons</string>
 
 
     <string name="importingContents">Importing Contents</string>
     <string name="parsingError">Parsing Document Error</string>
     <string name="viewing_poi">Viewing POI in LG</string>
-    <string name="parsingContents">Reading contents from Physical Web Beacon</string>
     <string name="something_wrong">Ops! Something went wrong</string>
     <string name="connection_failure">Error connecting with Liquid Galaxy system. Try changing username, password, port or the host ip</string>
     <string name="please_enter_search">Please, first type some place to search.</string>
     <string name="searching">Searching…</string>
     <string name="sending_command">Sending Command to LG</string>
-    <string name="getting_connection">Getting Connection to LG</string>
     <string name="desc_lg_icon">Liquid Galaxy</string>
     <string name="context_menu_edit_task">Edit task</string>
     <string name="context_menu_launch_task">Launch Script in Liquid Galaxy</string>
@@ -126,7 +109,6 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="add_task_header">Add New Task</string>
     <string name="save_new_task">Save</string>
     <string name="new_task_script">Execution Script</string>
     <string name="new_task_description">Task Description</string>
@@ -149,7 +131,6 @@
     <string name="range">Range</string>
     <string name="global_interval_tour_text">Global interval (in seconds) for each POI</string>
     <string name="error_galaxy">Error connecting with Liquid Galaxy. Please, try changing settings.</string>
-    <string name="error_reading_pois"><![CDATA[Error reading POIs. Remember POI name must be between two \'@\' and other features between \'<featureName>\' fields.]]></string>
     <string name="select_task_logo">Select a Logo for this task</string>
     <string name="task_logo">Task Logo</string>
     <string name="update_task_logo">Change Task Logo</string>
@@ -160,10 +141,8 @@
     <string name="category">CATEGORY</string>
     <string name="poi">POI</string>
     <string name="add_poi">Add Poi</string>
-    <string name="add_poi_tour">Add POI to Tour</string>
     <string name="please_enter_password">Please, enter the password:</string>
     <string name="search_some_place">Search some place on Liquid Galaxy…</string>
-    <string name="search_some_quiz">Find Quiz…</string>
     <string name="seconds">(s)</string>
     <string name="import_pois">Import POIs</string>
     <string name="password">Password</string>
@@ -221,27 +200,16 @@
 
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
-    <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="bluetoothNotAvailable">The device does not support bluetooth</string>
 
     <!--TreeView-->
-    <string name="ic_folder">&#xe09d;</string>
-    <string name="ic_keyboard_arrow_down">&#xe0c5;</string>
-    <string name="ic_keyboard_arrow_right">&#xe0c7;</string>
-    <string name="ic_email">&#xe087;</string>
-    <string name="ic_add">&#xe006;</string>
-    <string name="ic_close">&#xe048;</string>
     <string name="categoriesRoot">Categories</string>
-    <string name="loadingTree">Loading…</string>
     <string name="action_exportDB">Export Database to local storage</string>
     <string name="importAsTourStr">Import as Tour</string>
     <string name="tourValues">Create new Tour</string>
     <string name="save">Save</string>
     <string name="empty_duration_error">The duration must not be empty</string>
-    <string name="importingContentsTour">Importing contents into tour</string>
-    <string name="cancelImporting">Cancel Import</string>
     <string name="are_you_sure_delete_database">This action will delete all the data inside the application. Are you sure?</string>
-    <string name="readingFile">Reading File…</string>
     <string name="readingFileAndImportingPois">Reading Pois and importing them</string>
     <string name="deletingPoisInCategory">Deleting Pois inside the category</string>
     <string name="viewing_category">Current Category: </string>
@@ -263,7 +231,6 @@
     <string name="hidden">Hidden</string>
     <string name="visible">Visible</string>
     <string name="tours">Tours</string>
-    <string name="NO_ROUTE">NO ROUTE</string>
 
 
     <string name="speedx2">x2</string>
@@ -271,8 +238,6 @@
 
     <string name="speeddiv2">x/2</string>
     <string name="speeddiv4">x/4</string>
-    <string name="lessSpeed">Less Rotation Speed</string>
-    <string name="pref_header_general">General Settings</string>
     <string name="title_activity_settings">Settings</string>
     <string name="creating_tour">Creating Tour…</string>
     <string name="server_port">Server port variable for advanced tasks</string>
@@ -286,9 +251,6 @@
     <string name="taskIpDefault">$serverIp</string>
     <string name="taskBrowserUrlDefault">$serverIp:$serverPort</string>
     <string name="clean_KML">Clean KMLS</string>
-    <string name="app_label">LGxEDU</string>
-    <string name="search_hint">Search a quiz</string>
-    <string name="update_question">Update Question</string>
     <!-- Legacy -->
 
 

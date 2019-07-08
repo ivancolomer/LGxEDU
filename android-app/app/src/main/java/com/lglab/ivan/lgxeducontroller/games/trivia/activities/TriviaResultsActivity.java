@@ -1,12 +1,13 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.KeyEvent;
-import android.widget.TextView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;

@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
-import androidx.core.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
@@ -280,7 +281,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
                     boolean isFirst = true;
                     POI newPoi = new POI(currentPoi);
                     while (!isCancelled()) {
-                        POIController.getInstance().moveToPOI(currentPoi,true);
+                        POIController.getInstance().moveToPOI(currentPoi, true);
                         if (isFirst) {
                             isFirst = false;
                             Thread.sleep(7000);
@@ -288,8 +289,8 @@ public class PoisGridViewAdapter extends BaseAdapter {
                             Thread.sleep(4000);
                         }
 
-                        newPoi.setHeading(newPoi.getHeading() + this.rotationAngle*this.rotationFactor);
-                        while(newPoi.getHeading() > 180) {
+                        newPoi.setHeading(newPoi.getHeading() + this.rotationAngle * this.rotationFactor);
+                        while (newPoi.getHeading() > 180) {
                             newPoi.setHeading(newPoi.getHeading() - 360);
                         }
                     }

@@ -5,16 +5,16 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.lgpc.LGPC;
@@ -52,13 +52,15 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
         super.onStart();
 
         LGConnectionManager.getInstance().setActivity(this);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        isOnChromeBook = prefs.getBoolean("isOnChromeBook", false);
         currentStatus = 0;
+    }
 
-        if(LGConnectionManager.getInstance().isShouldRestartMapNavigation())
-            POIController.getInstance().moveToPOI(POIController.EARTH_POI, true);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        isOnChromeBook = prefs.getBoolean("isOnChromeBook", false);
     }
 
     @Override
@@ -115,15 +117,15 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
         }
 
         List<Pair<String, Boolean>> commands = PointerDetector.getInstance().postAction();
-        if(commands.size() > 0) {
+        if (commands.size() > 0) {
             String command = "export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; xdotool ";
             boolean critical = false;
-            for(Pair<String, Boolean> pair : commands) {
+            for (Pair<String, Boolean> pair : commands) {
                 command += pair.first + " ";
                 critical = critical || pair.second;
             }
 
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, critical ? LGCommand.CRITICAL_MESSAGE : LGCommand.NON_CRITICAL_MESSAGE));
+            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, critical ? LGCommand.CRITICAL_MESSAGE : LGCommand.NON_CRITICAL_MESSAGE, null));
         }
 
 

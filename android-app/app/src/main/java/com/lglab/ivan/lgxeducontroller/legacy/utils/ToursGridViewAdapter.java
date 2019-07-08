@@ -8,13 +8,14 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import androidx.fragment.app.FragmentActivity;
-import androidx.core.content.res.ResourcesCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
@@ -130,7 +131,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
                     pois.add(getPOIData(poiID));
                 }
                 try {
-                    if(!sendTourPOIs(pois, poisDuration)) {
+                    if (!sendTourPOIs(pois, poisDuration)) {
                         return false;
                     }
                     return true;
@@ -143,7 +144,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
         }
 
         private boolean sendTourPOIs(List<POI> pois, List<Integer> poisDuration) {
-            if(!sendFirstTourPOI(pois.get(0)))
+            if (!sendFirstTourPOI(pois.get(0)))
                 return false;
             return sendOtherTourPOIs(pois, poisDuration);
         }
@@ -151,7 +152,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
         private boolean sendOtherTourPOIs(List<POI> pois, List<Integer> poisDuration) {
             int i = 1;
             while (!isCancelled()) {
-                if(!sendTourPOI(poisDuration.get(i), pois.get(i % pois.size())))
+                if (!sendTourPOI(poisDuration.get(i), pois.get(i % pois.size())))
                     return false;
                 i++;
             }

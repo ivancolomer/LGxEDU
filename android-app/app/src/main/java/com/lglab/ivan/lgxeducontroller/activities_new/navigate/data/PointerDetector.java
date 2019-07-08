@@ -11,8 +11,9 @@ public class PointerDetector {
     private final static double MINIMUM_DISTANCE_MOVE = 12.5d;
 
     private static PointerDetector INSTANCE = null;
+
     public static PointerDetector getInstance() {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
             INSTANCE = new PointerDetector();
         return INSTANCE;
     }
@@ -29,27 +30,27 @@ public class PointerDetector {
     }
 
     public List<Pair<String, Boolean>> postAction() {
-        if(currentAction != previousAction) {
-            if(!previousAction.finalCommand.equals(""))
+        if (currentAction != previousAction) {
+            if (!previousAction.finalCommand.equals(""))
                 commands.add(new Pair<>(previousAction.finalCommand, true));
-            if(currentAction == Action.NONE)
+            if (currentAction == Action.NONE)
                 commands.add(new Pair<>(mouseMoveCommand(0, 0), true));
-            if(!currentAction.initialCommand.equals(""))
+            if (!currentAction.initialCommand.equals(""))
                 commands.add(new Pair<>(currentAction.initialCommand, true));
         }
 
-        if(currentAction == Action.MOVE_POSITION) {
-            commands.add(new Pair<>(mouseMoveCommand((int)pointers[0].getAngleFromInitial(), (int)pointers[0].getDistanceFromInitial()), false));
-        } else if(currentAction != Action.NONE) {
+        if (currentAction == Action.MOVE_POSITION) {
+            commands.add(new Pair<>(mouseMoveCommand((int) pointers[0].getAngleFromInitial(), (int) pointers[0].getDistanceFromInitial()), false));
+        } else if (currentAction != Action.NONE) {
 
             double angleDiff = Pointer.getAngleDiff(pointers[0].getAngleFromPrevious(), pointers[1].getAngleFromPrevious());
-            if(angleDiff >= 150) {
+            if (angleDiff >= 150) {
                 double distanceDiff = Math.sqrt(Math.pow(pointers[0].currentX - pointers[1].currentX, 2) + Math.pow(pointers[0].currentY - pointers[1].currentY, 2));
                 distanceDiff -= Math.sqrt(Math.pow(pointers[0].previousMovedX - pointers[1].previousMovedX, 2) + Math.pow(pointers[0].previousMovedY - pointers[1].previousMovedY, 2));
 
-                if(distanceDiff >= 0) {
-                    if(currentAction != Action.ZOOM_IN) {
-                        if(currentAction == Action.MOVE_ANGLE) {
+                if (distanceDiff >= 0) {
+                    if (currentAction != Action.ZOOM_IN) {
+                        if (currentAction == Action.MOVE_ANGLE) {
                             pointers[0].changedToZoomAction();
                             pointers[1].changedToZoomAction();
                         }
@@ -59,10 +60,9 @@ public class PointerDetector {
                         commands.add(new Pair<>(currentAction.initialCommand, true));
                     }
                     return commands;
-                }
-                else if(distanceDiff <= 0) {
-                    if(currentAction != Action.ZOOM_OUT) {
-                        if(currentAction == Action.MOVE_ANGLE) {
+                } else if (distanceDiff <= 0) {
+                    if (currentAction != Action.ZOOM_OUT) {
+                        if (currentAction == Action.MOVE_ANGLE) {
                             pointers[0].changedToZoomAction();
                             pointers[1].changedToZoomAction();
                         }
@@ -73,9 +73,8 @@ public class PointerDetector {
                     }
                     return commands;
                 }
-            }
-            else if (angleDiff <= 30) {
-                if(currentAction != Action.MOVE_ANGLE) {
+            } else if (angleDiff <= 30) {
+                if (currentAction != Action.MOVE_ANGLE) {
                     commands.add(new Pair<>(previousAction.finalCommand, true));
                     currentAction = Action.MOVE_ANGLE;
                     commands.add(new Pair<>(currentAction.initialCommand, true));
@@ -84,7 +83,7 @@ public class PointerDetector {
                     pointers[1].changedFromZoomAction();
                 }
 
-                commands.add(new Pair<>(mouseMoveCommand((int)pointers[0].getAngleFromInitial(), (int)pointers[0].getDistanceFromInitial()), false));
+                commands.add(new Pair<>(mouseMoveCommand((int) pointers[0].getAngleFromInitial(), (int) pointers[0].getDistanceFromInitial()), false));
             }
         }
 
@@ -92,47 +91,46 @@ public class PointerDetector {
     }
 
     public void addPointer(int id, float x, float y) {
-        if(pointers[0] == null) {
+        if (pointers[0] == null) {
             pointers[0] = new Pointer(id, x, y);
             currentAction = Action.MOVE_POSITION;
             return;
         }
 
-        if(pointers[0].pointerId == id)
+        if (pointers[0].pointerId == id)
             return;
 
-        if(pointers[1] == null) {
+        if (pointers[1] == null) {
             pointers[1] = new Pointer(id, x, y);
             currentAction = Action.MOVE_ANGLE;
             return;
         }
 
-        if(pointers[1].pointerId == id)
+        if (pointers[1].pointerId == id)
             return;
 
         Log.e("PointerDetector", "Can't add a third pointer!!!");
     }
 
     public void updatePointer(int id, float x, float y) {
-        for(Pointer p : pointers) {
-            if(p != null && p.pointerId == id)
+        for (Pointer p : pointers) {
+            if (p != null && p.pointerId == id)
                 p.update(x, y);
         }
     }
 
     public void removePointer(int id) {
-        if(pointers[0] != null && pointers[0].pointerId == id) {
+        if (pointers[0] != null && pointers[0].pointerId == id) {
             pointers[0] = pointers[1];
             pointers[1] = null;
             currentAction = pointers[0] != null ? Action.MOVE_POSITION : Action.NONE;
-            if((previousAction == Action.ZOOM_IN || previousAction == Action.ZOOM_OUT) && currentAction == Action.MOVE_POSITION) {
+            if ((previousAction == Action.ZOOM_IN || previousAction == Action.ZOOM_OUT) && currentAction == Action.MOVE_POSITION) {
                 pointers[0].changedFromZoomAction();
             }
-        }
-        else if(pointers[1] != null && pointers[1].pointerId == id) {
+        } else if (pointers[1] != null && pointers[1].pointerId == id) {
             pointers[1] = null;
             currentAction = Action.MOVE_POSITION;
-            if(previousAction == Action.ZOOM_IN || previousAction == Action.ZOOM_OUT) {
+            if (previousAction == Action.ZOOM_IN || previousAction == Action.ZOOM_OUT) {
                 pointers[0].changedFromZoomAction();
             }
         }

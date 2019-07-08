@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,10 +19,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities_new.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters.CategoryManagerAdapter;
 import com.lglab.ivan.lgxeducontroller.games.Category;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameEnum;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -84,7 +85,7 @@ public class AddGameFragment extends DialogFragment {
             startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
         });
 
-        if(game == null) {
+        if (game == null) {
 
             builder.setTitle("Create a game");
 
@@ -163,7 +164,7 @@ public class AddGameFragment extends DialogFragment {
         builder.setPositiveButton("Modify", (dialog, id) -> {
             dialog.cancel();
             game.setName(gameTitleText.getText().toString());
-            if(hasChanged) {
+            if (hasChanged) {
                 BitmapDrawable drawable = (BitmapDrawable) gameImage.getDrawable();
                 game.setNewImage(drawable != null ? drawable.getBitmap() : null, getContext());
             }
@@ -198,7 +199,7 @@ public class AddGameFragment extends DialogFragment {
             }
 
         } else {
-            Toast.makeText(getContext(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "You haven't picked Image", Toast.LENGTH_LONG).show();
         }
     }
 

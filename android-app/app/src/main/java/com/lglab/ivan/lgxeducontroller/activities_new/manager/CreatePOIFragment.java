@@ -8,9 +8,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +21,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
@@ -100,8 +101,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
-        }
-        catch (SecurityException ignored) {
+        } catch (SecurityException ignored) {
 
         }
         return rootView;
@@ -116,8 +116,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         map.getUiSettings().setMapToolbarEnabled(true);
         try {
             map.setMyLocationEnabled(true);
-        }
-        catch (SecurityException ignored) {
+        } catch (SecurityException ignored) {
 
         }
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -241,8 +240,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
 
         try {
             fillCategorySpinner(viewHolder.categoryID);
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
 
         }
 

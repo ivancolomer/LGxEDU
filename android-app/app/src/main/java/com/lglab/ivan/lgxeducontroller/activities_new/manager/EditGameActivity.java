@@ -1,16 +1,16 @@
 package com.lglab.ivan.lgxeducontroller.activities_new.manager;
 
 import android.os.Bundle;
-import androidx.core.view.MenuCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuCompat;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.Game;
@@ -132,12 +132,12 @@ public class EditGameActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Do you want to save the current game?")
 
-                    .setPositiveButton("Yes", (dialog, id1) ->  {
+                    .setPositiveButton("Yes", (dialog, id1) -> {
                         //Save the current instance of GAME
-                        for(int i = 0; i < game.getQuestions().size(); i++) {
+                        for (int i = 0; i < game.getQuestions().size(); i++) {
                             try {
-                                ISaveData page = (ISaveData)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
-                                if(page != null)
+                                ISaveData page = (ISaveData) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
+                                if (page != null)
                                     page.saveData();
                                 game.getQuestions().get(i).pack();
                             } catch (JSONException | NullPointerException e) {
@@ -149,7 +149,7 @@ public class EditGameActivity extends AppCompatActivity {
                         }
 
                         try {
-                            if(!isNew)
+                            if (!isNew)
                                 POIsProvider.updateGameById((int) game.getId(), game.pack().toString());
                             else
                                 POIsProvider.insertGame(game.pack().toString());
@@ -162,20 +162,19 @@ public class EditGameActivity extends AppCompatActivity {
                     })
                     .setNegativeButton(R.string.cancel, (dialog, id1) -> dialog.cancel()).create()
                     .show();
-        }
-        else if(id == R.id.add_question) {
+        } else if (id == R.id.add_question) {
             //Add page (question)
             int currentItem = viewPager.getCurrentItem();
 
-            for(int i = 0; i < game.getQuestions().size(); i++) {
-                ISaveData page = (ISaveData)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
-                if(page != null) {
+            for (int i = 0; i < game.getQuestions().size(); i++) {
+                ISaveData page = (ISaveData) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
+                if (page != null) {
                     page.saveData();
                     //getSupportFragmentManager().getFragments().remove(page);
                 }
             }
 
-            if(game.getQuestions().size() == currentItem + 1) {
+            if (game.getQuestions().size() == currentItem + 1) {
                 game.getQuestions().add(game.createQuestion());
             } else {
                 game.getQuestions().add(currentItem + 1, game.createQuestion());
@@ -184,22 +183,21 @@ public class EditGameActivity extends AppCompatActivity {
             finish();
             getIntent().putExtra("page", currentItem + 1);
             startActivity(getIntent());
-        }
-        else if(id == R.id.remove_question) {
+        } else if (id == R.id.remove_question) {
 
             new AlertDialog.Builder(this)
                     .setTitle("Do you want to remove the current question from the game?")
 
-                    .setPositiveButton("Yes", (dialog, id1) ->  {
-                        if(game.getQuestions().size() <= 1) {
+                    .setPositiveButton("Yes", (dialog, id1) -> {
+                        if (game.getQuestions().size() <= 1) {
                             Toast.makeText(EditGameActivity.this, "You can't delete the last page", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         int currentItem = viewPager.getCurrentItem();
-                        for(int i = 0; i < game.getQuestions().size(); i++) {
-                            ISaveData page = (ISaveData)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
-                            if(page != null) {
+                        for (int i = 0; i < game.getQuestions().size(); i++) {
+                            ISaveData page = (ISaveData) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
+                            if (page != null) {
                                 page.saveData();
                                 //getSupportFragmentManager().getFragments().remove(page);
                             }

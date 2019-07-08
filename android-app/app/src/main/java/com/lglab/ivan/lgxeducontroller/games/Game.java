@@ -1,11 +1,8 @@
 package com.lglab.ivan.lgxeducontroller.games;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Base64;
@@ -19,7 +16,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +59,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         category = obj.getString("category");
         imageName = obj.getString("imageName");
         type = GameEnum.findByName(obj.getString("type"));
-        if(type == null)
+        if (type == null)
             throw new JSONException("No game type found!");
 
         unpackQuestions(obj.getJSONArray("questions"));
@@ -76,7 +72,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         setNewImage(getBitmapFromString(obj.getString("image")), context);
 
         type = GameEnum.findByName(obj.getString("type"));
-        if(type == null)
+        if (type == null)
             throw new JSONException("No game type found!");
 
         unpackQuestions(obj.getJSONArray("questions"));
@@ -121,7 +117,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
     private void unpackQuestions(JSONArray array) throws JSONException {
         for (int i = 0; i < array.length(); i++) {
             Question q = createQuestion();
-            if(q != null)
+            if (q != null)
                 questions.add(q.unpack(array.getJSONObject(i)));
         }
     }
@@ -174,20 +170,19 @@ public abstract class Game implements IJsonPacker, Parcelable {
     }
 
     public Bitmap getImage(Context context) {
-        if(imageName.startsWith("1234_")) {
+        if (imageName.startsWith("1234_")) {
             // load image
             try {
                 // get input stream
                 InputStream ims = context.getAssets().open(imageName.substring(5));
                 // load image as Drawable
                 return BitmapFactory.decodeStream(ims);
-            }
-            catch(IOException ex) {
+            } catch (IOException ex) {
                 return null;
             }
         }
 
-        return imageName != "" ? BitmapFactory.decodeFile(new File( context.getFilesDir().toString() + "/saved_images", imageName).getAbsolutePath()) : null;
+        return imageName != "" ? BitmapFactory.decodeFile(new File(context.getFilesDir().toString() + "/saved_images", imageName).getAbsolutePath()) : null;
     }
 
     public void setImage(File file) {
@@ -197,7 +192,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
     public void setNewImage(Bitmap bitmap, Context context) {
         imageName = generateRandomString();
 
-        if(bitmap == null) {
+        if (bitmap == null) {
             Bitmap.Config conf = Bitmap.Config.ARGB_8888;
             bitmap = Bitmap.createBitmap(200, 200, conf);
         }
@@ -211,9 +206,9 @@ public abstract class Game implements IJsonPacker, Parcelable {
                 myDir.mkdirs();
             }
 
-            File file = new File (myDir, imageName);
-            if (file.exists ())
-                file.delete ();
+            File file = new File(myDir, imageName);
+            if (file.exists())
+                file.delete();
             try {
                 FileOutputStream out = new FileOutputStream(file);
                 bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, out);
@@ -251,8 +246,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
             byte[] b = byteArrayBitmapStream.toByteArray();
             encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
             return encodedImage;
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             Log.d("Game", e.getMessage());
             return "";
         }

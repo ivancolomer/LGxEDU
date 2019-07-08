@@ -8,9 +8,6 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +20,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
@@ -253,7 +254,7 @@ public class SearchFragment extends Fragment {
 
     private POI getPoiData(int poiId) {
         POI poiEntry = POI.getPOIByIDFromDB(poiId);
-        if(poiEntry == null)
+        if (poiEntry == null)
             return new POI();
         return poiEntry;
     }
@@ -465,6 +466,14 @@ public class SearchFragment extends Fragment {
         return "echo 'search=" + search + "' > /tmp/query.txt";
     }
 
+    private static class BooleanHolder {
+        boolean bool;
+
+        BooleanHolder(boolean bool) {
+            this.bool = bool;
+        }
+    }
+
     private class SearchTask extends AsyncTask<Void, Void, String> {
 
         String command;
@@ -495,15 +504,31 @@ public class SearchFragment extends Fragment {
             }
         }
 
+        private final Object syncObject = new Object();
+
         @Override
         protected String doInBackground(Void... params) {
-            if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(command, LGCommand.CRITICAL_MESSAGE), true)) {
+            final BooleanHolder bool = new BooleanHolder(false);
+            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, LGCommand.CRITICAL_MESSAGE, (String result1) -> {
+                synchronized (syncObject) {
+                    syncObject.notify();
+                    bool.bool = result1 != null;
+                }
+            }));
+
+            synchronized (syncObject) {
+                try {
+                    syncObject.wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+
+            if (bool.bool) {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-                return null;
             }
-            return "";
+            return null;
         }
 
         @Override

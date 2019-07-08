@@ -14,26 +14,4 @@
         <item name="android:divider">@android:drawable/divider_horizontal_bright</item>
     </style>
 
-    <style name="CMOptionsMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:popupBackground">@color/whiteGrey</item>
-    </style>
-
-    <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-
-        <!-- Set this to true if you want Full Screen without status bar -->
-        <item name="android:windowFullscreen">false</item>
-
-        <item name="android:windowIsFloating">false</item>
-
-        <!-- This is important! Don't forget to set window background -->
-        <item name="android:windowBackground">@color/whiteGrey</item>
-
-        <!-- Additionally if you want animations when dialog opening -->
-        <item name="android:windowEnterAnimation">@anim/slide_up</item>
-        <item name="android:windowExitAnimation">@anim/slide_down</item>
-    </style>
-
 </resources>

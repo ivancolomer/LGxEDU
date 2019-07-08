@@ -3,9 +3,10 @@ package com.lglab.ivan.lgxeducontroller.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -16,7 +17,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-
 import com.lglab.ivan.lgxeducontroller.drive.DriveServiceHelper;
 import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
@@ -101,7 +101,6 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Opens the Storage Access Framework file picker using GoogleDriveManager.RC_OPEN_FILE.
      */
@@ -129,20 +128,6 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public void importQuiz() {

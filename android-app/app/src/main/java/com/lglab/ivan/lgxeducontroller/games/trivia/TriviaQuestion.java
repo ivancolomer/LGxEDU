@@ -52,33 +52,33 @@ public class TriviaQuestion extends Question {
     public JSONObject pack() throws JSONException {
         JSONObject obj = super.pack();
 
-        if(correctAnswer == 0)
+        if (correctAnswer == 0)
             throw new NullPointerException();
 
         obj.put("correct_answer", correctAnswer);
 
-        if(information == null)
+        if (information == null)
             throw new NullPointerException();
 
         obj.put("information", information);
 
-        if(initialPOI == null)
+        if (initialPOI == null)
             throw new NullPointerException();
 
         obj.put("initial_poi", initialPOI.pack());
 
-        if(answers == null)
+        if (answers == null)
             throw new NullPointerException();
 
         for (int i = 0; i < MAX_ANSWERS; i++) {
-            if(answers[i] == null)
+            if (answers[i] == null)
                 throw new NullPointerException();
 
             obj.put("answer" + (i + 1), answers[i]);
         }
 
         for (int i = 0; i < MAX_ANSWERS; i++) {
-            if(pois[i] == null)
+            if (pois[i] == null)
                 throw new NullPointerException();
 
             obj.put("poi" + (i + 1), pois[i].pack());

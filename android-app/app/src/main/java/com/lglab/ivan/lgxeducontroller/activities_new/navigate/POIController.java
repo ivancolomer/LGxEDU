@@ -18,7 +18,7 @@ public class POIController {
             .setAltitudeMode("relativeToSeaFloor");
 
     public synchronized static POIController getInstance() {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
             INSTANCE = new POIController();
         return INSTANCE;
     }
@@ -44,19 +44,19 @@ public class POIController {
         //.setLatitude() [-90 to +90]: Y (sin)
 
         POI newPoi = new POI(currentPOI);
-        newPoi.setLongitude(newPoi.getLongitude() + Math.cos(angle)*percentDistance*STEP_XY*newPoi.getRange());
-        while(newPoi.getLongitude() > 180) {
+        newPoi.setLongitude(newPoi.getLongitude() + Math.cos(angle) * percentDistance * STEP_XY * newPoi.getRange());
+        while (newPoi.getLongitude() > 180) {
             newPoi.setLongitude(newPoi.getLongitude() - 360);
         }
-        while(newPoi.getLongitude() < -180) {
+        while (newPoi.getLongitude() < -180) {
             newPoi.setLongitude(newPoi.getLongitude() + 360);
         }
 
-        newPoi.setLatitude(newPoi.getLatitude() - Math.sin(angle)*percentDistance*STEP_XY*newPoi.getRange());
-        while(newPoi.getLatitude() > 90) {
+        newPoi.setLatitude(newPoi.getLatitude() - Math.sin(angle) * percentDistance * STEP_XY * newPoi.getRange());
+        while (newPoi.getLatitude() > 90) {
             newPoi.setLatitude(newPoi.getLatitude() - 180);
         }
-        while(newPoi.getLatitude() < -90) {
+        while (newPoi.getLatitude() < -90) {
             newPoi.setLatitude(newPoi.getLatitude() + 180);
         }
 
@@ -77,14 +77,12 @@ public class POIController {
     }
 
     private synchronized boolean sendPoiToLG(boolean inBackground) {
-        if(inBackground) {
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE));
+        if (inBackground) {
+            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE, null));
             return true;
         }
-        if(!LGConnectionManager.getInstance().sendLGCommand(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE), false)) {
-            currentPOI = new POI(previousPOI);
-            return false;
-        }
+
+        LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE, (String result) -> currentPOI = new POI(previousPOI)));
         return true;
     }
 

@@ -30,8 +30,6 @@ public class LGConnectionManager implements Runnable {
     private LGCommand lgCommandToReSend;
     private ILGConnection activity;
 
-    private boolean shouldRestartMapNavigation;
-
     public LGConnectionManager() {
         user = "lg";
         password = "lqgalaxy";
@@ -42,8 +40,6 @@ public class LGConnectionManager implements Runnable {
         queue = new LinkedBlockingDeque<>();
         itemsToDequeue = 0;
         lgCommandToReSend = null;
-        shouldRestartMapNavigation = false;
-        //loadDataFromDB();
     }
 
     public static LGConnectionManager getInstance() {
@@ -123,7 +119,7 @@ public class LGConnectionManager implements Runnable {
         }
     }
 
-    public boolean sendLGCommand(LGCommand lgCommand, boolean isSearchCommand) {
+    public boolean sendLGCommand(LGCommand lgCommand) {
         lgCommandToReSend = lgCommand;
         Log.d("ConnectionManager", "sending a lgcommand: " + lgCommand.getCommand());
         Session session = getSession();
@@ -154,31 +150,19 @@ public class LGConnectionManager implements Runnable {
         }
 
         channelSsh.disconnect();
-        //baos.toString();
-        if(isSearchCommand) {
-            shouldRestartMapNavigation = true;
-        }
+        lgCommand.doAction(baos.toString());
         return true;
     }
 
-    private boolean firstStart = true;
-
     public void setData(String user, String password, String hostname, int port) {
-
-        //if(!firstStart)
-          //  return;
-
         this.user = user;
         this.password = password;
         this.hostname = hostname;
         this.port = port;
 
-        firstStart = false;
-
         session = null;
         tick();
-        addCommandToLG(new LGCommand("echo 'connection';", LGCommand.CRITICAL_MESSAGE));
-        //saveDataToDB();
+        addCommandToLG(new LGCommand("echo 'connection';", LGCommand.CRITICAL_MESSAGE, null));
     }
 
     public void setActivity(ILGConnection activity) {
@@ -213,7 +197,7 @@ public class LGConnectionManager implements Runnable {
 
                 long timeBefore = System.currentTimeMillis();
 
-                if (!sendLGCommand(lgCommand, false)) {
+                if (!sendLGCommand(lgCommand)) {
                     //Command not sent
                     itemsToDequeue = queue.size();
                 } else if (System.currentTimeMillis() - timeBefore >= 2000) {
@@ -244,9 +228,5 @@ public class LGConnectionManager implements Runnable {
 
     public int getPort() {
         return port;
-    }
-
-    public boolean isShouldRestartMapNavigation() {
-        return shouldRestartMapNavigation;
     }
 }

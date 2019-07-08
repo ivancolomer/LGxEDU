@@ -8,10 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +18,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
@@ -965,7 +966,7 @@ public class POISFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            if(!POIController.getInstance().moveToPOI(poi, false)) {
+            if (!POIController.getInstance().moveToPOI(poi, false)) {
                 cancel(true);
                 if (dialog != null) {
                     dialog.hide();

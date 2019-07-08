@@ -17,12 +17,10 @@ import android.widget.LinearLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.NavigateActivity;
-import com.lglab.ivan.lgxeducontroller.activities_new.navigate_old.NavigateActivityOld;
+import com.lglab.ivan.lgxeducontroller.activities_new.play.PlayActivity;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.Help;
 import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
-
-import com.lglab.ivan.lgxeducontroller.activities_new.play.PlayActivity;
 
 
 public class MainActivity extends GoogleDriveActivity {
@@ -36,11 +34,16 @@ public class MainActivity extends GoogleDriveActivity {
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
-
         findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(context, NavigateActivity.class)));
         findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(context, PlayActivity.class)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
     }
 
     @Override
@@ -56,7 +59,7 @@ public class MainActivity extends GoogleDriveActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_admin:
                 showPasswordAlert();
                 return true;
@@ -96,7 +99,8 @@ public class MainActivity extends GoogleDriveActivity {
                         incorrectPasswordAlertMessage();
                     }
                 })
-                .setNegativeButton("Cancel", (arg0, arg1) -> {})
+                .setNegativeButton("Cancel", (arg0, arg1) -> {
+                })
                 .show();
     }
 
@@ -105,7 +109,8 @@ public class MainActivity extends GoogleDriveActivity {
                 .setTitle("Error")
                 .setMessage("Incorrect password. Please, try it again or cancel the operation.")
                 .setPositiveButton("Retry", (arg0, arg1) -> showPasswordAlert())
-                .setNegativeButton("Cancel", (arg0, arg1) -> { })
+                .setNegativeButton("Cancel", (arg0, arg1) -> {
+                })
                 .show();
     }
 
@@ -119,8 +124,7 @@ public class MainActivity extends GoogleDriveActivity {
         dialog.show();
     }
 
-    private boolean isFirstTime()
-    {
+    private boolean isFirstTime() {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         boolean ranBefore = preferences.getBoolean("RanBefore", false);
         if (!ranBefore) {

@@ -1,13 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.activities_new.play;
 
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -16,10 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.play.adapters.PlayAdapter;
-import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -79,25 +77,23 @@ public class PlayActivity extends GoogleDriveActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
         reloadAdapter();
     }
 
     private void searchCategories() {
-        if(allGames == null) {
+        if (allGames == null) {
             makeCategories();
         }
 
         dataList.clear();
 
-        for(Category c : allGames) {
+        for (Category c : allGames) {
             Category new_category = new Category(c);
-            for(int i = new_category.getItemCount() - 1; i >= 0; i--){
+            for (int i = new_category.getItemCount() - 1; i >= 0; i--) {
                 if (!searchInput.isEmpty() && !new_category.getItems().get(i).getName().toLowerCase().startsWith(searchInput))
                     new_category.getItems().remove(i);
             }
-            if(new_category.getItemCount() > 0) {
+            if (new_category.getItemCount() > 0) {
                 dataList.add(new_category);
             }
         }

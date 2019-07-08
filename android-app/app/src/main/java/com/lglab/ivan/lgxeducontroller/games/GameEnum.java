@@ -6,8 +6,7 @@ public enum GameEnum {
     public static GameEnum findByName(String name) {
         try {
             return GameEnum.valueOf(name);
-        }
-        catch(IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException ignored) {
 
         }
         return null;

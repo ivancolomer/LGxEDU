@@ -2,20 +2,21 @@ package com.lglab.ivan.lgxeducontroller.games.trivia.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
-import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import github.chenupt.multiplemodel.ItemEntity;
@@ -117,7 +118,7 @@ public class TriviaQuestionFragment extends Fragment {
                 hasClicked = true;
 
                 boolean hadAlreadyClicked = ((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(questionNumber);
-                if(!hadAlreadyClicked)
+                if (!hadAlreadyClicked)
                     ((TriviaManager) GameManager.getInstance()).answerQuestion(questionNumber, i + 1);
 
                 view.findViewById(R.id.answerCard1 + question.correctAnswer - 1).setBackgroundColor(Color.parseColor("#5cd65c"));

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;

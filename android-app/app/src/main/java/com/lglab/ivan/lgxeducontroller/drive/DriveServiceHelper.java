@@ -2,13 +2,13 @@ package com.lglab.ivan.lgxeducontroller.drive;
 
 /**
  * Copyright 2018 Google LLC
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +21,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
-import androidx.core.util.Pair;
-
 import android.util.Log;
+
+import androidx.core.util.Pair;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -36,7 +36,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -144,15 +143,14 @@ public class DriveServiceHelper {
 
     public void searchForAppFolderID() {
         Tasks.call(mExecutor, () ->
-            mDriveService.files().list().setQ("mimeType = '" + FOLDER_MIME_TYPE + "' and name = 'LGxEDU' ").setSpaces("drive").execute())
+                mDriveService.files().list().setQ("mimeType = '" + FOLDER_MIME_TYPE + "' and name = 'LGxEDU' ").setSpaces("drive").execute())
                 .addOnSuccessListener(fileList -> {
                     List<File> files = fileList.getFiles();
-                    if(files.size() > 0) {
+                    if (files.size() > 0) {
                         drive_app_folder = files.get(0).getId();
                         Log.d(GoogleDriveManager.TAG, "App folder was already created: " + drive_app_folder);
                         searchForFilesInsideAppFolderID();
-                    }
-                    else {
+                    } else {
                         createAppFolderID()
                                 .addOnSuccessListener(file -> {
                                     drive_app_folder = file;

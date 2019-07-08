@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.lglab.ivan.lgxeducontroller.legacy.POISFragment;
 import com.lglab.ivan.lgxeducontroller.activities_new.lgpc.fragment.SearchFragment;
+import com.lglab.ivan.lgxeducontroller.legacy.POISFragment;
 import com.lglab.ivan.lgxeducontroller.legacy.TourUserFragment;
 
 public class CollectionPagerAdapter extends FragmentStatePagerAdapter {

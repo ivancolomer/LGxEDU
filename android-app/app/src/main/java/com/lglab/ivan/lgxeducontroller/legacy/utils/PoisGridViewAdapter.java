@@ -281,7 +281,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
                     boolean isFirst = true;
                     POI newPoi = new POI(currentPoi);
                     while (!isCancelled()) {
-                        POIController.getInstance().moveToPOI(currentPoi, true);
+                        POIController.getInstance().moveToPOI(newPoi, true);
                         if (isFirst) {
                             isFirst = false;
                             Thread.sleep(7000);

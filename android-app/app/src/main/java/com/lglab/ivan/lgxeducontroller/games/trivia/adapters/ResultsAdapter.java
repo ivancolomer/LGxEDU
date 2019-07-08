@@ -35,9 +35,9 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsV
         personViewHolder.questionSolution.setText(question.answers[question.correctAnswer - 1]);
 
         if (((TriviaManager) GameManager.getInstance()).isCorrectAnswer(i)) {
-            personViewHolder.rl.setBackgroundColor(Color.parseColor("#5cd65c"));
+            personViewHolder.rl.setBackgroundColor(Color.parseColor("#388E3C"));
         } else {
-            personViewHolder.rl.setBackgroundColor(Color.parseColor("#ff3333"));
+            personViewHolder.rl.setBackgroundColor(Color.parseColor("#C62828"));
         }
     }
 

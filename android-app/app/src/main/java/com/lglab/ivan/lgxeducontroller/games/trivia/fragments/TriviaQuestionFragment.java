@@ -121,11 +121,11 @@ public class TriviaQuestionFragment extends Fragment {
                 if (!hadAlreadyClicked)
                     ((TriviaManager) GameManager.getInstance()).answerQuestion(questionNumber, i + 1);
 
-                view.findViewById(R.id.answerCard1 + question.correctAnswer - 1).setBackgroundColor(Color.parseColor("#5cd65c"));
+                view.findViewById(R.id.answerCard1 + question.correctAnswer - 1).setBackgroundColor(Color.parseColor("#388E3C"));
                 answerViews[question.correctAnswer - 1].setTextColor(Color.parseColor("#000000"));
 
                 if (i != question.correctAnswer - 1) {
-                    v.setBackgroundColor(Color.parseColor("#ff3333"));
+                    v.setBackgroundColor(Color.parseColor("#C62828"));
                     answerViews[i].setTextColor(Color.parseColor("#000000"));
                 }
 

@@ -60,6 +60,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
     public void onBindGroupViewHolder(CategoryViewHolder holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setCategoryTitle(group);
+        holder.arrow.setOnClickListener(holder);
     }
 
     private void removeItem(int position) {
@@ -88,10 +89,13 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
     static class CategoryViewHolder extends GroupViewHolder {
 
         private TextView categoryTitle;
+        private ImageButton arrow;
 
         CategoryViewHolder(View itemView) {
             super(itemView);
             categoryTitle = itemView.findViewById(R.id.list_item_category_name);
+            arrow = itemView.findViewById(R.id.list_item_category_arrow);
+
         }
 
         void setCategoryTitle(ExpandableGroup group) {

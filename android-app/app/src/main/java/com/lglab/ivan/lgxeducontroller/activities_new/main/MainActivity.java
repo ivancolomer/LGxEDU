@@ -39,7 +39,7 @@ public class MainActivity extends GoogleDriveActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
 
-        findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(context, NavigateActivityOld.class)));
+        findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(context, NavigateActivity.class)));
         findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(context, PlayActivity.class)));
     }
 

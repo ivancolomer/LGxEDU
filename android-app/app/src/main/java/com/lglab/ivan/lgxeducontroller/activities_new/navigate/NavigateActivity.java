@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,9 +23,7 @@ import com.lglab.ivan.lgxeducontroller.connection.ILGConnection;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 public class NavigateActivity extends AppCompatActivity implements ILGConnection {
 
@@ -115,104 +114,20 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
             }
         }
 
-        String command = PointerDetector.getInstance().postAction();
+        List<Pair<String, Boolean>> commands = PointerDetector.getInstance().postAction();
+        if(commands.size() > 0) {
+            String command = "export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; xdotool ";
+            boolean critical = false;
+            for(Pair<String, Boolean> pair : commands) {
+                command += pair.first + " ";
+                critical = critical || pair.second;
+            }
 
-        if (pointers.size() != 2) {
-            if (PointerDetector.isZoomingIn) {
-                PointerDetector.isZoomingIn = false;
-                updateKeyToLG(false, PointerDetector.KEY_ZOOM_IN);
-            }
-            if (PointerDetector.isZoomingOut) {
-                PointerDetector.isZoomingOut = false;
-                updateKeyToLG(false, PointerDetector.KEY_ZOOM_OUT);
-            }
+            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, critical ? LGCommand.CRITICAL_MESSAGE : LGCommand.NON_CRITICAL_MESSAGE));
         }
 
-        if (pointers.size() == 0)
-            return true;
 
-        if (pointers.size() == 1) {
-            PointerDetector pointer = pointers.entrySet().iterator().next().getValue();
-            if (pointer.isMoving() && canMove()) {
-                //POIController.getInstance().moveXY(pointer.getTraveledAngle(), Math.min(pointer.getTraveledDistance(), 100) / 100.0d);
-                LGConnectionManager.getInstance().addCommandToLG(new LGCommand("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; " +
-                        "xdotool mouseup 1 " +
-                        "mousemove --polar --sync 0 0 " +
-                        "mousedown 1 " +
-                        "mousemove --polar --sync " + (int) pointer.getTraveledAngle() + " " + (isOnChromeBook ? 3 : 0.75) * (int) Math.min(pointer.getTraveledDistance(), 100) + " " +
-                        "mouseup 1;", LGCommand.NON_CRITICAL_MESSAGE)
-                );
-            }
-        } else if (pointers.size() == 2) {
-            Iterator<Map.Entry<Integer, PointerDetector>> iterator = pointers.entrySet().iterator();
-            PointerDetector pointer1 = iterator.next().getValue();
-            PointerDetector pointer2 = iterator.next().getValue();
-
-            setNotMovable();
-
-            short zoomInteractionType = pointer1.getZoomInteractionType(pointer2);
-            if (zoomInteractionType == PointerDetector.ZOOM_IN && !PointerDetector.isZoomingIn) {
-                if (PointerDetector.isZoomingOut) {
-                    PointerDetector.isZoomingOut = false;
-                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_OUT);
-                }
-                PointerDetector.isZoomingIn = true;
-                updateKeyToLG(true, PointerDetector.KEY_ZOOM_IN);
-            } else if (zoomInteractionType == PointerDetector.ZOOM_OUT && !PointerDetector.isZoomingOut) {
-                if (PointerDetector.isZoomingIn) {
-                    PointerDetector.isZoomingIn = false;
-                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_IN);
-                }
-                PointerDetector.isZoomingOut = true;
-                updateKeyToLG(true, PointerDetector.KEY_ZOOM_OUT);
-            }
-
-            double angleDiff = getAngleDiff(pointer1.getTraveledAngle(), pointer2.getTraveledAngle());
-            //Log.d("ConnectionManager", String.valueOf(angleDiff));
-            if (angleDiff <= 30 && pointer1.isMoving() && pointer2.isMoving() && zoomInteractionType == PointerDetector.ZOOM_NONE) {
-                if (PointerDetector.isZoomingIn) {
-                    PointerDetector.isZoomingIn = false;
-                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_IN);
-                }
-                if (PointerDetector.isZoomingOut) {
-                    PointerDetector.isZoomingOut = false;
-                    updateKeyToLG(false, PointerDetector.KEY_ZOOM_OUT);
-                }
-
-                LGConnectionManager.getInstance().addCommandToLG(new LGCommand("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; " +
-                        "xdotool mouseup 2 " +
-                        "mousemove --polar --sync 0 0 " +
-                        "mousedown 2 " +
-                        "mousemove --polar --sync " + (int) getAverageAngle(pointer1.getTraveledAngle(), pointer2.getTraveledAngle(), angleDiff) + " " + (isOnChromeBook ? 3 : 1) * (int) Math.min((pointer1.getTraveledDistance() + pointer2.getTraveledDistance()) / 2, 100) + " " +
-                        "mouseup 2;", LGCommand.NON_CRITICAL_MESSAGE)
-                );
-            }
-        }
-        return true;
-    }
-
-    private void updateKeyToLG(boolean isActive, String key) {
-        LGConnectionManager.getInstance().addCommandToLG(new LGCommand("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; " +
-                "xdotool key" + (isActive ? "down" : "up") + " " + key + ";", LGCommand.CRITICAL_MESSAGE)
-        );
-    }
-
-    private double getAngleDiff(double alpha, double beta) {
-        double phi = Math.abs(beta - alpha) % 360; // This is either the distance or 360 - distance
-        return phi > 180 ? 360 - phi : phi;
-    }
-
-    private double getAverageAngle(double alpha, double beta, double diff) {
-        return alpha > beta ? alpha - (diff / 2) : beta - (diff / 2);
-    }
-
-
-    private void setNotMovable() {
-        canMoveTime = System.currentTimeMillis() + 200;
-    }
-
-    private boolean canMove() {
-        return canMoveTime <= System.currentTimeMillis();
+        return super.onTouchEvent(event);
     }
 
     @Override

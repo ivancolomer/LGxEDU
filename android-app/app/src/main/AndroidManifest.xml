@@ -48,9 +48,6 @@
             android:name=".activities_new.navigate.NavigateActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities_new.navigate_old.NavigateActivityOld"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".activities_new.manager.CreatePOIActivity"
             android:noHistory="true"
             android:screenOrientation="sensorLandscape" />

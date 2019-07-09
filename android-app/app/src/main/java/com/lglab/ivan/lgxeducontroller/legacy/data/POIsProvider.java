@@ -104,7 +104,7 @@ public class POIsProvider extends ContentProvider {
     }
 
     public static Cursor getAllGames() {
-        String sql = "SELECT q._id, q.Data FROM game q";
+        String sql = "SELECT q._id, q.Data, q.google_drive_file_id FROM game q";
         return mOpenHelper.getReadableDatabase().rawQuery(sql, new String[]{});
     }
 
@@ -114,12 +114,16 @@ public class POIsProvider extends ContentProvider {
     }
 
     public static Cursor queryGame(long quizId) {
-        String sql = "SELECT q._id, q.Data FROM game q WHERE q._ID = ?";
+        String sql = "SELECT q._id, q.Data, q.google_drive_file_id FROM game q WHERE q._ID = ?";
         return mOpenHelper.getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(quizId)});
     }
 
     public static void updateGameById(long gameId, String data) {
         mOpenHelper.getReadableDatabase().execSQL("UPDATE game SET data = '" + data + "' WHERE _id = ?", new String[]{String.valueOf(gameId)});
+    }
+
+    public static void updateGameFileIdById(long gameId, String fileId) {
+        mOpenHelper.getReadableDatabase().execSQL("UPDATE game SET google_drive_file_id = '" + fileId + "' WHERE _id = ?", new String[]{String.valueOf(gameId)});
     }
 
     public static void removeGameById(long gameId) {
@@ -139,9 +143,10 @@ public class POIsProvider extends ContentProvider {
         mOpenHelper.getReadableDatabase().execSQL("UPDATE lg_connection_info SET user = '" + user + "', password = '" + password + "', hostname = '" + hostname + "', port = ?", new String[]{String.valueOf(port)});
     }
 
-    public static long insertGame(String data) {
+    public static long insertGame(String data, String fileId) {
         ContentValues values = new ContentValues();
-        values.put("data", data);
+        values.put("Data", data);
+        values.put("google_drive_file_id", fileId);
         return mOpenHelper.getReadableDatabase().insert("game", "", values);
     }
 

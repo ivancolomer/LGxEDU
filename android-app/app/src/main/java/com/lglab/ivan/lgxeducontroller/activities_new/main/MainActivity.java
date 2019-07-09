@@ -14,11 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.navigate.NavigateActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.play.PlayActivity;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
+import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.Help;
 import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
 
@@ -29,8 +31,9 @@ public class MainActivity extends GoogleDriveActivity {
     private Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
 

@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.activities;
+package com.lglab.ivan.lgxeducontroller.drive;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,8 +17,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.lglab.ivan.lgxeducontroller.drive.DriveServiceHelper;
-import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 
 import java.util.Collections;
@@ -26,7 +24,9 @@ import java.util.Collections;
 public abstract class GoogleDriveActivity extends AppCompatActivity {
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
+
         switch (requestCode) {
             case GoogleDriveManager.RC_SIGN_IN:
                 if (resultCode == RESULT_OK && resultData != null) {
@@ -47,14 +47,10 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
                 }
                 break;
         }
-
-        super.onActivityResult(requestCode, resultCode, resultData);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         signIn();
     }
 
@@ -78,7 +74,7 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, GoogleDriveManager.RC_SIGN_IN);
     }
 
-    public void handleSignInResult(Intent result) {
+    private void handleSignInResult(Intent result) {
         GoogleSignIn.getSignedInAccountFromIntent(result)
                 .addOnSuccessListener(googleAccount -> {
                     Log.d(GoogleDriveManager.TAG, "Signed in as " + googleAccount.getEmail());
@@ -124,7 +120,7 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
         if (GoogleDriveManager.DriveServiceHelper != null) {
             Log.d(GoogleDriveManager.TAG, "Opening " + uri.getPath());
 
-            GoogleDriveManager.DriveServiceHelper.openFileUsingStorageAccessFramework(getContentResolver(), uri);
+            GoogleDriveManager.DriveServiceHelper.openFileUsingStorageAccessFramework(this.getContentResolver(), uri);
 
         }
     }

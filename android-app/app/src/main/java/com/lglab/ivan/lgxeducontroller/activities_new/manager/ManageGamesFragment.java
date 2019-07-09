@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.adapters.CategoryManagerAdapter;
 import com.lglab.ivan.lgxeducontroller.activities_new.manager.fragments.AddGameFragment;
+import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveActivity;
+import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -24,6 +26,7 @@ import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.api.services.drive.model.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,6 +60,15 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
 
         rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
             //Go to drive activity to manage the folder of the app...
+
+            if(GoogleDriveManager.DriveServiceHelper != null) {
+                GoogleDriveManager.DriveServiceHelper.searchForAppFolderID();
+                for(File file : GoogleDriveManager.DriveServiceHelper.files) {
+                    Log.d("drive", file.getName());
+                }
+            }
+
+
         });
 
         return rootView;
@@ -84,10 +96,12 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         while (game_cursor.moveToNext()) {
             long gameId = game_cursor.getLong(game_cursor.getColumnIndexOrThrow("_id"));
             String questData = game_cursor.getString(game_cursor.getColumnIndexOrThrow("Data"));
+            String fileId = game_cursor.getString(game_cursor.getColumnIndexOrThrow("google_drive_file_id"));
+
             try {
                 Game newGame = GameManager.unpackGame(new JSONObject(questData));
                 newGame.setId(gameId);
-
+                newGame.setFileId(fileId);
                 Category category = categories.get(newGame.getCategory().toLowerCase());
                 if (category == null) {
                     long id = POIsProvider.insertCategoryGame(newGame.getCategory());
@@ -131,7 +145,6 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         }
 
         onGamesChanged(false);
-
     }
 
     @Override

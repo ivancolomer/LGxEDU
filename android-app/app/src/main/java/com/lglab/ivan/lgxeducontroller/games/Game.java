@@ -32,6 +32,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
     private String category;
     private String imageName;
     private GameEnum type;
+    private String fileId;
     private List<Question> questions;
 
     public Game() {
@@ -40,6 +41,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         category = "";
         imageName = "";
         type = null;
+        fileId = "";
         questions = new ArrayList<>();
     }
 
@@ -50,6 +52,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         category = in.readString();
         imageName = in.readString();
         type = GameEnum.findByName(in.readString());
+        fileId = in.readString();
         questions = in.readArrayList(createQuestion().getClass().getClassLoader());
     }
 
@@ -134,6 +137,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
         parcel.writeString(category);
         parcel.writeString(imageName);
         parcel.writeString(type.name());
+        parcel.writeString(fileId);
         parcel.writeList(questions);
     }
 
@@ -229,6 +233,14 @@ public abstract class Game implements IJsonPacker, Parcelable {
 
     public void setType(GameEnum type) {
         this.type = type;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 
     public List<Question> getQuestions() {

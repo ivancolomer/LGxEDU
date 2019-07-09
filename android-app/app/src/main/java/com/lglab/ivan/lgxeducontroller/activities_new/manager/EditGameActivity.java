@@ -152,7 +152,7 @@ public class EditGameActivity extends AppCompatActivity {
                             if (!isNew)
                                 POIsProvider.updateGameById((int) game.getId(), game.pack().toString());
                             else
-                                POIsProvider.insertGame(game.pack().toString());
+                                POIsProvider.insertGame(game.pack().toString(), "");
                             //Log.d("save", quiz.pack().toString());
                         } catch (JSONException e) {
                             e.printStackTrace();

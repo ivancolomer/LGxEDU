@@ -1,21 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.drive;
 
-/**
- * Copyright 2018 Google LLC
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -41,30 +25,23 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-/**
- * A utility for performing read/write operations on Drive files via the REST API and opening a
- * file picker UI via Storage Access Framework.
- */
 public class DriveServiceHelper {
     private final Executor mExecutor = Executors.newSingleThreadExecutor();
     private final Drive mDriveService;
     private String drive_app_folder;
-    private List<File> files;
+    public List<File> files;
 
     private static final String FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
     private static final String JSON_MIME_TYPE = "application/json";
 
-    public DriveServiceHelper(Drive driveService) {
+    DriveServiceHelper(Drive driveService) {
         mDriveService = driveService;
     }
 
-    /**
-     * Creates a text file in the user's My Drive folder and returns its file ID.
-     */
     public Task<String> createFile() {
         return Tasks.call(mExecutor, () -> {
             File metadata = new File()
-                    .setParents(Collections.singletonList("root"))
+                    .setParents(Collections.singletonList(drive_app_folder))
                     .setMimeType(JSON_MIME_TYPE)
                     .setName("Untitled file");
 
@@ -77,10 +54,6 @@ public class DriveServiceHelper {
         });
     }
 
-    /**
-     * Opens the file identified by {@code fileId} and returns a {@link Pair} of its name and
-     * contents.
-     */
     public Task<Pair<String, String>> readFile(String fileId) {
         return Tasks.call(mExecutor, () -> {
             // Retrieve the metadata as a File object.
@@ -143,7 +116,7 @@ public class DriveServiceHelper {
 
     public void searchForAppFolderID() {
         Tasks.call(mExecutor, () ->
-                mDriveService.files().list().setQ("mimeType = '" + FOLDER_MIME_TYPE + "' and name = 'LGxEDU' ").setSpaces("drive").execute())
+                mDriveService.files().list().setQ("mimeType = '" + FOLDER_MIME_TYPE + "' and name = 'LGxEDU' and parents in 'root' ").setSpaces("drive").execute())
                 .addOnSuccessListener(fileList -> {
                     List<File> files = fileList.getFiles();
                     if (files.size() > 0) {
@@ -170,7 +143,10 @@ public class DriveServiceHelper {
 
     private Task<FileList> queryFiles() {
         return Tasks.call(mExecutor, () ->
-                mDriveService.files().list().setQ("mimeType = 'application/json' and parents in '" + drive_app_folder + "' ").setSpaces("drive").execute());
+                mDriveService.files()
+                        .list()
+                        .setQ("mimeType = 'application/json' and parents in '" + drive_app_folder + "' ")
+                        .setSpaces("drive").execute());
     }
 
     /**

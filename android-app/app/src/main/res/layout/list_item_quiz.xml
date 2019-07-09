@@ -28,6 +28,17 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/list_share_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginRight="32dp"
+                android:padding="16dp"
+                android:background="#0000"
+                android:src="@drawable/baseline_share_black_24"
+                android:tint="@color/blue" />
+
+            <ImageButton
                 android:id="@+id/list_edit_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,7 +47,7 @@
                 android:padding="16dp"
                 android:background="#0000"
                 android:src="@drawable/ic_edit_black_24dp"
-                android:tint="@color/blue" />
+                android:tint="@color/orange" />
 
             <ImageButton
                 android:id="@+id/list_delete_game"

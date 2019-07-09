@@ -137,7 +137,7 @@ public class POIsDbHelper extends SQLiteOpenHelper {
     }
 
     private String createGameTable() {
-        return "CREATE TABLE game (_id INTEGER PRIMARY KEY AUTOINCREMENT, Data TEXT NOT NULL);";
+        return "CREATE TABLE game (_id INTEGER PRIMARY KEY AUTOINCREMENT, Data TEXT NOT NULL, google_drive_file_id TEXT NOT NULL);";
     }
 
     private String createGameCategoryTable() {

@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsDbHelper;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
@@ -31,7 +32,7 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Calendar;
 
-public class LGPCAdminActivity extends AppCompatActivity {
+public class LGPCAdminActivity extends GoogleDriveActivity {
 
     AdminCollectionPagerAdapter adapter;
     ViewPager viewPager;
@@ -39,7 +40,7 @@ public class LGPCAdminActivity extends AppCompatActivity {
 
     PendingIntent intent;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lgpcadmin);
 
@@ -86,6 +87,11 @@ public class LGPCAdminActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(AdminCollectionPagerAdapter.PAGE_TREEEVIEW);
             }
         }
+
+    }
+
+    @Override
+    public void handleStringFromDrive(String input) {
 
     }
 

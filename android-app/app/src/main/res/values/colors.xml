@@ -16,6 +16,7 @@
     <color name="green">#4CAF50</color>
     <color name="yellow">#FFEB3B</color>
     <color name="material_grey">#9E9E9E</color>
+    <color name="orange">#FF6F00</color>
     <color name="blue">#2196F3</color>
 
     <!--Beacons-->

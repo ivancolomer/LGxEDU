@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.activities_new.play.adapters.PlayAdapter;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
@@ -33,7 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class PlayActivity extends GoogleDriveActivity {
+public class PlayActivity extends AppCompatActivity {
 
     private static final String TAG = PlayActivity.class.getSimpleName();
 
@@ -148,7 +148,7 @@ public class PlayActivity extends GoogleDriveActivity {
     }
 
 
-    @Override
+    /*@Override
     public void handleStringFromDrive(String input) {
         try {
             GameManager.unpackGame(new JSONObject(input)); //Checking if the json is fine ;)
@@ -159,7 +159,7 @@ public class PlayActivity extends GoogleDriveActivity {
             Log.e(TAG, e.toString());
             showMessage("Couldn't import the file");
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

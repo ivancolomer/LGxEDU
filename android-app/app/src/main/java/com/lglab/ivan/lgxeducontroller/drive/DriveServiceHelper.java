@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.http.ByteArrayContent;
@@ -20,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -29,13 +32,14 @@ public class DriveServiceHelper {
     private final Executor mExecutor = Executors.newSingleThreadExecutor();
     private final Drive mDriveService;
     private String drive_app_folder;
-    public List<File> files;
+    public final List<File> files;
 
     private static final String FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
     private static final String JSON_MIME_TYPE = "application/json";
 
     DriveServiceHelper(Drive driveService) {
         mDriveService = driveService;
+        files = new ArrayList<>();
     }
 
     public Task<String> createFile() {
@@ -114,39 +118,68 @@ public class DriveServiceHelper {
     }
 
 
-    public void searchForAppFolderID() {
-        Tasks.call(mExecutor, () ->
-                mDriveService.files().list().setQ("mimeType = '" + FOLDER_MIME_TYPE + "' and name = 'LGxEDU' and parents in 'root' ").setSpaces("drive").execute())
-                .addOnSuccessListener(fileList -> {
-                    List<File> files = fileList.getFiles();
-                    if (files.size() > 0) {
-                        drive_app_folder = files.get(0).getId();
-                        Log.d(GoogleDriveManager.TAG, "App folder was already created: " + drive_app_folder);
-                        searchForFilesInsideAppFolderID();
-                    } else {
-                        createAppFolderID()
-                                .addOnSuccessListener(file -> {
-                                    drive_app_folder = file;
-                                    Log.d(GoogleDriveManager.TAG, "App folder created: " + drive_app_folder);
-                                    searchForFilesInsideAppFolderID();
-                                })
-                                .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for appfolder", exception));
-                    }
-                }).addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for appfolder", exception));
+    public void searchForAppFolderID(Runnable run) {
+        Tasks.call(mExecutor, () -> mDriveService.files().list().setQ("mimeType = '" + FOLDER_MIME_TYPE + "' and name = 'LGxEDU' and parents in 'root' ").setSpaces("drive").execute())
+            .addOnSuccessListener(fileList -> {
+                List<File> files = fileList.getFiles();
+                if (files.size() > 0) {
+                    drive_app_folder = files.get(0).getId();
+                    Log.d(GoogleDriveManager.TAG, "App folder was already created: " + drive_app_folder);
+                    searchForFilesInsideAppFolderID(run);
+                } else {
+                    createAppFolderID()
+                        .addOnSuccessListener(file -> {
+                            drive_app_folder = file;
+                            Log.d(GoogleDriveManager.TAG, "App folder created: " + drive_app_folder);
+                            searchForFilesInsideAppFolderID(run);
+                        })
+                        .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for appfolder", exception));
+                }
+            })
+            .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for appfolder", exception));
     }
 
-    private void searchForFilesInsideAppFolderID() {
+    private void searchForFilesInsideAppFolderID(Runnable run) {
         queryFiles()
-                .addOnSuccessListener(fileList -> files = fileList.getFiles())
-                .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for for files inside appfolder", exception));
+            .addOnSuccessListener(fileList -> {
+                files.clear();
+                files.addAll(fileList.getFiles());
+                run.run();
+            })
+            .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for for files inside appfolder", exception));
     }
 
     private Task<FileList> queryFiles() {
-        return Tasks.call(mExecutor, () ->
-                mDriveService.files()
-                        .list()
-                        .setQ("mimeType = 'application/json' and parents in '" + drive_app_folder + "' ")
-                        .setSpaces("drive").execute());
+       do {
+            FileList result = driveService.files().list()
+                    .setQ("mimeType='image/jpeg'")
+                    .setSpaces("drive")
+
+                    .execute();
+            for (File file : result.getFiles()) {
+                System.out.printf("Found file: %s (%s)\n",
+                        file.getName(), file.getId());
+            }
+            pageToken = result.getNextPageToken();
+        } while (pageToken != null);
+
+
+        return Tasks.call(mExecutor, () -> {
+                    List<File> fileList = new ArrayList<>();
+                    String pageToken = null;
+                    do {
+                        FileList result = mDriveService.files()
+                                .list()
+                                .setQ("mimeType = 'application/json' and parents in '" + drive_app_folder + "' ")
+                                .setSpaces("drive")
+                                .setFields("nextPageToken, files(id, name)")
+                                .setPageToken(pageToken)
+                                .execute();
+                        fileList.addAll(result.getFiles());
+                        pageToken = result.getNextPageToken();
+                    } while (pageToken != null);
+                    return fileList;
+        });
     }
 
     /**

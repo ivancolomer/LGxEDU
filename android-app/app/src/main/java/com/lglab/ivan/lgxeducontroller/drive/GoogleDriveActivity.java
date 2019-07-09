@@ -90,7 +90,9 @@ public abstract class GoogleDriveActivity extends AppCompatActivity {
                             .build();
 
                     GoogleDriveManager.DriveServiceHelper = new DriveServiceHelper(googleDriveService);
-                    GoogleDriveManager.DriveServiceHelper.searchForAppFolderID();
+                    GoogleDriveManager.DriveServiceHelper.searchForAppFolderID(() -> {
+
+                    });
 
                 })
                 .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to sign in.", exception));

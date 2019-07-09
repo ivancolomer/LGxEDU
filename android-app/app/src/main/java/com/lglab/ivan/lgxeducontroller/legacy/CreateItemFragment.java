@@ -62,11 +62,9 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
     private static Map<String, String> spinnerIDsAndShownNames;
     private static ArrayList<TourPOI> tourPOIS;
     private static ViewHolderTour viewHolderTour;
-    GoogleMap map;
+    private GoogleMap map;
     private LocationManager locationManager;
     private String creationType;
-    private int button;
-    private Cursor queryCursor;
 
 
     public CreateItemFragment() {
@@ -184,7 +182,7 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
         if (extras != null) {
             this.creationType = extras.getString("CREATION_TYPE");
             try {
-                this.button = extras.getInt("Button");
+                int button = extras.getInt("Button");
             } catch (Exception e) {
 
             }
@@ -383,8 +381,8 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
 
         rootView = inflater.inflate(R.layout.fragment_create_or_update_poi, container, false);
         final ViewHolderPoi viewHolder = new ViewHolderPoi(rootView);
-        viewHolder.updatePOI.setVisibility(View.GONE);
-        viewHolder.createPOI.setVisibility(View.VISIBLE);
+        viewHolder.updatePOI.hide();
+        viewHolder.createPOI.show();;
 
 
         //If user has clicked on Create Here, obviously, no spinner categories option will be shown.
@@ -489,8 +487,8 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
     private ViewHolderCategory setCategoryLayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_category, container, false);
         final ViewHolderCategory viewHolder = new ViewHolderCategory(rootView);
-        viewHolder.updateCategory.setVisibility(View.GONE);
-        viewHolder.createCategory.setVisibility(View.VISIBLE);
+        viewHolder.updateCategory.hide();
+        viewHolder.createCategory.show();
 
         if (creationType.endsWith("HERE")) {
             viewHolder.fatherID.setVisibility(View.GONE);
@@ -507,8 +505,8 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
     private void setTourLayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_tour, container, false);
         viewHolderTour = new ViewHolderTour(rootView);
-        viewHolderTour.updateTOUR.setVisibility(View.GONE);
-        viewHolderTour.createTOUR.setVisibility(View.VISIBLE);
+        viewHolderTour.updateTOUR.hide();
+        viewHolderTour.createTOUR.show();
         if (creationType.endsWith("HERE")) {
             viewHolderTour.categoryID.setVisibility(View.INVISIBLE);
         } else {
@@ -574,7 +572,7 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
         spinnerIDsAndShownNames = new HashMap<>();
 
         //We get all the categories IDs and ShownNames
-        queryCursor = POIsContract.CategoryEntry.getIDsAndShownNamesOfAllCategories(getActivity());
+        Cursor queryCursor = POIsContract.CategoryEntry.getIDsAndShownNamesOfAllCategories(getActivity());
 
         while (queryCursor.moveToNext()) {
             spinnerIDsAndShownNames.put(queryCursor.getString(1), String.valueOf(queryCursor.getInt(0)));
@@ -612,12 +610,9 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     private void setCancelComeBackBehaviour(FloatingActionButton cancel) {
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-                startActivity(intent);
-            }
+        cancel.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
+            startActivity(intent);
         });
     }
 

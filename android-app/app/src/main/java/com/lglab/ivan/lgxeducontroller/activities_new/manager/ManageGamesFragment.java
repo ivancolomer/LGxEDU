@@ -59,13 +59,15 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         rootView.findViewById(R.id.add_game).setOnClickListener(view -> AddGameFragment.newInstance(null, null, 0).show(getFragmentManager(), "fragment_add_game"));
 
         rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
-            //Go to drive activity to manage the folder of the app...
+
+
 
             if(GoogleDriveManager.DriveServiceHelper != null) {
-                GoogleDriveManager.DriveServiceHelper.searchForAppFolderID();
-                for(File file : GoogleDriveManager.DriveServiceHelper.files) {
-                    Log.d("drive", file.getName());
-                }
+                GoogleDriveManager.DriveServiceHelper.searchForAppFolderID(() -> {
+                    for(File file : GoogleDriveManager.DriveServiceHelper.files) {
+                        Log.d("drive", file.getName());
+                    }
+                });
             }
 
 
@@ -81,7 +83,6 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
     }
 
     private List<Category> makeCategories() {
-
         HashMap<String, Category> categories = new HashMap<>();
 
         Cursor category_cursor = POIsProvider.getAllGameCategories();

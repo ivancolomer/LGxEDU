@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/whiteGrey"
     android:orientation="horizontal"
-    tools:context=".activities_new.lgpc.fragment.SearchFragment">
+    tools:context=".activities.lgpc.fragment.SearchFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"

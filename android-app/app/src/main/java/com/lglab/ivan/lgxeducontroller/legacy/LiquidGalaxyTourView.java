@@ -10,7 +10,7 @@ import android.util.Log;
 import androidx.fragment.app.FragmentActivity;
 
 import com.lglab.ivan.lgxeducontroller.BuildConfig;
-import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.ArrayList;

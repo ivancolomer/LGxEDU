@@ -20,7 +20,7 @@ import android.widget.Toast;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.List;

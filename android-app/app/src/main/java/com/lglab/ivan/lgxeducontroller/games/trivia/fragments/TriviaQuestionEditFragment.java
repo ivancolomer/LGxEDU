@@ -17,8 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.CreatePOIActivity;
-import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.activities.manager.CreatePOIActivity;
+import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.ISaveData;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;

@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.lglab.ivan.lgxeducontroller.activities_new.manager.ManageGamesFragment;
+import com.lglab.ivan.lgxeducontroller.activities.manager.ManageGamesFragment;
 import com.lglab.ivan.lgxeducontroller.legacy.PW.NearbyBeaconsFragment;
 import com.lglab.ivan.lgxeducontroller.legacy.advancedTools.AdvancedToolsFragment;
 

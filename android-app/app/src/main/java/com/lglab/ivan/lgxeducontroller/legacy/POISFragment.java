@@ -25,7 +25,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities_new.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.TourPOI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;

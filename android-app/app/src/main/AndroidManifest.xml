@@ -36,7 +36,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities_new.main.MainActivity"
+            android:name=".activities.main.MainActivity"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,17 +45,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities_new.navigate.NavigateActivity"
+            android:name=".activities.navigate.NavigateActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities_new.manager.CreatePOIActivity"
+            android:name=".activities.manager.CreatePOIActivity"
             android:noHistory="true"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities_new.play.PlayActivity"
+            android:name=".activities.play.PlayActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities_new.manager.EditGameActivity"
+            android:name=".activities.manager.EditGameActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".legacy.CreateItemActivity"
@@ -87,7 +87,7 @@
             android:label="@string/title_activity_settings"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".activities_new.lgpc.LGPC"
+            android:name=".activities.lgpc.LGPC"
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape" />
         <activity

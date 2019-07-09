@@ -1,16 +1,17 @@
 package com.lglab.ivan.lgxeducontroller.drive;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.http.ByteArrayContent;
@@ -29,6 +30,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class DriveServiceHelper {
+
     private final Executor mExecutor = Executors.newSingleThreadExecutor();
     private final Drive mDriveService;
     private String drive_app_folder;
@@ -143,42 +145,29 @@ public class DriveServiceHelper {
         queryFiles()
             .addOnSuccessListener(fileList -> {
                 files.clear();
-                files.addAll(fileList.getFiles());
+                files.addAll(fileList);
                 run.run();
             })
             .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for for files inside appfolder", exception));
     }
 
-    private Task<FileList> queryFiles() {
-       do {
-            FileList result = driveService.files().list()
-                    .setQ("mimeType='image/jpeg'")
-                    .setSpaces("drive")
-
-                    .execute();
-            for (File file : result.getFiles()) {
-                System.out.printf("Found file: %s (%s)\n",
-                        file.getName(), file.getId());
-            }
-            pageToken = result.getNextPageToken();
-        } while (pageToken != null);
-
-
+    private Task<List<File>> queryFiles() {
         return Tasks.call(mExecutor, () -> {
-                    List<File> fileList = new ArrayList<>();
-                    String pageToken = null;
-                    do {
-                        FileList result = mDriveService.files()
-                                .list()
-                                .setQ("mimeType = 'application/json' and parents in '" + drive_app_folder + "' ")
-                                .setSpaces("drive")
-                                .setFields("nextPageToken, files(id, name)")
-                                .setPageToken(pageToken)
-                                .execute();
-                        fileList.addAll(result.getFiles());
-                        pageToken = result.getNextPageToken();
-                    } while (pageToken != null);
-                    return fileList;
+            List<File> fileList = new ArrayList<>();
+            String pageToken = null;
+            do {
+                FileList result = mDriveService.files()
+                        .list()
+                        .setQ("mimeType = 'application/json' and parents in '" + drive_app_folder + "' ")
+                        .setSpaces("drive")
+                        .setFields("nextPageToken, files(id, name)")
+                        .setPageToken(pageToken)
+                        .execute();
+
+                fileList.addAll(result.getFiles());
+                pageToken = result.getNextPageToken();
+            } while (pageToken != null);
+            return fileList;
         });
     }
 

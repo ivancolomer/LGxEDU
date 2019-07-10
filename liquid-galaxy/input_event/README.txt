@@ -2,15 +2,27 @@ The two programs in this directory show how to read and write input_event
 structs used by the /dev/input/event* interface to multi-axis devices like
 the 3dconnexion SpaceNavigator.
 
-Compile with:
+## Requirements
+
+```bash
+sudo apt install libc6-dev-i386
+```
+
+## Compile with:
 
 $ gcc -m32 -o read-event read-event.c
 $ gcc -m32 -o write-event write-event.c
 
-To use it:
+## Use
 
-$ mkfifo myfifo
-$ ./read-event myfifo
+### To read from the virtual spacenavigator:
 
-# (in another terminal)
-$ ./write-event myfifo 2 10
+```bash
+./read-event /dev/input/spacenavigator
+```
+
+### To write to the virtual spacenavigator:
+
+```bash
+./write-event /dev/input/spacenavigator 0 100
+```

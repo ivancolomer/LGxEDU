@@ -10,8 +10,10 @@ sudo apt install libc6-dev-i386
 
 ## Compile with:
 
-$ gcc -m32 -o read-event read-event.c
-$ gcc -m32 -o write-event write-event.c
+```bash
+gcc -m32 -o read-event read-event.c
+gcc -m32 -o write-event write-event.c
+```
 
 ## Use
 

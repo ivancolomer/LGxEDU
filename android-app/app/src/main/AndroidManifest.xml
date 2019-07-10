@@ -64,7 +64,7 @@
         <!-- Google Maps Fragment API Key Data -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBhSwKvso2heI9hUArL52H7x9j2_RbhW6w" />
+            android:value="@string/api_key" />
 
         <provider
             android:name=".legacy.data.POIsProvider"

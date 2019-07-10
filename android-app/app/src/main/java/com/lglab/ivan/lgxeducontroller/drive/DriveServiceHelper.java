@@ -18,6 +18,8 @@ import com.google.api.client.http.ByteArrayContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.Permission;
+import com.google.api.services.drive.model.PermissionList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,6 +58,15 @@ public class DriveServiceHelper {
                 throw new IOException("Null result when requesting file creation.");
             }
 
+            Permission userPermission = new Permission()
+                    .setType("user")
+                    .setRole("reader")
+                    .setEmailAddress("liquidgalaxylab@gmail.com");
+
+            Permission permission = mDriveService.permissions().create(googleFile.getId(), userPermission).setFields("id").execute();
+            if (permission == null) {
+                throw new IOException("Null result when requesting file creation.");
+            }
             return googleFile.getId();
         });
     }

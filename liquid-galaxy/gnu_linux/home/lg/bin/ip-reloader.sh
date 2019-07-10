@@ -31,6 +31,14 @@ while true; do
         fi
     fi
 
+    if [[ -z $(~/bin/list_devices_input | grep virtual-spaceavigator |  head -1) ]]; then
+        ~/bin/create_virtual_spacenavigator &
+        while [[ -z $(~/bin/list_devices_input | grep virtual-spaceavigator |  head -1) ]]; do
+            sleep 0.1
+        done
+        sudo ln -sf $(~/bin/list_devices_input | grep virtual-spaceavigator |  head -1 | cut -d ' ' -f 1) /dev/input/spacenavigator 
+    fi
+
     if [[ -z $(sudo iptables -S | grep 10.42. |  head -1) ]]; then
         sudo tee "/etc/iptables.conf" > /dev/null << EOM
 *filter

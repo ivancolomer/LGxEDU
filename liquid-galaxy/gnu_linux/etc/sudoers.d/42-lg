@@ -22,3 +22,4 @@ lg ALL=(ALL) NOPASSWD: /sbin/iptables*
 lg ALL=(ALL) NOPASSWD: /usr/bin/tee*
 lg ALL=(ALL) NOPASSWD: /sbin/iptables-restore*
 lg ALL=(ALL) NOPASSWD: /usr/sbin/tcpdump*
+lg ALL=(ALL) NOPASSWD: /bin/ln*

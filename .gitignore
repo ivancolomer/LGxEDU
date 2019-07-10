@@ -59,4 +59,4 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 
-gradle.properties
+android-app/gradle.properties

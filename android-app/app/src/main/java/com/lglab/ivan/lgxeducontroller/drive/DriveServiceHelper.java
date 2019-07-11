@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -32,14 +33,14 @@ public class DriveServiceHelper {
     private final Executor mExecutor = Executors.newSingleThreadExecutor();
     private final Drive mDriveService;
     private String drive_app_folder;
-    public final List<File> files;
+    public final HashMap<String, String> files;
 
     private static final String FOLDER_MIME_TYPE = "application/vnd.google-apps.folder";
     private static final String JSON_MIME_TYPE = "application/json";
 
     DriveServiceHelper(Drive driveService) {
         mDriveService = driveService;
-        files = new ArrayList<>();
+        files = new HashMap<>();
     }
 
     public Task<String> createFile() {
@@ -152,7 +153,9 @@ public class DriveServiceHelper {
         queryFiles()
             .addOnSuccessListener(fileList -> {
                 files.clear();
-                files.addAll(fileList);
+                for(File file : fileList) {
+                    files.put(file.getId(), file.getName());
+                }
                 run.run();
             })
             .addOnFailureListener(exception -> Log.e(GoogleDriveManager.TAG, "Unable to search for for files inside appfolder", exception));

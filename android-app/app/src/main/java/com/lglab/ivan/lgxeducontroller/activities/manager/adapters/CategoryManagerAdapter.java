@@ -1,11 +1,17 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager.adapters;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,7 +137,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
             this.quizName.setOnClickListener(view -> AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity) itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game"));
 
-            if(!game.getFileId().equals("") || !GoogleDriveManager.DriveServiceHelper.files.contains(game.getFileId())) {
+            if(!game.getFileId().equals("") && GoogleDriveManager.DriveServiceHelper.files.keySet().contains(game.getFileId())) {
                 this.shareButton.setVisibility(View.GONE);
             }
 
@@ -140,15 +146,23 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                         .setTitle("Do you want to upload \"" + game.getName() + "\" to your drive?")
                         //.setMessage("")
                         .setPositiveButton("Upload", (dialog, id) -> {
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                            builder.setView(R.layout.progress);
+                            Dialog loading_dialog = builder.create();
+                            loading_dialog.setCancelable(false);
+                            loading_dialog.setCanceledOnTouchOutside(false);
+                            loading_dialog.show();
+
                             //upload to GoogleDrive
                             if(GoogleDriveManager.DriveServiceHelper == null) {
+                                loading_dialog.dismiss();
                                 Toast.makeText(view.getContext(), "unable to login to google drive", Toast.LENGTH_LONG).show();
                                 return;
                             }
 
                             GoogleDriveManager.DriveServiceHelper.createFile()
                                     .addOnSuccessListener((result) -> {
-
                                         try {
                                             GoogleDriveManager.DriveServiceHelper.saveFile(result, game.getNameForExporting(), game.pack_external(view.getContext()).toString())
                                                 .addOnFailureListener(exception -> Log.d("drive", exception.toString()))
@@ -157,13 +171,21 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                                                     Log.d("drive", result);
                                                     game.setFileId(result);
                                                     POIsProvider.updateGameFileIdById(game.getId(), result);
+                                                    GoogleDriveManager.DriveServiceHelper.files.put(result, game.getNameForExporting());
+                                                    loading_dialog.dismiss();
+                                                    Toast.makeText(view.getContext(), "Exported successfully to Google Drive", Toast.LENGTH_LONG).show();
                                                 });
                                         }
                                         catch (JSONException ignored) {
-
+                                            loading_dialog.dismiss();
+                                            Toast.makeText(view.getContext(), "Error", Toast.LENGTH_LONG).show();
                                         }
                                     })
-                                    .addOnFailureListener(exception -> Log.d("drive", exception.toString()));
+                                    .addOnFailureListener(exception ->  {
+                                        Log.d("drive", exception.toString());
+                                        loading_dialog.dismiss();
+                                        Toast.makeText(view.getContext(), "Error", Toast.LENGTH_LONG).show();
+                                    });
                         })
                         .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
                         .create()

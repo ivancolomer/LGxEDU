@@ -1,14 +1,18 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager;
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +53,7 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         View rootView = inflater.inflate(R.layout.fragment_games_manager, null, false);
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
 
         textView = rootView.findViewById(R.id.no_games_found);
@@ -58,18 +63,22 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         rootView.findViewById(R.id.add_game).setOnClickListener(view -> AddGameFragment.newInstance(null, null, 0).show(getFragmentManager(), "fragment_add_game"));
 
         rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
-
-
-
             if(GoogleDriveManager.DriveServiceHelper != null) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(R.layout.progress);
+                Dialog loading_dialog = builder.create();
+                loading_dialog.setCancelable(false);
+                loading_dialog.setCanceledOnTouchOutside(false);
+                loading_dialog.show();
+
                 GoogleDriveManager.DriveServiceHelper.searchForAppFolderID(() -> {
-                    for(File file : GoogleDriveManager.DriveServiceHelper.files) {
-                        Log.d("drive", file.getName());
+                    for(String filename : GoogleDriveManager.DriveServiceHelper.files.values()) {
+                        Log.d("drive", filename);
                     }
+                    loading_dialog.dismiss();
                 });
             }
-
-
         });
 
         return rootView;

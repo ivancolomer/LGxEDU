@@ -40,7 +40,6 @@
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -53,7 +52,8 @@
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".activities.play.PlayActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape" >
+        </activity>
         <activity
             android:name=".activities.manager.EditGameActivity"
             android:screenOrientation="sensorLandscape" />
@@ -127,11 +127,16 @@
         <receiver android:name="org.uribeacon.scan.compat.ScanWakefulBroadcastReceiver" />
 
         <activity
+            android:name=".games.ChoosePlayersActivity"
+            android:screenOrientation="sensorLandscape" />
+
+        <activity
             android:name=".games.trivia.activities.TriviaActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".games.trivia.activities.TriviaResultsActivity"
             android:screenOrientation="sensorLandscape" />
+
     </application>
 
 </manifest>

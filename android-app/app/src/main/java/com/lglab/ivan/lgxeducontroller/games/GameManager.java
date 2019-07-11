@@ -56,8 +56,6 @@ public abstract class GameManager {
             case TRIVIA:
                 game = new Trivia().unpack(obj);
                 break;
-            case VERSUS_TRIVIA:
-                break;
             case MILLIONAIRE:
                 break;
             case FIND_LOCATION:
@@ -73,8 +71,6 @@ public abstract class GameManager {
         switch (type) {
             case TRIVIA:
                 game = new Trivia();
-                break;
-            case VERSUS_TRIVIA:
                 break;
             case MILLIONAIRE:
                 break;
@@ -92,16 +88,13 @@ public abstract class GameManager {
     }
 
     private Game game;
-    private boolean hasStarted = false;
 
     public GameManager(Game game) {
         this.game = game;
     }
 
     private void startGame(Activity activity) {
-        setHasStarted();
-
-        Intent intent = new Intent(activity, getGameActivity());
+        Intent intent = new Intent(activity, ChoosePlayersActivity.class);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         activity.startActivity(intent);
     }
@@ -110,15 +103,11 @@ public abstract class GameManager {
         return game;
     }
 
-    public boolean hasStarted() {
-        return hasStarted;
-    }
-
-    public void setHasStarted() {
-        this.hasStarted = true;
-    }
-
     public abstract Class<?> getGameActivity();
 
     public abstract Class<?> getGameEditFragment();
+
+    public abstract void setPlayers(int playersCount);
+
+    public abstract int getPlayersCount();
 }

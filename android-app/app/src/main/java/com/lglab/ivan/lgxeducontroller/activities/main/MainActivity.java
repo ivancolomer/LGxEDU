@@ -2,7 +2,6 @@ package com.lglab.ivan.lgxeducontroller.activities.main;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,18 +24,14 @@ import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
 
 public class MainActivity extends GoogleDriveActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private Context context;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        context = MainActivity.this;
 
-        findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(context, NavigateActivity.class)));
-        findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(context, PlayActivity.class)));
+        findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(this, NavigateActivity.class)));
+        findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(this, PlayActivity.class)));
     }
 
     @Override
@@ -78,7 +73,7 @@ public class MainActivity extends GoogleDriveActivity {
     private void showPasswordAlert() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        final EditText input = new EditText(context);
+        final EditText input = new EditText(this);
         input.setSingleLine();
         input.setHint("Password");
         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -87,14 +82,14 @@ public class MainActivity extends GoogleDriveActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         input.setLayoutParams(lp);
 
-        new AlertDialog.Builder(context)
+        new AlertDialog.Builder(this)
                 .setMessage("Please, enter the password:")
                 .setView(input)
                 .setPositiveButton("Confirm", (arg0, arg1) -> {
                     String pass = input.getText().toString();
                     String correct_pass = prefs.getString("AdminPassword", "lg");
                     if (pass.equals(correct_pass)) {
-                        Intent intent = new Intent(context, LGPCAdminActivity.class);
+                        Intent intent = new Intent(this, LGPCAdminActivity.class);
                         startActivity(intent);
                     } else {
                         incorrectPasswordAlertMessage();
@@ -106,7 +101,7 @@ public class MainActivity extends GoogleDriveActivity {
     }
 
     private void incorrectPasswordAlertMessage() {
-        new AlertDialog.Builder(context)
+        new AlertDialog.Builder(this)
                 .setTitle("Error")
                 .setMessage("Incorrect password. Please, try it again or cancel the operation.")
                 .setPositiveButton("Retry", (arg0, arg1) -> showPasswordAlert())
@@ -123,20 +118,5 @@ public class MainActivity extends GoogleDriveActivity {
         Button dialogButton = dialog.findViewById(R.id.aboutDialogButtonOK);
         dialogButton.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
-    }
-
-    private boolean isFirstTime() {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        boolean ranBefore = preferences.getBoolean("RanBefore", false);
-        if (!ranBefore) {
-
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("RanBefore", true);
-            editor.commit();
-            // Send the SMS
-
-        }
-        return ranBefore;
-
     }
 }

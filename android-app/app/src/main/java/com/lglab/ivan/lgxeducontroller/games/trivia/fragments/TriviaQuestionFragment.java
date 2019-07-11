@@ -117,9 +117,9 @@ public class TriviaQuestionFragment extends Fragment {
             if (!hasClicked) {
                 hasClicked = true;
 
-                boolean hadAlreadyClicked = ((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(questionNumber);
+                boolean hadAlreadyClicked = ((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(0, questionNumber);
                 if (!hadAlreadyClicked)
-                    ((TriviaManager) GameManager.getInstance()).answerQuestion(questionNumber, i + 1);
+                    ((TriviaManager) GameManager.getInstance()).answerQuestion(0, questionNumber, i + 1);
 
                 view.findViewById(R.id.answerCard1 + question.correctAnswer - 1).setBackgroundColor(Color.parseColor("#388E3C"));
                 answerViews[question.correctAnswer - 1].setTextColor(Color.parseColor("#000000"));
@@ -132,7 +132,7 @@ public class TriviaQuestionFragment extends Fragment {
                 if (!hadAlreadyClicked) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(questionNumber)) {
+                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(0, questionNumber)) {
                         builder.setTitle("Oops! You've chosen a wrong answer!");
                         builder.setMessage("Going to " + question.pois[i].getName());
                         builder.setPositiveButton("SHOW CORRECT ANSWER", (dialog, id) -> {
@@ -151,7 +151,7 @@ public class TriviaQuestionFragment extends Fragment {
                     activeAlertDialog = builder.create();
                     activeAlertDialog.show();
 
-                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(i)) {
+                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(0, i)) {
 
                         /*final Handler handler = new Handler();
                         handler.postDelayed(() -> {
@@ -170,7 +170,7 @@ public class TriviaQuestionFragment extends Fragment {
             }
         });
 
-        if (((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(questionNumber) && ((TriviaManager) GameManager.getInstance()).getAnswerIdOfQuestion(questionNumber) == i + 1) {
+        if (((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(0, questionNumber) && ((TriviaManager) GameManager.getInstance()).getAnswerIdOfQuestion(0, questionNumber) == i + 1) {
             view.findViewById(R.id.answerCard1 + i).performClick();
         }
     }

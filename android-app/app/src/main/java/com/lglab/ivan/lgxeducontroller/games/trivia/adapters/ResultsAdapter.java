@@ -16,8 +16,10 @@ import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsViewHolder> {
 
-    public ResultsAdapter() {
+    private int playerId;
 
+    public ResultsAdapter(int playerId) {
+        this.playerId = playerId;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsV
         personViewHolder.questionNumber.setText(String.valueOf(i + 1));
         personViewHolder.questionSolution.setText(question.answers[question.correctAnswer - 1]);
 
-        if (((TriviaManager) GameManager.getInstance()).isCorrectAnswer(i)) {
+        if (((TriviaManager) GameManager.getInstance()).isCorrectAnswer(playerId, i)) {
             personViewHolder.rl.setBackgroundColor(Color.parseColor("#388E3C"));
         } else {
             personViewHolder.rl.setBackgroundColor(Color.parseColor("#C62828"));

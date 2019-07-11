@@ -1,52 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:weightSum="6"
-    tools:context=".games.trivia.activities.TriviaResultsActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutResults"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:scrollbars="vertical" />
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabMaxWidth="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- View pager to swipe views -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/pagerResults"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="bottom"
-        android:layout_weight="2"
-        android:orientation="vertical">
-
-
-        <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="2dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="2dp"
-            android:scaleType="fitXY"
-            android:src="@android:drawable/divider_horizontal_dark" />
-
-        <TextView
-            android:id="@+id/textViewScore"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:text="You have scored 5 out of 7!"
-            android:textColor="#000000"
-            android:textSize="42sp"
-            android:textStyle="bold" />
-
-
-    </RelativeLayout>
+        android:layout_height="fill_parent"/>
 
 </LinearLayout>

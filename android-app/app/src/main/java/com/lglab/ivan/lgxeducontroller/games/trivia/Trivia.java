@@ -22,8 +22,6 @@ public class Trivia extends Game {
         }
     };
 
-    //Players in teams, etc, for versus trivia
-
     public Trivia() {
         super();
     }

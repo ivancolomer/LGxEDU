@@ -2,19 +2,22 @@ package com.lglab.ivan.lgxeducontroller.games.trivia.activities;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.ResultsAdapter;
+import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.TriviaResultsPagerAdapter;
 
 public class TriviaResultsActivity extends AppCompatActivity {
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    PagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +27,29 @@ public class TriviaResultsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView rv = findViewById(R.id.my_recycler_view);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        rv.setLayoutManager(llm);
-        ResultsAdapter adapter = new ResultsAdapter();
-        rv.setAdapter(adapter);
+        tabLayout = findViewById(R.id.tabLayoutResults);
+        viewPager = findViewById(R.id.pagerResults);
+        adapter = new TriviaResultsPagerAdapter(getSupportFragmentManager(), GameManager.getInstance().getPlayersCount());
 
-        ((TextView) findViewById(R.id.textViewScore)).setText("You have scored " + ((TriviaManager) GameManager.getInstance()).correctAnsweredQuestionsCount() + " out of " + GameManager.getInstance().getGame().getQuestions().size() + "!");
+        //Adding adapter to pager
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
     }
 
     @Override

@@ -5,7 +5,7 @@ Liquid Galaxy for Education is a project which consists of bringing Liquid Galax
 
 The Liquid Galaxy for Education project has two parts:
 
-- LiquidGalaxy on ChromeBooks: A complete installation guide to make LiquidGalaxy work on Chromebooks.
+- LiquidGalaxy on ChromeBooks: A complete installation guide to make LiquidGalaxy work on Chromebooks. Found here: [Wiki](https://github.com/ivancolomer/LGxEDU/wiki/LiquidGalaxy-on-ChromeBooks-Installation)
 
 - An Android Application designed for tablets from 7 to 10 inches that runs the educational app. This Android App also includes the GSoC 2016 project developed by Ivan Josa: [https://github.com/navijo/Liquid-Galaxy-POIs-Controller/](https://github.com/navijo/Liquid-Galaxy-POIs-Controller/)
 

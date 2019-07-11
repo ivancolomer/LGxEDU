@@ -1,17 +1,12 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager.adapters;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +17,6 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.activities.manager.IGamesAdapterActivity;
 import com.lglab.ivan.lgxeducontroller.activities.manager.fragments.AddGameFragment;
-import com.lglab.ivan.lgxeducontroller.drive.DriveServiceHelper;
 import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
@@ -137,7 +131,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
             this.quizName.setOnClickListener(view -> AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity) itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game"));
 
-            if(!game.getFileId().equals("") && GoogleDriveManager.DriveServiceHelper.files.keySet().contains(game.getFileId())) {
+            if(!game.getFileId().equals("") && GoogleDriveManager.DriveServiceHelper != null && GoogleDriveManager.DriveServiceHelper.files.keySet().contains(game.getFileId())) {
                 this.shareButton.setVisibility(View.GONE);
             }
 

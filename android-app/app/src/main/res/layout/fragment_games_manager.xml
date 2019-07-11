@@ -41,7 +41,7 @@
         android:orientation="horizontal"
         android:weightSum="4.5">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/add_game"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/manage_drive"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"

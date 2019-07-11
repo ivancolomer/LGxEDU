@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.activities.manager.adapters.CategoryManagerAdapter;
@@ -68,7 +68,7 @@ public class AddGameFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
 
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_game, null);
         builder.setView(dialogView);

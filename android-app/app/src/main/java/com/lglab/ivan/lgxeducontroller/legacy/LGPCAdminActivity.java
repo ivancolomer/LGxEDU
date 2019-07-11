@@ -1,7 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -11,15 +10,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveActivity;
@@ -106,7 +106,7 @@ public class LGPCAdminActivity extends GoogleDriveActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.reset_db) {
-            final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            final AlertDialog.Builder alert = new MaterialAlertDialogBuilder(this);
             alert.setTitle(getResources().getString(R.string.are_you_sure_delete_database));
 
             alert.setPositiveButton(getResources().getString(R.string.yes), (dialog, whichButton) -> resetDatabase());
@@ -150,13 +150,20 @@ public class LGPCAdminActivity extends GoogleDriveActivity {
     }
 
     private void showAboutDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.about_dialog);
-        dialog.setTitle(getResources().getString(R.string.about_Controller_message));
 
-        Button dialogButton = dialog.findViewById(R.id.aboutDialogButtonOK);
-        dialogButton.setOnClickListener(v -> dialog.dismiss());
-        dialog.show();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.about_dialog, null);
+
+        AlertDialog alert = new MaterialAlertDialogBuilder(this)
+                .setTitle(getResources().getString(R.string.about_Controller_message))
+                .setView(dialogView)
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.close), (dialog, id) -> {
+                    dialog.dismiss();
+                })
+                .create();
+
+        alert.show();
     }
 
     private void exportDatabase() {

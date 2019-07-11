@@ -13,8 +13,8 @@
         android:background="?attr/colorPrimary"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabMaxWidth="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        app:tabMaxWidth="0dp"/>
+        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
 
     <!-- View pager to swipe views -->
     <androidx.viewpager.widget.ViewPager

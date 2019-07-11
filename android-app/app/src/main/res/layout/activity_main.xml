@@ -31,7 +31,7 @@
         android:padding="8dp"
         android:weightSum="5">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/navigate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/play"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -3,7 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
 
     <TextView
@@ -43,16 +47,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/aboutDocText4" />
-
-
-    <Button
-        android:id="@+id/aboutDialogButtonOK"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/close" />
 
 </LinearLayout>
 

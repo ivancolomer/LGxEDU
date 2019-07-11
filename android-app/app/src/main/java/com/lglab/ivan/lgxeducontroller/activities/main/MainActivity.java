@@ -1,18 +1,19 @@
 package com.lglab.ivan.lgxeducontroller.activities.main;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.NavigateActivity;
 import com.lglab.ivan.lgxeducontroller.activities.play.PlayActivity;
@@ -82,7 +83,7 @@ public class MainActivity extends GoogleDriveActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         input.setLayoutParams(lp);
 
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setMessage("Please, enter the password:")
                 .setView(input)
                 .setPositiveButton("Confirm", (arg0, arg1) -> {
@@ -111,12 +112,19 @@ public class MainActivity extends GoogleDriveActivity {
     }
 
     private void showAboutDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.about_dialog);
-        dialog.setTitle(getResources().getString(R.string.about_Controller_message));
 
-        Button dialogButton = dialog.findViewById(R.id.aboutDialogButtonOK);
-        dialogButton.setOnClickListener(v -> dialog.dismiss());
-        dialog.show();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.about_dialog, null);
+
+        androidx.appcompat.app.AlertDialog alert = new MaterialAlertDialogBuilder(this)
+                .setTitle(getResources().getString(R.string.about_Controller_message))
+                .setView(dialogView)
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.close), (dialog, id) -> {
+                    dialog.dismiss();
+                })
+                .create();
+
+        alert.show();
     }
 }

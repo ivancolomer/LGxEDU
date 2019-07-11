@@ -6,9 +6,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -73,7 +73,7 @@ public class TriviaActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setTitle("Do you really want to exit from this page?")
                 .setMessage("If you continue, you will lose all your progress.")
                 .setPositiveButton("Yes", (dialog, id) -> onBackPressed())

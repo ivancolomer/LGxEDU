@@ -1,7 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -19,8 +18,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
@@ -129,7 +130,7 @@ public class LGTools extends Fragment {
     /*SHUT DOWN, RELAUNCH and REBOOT*/
     private void showAlertAndExecution(final String sentence, String action) {
         // prepare the alert box
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder alertbox = new MaterialAlertDialogBuilder(getActivity());
 
         // set the message to display
         alertbox.setMessage("Are you sure to " + action + " Liquid Galaxy?");
@@ -157,7 +158,7 @@ public class LGTools extends Fragment {
         importPois.setOnClickListener(v -> {
 
 
-            final AlertDialog chooseDialog = new AlertDialog.Builder(getActivity()).create();
+            final AlertDialog chooseDialog = new MaterialAlertDialogBuilder(getActivity()).create();
             chooseDialog.setTitle(getResources().getString(R.string.import_pois_dialog_title));
             chooseDialog.setMessage(getResources().getString(R.string.import_pois_dialog_msg));
             chooseDialog.setButton(Dialog.BUTTON_NEGATIVE, getResources().getString(R.string.cancel), (dialog, which) -> chooseDialog.dismiss());

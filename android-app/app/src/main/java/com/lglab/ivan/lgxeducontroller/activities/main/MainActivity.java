@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.activities.main;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -102,7 +101,7 @@ public class MainActivity extends GoogleDriveActivity {
     }
 
     private void incorrectPasswordAlertMessage() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setTitle("Error")
                 .setMessage("Incorrect password. Please, try it again or cancel the operation.")
                 .setPositiveButton("Retry", (arg0, arg1) -> showPasswordAlert())

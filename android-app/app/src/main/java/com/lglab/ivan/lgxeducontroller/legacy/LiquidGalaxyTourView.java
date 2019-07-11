@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
@@ -9,6 +8,7 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.BuildConfig;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
@@ -63,7 +63,7 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         cancel(true);
         POISFragment.resetTourSettings();
         if (s.startsWith("Error")) {
-            new Builder(this.poisFragmentAct)
+            new MaterialAlertDialogBuilder(this.poisFragmentAct)
                     .setTitle("Error")
                     .setMessage("There's probably no POI inside this Tour")
                     .setPositiveButton("OK", new TourDialog())

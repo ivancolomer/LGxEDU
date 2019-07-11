@@ -7,16 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.manager.adapters.CategoryManagerAdapter;
 import com.lglab.ivan.lgxeducontroller.activities.manager.fragments.AddGameFragment;
@@ -29,7 +27,6 @@ import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.api.services.drive.model.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -65,7 +62,7 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
         rootView.findViewById(R.id.manage_drive).setOnClickListener(view -> {
             if(GoogleDriveManager.DriveServiceHelper != null) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
                 builder.setView(R.layout.progress);
                 Dialog loading_dialog = builder.create();
                 loading_dialog.setCancelable(false);

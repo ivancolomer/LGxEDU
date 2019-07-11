@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,9 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
@@ -82,7 +83,7 @@ public class POISFragment extends Fragment {
     }
 
     private static void showStopAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(currentActivity);
         builder.setMessage("The tour running on LG has been stopped.")
                 .setCancelable(false)
                 .setPositiveButton("OK", (dialog, id) -> {
@@ -810,7 +811,7 @@ public class POISFragment extends Fragment {
 
     private void showAlert(final FloatingActionButton stopButton, final LiquidGalaxyTourView tour) {
         // prepare the alert box
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(getActivity());
+        MaterialAlertDialogBuilder alertbox = new MaterialAlertDialogBuilder(getActivity());
 
         // set the message to display
         alertbox.setMessage("Are you sure to stop the Tour view?");

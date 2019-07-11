@@ -8,10 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -107,7 +107,7 @@ public class EditGameActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setTitle("Do you really want to exit from this page?")
                 .setMessage("If you continue, you will lose all your progress.")
                 .setPositiveButton("Yes", (dialog, id) -> onBackPressed())
@@ -129,7 +129,7 @@ public class EditGameActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.save_game) {
-            new AlertDialog.Builder(this)
+            new MaterialAlertDialogBuilder(this)
                     .setTitle("Do you want to save the current game?")
 
                     .setPositiveButton("Yes", (dialog, id1) -> {
@@ -185,7 +185,7 @@ public class EditGameActivity extends AppCompatActivity {
             startActivity(getIntent());
         } else if (id == R.id.remove_question) {
 
-            new AlertDialog.Builder(this)
+            new MaterialAlertDialogBuilder(this)
                     .setTitle("Do you want to remove the current question from the game?")
 
                     .setPositiveButton("Yes", (dialog, id1) -> {

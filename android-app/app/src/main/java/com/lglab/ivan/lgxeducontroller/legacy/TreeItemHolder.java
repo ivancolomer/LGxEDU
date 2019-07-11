@@ -11,8 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 import com.unnamed.b.atv.model.TreeNode;
@@ -110,33 +109,30 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
 
         deleteButton = (ImageView) view.findViewById(R.id.btn_delete);
         if (value.isDeletable) {
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle(context.getResources().getString(R.string.are_you_sure));
+            deleteButton.setOnClickListener(v -> {
+                MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context);
+                alert.setTitle(context.getResources().getString(R.string.are_you_sure));
 
-                    alert.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            if (value.type == 1) {
-                                //It's a POI
-                                POIsContract.POIEntry.deletePOIById(context, String.valueOf(value.id));
-                            } else {
-                                //It's a Category
-                                DeletePoisTask deletePoisTask = new DeletePoisTask(String.valueOf(value.id));
-                                deletePoisTask.execute();
-                                // deletePoisInCategory(String.valueOf(value.id));
-                            }
-                            getTreeView().removeNode(node);
+                alert.setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if (value.type == 1) {
+                            //It's a POI
+                            POIsContract.POIEntry.deletePOIById(context, String.valueOf(value.id));
+                        } else {
+                            //It's a Category
+                            DeletePoisTask deletePoisTask = new DeletePoisTask(String.valueOf(value.id));
+                            deletePoisTask.execute();
+                            // deletePoisInCategory(String.valueOf(value.id));
                         }
-                    });
+                        getTreeView().removeNode(node);
+                    }
+                });
 
-                    alert.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    });
-                    alert.show();
-                }
+                alert.setNegativeButton(context.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+                alert.show();
             });
         } else {
             deleteButton.setVisibility(View.GONE);

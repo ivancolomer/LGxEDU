@@ -7,14 +7,14 @@
 
 
     <com.google.android.material.tabs.TabLayout
+        style="@style/Widget.MaterialComponents.TabLayout.Colored"
         android:id="@+id/tabLayoutResults"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabMaxWidth="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        app:tabMaxWidth="0dp" />
 
     <!-- View pager to swipe views -->
     <androidx.viewpager.widget.ViewPager

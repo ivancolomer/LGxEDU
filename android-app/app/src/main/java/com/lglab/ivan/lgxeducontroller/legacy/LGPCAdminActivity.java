@@ -106,7 +106,7 @@ public class LGPCAdminActivity extends GoogleDriveActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.reset_db) {
-            final AlertDialog.Builder alert = new MaterialAlertDialogBuilder(this);
+            final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(this);
             alert.setTitle(getResources().getString(R.string.are_you_sure_delete_database));
 
             alert.setPositiveButton(getResources().getString(R.string.yes), (dialog, whichButton) -> resetDatabase());

@@ -2,7 +2,6 @@ package com.lglab.ivan.lgxeducontroller.legacy.advancedTools;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,13 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -298,20 +297,16 @@ public class AdvancedToolsFragment extends Fragment {
                             sendStopCommandTask.execute();
                             break;
                         case R.id.deleteTask:
-                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                            MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(getActivity());
                             alert.setTitle(getResources().getString(R.string.are_you_sure));
 
-                            alert.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    LGTaskEntry.deleteByTaskID(getActivity(), String.valueOf(id));
-                                    populateUI();
-                                }
+                            alert.setPositiveButton(getResources().getString(R.string.yes), (dialog, whichButton) -> {
+                                LGTaskEntry.deleteByTaskID(getActivity(), String.valueOf(id));
+                                populateUI();
                             });
 
                             alert.setNegativeButton(getResources().getString(R.string.no),
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                        }
+                                    (dialog, whichButton) -> {
                                     });
                             alert.show();
                             break;

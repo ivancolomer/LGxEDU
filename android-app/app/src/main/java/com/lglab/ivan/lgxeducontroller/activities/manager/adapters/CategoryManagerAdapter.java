@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.activities.manager.IGamesAdapterActivity;
@@ -136,12 +137,12 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             }
 
             this.shareButton.setOnClickListener(view -> {
-                new AlertDialog.Builder(itemView.getContext())
+                new MaterialAlertDialogBuilder(itemView.getContext())
                         .setTitle("Do you want to upload \"" + game.getName() + "\" to your drive?")
                         //.setMessage("")
                         .setPositiveButton("Upload", (dialog, id) -> {
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(itemView.getContext());
                             builder.setView(R.layout.progress);
                             Dialog loading_dialog = builder.create();
                             loading_dialog.setCancelable(false);
@@ -196,7 +197,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             });
 
             this.deleteButton.setOnClickListener(view ->
-                    new AlertDialog.Builder(itemView.getContext())
+                    new MaterialAlertDialogBuilder(itemView.getContext())
                             .setTitle("Are you sure you want to delete \"" + game.getName() + "\"?")
                             .setMessage("The game will be deleted immediately. You can't undo this action.")
                             .setPositiveButton("Delete", (dialog, id) -> {

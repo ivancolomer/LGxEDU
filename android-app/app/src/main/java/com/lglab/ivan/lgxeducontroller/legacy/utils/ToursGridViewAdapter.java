@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.legacy.utils;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,9 +13,11 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
@@ -187,7 +188,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
             super.onPostExecute(success);
             resetTourSettings();
             if (!success) {
-                AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+                MaterialAlertDialogBuilder alertbox = new MaterialAlertDialogBuilder(activity);
 
                 // set the message to display
                 alertbox.setTitle("Error");
@@ -211,7 +212,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
 
 
         private void showStopAlert() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
             builder.setMessage("The tour running on LG has been stopped.")
                     .setCancelable(false)
                     .setPositiveButton("OK", (dialog, id) -> {

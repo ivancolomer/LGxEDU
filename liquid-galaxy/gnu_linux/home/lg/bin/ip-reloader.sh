@@ -31,6 +31,7 @@ while true; do
         fi
     fi
 
+    sudo chmod +0666 /dev/uinput
     if [[ -z $(~/bin/list_devices_input | grep virtual-spaceavigator |  head -1) ]]; then
         ~/bin/create_virtual_spacenavigator &
         while [[ -z $(~/bin/list_devices_input | grep virtual-spaceavigator |  head -1) ]]; do

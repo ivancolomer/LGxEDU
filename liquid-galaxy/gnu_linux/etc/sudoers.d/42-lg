@@ -23,3 +23,4 @@ lg ALL=(ALL) NOPASSWD: /usr/bin/tee*
 lg ALL=(ALL) NOPASSWD: /sbin/iptables-restore*
 lg ALL=(ALL) NOPASSWD: /usr/sbin/tcpdump*
 lg ALL=(ALL) NOPASSWD: /bin/ln*
+lg ALL=(ALL) NOPASSWD: /bin/chmod +0666 /dev/uinput

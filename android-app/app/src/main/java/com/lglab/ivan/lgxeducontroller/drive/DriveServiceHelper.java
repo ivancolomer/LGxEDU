@@ -1,12 +1,9 @@
 package com.lglab.ivan.lgxeducontroller.drive;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
@@ -19,7 +16,6 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
-import com.google.api.services.drive.model.PermissionList;
 
 import java.io.BufferedReader;
 import java.io.IOException;

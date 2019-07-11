@@ -16,6 +16,7 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.activities.manager.IGamesAdapterActivity;
 import com.lglab.ivan.lgxeducontroller.activities.manager.fragments.AddGameFragment;
+import com.lglab.ivan.lgxeducontroller.drive.DriveServiceHelper;
 import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
@@ -130,7 +131,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
             this.quizName.setOnClickListener(view -> AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity) itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game"));
 
-            if(!game.getFileId().equals("")) {
+            if(!game.getFileId().equals("") || !GoogleDriveManager.DriveServiceHelper.files.contains(game.getFileId())) {
                 this.shareButton.setVisibility(View.GONE);
             }
 

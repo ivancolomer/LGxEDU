@@ -69,16 +69,13 @@ public class LGTools extends Fragment {
     }
 
     private void setCleanKMLButtonBehaviour() {
-        cleanKML.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    //String sentence = "rm -f /var/www/html/kmls.txt; touch /var/www/html/kmls.txt > /home/lg/log.txt";
-                    String sentence = "chmod 777 /var/www/html/kmls.txt; echo '' > /var/www/html/kmls.txt";
-                    showAlertAndExecution(sentence, "clean kml files");
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-                }
+        cleanKML.setOnClickListener(view -> {
+            try {
+                //String sentence = "rm -f /var/www/html/kmls.txt; touch /var/www/html/kmls.txt > /home/lg/log.txt";
+                String sentence = "chmod 777 /var/www/html/kmls.txt; echo '' > /var/www/html/kmls.txt";
+                showAlertAndExecution(sentence, "clean kml files");
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
             }
         });
     }

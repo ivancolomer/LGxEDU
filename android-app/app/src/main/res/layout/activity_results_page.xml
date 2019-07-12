@@ -15,7 +15,7 @@
         android:layout_weight="4"
         android:scrollbars="vertical" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="bottom"
@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
 
-        <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="2dp"

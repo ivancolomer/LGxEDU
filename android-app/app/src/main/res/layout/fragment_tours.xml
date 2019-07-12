@@ -52,7 +52,7 @@
                     android:focusable="false"
                     android:src="@drawable/ic_reply_black_36dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/show_all"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"

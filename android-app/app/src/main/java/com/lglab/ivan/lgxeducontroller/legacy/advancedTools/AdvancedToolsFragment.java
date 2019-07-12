@@ -1,7 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.legacy.advancedTools;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -24,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -88,12 +87,15 @@ public class AdvancedToolsFragment extends Fragment {
         documentListHelpBtn = rootView.findViewById(R.id.documentListHelp);
 
         documentListHelpBtn.setOnClickListener(v -> {
-            // custom dialog
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.help_task_list_dialog);
-            dialog.setTitle(getResources().getString(R.string.taskListHelpTitle));
 
-            Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
+            View dialogView = getActivity().getLayoutInflater().inflate(R.layout.help_task_list_dialog, null);
+
+            final AlertDialog dialog = new MaterialAlertDialogBuilder(getContext())
+                    .setView(dialogView)
+                    .setTitle(getResources().getString(R.string.taskListHelpTitle))
+                    .create();
+
+            Button dialogButton = dialogView.findViewById(R.id.dialogButtonOK);
             dialogButton.setOnClickListener(v1 -> dialog.dismiss());
             dialog.show();
         });
@@ -235,13 +237,10 @@ public class AdvancedToolsFragment extends Fragment {
         rv.setAdapter(parallaxRecyclerAdapter);
 
         //On click on recycler view item
-        parallaxRecyclerAdapter.setOnClickEvent(new ParallaxRecyclerAdapter.OnClickEvent() {
-            @Override
-            public void onClick(View view, int i) {
-                LGTask task = tasks.get(i);
-                SendCommandTask sendCommandTask = new SendCommandTask(task.getScript(), task.getIp(), task.getUser(), task.getPassword(), task.getBrowserUrl(), false, task.getId());
-                sendCommandTask.execute();
-            }
+        parallaxRecyclerAdapter.setOnClickEvent((view, i) -> {
+            LGTask task = tasks.get(i);
+            SendCommandTask sendCommandTask = new SendCommandTask(task.getScript(), task.getIp(), task.getUser(), task.getPassword(), task.getBrowserUrl(), false, task.getId());
+            sendCommandTask.execute();
         });
     }
 
@@ -270,14 +269,14 @@ public class AdvancedToolsFragment extends Fragment {
 
         LGTaskHolder(View itemView, final List<LGTask> taskList) {
             super(itemView);
-            taskTitle = (TextView) itemView.findViewById(R.id.task_title);
-            taskDescription = (TextView) itemView.findViewById(R.id.task_description);
-            filePhoto = (ImageView) itemView.findViewById(R.id.file_photo);
+            taskTitle = itemView.findViewById(R.id.task_title);
+            taskDescription = itemView.findViewById(R.id.task_description);
+            filePhoto = itemView.findViewById(R.id.file_photo);
 
             itemView.setOnCreateContextMenuListener(this);
 
 
-            Toolbar toolbarCard = (Toolbar) itemView.findViewById(R.id.taskToolbar);
+            Toolbar toolbarCard = itemView.findViewById(R.id.taskToolbar);
             toolbarCard.inflateMenu(R.menu.menu_lgtask_cardview);
             toolbarCard.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
@@ -319,12 +318,7 @@ public class AdvancedToolsFragment extends Fragment {
                     for (LGTask task : taskList) {
                         if (task.isRunning()) {
                             isCorrect = false;
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.stopOtherTasks), Toast.LENGTH_LONG).show();
-                                }
-                            });
+                            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), getResources().getString(R.string.stopOtherTasks), Toast.LENGTH_LONG).show());
                         }
                     }
                     return isCorrect;
@@ -349,7 +343,7 @@ public class AdvancedToolsFragment extends Fragment {
         String browserUrl;
         boolean isStop;
 
-        private ProgressDialog dialog;
+        private AlertDialog dialog;
 
         SendCommandTask(String command, String ip, String user, String password, String browserUrl, boolean isStop, long taskId) {
             this.command = command;
@@ -365,13 +359,13 @@ public class AdvancedToolsFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             if (dialog == null) {
-                dialog = new ProgressDialog(getActivity());
-                dialog.setMessage(getResources().getString(R.string.sending_command));
-                dialog.setIndeterminate(false);
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                dialog.setCancelable(true);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+                builder.setMessage(getResources().getString(R.string.sending_command));
+                builder.setView(R.layout.progress);
+                builder.setNegativeButton(getActivity().getResources().getString(R.string.cancel), (dialog, id) -> dialog.cancel());
+                dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
-                dialog.setOnCancelListener(dialog -> cancel(true));
+                dialog.setCancelable(true);
                 dialog.show();
             }
         }

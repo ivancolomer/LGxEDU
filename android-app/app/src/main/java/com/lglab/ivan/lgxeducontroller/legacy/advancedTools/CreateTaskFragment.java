@@ -190,27 +190,21 @@ public class CreateTaskFragment extends DialogFragment {
         new_task_script_input = (EditText) rootView.findViewById(R.id.new_task_script_input);
 
         Button uploadExecutionScript = (Button) rootView.findViewById(R.id.uploadExecutionScript);
-        uploadExecutionScript.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
+        uploadExecutionScript.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-                startActivityForResult(intent, ACTION_UPLOAD_EXEC_SCRIPT);
-            }
+            startActivityForResult(intent, ACTION_UPLOAD_EXEC_SCRIPT);
         });
 
         Button uploadShutdownScript = (Button) rootView.findViewById(R.id.uploadShutDownScript);
-        uploadShutdownScript.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
+        uploadShutdownScript.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-                startActivityForResult(intent, ACTION_UPLOAD_SHUTDOWN_SCRIPT);
-            }
+            startActivityForResult(intent, ACTION_UPLOAD_SHUTDOWN_SCRIPT);
         });
 
         new_task_ip.setText(getResources().getString(R.string.taskIpDefault));

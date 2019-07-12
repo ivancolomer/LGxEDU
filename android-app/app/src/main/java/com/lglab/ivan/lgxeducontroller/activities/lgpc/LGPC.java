@@ -29,8 +29,8 @@ public class LGPC extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setLogo(R.drawable.lg_logo);
-            actionBar.setDisplayUseLogoEnabled(true);
+            //actionBar.setLogo(R.drawable.lg_logo);
+            //actionBar.setDisplayUseLogoEnabled(true);
         }
 
         tabLayout = findViewById(R.id.tabLayout);

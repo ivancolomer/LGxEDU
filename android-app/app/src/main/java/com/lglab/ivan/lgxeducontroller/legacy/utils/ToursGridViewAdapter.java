@@ -1,8 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.legacy.utils;
 
-import android.app.ProgressDialog;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -91,7 +90,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
     private class LaunchTourTask extends AsyncTask<Void, Void, Boolean> {
 
         Tour currentTour;
-        private ProgressDialog dialog;
+        private AlertDialog dialog;
 
 
         LaunchTourTask(Tour currentTour) {
@@ -102,7 +101,20 @@ public class ToursGridViewAdapter extends BaseAdapter {
         protected void onPreExecute() {
             super.onPreExecute();
             if (dialog == null) {
-                dialog = new ProgressDialog(context);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
+
+                String message = context.getResources().getString(R.string.viewing) + " " + this.currentTour.getName() + " " + context.getResources().getString(R.string.inLG);
+                builder.setMessage(message);
+                builder.setView(R.layout.progress);
+                builder.setNegativeButton(context.getResources().getString(R.string.stop_tour), (dialog, id) -> dialog.cancel());
+
+                dialog = builder.create();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setCancelable(true);
+
+                dialog.show();
+
+                /*dialog = new MaterialAlertDialogBuilder(context);
                 String message = context.getResources().getString(R.string.viewing) + " " + this.currentTour.getName() + " " + context.getResources().getString(R.string.inLG);
                 dialog.setMessage(message);
                 dialog.setIndeterminate(false);
@@ -114,7 +126,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
                 });
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.setOnCancelListener(dialog -> cancel(true));
-                dialog.show();
+                dialog.show();*/
             }
         }
 

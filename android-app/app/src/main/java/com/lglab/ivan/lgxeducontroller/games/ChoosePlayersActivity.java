@@ -20,10 +20,10 @@ public class ChoosePlayersActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(GameManager.getInstance().getGame().getName());
 
-        findViewById(R.id.playersCount1).setOnClickListener(view -> enterGame(1));
+        /*findViewById(R.id.playersCount1).setOnClickListener(view -> enterGame(1));
         findViewById(R.id.playersCount2).setOnClickListener(view -> enterGame(2));
         findViewById(R.id.playersCount3).setOnClickListener(view -> enterGame(3));
-        findViewById(R.id.playersCount4).setOnClickListener(view -> enterGame(4));
+        findViewById(R.id.playersCount4).setOnClickListener(view -> enterGame(4));*/
     }
 
     @Override

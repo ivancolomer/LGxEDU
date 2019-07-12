@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -41,51 +40,42 @@ public class TourUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_tours, container, false);
 
-        toursGridView = (GridView) rootView.findViewById(R.id.TOURSgridview);
+        toursGridView = rootView.findViewById(R.id.TOURSgridview);
 
-        categoriesListView = (ListView) rootView.findViewById(R.id.categories_listview);
-        backIcon = (ImageView) rootView.findViewById(R.id.back_icon);
-        backStartIcon = (ImageView) rootView.findViewById(R.id.back_start_icon);
-        categorySelectorTitle = (TextView) rootView.findViewById(R.id.current_category);
-        currentCategoryText = (TextView) rootView.findViewById(R.id.viewing_category_text);
-        show_all = (Button) rootView.findViewById(R.id.show_all);
+        categoriesListView = rootView.findViewById(R.id.categories_listview);
+        backIcon = rootView.findViewById(R.id.back_icon);
+        backStartIcon = rootView.findViewById(R.id.back_start_icon);
+        categorySelectorTitle = rootView.findViewById(R.id.current_category);
+        currentCategoryText = rootView.findViewById(R.id.viewing_category_text);
+        show_all = rootView.findViewById(R.id.show_all);
 
-        backStartIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backIDs.clear();
+        backStartIcon.setOnClickListener(v -> {
+            backIDs.clear();
+            showAllBaseCategories();
+        });
+
+        backIcon.setOnClickListener(v -> {
+            if (backIDs.size() > 1) {
+                backIDs.remove(0);
+                Cursor queryCursor = getCategoriesCursor();
+                showCategoriesOnScreen(queryCursor);
+            } else {
                 showAllBaseCategories();
             }
         });
 
-        backIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (backIDs.size() > 1) {
-                    backIDs.remove(0);
-                    Cursor queryCursor = getCategoriesCursor();
-                    showCategoriesOnScreen(queryCursor);
-                } else {
-                    showAllBaseCategories();
-                }
-            }
-        });
-
-        show_all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (show_all.getText().toString().equalsIgnoreCase(getResources().getString(R.string.show_all))) {
-                    showAllTours();
-                    categoriesListView.setVisibility(View.INVISIBLE);
-                    backIcon.setVisibility(View.GONE);
-                    backStartIcon.setVisibility(View.GONE);
-                } else {
-                    show_all.setText(getResources().getString(R.string.show_all));
-                    categoriesListView.setVisibility(View.VISIBLE);
-                    backIcon.setVisibility(View.VISIBLE);
-                    backStartIcon.setVisibility(View.VISIBLE);
-                    showToursByCat();
-                }
+        show_all.setOnClickListener(view -> {
+            if (show_all.getText().toString().equalsIgnoreCase(getResources().getString(R.string.show_all))) {
+                showAllTours();
+                categoriesListView.setVisibility(View.INVISIBLE);
+                backIcon.setVisibility(View.GONE);
+                backStartIcon.setVisibility(View.GONE);
+            } else {
+                show_all.setText(getResources().getString(R.string.show_all));
+                categoriesListView.setVisibility(View.VISIBLE);
+                backIcon.setVisibility(View.VISIBLE);
+                backStartIcon.setVisibility(View.VISIBLE);
+                showToursByCat();
             }
         });
 
@@ -126,17 +116,14 @@ public class TourUserFragment extends Fragment {
                 categorySelectorTitle.setText(currentCategoryName);
             }
 
-            categoriesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            categoriesListView.setOnItemClickListener((parent, view, position, id) -> {
 
-                    Cursor cursor = (Cursor) parent.getItemAtPosition(position);//gets the category selected
-                    if (cursor != null) {
-                        int itemSelectedID = cursor.getInt(0);
-                        backIDs.add(0, String.valueOf(itemSelectedID));
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);//gets the category selected
+                if (cursor != null) {
+                    int itemSelectedID = cursor.getInt(0);
+                    backIDs.add(0, String.valueOf(itemSelectedID));
 
-                        showToursByCategory();
-                    }
+                    showToursByCategory();
                 }
             });
         } else {

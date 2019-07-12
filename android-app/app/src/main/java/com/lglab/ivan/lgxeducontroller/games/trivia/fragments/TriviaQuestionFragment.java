@@ -152,7 +152,7 @@ public class TriviaQuestionFragment extends Fragment {
                     activeAlertDialog = builder.create();
                     activeAlertDialog.show();
 
-                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(0, i)) {
+                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(0, questionNumber)) {
 
                         /*final Handler handler = new Handler();
                         handler.postDelayed(() -> {

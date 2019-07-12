@@ -1,5 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.legacy.advancedTools;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,11 +14,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
@@ -61,12 +61,13 @@ public class EditTaskFragment extends DialogFragment {
     private long taskId;
 
 
-    public static EditTaskFragment newInstance(long taskId) {
-        EditTaskFragment createTask = new EditTaskFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong("taskId", taskId);
+    private EditTaskFragment(long taskId) {
+        super();
+        this.taskId = taskId;
+    }
 
-        createTask.setArguments(bundle);
+    public static EditTaskFragment newInstance(long taskId) {
+        EditTaskFragment createTask = new EditTaskFragment(taskId);
         return createTask;
     }
 
@@ -104,132 +105,106 @@ public class EditTaskFragment extends DialogFragment {
 
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.edit_task, container, false);
-        this.taskId = getArguments().getLong("taskId");
-
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         LGTask currentTask = getTaskData(Integer.parseInt(String.valueOf(taskId)));
 
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
 
-        getDialog().setTitle(R.string.edit_task);
-        Button saveTask = (Button) rootView.findViewById(R.id.btn_save_task);
-        Button btnCancel = (Button) rootView.findViewById(R.id.btn_cancel_edit_task);
+        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.edit_task, null);
+        builder.setView(dialogView);
 
-        iconview = (ImageView) rootView.findViewById(android.R.id.icon);
+        builder.setTitle(R.string.edit_task);
+
+        Button saveTask = dialogView.findViewById(R.id.btn_save_task);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel_edit_task);
+        iconview = dialogView.findViewById(android.R.id.icon);
         if (currentTask.getImage() != null) {
             iconview.setImageBitmap(BitmapFactory.decodeByteArray(currentTask.getImage(), 0, currentTask.getImage().length));
         }
-        Button deletePhotoBtn = (Button) rootView.findViewById(R.id.deletePhoto);
-        deletePhotoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                iconview.setImageDrawable(null);
-            }
+        Button deletePhotoBtn = dialogView.findViewById(R.id.deletePhoto);
+        deletePhotoBtn.setOnClickListener(view -> iconview.setImageDrawable(null));
+        Button pickPhotoBtn = dialogView.findViewById(R.id.pickPhoto);
+        pickPhotoBtn.setOnClickListener(view -> {
+            Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(i, ACTION_UPLOAD_LOGO);
         });
-
-        Button pickPhotoBtn = (Button) rootView.findViewById(R.id.pickPhoto);
-        pickPhotoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, ACTION_UPLOAD_LOGO);
-            }
-        });
-
-        edit_task_shutdown_script_input = (EditText) rootView.findViewById(R.id.edit_task_shutdown_script_input);
+        edit_task_shutdown_script_input = dialogView.findViewById(R.id.edit_task_shutdown_script_input);
         edit_task_shutdown_script_input.setText(currentTask.getShutdownScript());
 
-        edit_task_ip = (EditText) rootView.findViewById(R.id.edit_task_ip_input);
+        edit_task_ip = dialogView.findViewById(R.id.edit_task_ip_input);
         edit_task_ip.setText(currentTask.getIp());
 
-        edit_task_user = (EditText) rootView.findViewById(R.id.edit_task_user_input);
+        edit_task_user = dialogView.findViewById(R.id.edit_task_user_input);
         edit_task_user.setText(currentTask.getUser());
 
-        edit_task_password = (EditText) rootView.findViewById(R.id.edit_task_password_input);
+        edit_task_password = dialogView.findViewById(R.id.edit_task_password_input);
         edit_task_password.setText(currentTask.getPassword());
 
-        edit_task_browser_URL = (EditText) rootView.findViewById(R.id.edit_task_url_openBrowser_input);
+        edit_task_browser_URL = dialogView.findViewById(R.id.edit_task_url_openBrowser_input);
         edit_task_browser_URL.setText(currentTask.getBrowserUrl());
 
-        edit_task_name_input = (EditText) rootView.findViewById(R.id.edit_task_name_input);
-        edit_task_name = (TextInputLayout) rootView.findViewById(R.id.edit_task_name);
+        edit_task_name_input = dialogView.findViewById(R.id.edit_task_name_input);
+        edit_task_name = dialogView.findViewById(R.id.edit_task_name);
 
         edit_task_name_input.setText(currentTask.getTitle());
 
-        edit_task_description_input = (EditText) rootView.findViewById(R.id.edit_task_description_input);
-        edit_task_script_input = (EditText) rootView.findViewById(R.id.edit_task_script_input);
+        edit_task_description_input = dialogView.findViewById(R.id.edit_task_description_input);
+        edit_task_script_input = dialogView.findViewById(R.id.edit_task_script_input);
 
         edit_task_description_input.setText(currentTask.getDescription());
         edit_task_script_input.setText(currentTask.getScript());
 
-        Button uploadExecutionScript = (Button) rootView.findViewById(R.id.uploadExecutionScript);
-        uploadExecutionScript.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
+        Button uploadExecutionScript = dialogView.findViewById(R.id.uploadExecutionScript);
+        uploadExecutionScript.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-                startActivityForResult(intent, ACTION_UPLOAD_EXEC_SCRIPT);
-            }
+            startActivityForResult(intent, ACTION_UPLOAD_EXEC_SCRIPT);
         });
 
-        Button uploadShutdownScript = (Button) rootView.findViewById(R.id.uploadShutDownScript);
-        uploadShutdownScript.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
+        Button uploadShutdownScript = dialogView.findViewById(R.id.uploadShutDownScript);
+        uploadShutdownScript.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-                startActivityForResult(intent, ACTION_UPLOAD_SHUTDOWN_SCRIPT);
-            }
+            startActivityForResult(intent, ACTION_UPLOAD_SHUTDOWN_SCRIPT);
         });
 
-        saveTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Resources res = getActivity().getResources();
+        saveTask.setOnClickListener(v -> {
+            Resources res = getActivity().getResources();
 
-                if (edit_task_name_input.getText().toString().length() == 0) {
-                    edit_task_name.setError(res.getString(R.string.empty_name_error));
+            if (edit_task_name_input.getText().toString().length() == 0) {
+                edit_task_name.setError(res.getString(R.string.empty_name_error));
+            } else {
+                edit_task_name.setErrorEnabled(false);
+
+                ContentValues newValues = new ContentValues();
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_TITLE, edit_task_name_input.getText().toString());
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_DESC, edit_task_description_input.getText().toString());
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_SCRIPT, edit_task_script_input.getText().toString());
+                if (iconview.getDrawable() != null) {
+                    Bitmap bitmap = ((BitmapDrawable) iconview.getDrawable()).getBitmap();
+                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_IMAGE, getBitmapAsByteArray(bitmap));
                 } else {
-                    edit_task_name.setErrorEnabled(false);
-
-                    ContentValues newValues = new ContentValues();
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_TITLE, edit_task_name_input.getText().toString());
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_DESC, edit_task_description_input.getText().toString());
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_SCRIPT, edit_task_script_input.getText().toString());
-                    if (iconview.getDrawable() != null) {
-                        Bitmap bitmap = ((BitmapDrawable) iconview.getDrawable()).getBitmap();
-                        newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_IMAGE, getBitmapAsByteArray(bitmap));
-                    } else {
-                        newValues.putNull(POIsContract.LGTaskEntry.COLUMN_LG_TASK_IMAGE);
-                    }
-
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_SHUTDOWNSCRIPT, edit_task_shutdown_script_input.getText().toString());
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_IP, edit_task_ip.getText().toString());
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_USER, edit_task_user.getText().toString());
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_PASSWORD, edit_task_password.getText().toString());
-                    newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_BROWSER_URL, edit_task_browser_URL.getText().toString());
-
-                    POIsContract.LGTaskEntry.updateByTaskId(getActivity(), newValues, String.valueOf(taskId));
-                    Toast.makeText(getActivity(), getResources().getString(R.string.task_updated_ok), Toast.LENGTH_LONG).show();
-                    getDialog().dismiss();
+                    newValues.putNull(POIsContract.LGTaskEntry.COLUMN_LG_TASK_IMAGE);
                 }
-            }
-        });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_SHUTDOWNSCRIPT, edit_task_shutdown_script_input.getText().toString());
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_IP, edit_task_ip.getText().toString());
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_USER, edit_task_user.getText().toString());
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_TASK_PASSWORD, edit_task_password.getText().toString());
+                newValues.put(POIsContract.LGTaskEntry.COLUMN_LG_BROWSER_URL, edit_task_browser_URL.getText().toString());
+
+                POIsContract.LGTaskEntry.updateByTaskId(getActivity(), newValues, String.valueOf(taskId));
+                Toast.makeText(getActivity(), getResources().getString(R.string.task_updated_ok), Toast.LENGTH_LONG).show();
                 getDialog().dismiss();
             }
         });
-
-        return rootView;
+        btnCancel.setOnClickListener(view -> getDialog().dismiss());
+        return builder.create();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.activities.lgpc.fragment;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,8 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
@@ -478,7 +479,7 @@ public class SearchFragment extends Fragment {
 
         String command;
         boolean isChangingPlanet;
-        private ProgressDialog dialog;
+        private AlertDialog dialog;
 
         public SearchTask(String command, boolean isChangingPlanet) {
             this.command = command;
@@ -489,17 +490,20 @@ public class SearchFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             if (dialog == null) {
-                dialog = new ProgressDialog(getActivity());
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+
                 if (isChangingPlanet) {
-                    dialog.setMessage(getResources().getString(R.string.changingPlanet));
+                    builder.setMessage(getResources().getString(R.string.changingPlanet));
                 } else {
-                    dialog.setMessage(getResources().getString(R.string.searching));
+                    builder.setMessage(getResources().getString(R.string.searching));
                 }
-                dialog.setIndeterminate(false);
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                dialog.setCancelable(true);
+                builder.setView(R.layout.progress);
+                builder.setNegativeButton(getActivity().getResources().getString(R.string.cancel), (dialog, id) -> dialog.cancel());
+
+                dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
-                dialog.setOnCancelListener(dialog -> cancel(true));
+                dialog.setCancelable(true);
                 dialog.show();
             }
         }

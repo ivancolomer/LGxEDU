@@ -1,7 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.legacy.utils;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
@@ -17,8 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
@@ -198,7 +199,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
         int rotationAngle = 10;
         int rotationFactor = 1;
         boolean changeVelocity = false;
-        private ProgressDialog dialog;
+        private AlertDialog dialog;
 
         VisitPoiTask(POI currentPoi, boolean rotate) {
             this.currentPoi = currentPoi;
@@ -210,21 +211,23 @@ public class PoisGridViewAdapter extends BaseAdapter {
             super.onPreExecute();
             if (dialog == null) {
                 activity.runOnUiThread(() -> {
-                    dialog = new ProgressDialog(context);
+
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
+
                     String message = context.getResources().getString(R.string.viewing) + " " + this.currentPoi.getName() + " " + context.getResources().getString(R.string.inLG);
-                    dialog.setMessage(message);
-                    dialog.setIndeterminate(false);
-                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    dialog.setCancelable(false);
-                    //Buton positive => more speed
-                    //Button neutral => less speed
+                    builder.setMessage(message);
+                    builder.setView(R.layout.progress);
+                    builder.setNegativeButton(context.getResources().getString(R.string.stop_tour), (dialog, id) -> dialog.cancel());
+
+                    dialog = builder.create();
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.setCancelable(true);
+
                     if (this.rotate) {
                         dialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getResources().getString(R.string.speedx2), (dialog, which) -> {
-                            //Do nothing, we after define the onclick
                         });
 
                         dialog.setButton(DialogInterface.BUTTON_NEUTRAL, context.getResources().getString(R.string.speeddiv2), (dialog, which) -> {
-                            //Do nothing, we after define the onclick
                         });
                     }
 

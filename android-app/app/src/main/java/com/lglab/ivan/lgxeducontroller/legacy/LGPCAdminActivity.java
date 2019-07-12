@@ -48,8 +48,8 @@ public class LGPCAdminActivity extends GoogleDriveActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setLogo(R.drawable.lg_logo);
-            actionBar.setDisplayUseLogoEnabled(true);
+            //actionBar.setLogo(R.drawable.lg_logo);
+            //actionBar.setDisplayUseLogoEnabled(true);
         }
 
 

@@ -1,186 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="8">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4">
+        android:layout_weight="2">
 
         <TextView
             android:id="@+id/question_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="How many players?"
+            android:text="Players"
             android:textColor="@color/grey_700"
             android:textSize="34sp" />
 
     </RelativeLayout>
 
-    <com.lglab.ivan.lgxeducontroller.utils.MovableFloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:layout_margin="32dp"  />
-
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/mainGrid"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="72dp"
-        android:layout_weight="8"
-        app:columnCount="2"
-        app:rowCount="2">
-
-        <!-- ROW 1  -->
-        <!-- COLUMN 1  -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/playersCount1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-
+        android:layout_weight="4"
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/answerText1"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="16dp">
+                    <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
+                        android:layout_width="62sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/horizontal_margin">
+                        <TextView
+                            android:id="@+id/player1_circle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="1"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/indicator_1"
+                            android:background="@drawable/circle"
+                            android:gravity="center_vertical" />
+                    </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/player1_editname"
+                        android:layout_marginLeft="@dimen/horizontal_margin"
+                        android:textSize="24sp"
+                        android:hint="Player1 Name"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"/>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+                    <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
+                        android:layout_width="62sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/horizontal_margin">
+                        <TextView
+                            android:id="@+id/player2_circle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="2"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/indicator_2"
+                            android:background="@drawable/circle"
+                            android:gravity="center_vertical" />
+                    </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/player2_editname"
+                        android:hint="Player2 Name"
+                        android:layout_marginLeft="@dimen/horizontal_margin"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+                    <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
+                        android:layout_width="62sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/horizontal_margin">
+                        <TextView
+                            android:id="@+id/player3_circle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="3"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:backgroundTint="@color/indicator_3"
+                            android:background="@drawable/circle"
+                            android:gravity="center_vertical" />
+                    </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/player3_editname"
+                        android:hint="Player3 Name"
+                        android:layout_marginLeft="@dimen/horizontal_margin"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+                    <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
+                        android:layout_width="62sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/horizontal_margin">
+                        <TextView
+                            android:id="@+id/player4_circle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="4"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:backgroundTint="@color/indicator_4"
+                            android:textColor="@color/white"
+                            android:background="@drawable/circle"
+                            android:gravity="center_vertical" />
+                    </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/player4_editname"
+                        android:hint="Player4 Name"
+                        android:layout_marginLeft="@dimen/horizontal_margin"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"/>
+                </LinearLayout>
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-
-        <!-- COLUMN 2  -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/playersCount2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/answerText2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        </ScrollView>
 
 
-        <!-- ROW 2  -->
-        <!-- COLUMN 1  -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/playersCount3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/answerText3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- COLUMN 2  -->
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/playersCount4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/answerText4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.gridlayout.widget.GridLayout>
-
+    </LinearLayout>
 
 </LinearLayout>

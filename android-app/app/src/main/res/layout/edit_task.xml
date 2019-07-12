@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:background="@color/cardview_light_background"
+
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -61,7 +61,7 @@
                     android:inputType="textMultiLine|textNoSuggestions"
                     android:lines="10" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/uploadExecutionScript"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                     android:inputType="textMultiLine|textNoSuggestions"
                     android:lines="10" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/uploadShutDownScript"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                     android:layout_weight="3"
                     android:orientation="vertical">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/pickPhoto"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
                         android:background="@drawable/button_rounded_grey"
                         android:text="@string/update_task_logo" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/deletePhoto"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -185,7 +185,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:id="@+id/btn_save_task"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -196,7 +197,8 @@
                     android:text="@string/save_new_task"
                     android:textColor="@android:color/white" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:id="@+id/btn_cancel_edit_task"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

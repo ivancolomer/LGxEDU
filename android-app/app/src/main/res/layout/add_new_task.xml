@@ -162,7 +162,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:id="@+id/btn_add_task"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -173,7 +174,8 @@
                     android:text="@string/save_new_task"
                     android:textColor="@android:color/white" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:id="@+id/btn_cancel_add_task"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

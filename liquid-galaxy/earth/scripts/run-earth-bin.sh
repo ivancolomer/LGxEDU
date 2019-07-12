@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+me=$$
+ps -ef | grep 'run-earth' | awk -v me=$me '$2 != me {print $2}' | xargs kill
+
 . ${HOME}/etc/shell.conf
 
 logger -p local3.info -i "$0: running at $(date +%s)"

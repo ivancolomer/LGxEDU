@@ -531,6 +531,7 @@ public class SearchFragment extends Fragment {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
+                return "";
             }
             return null;
         }

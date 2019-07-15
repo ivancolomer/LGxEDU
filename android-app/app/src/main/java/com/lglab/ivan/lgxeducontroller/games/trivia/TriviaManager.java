@@ -20,10 +20,11 @@ public class TriviaManager extends GameManager {
     }
 
     @Override
-    public void setPlayers(int playersCount) {
-        players = new Player[playersCount];
-        for(int i = 0; i < playersCount; i++) {
+    public void setPlayers(String[] names) {
+        players = new Player[names.length];
+        for(int i = 0; i < names.length; i++) {
             players[i] = new Player(getGame());
+            players[i].setName(names[i]);
         }
     }
 

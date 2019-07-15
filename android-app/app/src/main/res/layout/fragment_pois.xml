@@ -45,24 +45,28 @@
 
             <ImageView
                 android:id="@+id/back_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="fitCenter"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
                 android:contentDescription="@string/back"
                 android:focusable="false"
-                android:src="@drawable/ic_reply_black_24dp" />
+                android:src="@drawable/ic_reply_black_24dp"
+                android:backgroundTint="@color/whiteGrey"/>
 
             <ImageView
                 android:id="@+id/back_start_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="fitCenter"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_toEndOf="@+id/back_icon"
                 android:contentDescription="@string/back_start"
                 android:focusable="false"
-                android:src="@drawable/ic_home_black_24dp" />
+                android:src="@drawable/ic_home_black_24dp"
+                android:backgroundTint="@color/whiteGrey"/>
 
             <TextView
                 android:id="@+id/see_all_or_by_category"
@@ -126,7 +130,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_add_white_24dp"
+                android:src="@drawable/ic_add_black_24dp"
+                android:backgroundTint="@color/whiteGrey"
                 android:text="@string/new_poi"
                 android:visibility="gone" />
 
@@ -135,7 +140,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_add_white_24dp"
+                android:src="@drawable/ic_add_black_24dp"
+                android:backgroundTint="@color/whiteGrey"
                 android:text="@string/new_category"
                 android:visibility="gone" />
 
@@ -144,7 +150,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_add_white_24dp"
+                android:src="@drawable/ic_add_black_24dp"
+                android:backgroundTint="@color/whiteGrey"
                 android:text="@string/new_tour"
                 android:visibility="gone" />
 
@@ -153,7 +160,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/new_poi"
-                android:src="@drawable/ic_add_box_white_24dp"
+                android:src="@drawable/ic_add_box_black_24dp"
+                android:backgroundTint="@color/whiteGrey"
                 android:text="@string/new_poi_here"
                 android:visibility="gone" />
 
@@ -162,7 +170,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/new_category"
-                android:src="@drawable/ic_add_box_white_24dp"
+                android:src="@drawable/ic_add_box_black_24dp"
+                android:backgroundTint="@color/whiteGrey"
                 android:text="@string/new_category_here"
                 android:visibility="gone" />
 
@@ -171,7 +180,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/new_tour"
-                android:src="@drawable/ic_add_box_white_24dp"
+                android:src="@drawable/ic_add_box_black_24dp"
+                android:backgroundTint="@color/whiteGrey"
                 android:text="@string/new_tour_here"
                 android:visibility="gone" />
 
@@ -181,7 +191,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="start"
-                android:src="@drawable/ic_stop_white_24dp"
+                android:src="@drawable/ic_stop_black_24dp"
+                android:backgroundTint="@color/whiteGrey"
                 android:text="@string/stop_tour"
                 android:visibility="gone"
                 app:backgroundTint="@color/red" />

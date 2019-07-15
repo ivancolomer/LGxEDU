@@ -67,7 +67,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/cancel_come_back"
-        android:src="@drawable/ic_check_white_24dp"
+        android:src="@drawable/ic_check_black_24dp"
+        android:backgroundTint="@color/whiteGrey"
         android:text="@string/create_category"
         app:backgroundTint="@color/green" />
 
@@ -77,7 +78,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/cancel_come_back"
-        android:src="@drawable/ic_check_white_24dp"
+        android:src="@drawable/ic_check_black_24dp"
+        android:backgroundTint="@color/whiteGrey"
         android:text="@string/update_category"
         android:visibility="gone"
         app:backgroundTint="@color/green" />
@@ -88,7 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_close_white_24dp"
+        android:src="@drawable/ic_close_black_24dp"
+        android:backgroundTint="@color/whiteGrey"
         android:text="@string/cancel"
         app:backgroundTint="@color/red" />
 

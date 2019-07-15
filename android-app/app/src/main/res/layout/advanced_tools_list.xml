@@ -28,7 +28,8 @@
         android:layout_marginRight="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:backgroundTint="@color/whiteGrey"
         android:tintMode="@color/green"
         app:backgroundTint="@color/green"
         app:elevation="6dp"
@@ -38,11 +39,13 @@
 
     <ImageButton
         android:id="@+id/documentListHelp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="5dp"
         android:background="@null"
-        android:src="@drawable/ic_help_black_48dp" />
+        android:backgroundTint="@color/whiteGrey"
+        android:src="@drawable/ic_help_black_24dp" />
 
 </RelativeLayout>

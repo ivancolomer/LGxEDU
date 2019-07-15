@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private void showLogo() {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_launcher);
+        //getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 

@@ -32,25 +32,29 @@
 
                 <ImageView
                     android:id="@+id/back_start_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="start"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="10dp"
                     android:contentDescription="@string/back_start"
                     android:focusable="false"
-                    android:src="@drawable/ic_home_black_36dp" />
+                    android:src="@drawable/ic_home_black_24dp"
+                    android:backgroundTint="@color/whiteGrey"/>
 
                 <ImageView
                     android:id="@+id/back_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="end"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="10dp"
                     android:contentDescription="@string/back"
                     android:focusable="false"
-                    android:src="@drawable/ic_reply_black_36dp" />
+                    android:src="@drawable/ic_reply_black_24dp"
+                    android:backgroundTint="@color/whiteGrey"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/show_all"

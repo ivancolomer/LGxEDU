@@ -127,7 +127,7 @@
         <receiver android:name="org.uribeacon.scan.compat.ScanWakefulBroadcastReceiver" />
 
         <activity
-            android:name=".games.ChoosePlayersActivity"
+            android:name=".games.multiplayer.ChoosePlayersActivity"
             android:screenOrientation="sensorLandscape" />
 
         <activity

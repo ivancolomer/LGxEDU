@@ -149,7 +149,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:gravity="bottom"
-            android:src="@drawable/ic_close_white_24dp"
+            android:src="@drawable/ic_close_black_24dp"
+            android:backgroundTint="@color/whiteGrey"
             android:text="@string/cancel"
             app:backgroundTint="@color/red" />
 
@@ -160,8 +161,9 @@
             android:layout_alignParentEnd="false"
             android:layout_alignParentStart="false"
             android:layout_toEndOf="@+id/cancel_come_back"
+            android:backgroundTint="@color/whiteGrey"
             android:gravity="bottom"
-            android:src="@drawable/ic_check_white_24dp"
+            android:src="@drawable/ic_check_black_24dp"
             android:text="@string/create_tour"
             app:backgroundTint="@color/green" />
 
@@ -171,7 +173,8 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/cancel_come_back"
             android:gravity="bottom"
-            android:src="@drawable/ic_check_white_24dp"
+            android:src="@drawable/ic_check_black_24dp"
+            android:backgroundTint="@color/whiteGrey"
             android:text="@string/update_tour"
             android:visibility="gone"
             app:backgroundTint="@color/green" />

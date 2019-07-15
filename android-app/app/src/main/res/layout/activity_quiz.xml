@@ -51,7 +51,8 @@
             android:layout_gravity="end|top"
             android:layout_margin="32dp"
             android:layout_weight="0"
-            android:src="@drawable/baseline_exit_to_app_white_48"
+            android:backgroundTint="@color/whiteGrey"
+            android:src="@drawable/ic_exit_to_app_black_24dp"
             android:visibility="invisible" />
     </LinearLayout>
 </RelativeLayout>

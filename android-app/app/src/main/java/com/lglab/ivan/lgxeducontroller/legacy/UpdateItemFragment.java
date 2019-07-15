@@ -105,7 +105,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         float smallestWidth = Math.min(widthDp, heightDp);
 
         if (smallestWidth >= 1000) {
-            delete.setImageResource(R.drawable.ic_remove_circle_black_36dp);
+            delete.setImageResource(R.drawable.ic_remove_circle_outline_black_24dp);
         }
     }
 

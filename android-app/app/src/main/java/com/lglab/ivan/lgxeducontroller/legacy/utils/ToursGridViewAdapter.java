@@ -72,6 +72,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
 
         Drawable left = ResourcesCompat.getDrawable(context.getResources(), R.drawable.politour48, null);
         button.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+        //left.setTint(Color.WHITE);
 
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
         button.setMaxLines(1);

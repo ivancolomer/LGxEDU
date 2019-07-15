@@ -3,6 +3,7 @@ package com.lglab.ivan.lgxeducontroller.legacy.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,10 +71,15 @@ public class PoisGridViewAdapter extends BaseAdapter {
         layout.setLayoutParams(params);
 
         //Rotation Button
-        RelativeLayout.LayoutParams paramsRotate = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
         final ImageButton rotatePoiButton = new ImageButton(context);
+
+        ViewGroup.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+
+        rotatePoiButton.setLayoutParams(layoutParams);
+        rotatePoiButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
         rotatePoiButton.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_rounded_grey, null));
-        paramsRotate.addRule(RelativeLayout.ALIGN_PARENT_END);
 
         rotatePoiButton.setOnClickListener(view13 -> {
             VisitPoiTask visitPoiTask = new VisitPoiTask(currentPoi, true);
@@ -80,8 +87,14 @@ public class PoisGridViewAdapter extends BaseAdapter {
         });
 
         rotatePoiButton.setEnabled(false);
-        rotatePoiButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_white_36dp, null));
+        rotatePoiButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_black_24dp, null));
 
+        RelativeLayout.LayoutParams paramsRotate = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        paramsRotate.width = Math.round(48 * context.getResources().getDisplayMetrics().density);
+        paramsRotate.height = Math.round(48 * context.getResources().getDisplayMetrics().density);
+        paramsRotate.addRule(RelativeLayout.ALIGN_PARENT_END);
+        rotatePoiButton.setLayoutParams(layoutParams);
+        rotatePoiButton.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.black)));
 
         //View POI
         RelativeLayout.LayoutParams paramsView = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -100,11 +113,12 @@ public class PoisGridViewAdapter extends BaseAdapter {
             handler.postDelayed(() -> {
                 try {
                     rotatePoiButton.setEnabled(true);
-                    rotatePoiButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_black_36dp, null));
+                    rotatePoiButton.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.whiteGrey)));
+                    rotatePoiButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_black_24dp, null));
                 } catch (Exception e) {
 
                 }
-            }, 10000);
+            }, 5000);
         });
 
         layout.addView(viewPoiButton);
@@ -142,7 +156,8 @@ public class PoisGridViewAdapter extends BaseAdapter {
             handler.postDelayed(() -> {
                 try {
                     rotatePoiButton.setEnabled(true);
-                    rotatePoiButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_black_36dp, null));
+                    rotatePoiButton.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.whiteGrey)));
+                    rotatePoiButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_black_24dp, null));
                 } catch (Exception e) {
 
                 }
@@ -165,7 +180,8 @@ public class PoisGridViewAdapter extends BaseAdapter {
             ImageButton rotateButton = (ImageButton) poiItem.getChildAt(2);
             if (rotateButton.isEnabled()) {
                 rotateButton.setEnabled(false);
-                rotateButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_white_36dp, null));
+                rotateButton.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.black)));
+                rotateButton.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_autorenew_black_24dp, null));
             }
         }
     }
@@ -241,8 +257,8 @@ public class PoisGridViewAdapter extends BaseAdapter {
 
 
                     dialog.show();
-                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_forward_black_36dp, 0, 0);
-                    dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_rewind_black_36dp, 0, 0);
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_forward_black_24dp, 0, 0);
+                    dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_rewind_black_24dp, 0, 0);
                     dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(view -> {
                         changeVelocity = true;
                         rotationFactor = rotationFactor * 2;
@@ -250,7 +266,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
                         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(context.getResources().getString(R.string.speedx4));
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setText(context.getResources().getString(R.string.speeddiv2));
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
-                        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_rewind_black_36dp, 0, 0);
+                        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_rewind_black_24dp, 0, 0);
 
                         if (rotationFactor == 4) {
                             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
@@ -264,7 +280,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
                         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(context.getResources().getString(R.string.speedx2));
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setText(context.getResources().getString(R.string.speeddiv4));
                         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
-                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_forward_black_36dp, 0, 0);
+                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_forward_black_24dp, 0, 0);
 
                         if (rotationFactor == 1) {
                             dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);

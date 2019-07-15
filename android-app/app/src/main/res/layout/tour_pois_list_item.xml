@@ -26,8 +26,9 @@
 
     <ImageView
         android:id="@+id/move_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitCenter"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
@@ -36,8 +37,9 @@
 
     <ImageView
         android:id="@+id/move_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitCenter"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
@@ -46,8 +48,9 @@
 
     <ImageView
         android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitCenter"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:focusable="false"

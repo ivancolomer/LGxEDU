@@ -103,10 +103,11 @@
 
                 <ImageButton
                     android:id="@+id/addQuestionPOIButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_add_location_black_36dp"
+                    android:src="@drawable/ic_add_location_black_24dp"
+                    android:scaleType="fitCenter"
                     android:tint="@color/green" />
             </LinearLayout>
         </LinearLayout>
@@ -154,11 +155,12 @@
 
                 <ImageButton
                     android:id="@+id/addAnswer1POIButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_add_location_black_36dp"
+                    android:src="@drawable/ic_add_location_black_24dp"
                     android:tint="@color/green" />
 
             </LinearLayout>
@@ -200,11 +202,12 @@
 
                 <ImageButton
                     android:id="@+id/addAnswer2POIButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_add_location_black_36dp"
+                    android:src="@drawable/ic_add_location_black_24dp"
                     android:tint="@color/green" />
 
             </LinearLayout>
@@ -245,11 +248,12 @@
 
                 <ImageButton
                     android:id="@+id/addAnswer3POIButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_add_location_black_36dp"
+                    android:src="@drawable/ic_add_location_black_24dp"
                     android:tint="@color/green" />
 
             </LinearLayout>
@@ -290,11 +294,12 @@
 
                 <ImageButton
                     android:id="@+id/addAnswer4POIButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_add_location_black_36dp"
+                    android:src="@drawable/ic_add_location_black_24dp"
                     android:tint="@color/green" />
 
             </LinearLayout>

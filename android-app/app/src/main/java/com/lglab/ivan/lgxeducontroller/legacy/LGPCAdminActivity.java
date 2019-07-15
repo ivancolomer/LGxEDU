@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities.main.MainActivity;
 import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsDbHelper;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;

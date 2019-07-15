@@ -66,8 +66,8 @@ public class TourPOIsAdapter extends BaseAdapter {
             ImageView down = (ImageView) view.findViewById(R.id.move_down);
             ImageView up = (ImageView) view.findViewById(R.id.move_up);
 
-            down.setImageResource(R.drawable.ic_keyboard_arrow_down_black_36dp);
-            up.setImageResource(R.drawable.ic_keyboard_arrow_up_black_36dp);
+            down.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            up.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
             poi.setTextSize(24);
         } else if (smallestWidth > 720 && smallestWidth < 1000) {
             poi.setTextSize(22);

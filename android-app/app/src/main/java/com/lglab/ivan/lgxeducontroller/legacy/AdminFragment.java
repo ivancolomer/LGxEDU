@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities.main.MainActivity;
 
 
 public class AdminFragment extends Fragment {
@@ -32,119 +33,89 @@ public class AdminFragment extends Fragment {
     }
 
     private void managementOfPoisToursAndCategories(final ViewHolder viewHolder) {
-        viewHolder.poisManagement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.management_button_container, new POISFragment(), "ADMIN/POIS").commit();
-                if (viewHolder.createPOI.getVisibility() == View.GONE) {
-                    viewHolder.createTour.setVisibility(View.GONE);
-                    viewHolder.createCategory.setVisibility(View.GONE);
-                    viewHolder.createPOI.setVisibility(View.VISIBLE);
-                    viewHolder.createTourhere.setVisibility(View.GONE);
-                    viewHolder.createCategoryhere.setVisibility(View.GONE);
-                    viewHolder.createPOIhere.setVisibility(View.GONE);
-                }
+        viewHolder.poisManagement.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.management_button_container, new POISFragment(), "ADMIN/POIS").commit();
+            if (viewHolder.createPOI.getVisibility() == View.GONE) {
+                viewHolder.createTour.setVisibility(View.GONE);
+                viewHolder.createCategory.setVisibility(View.GONE);
+                viewHolder.createPOI.setVisibility(View.VISIBLE);
+                viewHolder.createTourhere.setVisibility(View.GONE);
+                viewHolder.createCategoryhere.setVisibility(View.GONE);
+                viewHolder.createPOIhere.setVisibility(View.GONE);
             }
         });
 
-        viewHolder.toursManagement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.management_button_container, new POISFragment(), "ADMIN/TOURS").commit();
-                if (viewHolder.createTour.getVisibility() == View.GONE) {
-                    viewHolder.createPOI.setVisibility(View.GONE);
-                    viewHolder.createCategory.setVisibility(View.GONE);
-                    viewHolder.createTour.setVisibility(View.VISIBLE);
-                    viewHolder.createPOIhere.setVisibility(View.GONE);
-                    viewHolder.createCategoryhere.setVisibility(View.GONE);
-                    viewHolder.createTourhere.setVisibility(View.GONE);
-                }
+        viewHolder.toursManagement.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.management_button_container, new POISFragment(), "ADMIN/TOURS").commit();
+            if (viewHolder.createTour.getVisibility() == View.GONE) {
+                viewHolder.createPOI.setVisibility(View.GONE);
+                viewHolder.createCategory.setVisibility(View.GONE);
+                viewHolder.createTour.setVisibility(View.VISIBLE);
+                viewHolder.createPOIhere.setVisibility(View.GONE);
+                viewHolder.createCategoryhere.setVisibility(View.GONE);
+                viewHolder.createTourhere.setVisibility(View.GONE);
             }
         });
 
-        viewHolder.categoriesManagement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.management_button_container, new POISFragment(), "ADMIN/CATEGORIES").commit();
-                if (viewHolder.createCategory.getVisibility() == View.GONE) {
-                    viewHolder.createPOI.setVisibility(View.GONE);
-                    viewHolder.createTour.setVisibility(View.GONE);
-                    viewHolder.createCategory.setVisibility(View.VISIBLE);
-                    viewHolder.createPOIhere.setVisibility(View.GONE);
-                    viewHolder.createTourhere.setVisibility(View.GONE);
-                    viewHolder.createCategoryhere.setVisibility(View.GONE);
-                }
+        viewHolder.categoriesManagement.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.management_button_container, new POISFragment(), "ADMIN/CATEGORIES").commit();
+            if (viewHolder.createCategory.getVisibility() == View.GONE) {
+                viewHolder.createPOI.setVisibility(View.GONE);
+                viewHolder.createTour.setVisibility(View.GONE);
+                viewHolder.createCategory.setVisibility(View.VISIBLE);
+                viewHolder.createPOIhere.setVisibility(View.GONE);
+                viewHolder.createTourhere.setVisibility(View.GONE);
+                viewHolder.createCategoryhere.setVisibility(View.GONE);
             }
         });
     }
 
     private void setLogOutButtonBehaviour(ViewHolder viewHolder) {
-        viewHolder.logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent main = new Intent(getActivity(), MainActivity.class);
-                startActivity(main);
-            }
+        viewHolder.logout.setOnClickListener(v -> {
+            Intent main = new Intent(getActivity(), MainActivity.class);
+            startActivity(main);
         });
     }
 
     private void setNewItemHereButtonBehaviour(ViewHolder viewHolder) {
 
-        viewHolder.createCategoryhere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
-                createPoiIntent.putExtra("CREATION_TYPE", "CATEGORY/HERE");
-                startActivity(createPoiIntent);
-            }
+        viewHolder.createCategoryhere.setOnClickListener(v -> {
+            Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
+            createPoiIntent.putExtra("CREATION_TYPE", "CATEGORY/HERE");
+            startActivity(createPoiIntent);
         });
 
-        viewHolder.createPOIhere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
-                createPoiIntent.putExtra("CREATION_TYPE", "POI/HERE");
-                startActivity(createPoiIntent);
-            }
+        viewHolder.createPOIhere.setOnClickListener(v -> {
+            Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
+            createPoiIntent.putExtra("CREATION_TYPE", "POI/HERE");
+            startActivity(createPoiIntent);
         });
 
-        viewHolder.createTourhere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
-                createPoiIntent.putExtra("CREATION_TYPE", "TOUR/HERE");
-                startActivity(createPoiIntent);
-            }
+        viewHolder.createTourhere.setOnClickListener(v -> {
+            Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
+            createPoiIntent.putExtra("CREATION_TYPE", "TOUR/HERE");
+            startActivity(createPoiIntent);
         });
     }
 
     private void setNewItemButtonBehaviour(ViewHolder viewHolder) {
 
-        viewHolder.createCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createCategoryIntent = new Intent(getActivity(), CreateItemActivity.class);
-                createCategoryIntent.putExtra("CREATION_TYPE", "CATEGORY");
-                startActivity(createCategoryIntent);
-            }
+        viewHolder.createCategory.setOnClickListener(v -> {
+            Intent createCategoryIntent = new Intent(getActivity(), CreateItemActivity.class);
+            createCategoryIntent.putExtra("CREATION_TYPE", "CATEGORY");
+            startActivity(createCategoryIntent);
         });
 
-        viewHolder.createPOI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
-                createPoiIntent.putExtra("CREATION_TYPE", "POI");
-                startActivity(createPoiIntent);
-            }
+        viewHolder.createPOI.setOnClickListener(v -> {
+            Intent createPoiIntent = new Intent(getActivity(), CreateItemActivity.class);
+            createPoiIntent.putExtra("CREATION_TYPE", "POI");
+            startActivity(createPoiIntent);
         });
 
-        viewHolder.createTour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createTourIntent = new Intent(getActivity(), CreateItemActivity.class);
-                createTourIntent.putExtra("CREATION_TYPE", "TOUR");
-                startActivity(createTourIntent);
-            }
+        viewHolder.createTour.setOnClickListener(v -> {
+            Intent createTourIntent = new Intent(getActivity(), CreateItemActivity.class);
+            createTourIntent.putExtra("CREATION_TYPE", "TOUR");
+            startActivity(createTourIntent);
         });
     }
 
@@ -164,16 +135,16 @@ public class AdminFragment extends Fragment {
 
         ViewHolder(View rootView) {
 
-            poisManagement = (Button) rootView.findViewById(R.id.pois_management);
-            toursManagement = (Button) rootView.findViewById(R.id.tours_management);
-            categoriesManagement = (Button) rootView.findViewById(R.id.categories_management);
-            createPOI = (Button) rootView.findViewById(R.id.new_poi);
-            createCategory = (Button) rootView.findViewById(R.id.new_category);
-            createTour = (Button) rootView.findViewById(R.id.new_tour);
-            createPOIhere = (Button) rootView.findViewById(R.id.new_poi_here);
-            createCategoryhere = (Button) rootView.findViewById(R.id.new_category_here);
-            createTourhere = (Button) rootView.findViewById(R.id.new_tour_here);
-            logout = (Button) rootView.findViewById(R.id.admin_logout);
+            poisManagement = rootView.findViewById(R.id.pois_management);
+            toursManagement = rootView.findViewById(R.id.tours_management);
+            categoriesManagement = rootView.findViewById(R.id.categories_management);
+            createPOI = rootView.findViewById(R.id.new_poi);
+            createCategory = rootView.findViewById(R.id.new_category);
+            createTour = rootView.findViewById(R.id.new_tour);
+            createPOIhere = rootView.findViewById(R.id.new_poi_here);
+            createCategoryhere = rootView.findViewById(R.id.new_category_here);
+            createTourhere = rootView.findViewById(R.id.new_tour_here);
+            logout = rootView.findViewById(R.id.admin_logout);
         }
     }
 }

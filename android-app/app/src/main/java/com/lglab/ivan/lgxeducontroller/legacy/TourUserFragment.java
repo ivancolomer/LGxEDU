@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,7 +32,7 @@ public class TourUserFragment extends Fragment {
     private ListView categoriesListView;
     private TextView categorySelectorTitle, currentCategoryText;
     private Button show_all;
-    private ImageView backIcon, backStartIcon;
+    private AppCompatImageView backIcon, backStartIcon;
     private ArrayList<String> backIDs = new ArrayList<String>();
 
     @Nullable

@@ -12,6 +12,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 
@@ -34,6 +36,8 @@ public class SettingsActivity extends PreferenceActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_general);
 

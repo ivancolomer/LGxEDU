@@ -19,7 +19,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -57,7 +57,7 @@ public class EditTaskFragment extends DialogFragment {
     private EditText edit_task_user;
     private EditText edit_task_password;
     private EditText edit_task_browser_URL;
-    private ImageView iconview;
+    private AppCompatImageView iconview;
     private long taskId;
 
 

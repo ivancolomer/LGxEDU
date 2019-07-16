@@ -9,7 +9,7 @@
     android:padding="8dp"
     tools:context=".activities.main.MainActivity">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewLogo"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -53,7 +53,7 @@
 
     </LinearLayout>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageViewPartner"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

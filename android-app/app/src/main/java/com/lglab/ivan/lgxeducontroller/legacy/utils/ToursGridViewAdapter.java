@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -70,14 +71,14 @@ public class ToursGridViewAdapter extends BaseAdapter {
             button.setTextSize(15);
         }
 
-        Drawable left = ResourcesCompat.getDrawable(context.getResources(), R.drawable.politour48, null);
+        Drawable left = AppCompatResources.getDrawable(context, R.drawable.politour48);
         button.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
         //left.setTint(Color.WHITE);
 
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
         button.setMaxLines(1);
 
-        button.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_rounded_grey, null));
+        button.setBackground(AppCompatResources.getDrawable(context, R.drawable.button_rounded_grey));
         button.setLayoutParams(params);
         button.setOnClickListener(view1 -> {
             LaunchTourTask tourTask = new LaunchTourTask(currentTour);

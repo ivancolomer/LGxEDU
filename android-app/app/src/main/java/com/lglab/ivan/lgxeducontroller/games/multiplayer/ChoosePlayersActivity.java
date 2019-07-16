@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.common.collect.Lists;
 import com.lglab.ivan.lgxeducontroller.R;
@@ -38,6 +39,7 @@ public class ChoosePlayersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         setContentView(R.layout.choose_players_activity);
         ActionBar actionBar = getSupportActionBar();

@@ -11,7 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -61,7 +61,7 @@ public class POISFragment extends Fragment {
     private View poisView, dialogView;
     private Dialog dialog;
     private String EDITABLE_TAG, notify, createORupdate = "";
-    private ImageView backIcon, backStartIcon;
+    private AppCompatImageView backIcon, backStartIcon;
     private List<String> backIDs = new ArrayList<String>() {{
         add("0");
     }};

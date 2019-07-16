@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.lglab.ivan.lgxeducontroller.R;
@@ -37,6 +38,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         setContentView(R.layout.activity_navigate);
 

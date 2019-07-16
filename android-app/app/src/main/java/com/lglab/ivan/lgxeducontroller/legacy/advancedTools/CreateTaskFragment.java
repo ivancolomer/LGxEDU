@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -57,7 +57,7 @@ public class CreateTaskFragment extends DialogFragment {
     private EditText new_task_user;
     private EditText new_task_password;
     private EditText new_task_browser_URL;
-    private ImageView iconview;
+    private AppCompatImageView iconview;
 
     public static CreateTaskFragment newInstance() {
         CreateTaskFragment createTask = new CreateTaskFragment();
@@ -166,7 +166,7 @@ public class CreateTaskFragment extends DialogFragment {
         Button saveTask = (Button) rootView.findViewById(R.id.btn_add_task);
         Button btnCancel = (Button) rootView.findViewById(R.id.btn_cancel_add_task);
 
-        iconview = (ImageView) rootView.findViewById(android.R.id.icon);
+        iconview = rootView.findViewById(android.R.id.icon);
         Button pickPhotoBtn = (Button) rootView.findViewById(R.id.pickPhoto);
         pickPhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override

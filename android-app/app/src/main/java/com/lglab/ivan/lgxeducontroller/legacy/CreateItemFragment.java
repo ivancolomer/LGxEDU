@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -113,7 +113,7 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
     public static void deleteButtonTreatment(View view, final TourPOI tourPoi) {
         //when one POI of the Tours POIs List is deleted, we also have to remove it from the lists
         //we use to help its functionalities.
-        final ImageView delete = (ImageView) view.findViewById(R.id.delete);
+        final AppCompatImageView delete = (AppCompatImageView) view.findViewById(R.id.delete);
         screenSizeTreatment(delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override

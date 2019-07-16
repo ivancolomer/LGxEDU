@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -49,7 +49,7 @@ public class AddGameFragment extends DialogFragment {
 
     private EditText gameTitleText;
     private Spinner gameTypeSpinner;
-    private ImageView gameImage;
+    private AppCompatImageView gameImage;
     private Button selectImageButton;
     private AutoCompleteTextView categoryAutoComplete;
     private ArrayAdapter<Category> categoryStringList;

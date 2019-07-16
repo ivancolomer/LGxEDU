@@ -8,8 +8,10 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
@@ -22,11 +24,11 @@ import com.unnamed.b.atv.model.TreeNode;
 public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.IconTreeItem> {
 
     private TextView tvValue;
-    private ImageView arrowView;
-    private ImageView deleteButton;
-    private ImageView addCategoryButton;
-    private ImageView addPOIButton;
-    private ImageView editButton;
+    private AppCompatImageView arrowView;
+    private AppCompatImageView deleteButton;
+    private AppCompatImageView addCategoryButton;
+    private AppCompatImageView addPOIButton;
+    private AppCompatImageView editButton;
 
 
     public TreeItemHolder(Context context) {
@@ -46,13 +48,13 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
             }
         }
 
-        final ImageView iconView = (ImageView) view.findViewById(R.id.imageIcon);
-        iconView.setImageDrawable(context.getResources().getDrawable(value.icon));
+        final AppCompatImageView iconView = (AppCompatImageView) view.findViewById(R.id.imageIcon);
+        iconView.setImageDrawable(AppCompatResources.getDrawable(context, value.icon));
 
-        arrowView = (ImageView) view.findViewById(R.id.arrow_icon);
-        addCategoryButton = (ImageView) view.findViewById(R.id.btn_addCategory);
-        addPOIButton = (ImageView) view.findViewById(R.id.btn_addPOI);
-        editButton = (ImageView) view.findViewById(R.id.btn_edit);
+        arrowView = (AppCompatImageView) view.findViewById(R.id.arrow_icon);
+        addCategoryButton = (AppCompatImageView) view.findViewById(R.id.btn_addCategory);
+        addPOIButton = (AppCompatImageView) view.findViewById(R.id.btn_addPOI);
+        editButton = (AppCompatImageView) view.findViewById(R.id.btn_edit);
 
         if (value.type == 1) {
             //It's a POI
@@ -107,7 +109,7 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
             }
         }
 
-        deleteButton = (ImageView) view.findViewById(R.id.btn_delete);
+        deleteButton = view.findViewById(R.id.btn_delete);
         if (value.isDeletable) {
             deleteButton.setOnClickListener(v -> {
                 MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(context);
@@ -145,7 +147,7 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
 
     @Override
     public void toggle(boolean active) {
-        arrowView.setImageDrawable(context.getResources().getDrawable(active ? R.drawable.ic_keyboard_arrow_down_black_24dp : R.drawable.ic_keyboard_arrow_right_black_24dp));
+        arrowView.setImageDrawable(AppCompatResources.getDrawable(context, active ? R.drawable.ic_keyboard_arrow_down_black_24dp : R.drawable.ic_keyboard_arrow_right_black_24dp));
     }
 
     public static class IconTreeItem {

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
 
                 android:id="@+id/image_view_game"
                 android:layout_width="350dp"

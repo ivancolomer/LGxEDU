@@ -63,12 +63,12 @@
                     android:gravity="end"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/icon_firstBeacon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginTop="6dp"
-                        android:contentDescription="@string/nearby_beacon_favicon_content_description"></ImageView>
+                        android:contentDescription="@string/nearby_beacon_favicon_content_description"></androidx.appcompat.widget.AppCompatImageView>
                 </LinearLayout>
 
             </LinearLayout>
@@ -160,12 +160,12 @@
                     android:gravity="end"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/icon_secondBeacon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginTop="6dp"
-                        android:contentDescription="@string/nearby_beacon_favicon_content_description"></ImageView>
+                        android:contentDescription="@string/nearby_beacon_favicon_content_description"></androidx.appcompat.widget.AppCompatImageView>
                 </LinearLayout>
             </LinearLayout>
 

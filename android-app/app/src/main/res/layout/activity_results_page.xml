@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="6"
-    tools:context=".games.trivia.activities.TriviaResultsActivity">
+    tools:context=".games.trivia.activities.TriviaResultsActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"
@@ -23,7 +24,7 @@
         android:orientation="vertical">
 
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="2dp"
@@ -31,7 +32,7 @@
             android:paddingRight="5dp"
             android:paddingTop="2dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/divider_horizontal_dark" />
+            app:srcCompat="@android:drawable/divider_horizontal_dark" />
 
         <TextView
             android:id="@+id/textViewScore"

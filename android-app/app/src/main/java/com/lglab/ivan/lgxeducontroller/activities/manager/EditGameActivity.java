@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.MenuCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -41,6 +42,7 @@ public class EditGameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         setContentView(R.layout.activity_quiz);
         ActionBar actionBar = getSupportActionBar();

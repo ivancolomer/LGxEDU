@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,13 +47,13 @@ public class SearchFragment extends Fragment {
 
     private EditText editSearch;
     private FloatingActionButton buttonSearch;
-    private ImageView earth, moon, mars;
+    private AppCompatImageView earth, moon, mars;
     private String currentPlanet = "EARTH";
     private FloatingActionButton btnSpeak;
     private ListView categoriesListView;
     private CategoriesAdapter adapter;
     private TextView categorySelectorTitle;
-    private ImageView backIcon, backStartIcon;
+    private AppCompatImageView backIcon, backStartIcon;
     private ArrayList<String> backIDs = new ArrayList<>();
 
     public SearchFragment() {

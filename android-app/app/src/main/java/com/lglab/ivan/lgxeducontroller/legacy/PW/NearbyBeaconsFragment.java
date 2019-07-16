@@ -47,13 +47,14 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.ListFragment;
 
 import com.lglab.ivan.lgxeducontroller.R;
@@ -583,7 +584,7 @@ public class NearbyBeaconsFragment extends ListFragment implements UrlDeviceDisc
         private void addButtonImportAsTour(Button btn, final String url) {
 
             btn.setText(getResources().getString(R.string.importAsTourStr));
-            btn.setBackground(getActivity().getResources().getDrawable(R.drawable.button_rounded_grey));
+            btn.setBackground(AppCompatResources.getDrawable(getActivity(), R.drawable.button_rounded_grey));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -618,7 +619,7 @@ public class NearbyBeaconsFragment extends ListFragment implements UrlDeviceDisc
             setText(view, R.id.title, pwsResult.getTitle());
             setText(view, R.id.url, pwsResult.getSiteUrl());
             setText(view, R.id.description, pwsResult.getDescription());
-            ((ImageView) view.findViewById(R.id.icon)).setImageBitmap(Utils.getBitmapIcon(mPwCollection, pwsResult));
+            (view.findViewById(R.id.icon)).setImageBitmap(Utils.getBitmapIcon(mPwCollection, pwsResult));
 
             Button btnImportAsPOIs = (Button) view.findViewById(R.id.btnImportAsPOIS);
             Button btnImportAsTour = (Button) view.findViewById(R.id.btnImportAsTour);

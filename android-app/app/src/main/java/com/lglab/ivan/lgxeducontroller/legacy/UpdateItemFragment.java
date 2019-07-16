@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -68,7 +68,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     }
 
     public static void deleteButtonTreatment(View view, final TourPOI tourPoi) {
-        final ImageView delete = view.findViewById(R.id.delete);
+        final AppCompatImageView delete = view.findViewById(R.id.delete);
         screenSizeTreatment(delete);
         delete.setOnClickListener(v -> {
 
@@ -88,7 +88,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         });
     }
 
-    private static void screenSizeTreatment(ImageView delete) {
+    private static void screenSizeTreatment(AppCompatImageView delete) {
         DisplayMetrics metrics = new DisplayMetrics();
         FragmentActivity act = (FragmentActivity) rootView.getContext();
         act.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -616,12 +616,9 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     private void setCancelComeBackBehaviour(FloatingActionButton cancel) {
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-                startActivity(intent);
-            }
+        cancel.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -674,7 +671,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     public static class ViewHolderTour {
 
-        public ImageView up;
+        public AppCompatImageView up;
         public FloatingActionButton cancel;
         int NAME = 1;
         int CATEGORY = 2;
@@ -685,7 +682,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         FloatingActionButton createTOUR;
         FloatingActionButton updateTOUR;
         ListView addedPois;
-        ImageView down;
+        AppCompatImageView down;
         EditText global_interval;
         private Switch switchButtonHide;
 
@@ -697,8 +694,8 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
             createTOUR = (FloatingActionButton) rootView.findViewById(R.id.create_tour);
             updateTOUR = (FloatingActionButton) rootView.findViewById(R.id.update_tour);
             addedPois = (ListView) rootView.findViewById(R.id.tour_pois_listview);
-            up = (ImageView) rootView.findViewById(R.id.move_up);
-            down = (ImageView) rootView.findViewById(R.id.move_down);
+            up = (AppCompatImageView) rootView.findViewById(R.id.move_up);
+            down = (AppCompatImageView) rootView.findViewById(R.id.move_down);
             cancel = (FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
             global_interval = (EditText) rootView.findViewById(R.id.pois_interval);
         }

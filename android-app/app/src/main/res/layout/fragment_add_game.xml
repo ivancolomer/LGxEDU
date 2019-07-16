@@ -32,7 +32,7 @@
         android:hint="Write the category of the game"
         android:imeOptions="actionDone" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_create_game"
         android:layout_width="400dp"
         android:layout_gravity="center"

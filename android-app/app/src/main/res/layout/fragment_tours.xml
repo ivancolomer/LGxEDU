@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/whiteGrey"
     android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.lgpc.fragment.SearchFragment">
 
     <LinearLayout
@@ -30,7 +31,7 @@
                 android:orientation="horizontal">
 
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back_start_icon"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
@@ -40,10 +41,10 @@
                     android:layout_marginEnd="10dp"
                     android:contentDescription="@string/back_start"
                     android:focusable="false"
-                    android:src="@drawable/ic_home_black_24dp"
-                    android:backgroundTint="@color/whiteGrey"/>
+                    app:srcCompat="@drawable/ic_home_black_24dp"
+                    app:backgroundTint="@color/whiteGrey"/>
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back_icon"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
@@ -53,8 +54,8 @@
                     android:layout_marginEnd="10dp"
                     android:contentDescription="@string/back"
                     android:focusable="false"
-                    android:src="@drawable/ic_reply_black_24dp"
-                    android:backgroundTint="@color/whiteGrey"/>
+                    app:srcCompat="@drawable/ic_reply_black_24dp"
+                    app:backgroundTint="@color/whiteGrey"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/show_all"

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/poi_complete_name"
@@ -24,7 +25,7 @@
         android:inputType="number"
         android:maxLength="2" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/move_up"
         android:layout_width="36dp"
         android:layout_height="36dp"
@@ -33,9 +34,9 @@
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
         android:focusable="false"
-        android:src="@drawable/ic_keyboard_arrow_up_black_24dp" />
+        app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/move_down"
         android:layout_width="36dp"
         android:layout_height="36dp"
@@ -44,9 +45,9 @@
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
         android:focusable="false"
-        android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+        app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/delete"
         android:layout_width="36dp"
         android:layout_height="36dp"
@@ -54,6 +55,6 @@
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:focusable="false"
-        android:src="@drawable/ic_remove_circle_black_24dp" />
+        app:srcCompat="@drawable/ic_remove_circle_black_24dp" />
 
 </LinearLayout>

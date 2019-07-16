@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -66,7 +66,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.GameVi
 
         private TextView textViewTitle;
         private TextView textViewGenre;
-        private ImageView imageViewMovie;
+        private AppCompatImageView imageViewMovie;
 
         GameViewHolder(View itemView) {
             super(itemView);

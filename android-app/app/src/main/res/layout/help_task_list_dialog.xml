@@ -75,13 +75,14 @@
         android:layout_gravity="start"
         android:layout_marginTop="10dp"
         android:gravity="start"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:src="@drawable/addnewtask" />
+            app:srcCompat="@drawable/addnewtask" />
 
         <LinearLayout
             android:layout_width="wrap_content"

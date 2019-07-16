@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.lglab.ivan.lgxeducontroller.R;
 
@@ -16,6 +17,8 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         setContentView(R.layout.activity_admin);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.admin_container, new AdminFragment()).commit();

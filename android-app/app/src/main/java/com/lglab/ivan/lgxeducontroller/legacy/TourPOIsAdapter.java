@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,8 +63,8 @@ public class TourPOIsAdapter extends BaseAdapter {
         float smallestWidth = Math.min(widthDp, heightDp);
 
         if (smallestWidth >= 1000) {
-            ImageView down = (ImageView) view.findViewById(R.id.move_down);
-            ImageView up = (ImageView) view.findViewById(R.id.move_up);
+            AppCompatImageView down = (AppCompatImageView) view.findViewById(R.id.move_down);
+            AppCompatImageView up = (AppCompatImageView) view.findViewById(R.id.move_up);
 
             down.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             up.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);

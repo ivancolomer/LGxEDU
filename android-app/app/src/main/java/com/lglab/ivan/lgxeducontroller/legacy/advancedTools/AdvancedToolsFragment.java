@@ -15,9 +15,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +56,7 @@ public class AdvancedToolsFragment extends Fragment {
     private static String serverIpPattern = "\\$serverIp";
     private static String serverPortPattern = "\\$serverPort";
 
-    ImageButton documentListHelpBtn;
+    AppCompatImageButton documentListHelpBtn;
     private RecyclerView rv = null;
     private SwipeRefreshLayout refreshLayout;
     private FloatingActionButton fab;
@@ -95,7 +95,7 @@ public class AdvancedToolsFragment extends Fragment {
                     .setTitle(getResources().getString(R.string.taskListHelpTitle))
                     .create();
 
-            Button dialogButton = dialogView.findViewById(R.id.dialogButtonOK);
+            AppCompatButton dialogButton = dialogView.findViewById(R.id.dialogButtonOK);
             dialogButton.setOnClickListener(v1 -> dialog.dismiss());
             dialog.show();
         });
@@ -221,6 +221,11 @@ public class AdvancedToolsFragment extends Fragment {
             }
 
             @Override
+            public void onBindViewHolderImpl(android.support.v7.widget.RecyclerView.ViewHolder viewHolder, ParallaxRecyclerAdapter<LGTask> parallaxRecyclerAdapter, int i) {
+                super.onBindViewHolderImpl(viewHolder, parallaxRecyclerAdapter, i);
+            }
+
+            @Override
             public RecyclerView.ViewHolder onCreateViewHolderImpl(ViewGroup viewGroup, final ParallaxRecyclerAdapter<LGTask> parallaxRecyclerAdapter, int i) {
                 return new LGTaskHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.advanced_tools_list_item_card, viewGroup, false), parallaxRecyclerAdapter.getData());
             }
@@ -256,7 +261,7 @@ public class AdvancedToolsFragment extends Fragment {
     private class LGTaskHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView taskTitle;
         TextView taskDescription;
-        ImageView filePhoto;
+        AppCompatImageView filePhoto;
 
         long id;
         String script;

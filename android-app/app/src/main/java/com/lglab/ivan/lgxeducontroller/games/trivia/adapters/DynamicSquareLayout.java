@@ -24,6 +24,7 @@ public class DynamicSquareLayout extends RelativeLayout {
 // here we are returning the width in place of height, so width = height
 // you may modify further to create any proportion you like ie. height = 2*width etc
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);

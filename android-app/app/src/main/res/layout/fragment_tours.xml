@@ -7,21 +7,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.lgpc.fragment.SearchFragment">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_weight="2"
-        android:orientation="horizontal">
-
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
@@ -95,10 +87,9 @@
                 android:divider="@null"
                 android:scrollbars="vertical" />
         </LinearLayout>
-    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_weight="1"

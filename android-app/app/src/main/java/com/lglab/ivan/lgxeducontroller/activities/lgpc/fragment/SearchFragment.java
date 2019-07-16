@@ -2,6 +2,7 @@ package com.lglab.ivan.lgxeducontroller.activities.lgpc.fragment;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,18 +45,15 @@ import java.util.Locale;
 public class SearchFragment extends Fragment {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
-    View rootView;
-    GridView poisGridView;
+    private View rootView;
+    private GridView poisGridView;
 
     private EditText editSearch;
     private FloatingActionButton buttonSearch;
     private AppCompatImageView earth, moon, mars;
     private String currentPlanet = "EARTH";
-    private FloatingActionButton btnSpeak;
     private ListView categoriesListView;
-    private CategoriesAdapter adapter;
     private TextView categorySelectorTitle;
-    private AppCompatImageView backIcon, backStartIcon;
     private ArrayList<String> backIDs = new ArrayList<>();
 
     public SearchFragment() {
@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_search, container, false);
         editSearch = rootView.findViewById(R.id.search_edittext);
@@ -70,11 +70,11 @@ public class SearchFragment extends Fragment {
         moon = rootView.findViewById(R.id.moon);
         mars = rootView.findViewById(R.id.mars);
 
-        btnSpeak = rootView.findViewById(R.id.btnSpeak);
+        FloatingActionButton btnSpeak = rootView.findViewById(R.id.btnSpeak);
 
         categoriesListView = rootView.findViewById(R.id.categories_listview);
-        backIcon = rootView.findViewById(R.id.back_icon);
-        backStartIcon = rootView.findViewById(R.id.back_start_icon);//comes back to the initial category
+        AppCompatImageView backIcon = rootView.findViewById(R.id.back_icon);
+        AppCompatImageView backStartIcon = rootView.findViewById(R.id.back_start_icon);//comes back to the initial category
         categorySelectorTitle = rootView.findViewById(R.id.current_category);
 
         btnSpeak.setOnClickListener(v -> promptSpeechInput());
@@ -124,7 +124,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void showCategoriesOnScreen(Cursor queryCursor) {
-        adapter = new CategoriesAdapter(getActivity(), queryCursor, 0);
+        CategoriesAdapter adapter = new CategoriesAdapter(getActivity(), queryCursor, 0);
 
         if (queryCursor.getCount() > 0) {
             categoriesListView.setAdapter(adapter);
@@ -180,7 +180,7 @@ public class SearchFragment extends Fragment {
                 if (placeToSearch != null && !placeToSearch.equals("")) {
                     editSearch.setText(placeToSearch);
                     String command = buildSearchCommand(placeToSearch);
-                    SearchTask searchTask = new SearchTask(command, false);
+                    SearchTask searchTask = new SearchTask(command, false, getContext());
                     searchTask.execute();
 
                 } else {
@@ -199,7 +199,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putStringArrayList("backIds", backIDs);
     }
@@ -211,7 +211,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (currentPlanet.equals("EARTH")) {
             Category category = getCategoryByName(currentPlanet);
@@ -279,7 +279,7 @@ public class SearchFragment extends Fragment {
             String command = "echo 'planet=earth' > /tmp/query.txt";
 
             if (!currentPlanet.equals("EARTH")) {
-                SearchTask searchTask = new SearchTask(command, true);
+                SearchTask searchTask = new SearchTask(command, true, getContext());
                 searchTask.execute();
                 currentPlanet = "EARTH";
             }
@@ -306,7 +306,7 @@ public class SearchFragment extends Fragment {
             String command = "echo 'planet=moon' > /tmp/query.txt";
             if (!currentPlanet.equals("MOON")) {
                 //setConnectionWithLiquidGalaxy(command);
-                SearchTask searchTask = new SearchTask(command, true);
+                SearchTask searchTask = new SearchTask(command, true, getContext());
                 searchTask.execute();
                 currentPlanet = "MOON";
                 Category category = getCategoryByName(currentPlanet);
@@ -329,7 +329,7 @@ public class SearchFragment extends Fragment {
         mars.setOnClickListener(v -> {
             String command = "echo 'planet=mars' > /tmp/query.txt";
             if (!currentPlanet.equals("MARS")) {
-                SearchTask searchTask = new SearchTask(command, true);
+                SearchTask searchTask = new SearchTask(command, true, getContext());
                 searchTask.execute();
                 currentPlanet = "MARS";
                 Category category = getCategoryByName(currentPlanet);
@@ -451,10 +451,10 @@ public class SearchFragment extends Fragment {
 
         buttonSearch.setOnClickListener(v -> {
             String placeToSearch = editSearch.getText().toString();
-            if (placeToSearch != null && !placeToSearch.equals("")) {
+            if (!placeToSearch.equals("")) {
 
                 String command = "echo 'search=" + placeToSearch + "' > /tmp/query.txt";
-                SearchTask searchTask = new SearchTask(command, false);
+                SearchTask searchTask = new SearchTask(command, false, getContext());
                 searchTask.execute();
 
             } else {
@@ -475,15 +475,17 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private class SearchTask extends AsyncTask<Void, Void, String> {
+    private static class SearchTask extends AsyncTask<Void, Void, String> {
 
         String command;
         boolean isChangingPlanet;
         private AlertDialog dialog;
+        private Context context;
 
-        public SearchTask(String command, boolean isChangingPlanet) {
+        SearchTask(String command, boolean isChangingPlanet, Context context) {
             this.command = command;
             this.isChangingPlanet = isChangingPlanet;
+            this.context = context;
         }
 
         @Override
@@ -491,15 +493,15 @@ public class SearchFragment extends Fragment {
             super.onPreExecute();
             if (dialog == null) {
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
 
                 if (isChangingPlanet) {
-                    builder.setMessage(getResources().getString(R.string.changingPlanet));
+                    builder.setMessage(context.getResources().getString(R.string.changingPlanet));
                 } else {
-                    builder.setMessage(getResources().getString(R.string.searching));
+                    builder.setMessage(context.getResources().getString(R.string.searching));
                 }
                 builder.setView(R.layout.progress);
-                builder.setNegativeButton(getActivity().getResources().getString(R.string.cancel), (dialog, id) -> dialog.cancel());
+                builder.setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, id) -> dialog.cancel());
 
                 dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(false);
@@ -544,7 +546,7 @@ public class SearchFragment extends Fragment {
                     dialog.dismiss();
                 }
             } else {
-                Toast.makeText(getActivity(), getResources().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getResources().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
             }
         }
     }

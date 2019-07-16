@@ -113,21 +113,18 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
     public static void deleteButtonTreatment(View view, final TourPOI tourPoi) {
         //when one POI of the Tours POIs List is deleted, we also have to remove it from the lists
         //we use to help its functionalities.
-        final AppCompatImageView delete = (AppCompatImageView) view.findViewById(R.id.delete);
+        final AppCompatImageView delete = view.findViewById(R.id.delete);
         screenSizeTreatment(delete);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tourPOIS.remove(tourPoi);
-                FragmentActivity activity = (FragmentActivity) rootView.getContext();
-                TourPOIsAdapter.setType("creating");
-                TourPOIsAdapter adapter = new TourPOIsAdapter(activity, tourPOIS);
-                viewHolderTour.addedPois.setAdapter(adapter);
-            }
+        delete.setOnClickListener(v -> {
+            tourPOIS.remove(tourPoi);
+            FragmentActivity activity = (FragmentActivity) rootView.getContext();
+            TourPOIsAdapter.setType("creating");
+            TourPOIsAdapter adapter = new TourPOIsAdapter(activity, tourPOIS);
+            viewHolderTour.addedPois.setAdapter(adapter);
         });
     }
 
-    private static void screenSizeTreatment(ImageView delete) {
+    private static void screenSizeTreatment(AppCompatImageView delete) {
         DisplayMetrics metrics = new DisplayMetrics();
         FragmentActivity act = (FragmentActivity) rootView.getContext();
         act.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -653,12 +650,10 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long selectedItemId) {
                     Cursor categories = POIsContract.CategoryEntry.getCategoriesByName(fragment.getActivity(), "EARTH");
-                    long earthCategorycategoryId = 0;
                     if (categories != null && categories.moveToFirst()) {
                         //Category Exists, we fetch it
-                        earthCategorycategoryId = POIsContract.CategoryEntry.getIdByShownName(fragment.getActivity(), "EARTH/");
 
-                        if (selectedItemId != 0 && earthCategorycategoryId != selectedItemId) {
+                        if (selectedItemId != 0 && POIsContract.CategoryEntry.getIdByShownName(fragment.getActivity(), "EARTH/") != selectedItemId) {
                             rootView.findViewById(R.id.mapPOILayout).setVisibility(View.GONE);
                         } else {
                             rootView.findViewById(R.id.mapPOILayout).setVisibility(View.VISIBLE);

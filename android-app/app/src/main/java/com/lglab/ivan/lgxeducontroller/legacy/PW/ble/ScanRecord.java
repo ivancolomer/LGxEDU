@@ -261,7 +261,7 @@ public final class ScanRecord {
     }
 
     /**
-     * Returns the transmission power level of the packet in dBm. Returns {@link Integer#MIN_VALUE}
+     * Returns the transmission power level of the packet in dBm. Returns {@link {}Integer#MIN_VALUE}
      * if the field is not set. This value can be used to calculate the path loss of a received
      * packet using the following equation:
      * <p>

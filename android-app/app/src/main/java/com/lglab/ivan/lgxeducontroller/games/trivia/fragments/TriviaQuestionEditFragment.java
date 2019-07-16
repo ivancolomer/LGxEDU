@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
     private View view;
     private TriviaQuestion question;
 
-    private HashMap<Long, POI> poiList;
+    private LongSparseArray<POI> poiList;
     private ArrayAdapter<POI> poiStringList;
     private EditText questionEditText;
     private RadioGroup correctAnswerRadioButton;
@@ -123,7 +124,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
     }
 
     private void getPOIStringsFromDatabase() {
-        poiList = new HashMap<>();
+        poiList = new LongSparseArray<>();
         Cursor poiCursor = POIsProvider.getAllPOIs();
 
         while (poiCursor.moveToNext()) {
@@ -149,9 +150,8 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
 
         }
         poiCursor.close();
-        for (Map.Entry pair : poiList.entrySet()) {
-            POI temp = (POI) pair.getValue();
-            poiStringList.add(temp);
+        for (long id = 0; id < poiList.size(); id++) {
+            poiStringList.add(poiList.get(id));
         }
     }
 

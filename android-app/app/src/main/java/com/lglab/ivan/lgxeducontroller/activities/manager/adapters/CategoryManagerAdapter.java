@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,7 +95,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
     static class CategoryViewHolder extends GroupViewHolder {
 
         private TextView categoryTitle;
-        private ImageButton arrow;
+        private AppCompatImageButton arrow;
 
         CategoryViewHolder(View itemView) {
             super(itemView);
@@ -113,9 +113,9 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
         public Game game;
         private TextView quizName;
-        private ImageButton editButton;
-        private ImageButton deleteButton;
-        private ImageButton shareButton;
+        private AppCompatImageButton editButton;
+        private AppCompatImageButton deleteButton;
+        private AppCompatImageButton shareButton;
 
         GameViewHolder(View itemView) {
             super(itemView);

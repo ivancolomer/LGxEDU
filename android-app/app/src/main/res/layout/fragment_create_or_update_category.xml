@@ -12,7 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/categorynameInputLayout"
@@ -47,7 +48,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fatherSpinnerInputLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_weight="1">
@@ -67,8 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/cancel_come_back"
-        android:src="@drawable/ic_check_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_check_black_24dp"
+        app:tint="@color/whiteGrey"
         android:text="@string/create_category"
         app:backgroundTint="@color/green" />
 
@@ -78,8 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/cancel_come_back"
-        android:src="@drawable/ic_check_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_check_black_24dp"
+        app:tint="@color/whiteGrey"
         android:text="@string/update_category"
         android:visibility="gone"
         app:backgroundTint="@color/green" />
@@ -90,8 +91,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_close_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_close_black_24dp"
+        app:tint="@color/whiteGrey"
         android:text="@string/cancel"
         app:backgroundTint="@color/red" />
 

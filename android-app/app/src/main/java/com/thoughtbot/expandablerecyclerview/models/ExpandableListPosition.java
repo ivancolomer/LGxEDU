@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class ExpandableListPosition {
 
   private static final int MAX_POOL_SIZE = 5;
-  private static ArrayList<ExpandableListPosition> sPool =
+  private final static ArrayList<ExpandableListPosition> sPool =
       new ArrayList<ExpandableListPosition>(MAX_POOL_SIZE);
 
   /**

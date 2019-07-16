@@ -7,7 +7,7 @@ import com.thoughtbot.expandablerecyclerview.listeners.OnGroupClickListener;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 /**
- * ViewHolder for the {@link ExpandableGroup#title} in a {@link ExpandableGroup}
+ * ViewHolder for the {@link ExpandableGroup#{title} in a {@link ExpandableGroup}
  *
  * The current implementation does now allow for sub {@link View} of the parent view to trigger
  * a collapse / expand. *Only* click events on the parent {@link View} will trigger a collapse or

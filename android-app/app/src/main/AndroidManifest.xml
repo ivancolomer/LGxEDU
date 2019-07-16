@@ -77,11 +77,13 @@
         <activity
             android:name="legacy.CreateItemActivity"
             android:label="@string/title_activity_create_item"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".legacy.UpdateItemActivity"
             android:label="@string/title_activity_update_item"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".legacy.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -92,13 +94,16 @@
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".legacy.LGPCAdminActivity"
-            android:label="" />
+            android:label=""
+            android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".legacy.InfoActivity"
-            android:label="@string/title_activity_info" />
+            android:label="@string/title_activity_info"
+            android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".legacy.Help"
-            android:label="@string/title_activity_help" />
+            android:label="@string/title_activity_help"
+            android:screenOrientation="sensorLandscape"/>
 
         <service
             android:name=".legacy.PW.UrlDeviceDiscoveryService"

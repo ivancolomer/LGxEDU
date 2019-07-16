@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="@dimen/list_item_left_margin_2"
+            android:layout_marginStart="@dimen/list_item_left_margin_2"
             android:layout_marginTop="16dp"
             android:layout_gravity="center_vertical"
             android:text="Hello Card"
@@ -27,38 +28,38 @@
             android:layout_gravity="center_vertical|end"
             android:orientation="horizontal">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/list_share_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="32dp"
+                android:layout_marginEnd="32dp"
                 android:padding="16dp"
                 android:background="#0000"
                 android:src="@drawable/baseline_share_black_24"
-                android:tint="@color/blue" />
+                app:tint="@color/blue" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/list_edit_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="32dp"
+                android:layout_marginEnd="32dp"
                 android:padding="16dp"
                 android:background="#0000"
-                android:src="@drawable/ic_edit_black_24dp"
-                android:tint="@color/orange" />
+                app:srcCompat="@drawable/ic_edit_black_24dp"
+                app:tint="@color/orange" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/list_delete_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="@dimen/horizontal_margin"
+                android:layout_marginEnd="@dimen/horizontal_margin"
                 android:padding="16dp"
                 android:background="#0000"
-                android:src="@drawable/ic_delete_black_24dp"
-                android:tint="@color/red" />
+                app:srcCompat="@drawable/ic_delete_black_24dp"
+                app:tint="@color/red" />
         </LinearLayout>
 
 

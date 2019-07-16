@@ -13,7 +13,7 @@ public class StatusUpdater implements Runnable {
         try {
             while (!cancelled) {
                 lgConnectionManager.tick();
-                Thread.sleep(200l); //TICKS every 200ms
+                Thread.sleep(200L); //TICKS every 200ms
             }
         } catch (InterruptedException e) {
 

@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_add_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        app:tint="@color/whiteGrey"
         android:text="@string/add_poi"
         android:visibility="gone"
         app:backgroundTint="@color/green" />
@@ -21,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_mode_edit_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_mode_edit_black_24dp"
+        app:tint="@color/whiteGrey"
         android:text="@string/edit_poi"
         app:backgroundTint="@color/yellow" />
 
@@ -31,8 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_delete_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_delete_black_24dp"
+        app:tint="@color/whiteGrey"
         android:text="@string/delete_poi"
         app:backgroundTint="@color/red" />
 
@@ -41,8 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_close_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_close_black_24dp"
+        app:tint="@color/whiteGrey"
         android:text="@string/cancel"
         app:backgroundTint="@color/material_grey" />
 

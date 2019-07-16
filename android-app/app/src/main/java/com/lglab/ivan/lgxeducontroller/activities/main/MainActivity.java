@@ -26,6 +26,10 @@ import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
 
 public class MainActivity extends GoogleDriveActivity {
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,13 +11,14 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.widget.ImageViewCompat;
 
 import com.google.common.collect.Lists;
 import com.lglab.ivan.lgxeducontroller.R;
@@ -29,10 +30,14 @@ import java.util.List;
 
 public class ChoosePlayersActivity extends AppCompatActivity {
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     private final int MAX_PLAYERS = 4;
 
     private List<String> playernames = new ArrayList<>();
-    private ImageButton[] remove_player_buttons = new ImageButton[MAX_PLAYERS];
+    private AppCompatImageButton[] remove_player_buttons = new AppCompatImageButton[MAX_PLAYERS];
     private EditText[] player_names_text = new EditText[MAX_PLAYERS];
     private DynamicSquareLayout[] player_circles = new DynamicSquareLayout[MAX_PLAYERS];
 
@@ -165,16 +170,8 @@ public class ChoosePlayersActivity extends AppCompatActivity {
             player_names_text[i].setVisibility(playernames.size() > i ? View.VISIBLE : View.GONE);
 
             player_circles[i].setVisibility(playernames.size() >= i ? View.VISIBLE : View.GONE);
-            remove_player_buttons[i].setBackgroundResource(i == playernames.size() ? R.drawable.ic_add_circle_black_24dp : R.drawable.ic_remove_circle_black_24dp);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            {
-                remove_player_buttons[i].setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(i == playernames.size() ? R.color.green : R.color.red)));
-            }
-            else
-            {
-                remove_player_buttons[i].getBackground().getCurrent().setColorFilter(new PorterDuffColorFilter(getResources().getColor(i == playernames.size() ? R.color.green : R.color.red), PorterDuff.Mode.MULTIPLY));
-            }
-
+            remove_player_buttons[i].setImageResource(i == playernames.size() ? R.drawable.ic_add_circle_black_24dp : R.drawable.ic_remove_circle_black_24dp);
+            ImageViewCompat.setImageTintList(remove_player_buttons[i], ColorStateList.valueOf(getResources().getColor(i == playernames.size() ? R.color.green : R.color.red)));
             remove_player_buttons[i].setVisibility(i == playernames.size() || i < playernames.size() && playernames.size() > 1 ? View.VISIBLE : i == 0 ? View.INVISIBLE : View.GONE);
         }
     }

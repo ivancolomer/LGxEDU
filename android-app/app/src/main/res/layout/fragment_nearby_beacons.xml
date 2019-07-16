@@ -14,11 +14,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0"
-            android:divider="@null"></ListView>
+            android:divider="@null" />
 
 
         <TextView
-            android:id="@id/android:empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -43,7 +42,7 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_swap_vert_black_24dp"
                 app:backgroundTint="@color/whiteGrey"
-                android:tint="@color/green" />
+                app:tint="@color/green" />
 
 
         </LinearLayout>

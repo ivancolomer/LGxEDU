@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/icons_tittle"
             android:backgroundTint="@color/whiteGrey"
-            android:src="@drawable/ic_add_black_24dp" />
+            app:srcCompat="@drawable/ic_add_black_24dp" />
 
         <TextView
             android:id="@+id/add"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/whiteGrey"
             android:layout_below="@id/add"
-            android:src="@drawable/ic_add_box_black_24dp" />
+            app:srcCompat="@drawable/ic_add_box_black_24dp" />
 
         <TextView
             android:id="@+id/addBox"
@@ -118,8 +118,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/addBox"
-            android:src="@drawable/ic_mode_edit_black_24dp"
-            android:backgroundTint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_mode_edit_black_24dp"
+            app:tint="@color/whiteGrey"
             app:backgroundTint="@color/yellow" />
 
         <TextView
@@ -134,8 +134,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/edit"
-            android:src="@drawable/ic_delete_black_24dp"
-            android:backgroundTint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_delete_black_24dp"
+            app:tint="@color/whiteGrey"
             app:backgroundTint="@color/red" />
 
         <TextView
@@ -150,8 +150,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/remove"
-            android:backgroundTint="@color/whiteGrey"
-            android:src="@drawable/ic_check_black_24dp"
+            app:tint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_check_black_24dp"
             app:backgroundTint="@color/green" />
 
         <TextView
@@ -166,8 +166,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/confirm"
-            android:backgroundTint="@color/whiteGrey"
-            android:src="@drawable/ic_stop_black_24dp"
+            app:tint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_stop_black_24dp"
             app:backgroundTint="@color/red" />
 
         <TextView
@@ -182,8 +182,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/stop"
-            android:backgroundTint="@color/whiteGrey"
-            android:src="@drawable/ic_close_black_24dp"
+            app:tint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_close_black_24dp"
             app:backgroundTint="@color/material_grey" />
 
         <TextView
@@ -198,8 +198,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cancelButton"
-            android:backgroundTint="@color/whiteGrey"
-            android:src="@drawable/ic_search_black_24dp"
+            app:tint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_search_black_24dp"
             app:backgroundTint="@color/blue" />
 
         <TextView

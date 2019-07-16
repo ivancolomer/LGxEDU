@@ -42,7 +42,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textColor="@color/header_color"
-                        android:textSize="20sp"></TextView>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/url_firstBeacon"
@@ -53,7 +53,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textColor="@color/url_color"
-                        android:textSize="14sp"></TextView>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -68,7 +68,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginTop="6dp"
-                        android:contentDescription="@string/nearby_beacon_favicon_content_description"></androidx.appcompat.widget.AppCompatImageView>
+                        android:contentDescription="@string/nearby_beacon_favicon_content_description" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -87,7 +87,7 @@
                     android:maxLines="1"
                     android:text=""
                     android:textColor="@color/description_color"
-                    android:textSize="14sp"></TextView>
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -101,7 +101,7 @@
             android:paddingTop="36dp"
             android:textColor="@color/description_color"
             android:textSize="14sp"
-            android:visibility="gone"></TextView>
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -139,7 +139,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textColor="@color/header_color"
-                        android:textSize="20sp"></TextView>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/url_secondBeacon"
@@ -150,7 +150,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textColor="@color/url_color"
-                        android:textSize="14sp"></TextView>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -165,7 +165,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginTop="6dp"
-                        android:contentDescription="@string/nearby_beacon_favicon_content_description"></androidx.appcompat.widget.AppCompatImageView>
+                        android:contentDescription="@string/nearby_beacon_favicon_content_description" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -183,7 +183,7 @@
                     android:maxLines="1"
                     android:text=""
                     android:textColor="@color/description_color"
-                    android:textSize="14sp"></TextView>
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -196,7 +196,7 @@
             android:paddingTop="36dp"
             android:textColor="@color/description_color"
             android:textSize="14sp"
-            android:visibility="gone"></TextView>
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -218,7 +218,7 @@
             android:lineSpacingExtra="1.5dp"
             android:text="@string/notification_view_more_beacons"
             android:textColor="@color/description_color"
-            android:textSize="14sp"></TextView>
+            android:textSize="14sp" />
 
     </LinearLayout>
 

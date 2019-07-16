@@ -104,7 +104,7 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
    *
    * @param position The flat position in the list to get the view type of
    * @return {@value ExpandableListPosition#CHILD} or {@value ExpandableListPosition#GROUP}
-   * @throws RuntimeException if the item at the given position in the list is not found
+   * @throws {RuntimeException} if the item at the given position in the list is not found
    */
   @Override
   public int getItemViewType(int position) {
@@ -222,7 +222,7 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
    * Fetches the expandable state map from the saved instance state {@link Bundle}
    * and restores the expanded states of all of the list items.
    * <p>
-   * Should be called from {@link Activity#onRestoreInstanceState(Bundle)}  in
+   * Should be called from {@link Activity#(Bundle)}  in
    * the {@link Activity} that hosts the RecyclerView that this
    * {@link ExpandableRecyclerViewAdapter} is attached to.
    * <p>

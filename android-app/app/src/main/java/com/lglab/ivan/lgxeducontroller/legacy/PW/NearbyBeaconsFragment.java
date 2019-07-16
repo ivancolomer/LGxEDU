@@ -619,7 +619,7 @@ public class NearbyBeaconsFragment extends ListFragment implements UrlDeviceDisc
             setText(view, R.id.title, pwsResult.getTitle());
             setText(view, R.id.url, pwsResult.getSiteUrl());
             setText(view, R.id.description, pwsResult.getDescription());
-            (view.findViewById(R.id.icon)).setImageBitmap(Utils.getBitmapIcon(mPwCollection, pwsResult));
+            ((AppCompatImageView)view.findViewById(R.id.icon)).setImageBitmap(Utils.getBitmapIcon(mPwCollection, pwsResult));
 
             Button btnImportAsPOIs = (Button) view.findViewById(R.id.btnImportAsPOIS);
             Button btnImportAsTour = (Button) view.findViewById(R.id.btnImportAsTour);

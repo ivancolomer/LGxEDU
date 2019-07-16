@@ -38,7 +38,7 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         setContentView(R.layout.activity_navigate);
 
@@ -120,14 +120,14 @@ public class NavigateActivity extends AppCompatActivity implements ILGConnection
 
         List<Pair<String, Boolean>> commands = PointerDetector.getInstance().postAction();
         if (commands.size() > 0) {
-            String command = "export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; xdotool ";
+            StringBuilder command = new StringBuilder("export DISPLAY=:" + (isOnChromeBook ? "1" : "0") + "; xdotool ");
             boolean critical = false;
             for (Pair<String, Boolean> pair : commands) {
-                command += pair.first + " ";
+                command.append(pair.first + " ");
                 critical = critical || pair.second;
             }
 
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, critical ? LGCommand.CRITICAL_MESSAGE : LGCommand.NON_CRITICAL_MESSAGE, null));
+            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command.toString(), critical ? LGCommand.CRITICAL_MESSAGE : LGCommand.NON_CRITICAL_MESSAGE, null));
         }
 
 

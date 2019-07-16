@@ -171,13 +171,13 @@ public class AdvancedToolsFragment extends Fragment {
 
     void showCreateDialog() {
         CreateTaskFragment newFragment = CreateTaskFragment.newInstance();
-        newFragment.setHandler(new DialogFragmentDismissHandler());
+        newFragment.setHandler(new DialogFragmentDismissHandler(this));
         newFragment.show(getFragmentManager(), "createDialog");
     }
 
     void showEditDialog(long taskId) {
         EditTaskFragment newFragment = EditTaskFragment.newInstance(taskId);
-        newFragment.setHandler(new DialogFragmentDismissHandler());
+        newFragment.setHandler(new DialogFragmentDismissHandler(this));
         newFragment.show(getFragmentManager(), "editDialog");
     }
 
@@ -221,11 +221,6 @@ public class AdvancedToolsFragment extends Fragment {
             }
 
             @Override
-            public void onBindViewHolderImpl(android.support.v7.widget.RecyclerView.ViewHolder viewHolder, ParallaxRecyclerAdapter<LGTask> parallaxRecyclerAdapter, int i) {
-                super.onBindViewHolderImpl(viewHolder, parallaxRecyclerAdapter, i);
-            }
-
-            @Override
             public RecyclerView.ViewHolder onCreateViewHolderImpl(ViewGroup viewGroup, final ParallaxRecyclerAdapter<LGTask> parallaxRecyclerAdapter, int i) {
                 return new LGTaskHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.advanced_tools_list_item_card, viewGroup, false), parallaxRecyclerAdapter.getData());
             }
@@ -249,12 +244,16 @@ public class AdvancedToolsFragment extends Fragment {
         });
     }
 
-    //This private class handles when the dialog dismiss and refresh the ui with the changes
-    private class DialogFragmentDismissHandler extends Handler {
+    private static class DialogFragmentDismissHandler extends Handler {
+        AdvancedToolsFragment fragment;
+        public DialogFragmentDismissHandler(AdvancedToolsFragment fragment) {
+            this.fragment = fragment;
+        }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            populateUI();
+            fragment.populateUI();
         }
     }
 

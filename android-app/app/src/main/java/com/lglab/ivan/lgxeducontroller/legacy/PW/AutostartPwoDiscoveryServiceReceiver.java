@@ -25,8 +25,16 @@ import android.content.Intent;
  */
 public class AutostartPwoDiscoveryServiceReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
-
-        Intent newIntent = new Intent(context, ScreenListenerService.class);
-        context.startService(newIntent);
+        if(intent != null && intent.getAction() != null) {
+            switch (intent.getAction()) {
+                case Intent.ACTION_DATE_CHANGED:
+                    //what you want to do
+                    break;
+                case Intent.ACTION_BOOT_COMPLETED:
+                    Intent newIntent = new Intent(context, ScreenListenerService.class);
+                    context.startService(newIntent);
+                    break;
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.legacy;
+package com.lglab.ivan.lgxeducontroller;
 
 import org.junit.Test;
 

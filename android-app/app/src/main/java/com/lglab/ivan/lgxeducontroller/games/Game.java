@@ -142,7 +142,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
     }
 
     public String getNameForExporting() {
-        return name.replaceAll("[:\\/*\"?|<> ]", "_") + ".json";
+        return name.replaceAll("[:/*\"?|<> ]", "_") + ".json";
     }
 
     public abstract Question createQuestion();
@@ -186,7 +186,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
             }
         }
 
-        return imageName != "" ? BitmapFactory.decodeFile(new File(context.getFilesDir().toString() + "/saved_images", imageName).getAbsolutePath()) : null;
+        return !imageName.equals("") ? BitmapFactory.decodeFile(new File(context.getFilesDir().toString() + "/saved_images", imageName).getAbsolutePath()) : null;
     }
 
     public void setImage(File file) {

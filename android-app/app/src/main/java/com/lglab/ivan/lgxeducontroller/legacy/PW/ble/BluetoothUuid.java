@@ -237,7 +237,7 @@ public final class BluetoothUuid {
      *
      * @param uuidBytes Byte representation of uuid.
      * @return {@link ParcelUuid} parsed from bytes.
-     * @throws IllegalArgumentException If the {@code uuidBytes} cannot be parsed.
+     * @throws {IllegalArgumentException} If the {@code uuidBytes} cannot be parsed.
      */
     public static ParcelUuid parseUuidFrom(byte[] uuidBytes) {
         if (uuidBytes == null) {

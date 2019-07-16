@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameInputLayout"
@@ -85,7 +86,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="?android:attr/dividerHorizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/altitudeInputLayout"
@@ -158,7 +160,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="?android:attr/dividerHorizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/spinnerAltitudeInputLayout"
@@ -217,7 +220,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="4">
+        android:layout_weight="4"
+        android:baselineAligned="false">
 
         <!-- Map -->
         <fragment
@@ -240,8 +244,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@id/cancel_come_back"
-            android:src="@drawable/ic_check_black_24dp"
-            android:backgroundTint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_check_black_24dp"
+            app:tint="@color/whiteGrey"
             android:text="@string/create_poi"
             app:backgroundTint="@color/green" />
 
@@ -251,8 +255,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@id/cancel_come_back"
-            android:src="@drawable/ic_check_black_24dp"
-            android:backgroundTint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_check_black_24dp"
+            app:tint="@color/whiteGrey"
             android:text="@string/update_poi"
             android:visibility="gone"
             app:backgroundTint="@color/green" />
@@ -263,8 +267,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_close_black_24dp"
-            android:backgroundTint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_close_black_24dp"
+            app:tint="@color/whiteGrey"
             android:text="@string/cancel"
             app:backgroundTint="@color/red" />
     </RelativeLayout>

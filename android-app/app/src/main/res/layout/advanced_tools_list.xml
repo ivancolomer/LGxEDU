@@ -25,19 +25,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_add_black_24dp"
-        android:backgroundTint="@color/whiteGrey"
-        android:tintMode="@color/green"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        app:tint="@color/whiteGrey"
         app:backgroundTint="@color/green"
         app:elevation="6dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp"
         app:rippleColor="@color/grey" />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/documentListHelp"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -45,7 +44,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="5dp"
         android:background="@null"
-        android:backgroundTint="@color/whiteGrey"
-        android:src="@drawable/ic_help_black_24dp" />
+        app:backgroundTint="@color/whiteGrey"
+        app:srcCompat="@drawable/ic_help_black_24dp" />
 
 </RelativeLayout>

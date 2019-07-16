@@ -22,7 +22,8 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:baselineAligned="false">
 
             <TextView
                 android:id="@+id/categories_textview"
@@ -65,8 +66,8 @@
                 android:layout_toEndOf="@+id/back_icon"
                 android:contentDescription="@string/back_start"
                 android:focusable="false"
-                android:src="@drawable/ic_home_black_24dp"
-                android:backgroundTint="@color/whiteGrey"/>
+                app:srcCompat="@drawable/ic_home_black_24dp"
+                app:tint="@color/whiteGrey"/>
 
             <TextView
                 android:id="@+id/see_all_or_by_category"
@@ -113,89 +114,83 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/addition_buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:visibility="gone">
 
-        <RelativeLayout
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_poi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            app:backgroundTint="@color/whiteGrey"
+            android:text="@string/new_poi"
+            android:visibility="gone" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/new_poi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_add_black_24dp"
-                app:backgroundTint="@color/whiteGrey"
-                android:text="@string/new_poi"
-                android:visibility="gone" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            app:backgroundTint="@color/whiteGrey"
+            android:text="@string/new_category"
+            android:visibility="gone" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/new_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_add_black_24dp"
-                app:backgroundTint="@color/whiteGrey"
-                android:text="@string/new_category"
-                android:visibility="gone" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_tour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            app:backgroundTint="@color/whiteGrey"
+            android:text="@string/new_tour"
+            android:visibility="gone" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/new_tour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_add_black_24dp"
-                app:backgroundTint="@color/whiteGrey"
-                android:text="@string/new_tour"
-                android:visibility="gone" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_poi_here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/new_poi"
+            app:srcCompat="@drawable/ic_add_box_black_24dp"
+            app:backgroundTint="@color/whiteGrey"
+            android:text="@string/new_poi_here"
+            android:visibility="gone" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/new_poi_here"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/new_poi"
-                app:srcCompat="@drawable/ic_add_box_black_24dp"
-                app:backgroundTint="@color/whiteGrey"
-                android:text="@string/new_poi_here"
-                android:visibility="gone" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_category_here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/new_category"
+            app:srcCompat="@drawable/ic_add_box_black_24dp"
+            app:backgroundTint="@color/whiteGrey"
+            android:text="@string/new_category_here"
+            android:visibility="gone" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/new_category_here"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/new_category"
-                app:srcCompat="@drawable/ic_add_box_black_24dp"
-                app:backgroundTint="@color/whiteGrey"
-                android:text="@string/new_category_here"
-                android:visibility="gone" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/new_tour_here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/new_tour"
+            app:srcCompat="@drawable/ic_add_box_black_24dp"
+            app:backgroundTint="@color/whiteGrey"
+            android:text="@string/new_tour_here"
+            android:visibility="gone" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/new_tour_here"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/new_tour"
-                app:srcCompat="@drawable/ic_add_box_black_24dp"
-                app:backgroundTint="@color/whiteGrey"
-                android:text="@string/new_tour_here"
-                android:visibility="gone" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/tour_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="start"
+            app:srcCompat="@drawable/ic_stop_black_24dp"
+            app:backgroundTint="@color/whiteGrey"
+            android:text="@string/stop_tour"
+            android:visibility="gone" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/tour_stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="start"
-                app:srcCompat="@drawable/ic_stop_black_24dp"
-                app:backgroundTint="@color/whiteGrey"
-                android:text="@string/stop_tour"
-                android:visibility="gone" />
-
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

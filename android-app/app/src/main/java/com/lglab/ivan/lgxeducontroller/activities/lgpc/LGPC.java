@@ -15,7 +15,6 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.lgpc.adapter.CollectionPagerAdapter;
 
 public class LGPC extends AppCompatActivity {
-
     CollectionPagerAdapter adapter;
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -23,7 +22,7 @@ public class LGPC extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         setContentView(R.layout.activity_lgpc);

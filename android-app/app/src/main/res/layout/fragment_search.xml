@@ -108,7 +108,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="15dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/earth" />
+                    app:srcCompat="@drawable/earth" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/moon"
@@ -118,7 +118,7 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginEnd="15dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/moon" />
+                    app:srcCompat="@drawable/moon" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/mars"
@@ -127,7 +127,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="15dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/mars" />
+                    app:srcCompat="@drawable/mars" />
             </LinearLayout>
 
             <LinearLayout
@@ -152,7 +152,7 @@
                     android:layout_weight="1"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/ic_search_black_24dp"
-                    android:backgroundTint="@color/whiteGrey"
+                    app:tint="@color/whiteGrey"
                     app:backgroundTint="@color/blue" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton

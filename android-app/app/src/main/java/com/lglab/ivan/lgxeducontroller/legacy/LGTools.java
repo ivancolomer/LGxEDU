@@ -427,12 +427,9 @@ public class LGTools extends Fragment {
         private void readAndImportPOI(String line) {
             ContentValues poi = new ContentValues();
             try {
-                /**
-                 * Added by Ivan Josa
-                 */
+
                 int categoryId = getOrCreatePoiCategoryByName(line);
 
-                /**************/
                 String name = getPOIName(line);
                 String longitude = getPOIAttribute("longitude", line);
                 String latitude = getPOIAttribute("latitude", line);

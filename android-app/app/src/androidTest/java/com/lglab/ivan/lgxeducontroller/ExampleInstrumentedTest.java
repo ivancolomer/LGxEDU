@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.legacy;
+package com.lglab.ivan.lgxeducontroller;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;

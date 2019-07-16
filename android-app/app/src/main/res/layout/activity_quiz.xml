@@ -2,8 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-
+    android:orientation="horizontal"
+    android:paddingTop="48dp">
 
     <LinearLayout
         android:id="@+id/main_layout_quiz"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
             android:layout_margin="32dp"
-            app:backgroundTint="@color/whiteGrey"
+            app:tint="@color/whiteGrey"
             app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
             android:visibility="invisible" />
     </LinearLayout>

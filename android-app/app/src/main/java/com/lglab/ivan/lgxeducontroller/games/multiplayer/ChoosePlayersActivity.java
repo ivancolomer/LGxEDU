@@ -30,9 +30,9 @@ import java.util.List;
 
 public class ChoosePlayersActivity extends AppCompatActivity {
 
-    static {
+    /*static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }
+    }*/
 
     private final int MAX_PLAYERS = 4;
 
@@ -44,7 +44,7 @@ public class ChoosePlayersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         setContentView(R.layout.choose_players_activity);
         ActionBar actionBar = getSupportActionBar();

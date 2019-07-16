@@ -26,14 +26,14 @@ import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
 
 public class MainActivity extends GoogleDriveActivity {
 
-    static {
+    /*static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         setContentView(R.layout.activity_main);
 

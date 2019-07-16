@@ -27,7 +27,9 @@ import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import github.chenupt.multiplemodel.ItemEntity;
@@ -42,7 +44,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
     private View view;
     private TriviaQuestion question;
 
-    private LongSparseArray<POI> poiList;
+    private List<POI> poiList;
     private ArrayAdapter<POI> poiStringList;
     private EditText questionEditText;
     private RadioGroup correctAnswerRadioButton;
@@ -60,11 +62,15 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         questionNumber = itemEntity.getContent();
         trivia = (Trivia) GameManager.getInstance().getGame();
         question = (TriviaQuestion) trivia.getQuestions().get(questionNumber);
+
+        poiStringList = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item);
+        getPOIStringsFromDatabase();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_create_question, container, false);
+
         return view;
     }
 
@@ -72,8 +78,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        poiStringList = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item);
-        getPOIStringsFromDatabase();
+
 
         questionEditText = view.findViewById(R.id.questionTextEdit);
         correctAnswerRadioButton = view.findViewById(R.id.radio_group_correct_answer);
@@ -124,7 +129,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
     }
 
     private void getPOIStringsFromDatabase() {
-        poiList = new LongSparseArray<>();
+        poiList = new ArrayList<>();
         Cursor poiCursor = POIsProvider.getAllPOIs();
 
         while (poiCursor.moveToNext()) {
@@ -143,15 +148,15 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
 
             try {
                 POI newPOI = new POI(poiID, name, visitedPlace, longitude, latitude, altitude, heading, tilt, range, altitudeMode, hidden, categoryID);
-                poiList.put(poiID, newPOI);
+                poiList.add(newPOI);
             } catch (Exception e) {
                 Log.e("BRUH", e.toString());
             }
 
         }
         poiCursor.close();
-        for (long id = 0; id < poiList.size(); id++) {
-            poiStringList.add(poiList.get(id));
+        for (POI poi : poiList) {
+            poiStringList.add(poi);
         }
     }
 
@@ -171,7 +176,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
             POI returnedPOI = data.getParcelableExtra("POI");
             int button = data.getIntExtra("button", -1);
             String namePOI = returnedPOI.getName();
-            poiList.put(returnedPOI.getId(), returnedPOI);
+            poiList.add(returnedPOI);
             poiStringList.add(returnedPOI);
 
             if (button == 0) {

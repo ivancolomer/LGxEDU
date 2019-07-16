@@ -1,5 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -606,10 +607,13 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
     }
 
     private void setCancelComeBackBehaviour(FloatingActionButton cancel) {
-
         cancel.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
+            startActivity(intent);*/
+            //getActivity().finish();
+            final Activity activity = getActivity();
+            if(activity != null)
+                activity.runOnUiThread(activity::onBackPressed);
         });
     }
 
@@ -738,12 +742,7 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(true);
                 dialog.setCanceledOnTouchOutside(false);
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        cancel(true);
-                    }
-                });
+                dialog.setOnCancelListener(dialog -> cancel(true));
                 dialog.show();
             }
         }
@@ -791,9 +790,15 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
                 Toast.makeText(getActivity(), getResources().getString(R.string.typeInterval), Toast.LENGTH_LONG).show();
             }
 
-            Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
+            //getActivity().getFragmentManager().popBackStackImmediate();
+            final Activity activity = getActivity();
+            if(activity != null)
+                activity.runOnUiThread(activity::onBackPressed);
+
+            /*Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
             intent.putExtra("comeFrom", "tours");
-            startActivity(intent);
+            startActivity(intent);*/
+            //getActivity().finish();
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager;
 
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -10,6 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.MenuCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -122,6 +127,22 @@ public class EditGameActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_game, menu);
         MenuCompat.setGroupDividerEnabled(menu, true);
+
+        Drawable drawable = menu.findItem(R.id.save_game).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.whiteGrey));
+        menu.findItem(R.id.save_game).setIcon(drawable);
+
+        drawable = menu.findItem(R.id.add_question).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.whiteGrey));
+        menu.findItem(R.id.add_question).setIcon(drawable);
+
+        drawable = menu.findItem(R.id.remove_question).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.whiteGrey));
+        menu.findItem(R.id.remove_question).setIcon(drawable);
+
         return super.onCreateOptionsMenu(menu);
     }
 

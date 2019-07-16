@@ -1,5 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -445,9 +446,12 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
             cursor.close();
         }
 
-        Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
+        /*Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
         intent.putExtra("comeFrom", "treeView");
-        startActivity(intent);
+        startActivity(intent);*/
+        final Activity activity = getActivity();
+        if(activity != null)
+            activity.runOnUiThread(activity::onBackPressed);
     }
 
     private void setDataToLayout(Cursor query, UpdateItemFragment.ViewHolderCategory viewHolder) {
@@ -617,8 +621,11 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     private void setCancelComeBackBehaviour(FloatingActionButton cancel) {
 
         cancel.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
+            startActivity(intent);*/
+            final Activity activity = getActivity();
+            if(activity != null)
+                activity.runOnUiThread(activity::onBackPressed);
         });
     }
 

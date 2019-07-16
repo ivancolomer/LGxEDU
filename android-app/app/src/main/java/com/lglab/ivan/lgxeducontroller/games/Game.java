@@ -198,7 +198,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
 
         if (bitmap == null) {
             Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-            bitmap = Bitmap.createBitmap(200, 200, conf);
+            bitmap = Bitmap.createBitmap(300, 300, conf);
         }
 
         final Bitmap bitmap1 = bitmap;
@@ -215,7 +215,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
                 file.delete();
             try {
                 FileOutputStream out = new FileOutputStream(file);
-                bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, out);
                 out.flush();
                 out.close();
 

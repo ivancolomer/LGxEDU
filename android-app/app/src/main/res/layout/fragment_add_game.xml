@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:layout_height="400dp"
         android:visibility="gone"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         />
 
     <com.google.android.material.button.MaterialButton

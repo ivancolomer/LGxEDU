@@ -24,7 +24,7 @@
                 android:id="@+id/image_view_game"
                 android:layout_width="350dp"
                 android:layout_height="300dp"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
                 />
 
 

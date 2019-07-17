@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager;
 
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,8 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.MenuCompat;
@@ -49,7 +46,7 @@ public class EditGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        setContentView(R.layout.activity_quiz);
+        setContentView(R.layout.activity_quiz_edit);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 

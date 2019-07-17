@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="48dp">
+
+    <LinearLayout
+        android:id="@+id/main_layout_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <github.chenupt.springindicator.viewpager.ScrollerViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.3"
+            android:layout_gravity="center" />
+
+        <github.chenupt.springindicator.SpringIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            android:layout_gravity="end"
+            android:layout_weight="0.7"
+            app:siIndicatorColors="@array/indicator_colors"
+            app:siSelectedTextColor="@android:color/white"
+            app:siTextColor="@color/grey_700"
+            app:siTextSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/exit_from_quiz_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_margin="32dp"
+            app:tint="@color/whiteGrey"
+            app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+</RelativeLayout>

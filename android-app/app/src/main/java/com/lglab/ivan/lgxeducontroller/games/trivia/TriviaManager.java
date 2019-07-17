@@ -2,8 +2,10 @@ package com.lglab.ivan.lgxeducontroller.games.trivia;
 
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.multiplayer.ChoosePlayersActivity;
 import com.lglab.ivan.lgxeducontroller.games.trivia.activities.TriviaActivity;
 import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionEditFragment;
+import com.lglab.ivan.lgxeducontroller.interfaces.IAnswerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,14 @@ public class TriviaManager extends GameManager {
     private static final Class<?> TRIVIA_EDIT_FRAGMENT = TriviaQuestionEditFragment.class;
 
     private Player[] players;
+    private IAnswerListener listener;
 
     public TriviaManager(Game game) {
         super(game);
+    }
+
+    public void setListener(IAnswerListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -34,6 +41,15 @@ public class TriviaManager extends GameManager {
     }
 
     @Override
+    public String[] getPlayerNames() {
+        String[] names = new String[players.length];
+        for(int i = 0; i < players.length; i++) {
+            names[i] = ChoosePlayersActivity.getPlayerSubName(i, players[i].getName());
+        }
+        return names;
+    }
+
+    @Override
     public Class<?> getGameActivity() {
         return GAME_ACTIVITY;
     }
@@ -43,36 +59,30 @@ public class TriviaManager extends GameManager {
         return TRIVIA_EDIT_FRAGMENT;
     }
 
-    public boolean hasAnsweredAllQuestions() {
+    public void answerQuestion(int player, int question, int selectedAnswer) {
+        players[player].selectedAnswers.set(question, selectedAnswer);
+        if(listener != null)
+            listener.updateAnswer(player, question, selectedAnswer);
+    }
+
+    public boolean allPlayersHasAnswerQuestion(int i) {
         for (Player player : players) {
-            if (!player.hasAnsweredAllQuestions())
+            if (!player.hasAnswer(i))
                 return false;
         }
         return true;
     }
 
-    public boolean hasAnsweredQuestion(int player, int i) {
-        return players[player].selectedAnswers.get(i) != 0;
-    }
-
-    public void answerQuestion(int player, int i, int selectedAnswer) {
-        players[player].selectedAnswers.set(i, selectedAnswer);
-    }
-
-    public int getAnswerIdOfQuestion(int player, int i) {
-        return players[player].selectedAnswers.get(i);
-    }
-
     public int[] correctAnsweredQuestionsCount() {
         int[] total = new int[players.length];
         for(int i = 0; i < players.length; i++) {
-            total[i] = players[i].correctAnsweredQuestionsCount();
+            total[i] = players[i].getCorrectAnswersCount();
         }
         return total;
     }
 
-    public boolean isCorrectAnswer(int playerId, Integer index) {
-        return players[playerId].isCorrectAnswer(index);
+    public boolean isAnswerCorrect(int playerId, Integer index) {
+        return players[playerId].isAnswerCorrect(index);
     }
 
     public String getPlayerName(int playerId) {
@@ -100,23 +110,21 @@ public class TriviaManager extends GameManager {
             return name;
         }
 
-        public boolean hasAnsweredAllQuestions() {
-            for (int answer : selectedAnswers) {
-                if (answer == 0) return false;
-            }
-            return true;
-        }
 
-        public int correctAnsweredQuestionsCount() {
+        private int getCorrectAnswersCount() {
             int total = 0;
             for (int i = 0; i < game.getQuestions().size(); i++) {
-                total += isCorrectAnswer(i) ? 1 : 0;
+                total += isAnswerCorrect(i) ? 1 : 0;
             }
             return total;
         }
 
-        public boolean isCorrectAnswer(Integer index) {
-            return selectedAnswers.get(index) == ((TriviaQuestion) game.getQuestions().get(index)).correctAnswer;
+        private boolean hasAnswer(int index) {
+            return selectedAnswers.get(index) != 0;
+        }
+
+        private boolean isAnswerCorrect(int index) {
+            return selectedAnswers.get(index) == ((TriviaQuestion)game.getQuestions().get(index)).correctAnswer;
         }
     }
 }

@@ -2,22 +2,18 @@ package com.lglab.ivan.lgxeducontroller.games.multiplayer;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import androidx.appcompat.widget.AppCompatImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.widget.ImageViewCompat;
 
 import com.google.common.collect.Lists;
@@ -119,29 +115,30 @@ public class ChoosePlayersActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                List<String> names = Lists.newArrayList(s.toString().split(" "));
-                String textToWrite = String.valueOf(i + 1);
-
-                for(int i2 = names.size() - 1; i2 >= 0; i2--) {
-                    if(names.get(i2).trim().equals("")) {
-                        names.remove(i2);
-                    }
-                }
-
-                if(names.size() >= 2 && names.get(0).length() > 0 && names.get(1).length() > 0) {
-                    textToWrite = names.get(0).substring(0, 1) + names.get(1).substring(0, 1);
-                    text.setError(null);
-                }
-                else if(names.size()  >= 1 && names.get(0).length() > 1) {
-                    textToWrite = names.get(0).substring(0, 2);
-                    text.setError(null);
-                }
-                else {
-                    text.setError("This field needs atleast 2 characters");
-                }
-                ((TextView)player_circles[i].getChildAt(0)).setText(textToWrite);
+                String subName = getPlayerSubName(i, s.toString());
+                ((TextView)player_circles[i].getChildAt(0)).setText(subName);
+                text.setError(subName.length() < 2 ? "This field needs atleast 2 characters" : null);
             }
         });
+    }
+
+    public static String getPlayerSubName(int playerId, String name) {
+        List<String> names = Lists.newArrayList(name.toString().split(" "));
+        String textToWrite = String.valueOf(playerId + 1);
+
+        for(int i2 = names.size() - 1; i2 >= 0; i2--) {
+            if(names.get(i2).trim().equals("")) {
+                names.remove(i2);
+            }
+        }
+
+        if(names.size() >= 2 && names.get(0).length() > 0 && names.get(1).length() > 0) {
+            textToWrite = names.get(0).substring(0, 1) + names.get(1).substring(0, 1);
+        }
+        else if(names.size()  >= 1 && names.get(0).length() > 1) {
+            textToWrite = names.get(0).substring(0, 2);
+        }
+        return textToWrite;
     }
 
     private void removePlayer(int id) {

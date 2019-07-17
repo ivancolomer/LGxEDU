@@ -7,14 +7,17 @@ import android.view.KeyEvent;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
+import com.lglab.ivan.lgxeducontroller.interfaces.IAnswerListener;
+import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +27,14 @@ import github.chenupt.multiplemodel.ItemEntityUtil;
 import github.chenupt.multiplemodel.viewpager.ModelPagerAdapter;
 import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
-import github.chenupt.springindicator.viewpager.ScrollerViewPager;
 
-public class TriviaActivity extends AppCompatActivity {
+public class TriviaActivity extends AppCompatActivity implements IAnswerListener {
 
-    ScrollerViewPager viewPager;
-    FloatingActionButton exitButton;
+    private CustomScrollerViewPager viewPager;
+    private FloatingActionButton exitButton;
+    private Game trivia;
+    private MaterialButton buttonNext, buttonBack;
+    private int currentQuestion = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +46,16 @@ public class TriviaActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(TriviaManager.getInstance().getGame().getName());
 
+        trivia = TriviaManager.getInstance().getGame();
+        ((TriviaManager)GameManager.getInstance()).setListener(this);
+
         viewPager = findViewById(R.id.view_pager);
+
         SpringIndicator springIndicator = findViewById(R.id.indicator);
+        springIndicator.setOnTabClickListener((position) -> false);
 
         List<ItemEntity> list = new ArrayList<>();
-        for (int i = 0; i < TriviaManager.getInstance().getGame().getQuestions().size(); i++) {
+        for (int i = 0; i < trivia.getQuestions().size(); i++) {
             ItemEntityUtil.create(i).setModelView(TriviaQuestionFragment.class).attach(list);
         }
         PagerManager manager = PagerManager.begin().addFragments(list).setTitles(getTitles());
@@ -58,11 +68,38 @@ public class TriviaActivity extends AppCompatActivity {
         springIndicator.setViewPager(viewPager);
 
         exitButton = findViewById(R.id.exit_from_quiz_button);
+        buttonBack = findViewById(R.id.back_button);
+        buttonNext = findViewById(R.id.next_button);
+
         exitButton.setOnClickListener(view -> exit());
+
+        buttonBack.setOnClickListener((v) -> {
+            if(buttonBack.isEnabled()) {
+                currentQuestion--;
+                viewPager.setCurrentItem(currentQuestion, true);
+                buttonBack.setEnabled(currentQuestion > 0);
+            }
+        });
+
+        buttonNext.setOnClickListener((v) -> {
+            if(buttonNext.isEnabled()) {
+
+                if(currentQuestion + 1 >= trivia.getQuestions().size()) {
+                    //GAME FINISHED
+                    //Show dialogfragment asking if they want to exit!!!
+                    exitButton.show();
+                    return;
+                }
+
+                currentQuestion++;
+                viewPager.setCurrentItem(currentQuestion, true);
+                buttonNext.setEnabled(false);
+            }
+        });
     }
 
     public List<String> getTitles() {
-        int size = TriviaManager.getInstance().getGame().getQuestions().size();
+        int size = trivia.getQuestions().size();
 
         ArrayList<String> list = new ArrayList<>(size);
 
@@ -99,16 +136,19 @@ public class TriviaActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public void showFloatingExitButton() {
-        exitButton.show();
-    }
-
     public void exit() {
         Log.d("HEY", "EXIT");
 
         Intent i = new Intent(this, TriviaResultsActivity.class);
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); //Adds the FLAG_ACTIVITY_NO_HISTORY flag
         startActivity(i);
+    }
+
+    @Override
+    public void updateAnswer(int playerId, int question, int answer) {
+        if(question == currentQuestion) {
+            buttonNext.setEnabled(((TriviaManager) TriviaManager.getInstance()).allPlayersHasAnswerQuestion(currentQuestion));
+        }
     }
 }
 

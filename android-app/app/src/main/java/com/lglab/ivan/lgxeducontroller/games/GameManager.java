@@ -111,4 +111,6 @@ public abstract class GameManager {
     public abstract void setPlayers(String[] names);
 
     public abstract int getPlayersCount();
+
+    public abstract String[] getPlayerNames();
 }

@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -14,31 +15,71 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <github.chenupt.springindicator.viewpager.ScrollerViewPager
+        <com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4.3"
             android:layout_gravity="center" />
 
-        <github.chenupt.springindicator.SpringIndicator
-            android:id="@+id/indicator"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-
-            android:layout_gravity="end"
             android:layout_weight="0.7"
-            app:siIndicatorColors="@array/indicator_colors"
-            app:siSelectedTextColor="@android:color/white"
-            app:siTextColor="@color/grey_700"
-            app:siTextSize="18sp" />
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/back_button"
+                android:layout_marginLeft="@dimen/horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:text="BACK"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/white"
+                android:enabled="false"
+                tools:ignore="NestedWeights"
+                app:iconTint="@color/white"
+                app:iconGravity="start"
+                app:icon="@drawable/ic_arrow_back_black_24dp"/>
+
+            <github.chenupt.springindicator.SpringIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_toLeftOf="@id/next_button"
+                android:layout_toRightOf="@id/back_button"
+                app:siIndicatorColors="@array/indicator_colors"
+                app:siSelectedTextColor="@android:color/white"
+                app:siTextColor="@color/grey_700"
+                app:siTextSize="18sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/next_button"
+                android:layout_weight="1"
+                android:text="NEXT"
+                android:layout_marginRight="@dimen/horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_alignParentRight="true"
+                android:enabled="false"
+                android:textColor="@color/white"
+                tools:ignore="NestedWeights"
+                app:iconTint="@color/white"
+                app:iconGravity="end"
+                app:icon="@drawable/ic_arrow_forward_black_24dp"/>
+        </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="5">
+        android:orientation="vertical">
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/exit_from_quiz_button"
             android:layout_width="wrap_content"

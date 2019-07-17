@@ -3,23 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="12">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4">
+        android:layout_weight="2">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/question_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="GRID LAYOUT"
-            android:textColor="@color/grey_700"
+            android:text="HEY"
             android:textSize="34sp" />
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/question_0_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/horizontal_margin"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"/>
+
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/mainGrid"
@@ -33,145 +53,125 @@
         <!-- ROW 1  -->
         <!-- COLUMN 1  -->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/answerCard1"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
+            app:layout_rowWeight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/question_name_1"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:text="Bottom RecyclerView" />
 
-                <TextView
-                    android:id="@+id/answerText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Text"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/question_1_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/question_name_1"
+            android:orientation="horizontal"/>
+        </RelativeLayout>
 
         <!-- COLUMN 2  -->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/answerCard2"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
+            app:layout_rowWeight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:id="@+id/question_name_2"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:text="Bottom RecyclerView" />
 
-                <TextView
-                    android:id="@+id/answerText2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Text2"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/question_2_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/question_name_2"
+                android:orientation="horizontal"/>
+        </RelativeLayout>
 
 
         <!-- ROW 2  -->
         <!-- COLUMN 1  -->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/answerCard3"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
+            app:layout_rowWeight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:id="@+id/question_name_3"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:text="Bottom RecyclerView" />
 
-                <TextView
-                    android:id="@+id/answerText3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Text3"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/question_3_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/question_name_3"
+                android:orientation="horizontal"/>
+        </RelativeLayout>
 
         <!-- COLUMN 2  -->
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/answerCard4"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="8dp"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
+            app:layout_rowWeight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:id="@+id/question_name_4"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:text="Bottom RecyclerView" />
 
-                <TextView
-                    android:id="@+id/answerText4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Text4"
-                    android:textAlignment="center"
-                    android:textColor="@color/grey_700"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/question_4_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/question_name_4"
+                android:orientation="horizontal"/>
+        </RelativeLayout>
 
     </androidx.gridlayout.widget.GridLayout>
 

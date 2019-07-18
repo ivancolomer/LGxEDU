@@ -147,7 +147,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
 
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             RelativeLayout poiItem = (RelativeLayout) viewGroup.getChildAt(i);
-            AppCompatImageButton rotateButton = (AppCompatImageButton) poiItem.getChildAt(2);
+            AppCompatImageButton rotateButton = (AppCompatImageButton) poiItem.getChildAt(0);
             if (rotateButton.isEnabled()) {
                 rotateButton.setEnabled(false);
                 rotateButton.setSupportImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.black)));

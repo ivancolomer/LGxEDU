@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +40,7 @@ public class MainActivity extends GoogleDriveActivity {
 
         findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(this, NavigateActivity.class)));
         findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(this, PlayActivity.class)));
+        Log.d("MAIN", getResources().getDisplayMetrics().toString());
     }
 
     @Override

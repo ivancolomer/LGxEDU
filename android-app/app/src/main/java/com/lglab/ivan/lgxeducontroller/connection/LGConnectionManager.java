@@ -170,18 +170,17 @@ public class LGConnectionManager implements Runnable {
     }
 
     public void addCommandToLG(LGCommand lgCommand) {
-        try {
-            queue.offer(lgCommand);
-        } catch (Exception ignored) {
+        queue.offer(lgCommand);
+    }
 
-        }
+    public void removeCommandFromLG(LGCommand lgCommand) {
+        queue.remove(lgCommand);
     }
 
     @Override
     public void run() {
         try {
-            while (true) {
-
+            do {
                 LGCommand lgCommand = lgCommandToReSend;
                 if (lgCommand == null) {
                     lgCommand = queue.take();
@@ -208,7 +207,7 @@ public class LGConnectionManager implements Runnable {
                     //Command sent in less than 2 seconds
                     lgCommandToReSend = null;
                 }
-            }
+            } while (true);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

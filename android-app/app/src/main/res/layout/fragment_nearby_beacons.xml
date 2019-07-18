@@ -18,6 +18,7 @@
 
 
         <TextView
+            android:id="@android:id/empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -25,6 +26,7 @@
             android:layout_marginBottom="260dp"
             android:alpha="0"
             android:drawablePadding="16dp"
+
             android:drawableTop="@drawable/scanning_animation"
             android:text="@string/empty_nearby_beacons_list_text"
             android:textColor="#5A5A5A"

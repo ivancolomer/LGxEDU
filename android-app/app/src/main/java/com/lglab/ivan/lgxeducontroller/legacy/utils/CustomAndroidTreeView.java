@@ -10,6 +10,7 @@ import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.lglab.ivan.lgxeducontroller.R;
 import com.unnamed.b.atv.holder.SimpleViewHolder;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
@@ -132,7 +133,7 @@ public class CustomAndroidTreeView extends AndroidTreeView {
         }
         final LinearLayout viewTreeItems = new LinearLayout(containerContext, null, containerStyle);
 
-        viewTreeItems.setId(com.unnamed.b.atv.R.id.tree_items);
+        viewTreeItems.setId(R.id.tree_items);
         viewTreeItems.setOrientation(LinearLayout.VERTICAL);
         view.addView(viewTreeItems);
 

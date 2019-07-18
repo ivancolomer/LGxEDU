@@ -39,4 +39,7 @@
     <color name="indicator_3">#66D7B9</color>
     <color name="indicator_4">#FDBC7D</color>
 
+    <color name="si_default_text_color">#FF0000</color>
+    <color name="si_default_text_color_selected">#FF00FF</color>
+    <color name="si_default_indicator_bg">#ee9999</color>
 </resources>

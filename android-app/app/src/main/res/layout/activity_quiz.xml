@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingTop="48dp">
+    android:paddingTop="@dimen/_20sdp">
 
     <LinearLayout
         android:id="@+id/main_layout_quiz"
@@ -31,9 +31,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/back_button"
-                android:layout_marginLeft="@dimen/horizontal_margin"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:text="BACK"
                 android:layout_alignParentLeft="true"
@@ -62,9 +62,9 @@
                 android:id="@+id/next_button"
                 android:layout_weight="1"
                 android:text="NEXT"
-                android:layout_marginRight="@dimen/horizontal_margin"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginRight="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
                 android:layout_alignParentRight="true"
                 android:enabled="false"
                 android:textColor="@color/white"
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
-            android:layout_margin="32dp"
+            android:layout_margin="@dimen/_16sdp"
             app:tint="@color/whiteGrey"
             app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
             android:visibility="invisible" />

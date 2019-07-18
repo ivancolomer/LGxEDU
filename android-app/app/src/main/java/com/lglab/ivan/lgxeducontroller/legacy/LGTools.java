@@ -135,10 +135,7 @@ public class LGTools extends Fragment {
         // set a positive/yes button and create a listener
         // When button is clicked
         alertbox.setPositiveButton(getResources().getString(R.string.yes), (arg0, arg1) -> {
-            Log.d("TAGG", "smth");
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(sentence, LGCommand.CRITICAL_MESSAGE, (result) -> {
-
-            }));
+            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(sentence, LGCommand.CRITICAL_MESSAGE, null));
         });
 
         // set a negative/no button and create a listener

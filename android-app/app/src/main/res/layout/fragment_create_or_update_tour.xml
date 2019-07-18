@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:divider="?android:attr/dividerVertical"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/_8sdp"
+    android:paddingRight="@dimen/_8sdp"
+    android:paddingTop="@dimen/_4sdp"
     tools:context="legacy.CreateItemFragment">
 
     <LinearLayout

@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="1.5">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/question_title"
@@ -17,48 +17,48 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="HEY"
-            android:textSize="34sp" />
+            android:textSize="@dimen/_17ssp" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="2.5">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/question_0_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/horizontal_margin"
+            android:layout_margin="@dimen/_4sdp"
             android:orientation="horizontal" />
 
     </RelativeLayout>
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#cccccc"/>
+        android:background="#cccccc"/>-->
 
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/mainGrid"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="72dp"
+
         android:layout_weight="8"
         app:columnCount="2"
         app:rowCount="2">
-
+        <!--android:layout_marginBottom="72dp"-->
         <!-- ROW 1  -->
         <!-- COLUMN 1  -->
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             android:orientation="vertical">
@@ -68,9 +68,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/question_name_1"
             android:gravity="center"
-            android:textSize="25sp"
-            android:paddingTop="20dp"
-            android:paddingBottom="10dp"
+            android:textSize="@dimen/_11ssp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_4sdp"
             android:text="Bottom RecyclerView" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -86,9 +86,9 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             android:orientation="vertical">
@@ -98,9 +98,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/question_name_2"
                 android:gravity="center"
-                android:textSize="25sp"
-                android:paddingTop="20dp"
-                android:paddingBottom="10dp"
+                android:textSize="@dimen/_11ssp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_4sdp"
                 android:text="Bottom RecyclerView" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -118,9 +118,9 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             android:orientation="vertical">
@@ -130,9 +130,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/question_name_3"
                 android:gravity="center"
-                android:textSize="25sp"
-                android:paddingTop="20dp"
-                android:paddingBottom="10dp"
+                android:textSize="@dimen/_11ssp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_4sdp"
                 android:text="Bottom RecyclerView" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -148,9 +148,9 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             android:orientation="vertical">
@@ -160,9 +160,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/question_name_4"
                 android:gravity="center"
-                android:textSize="25sp"
-                android:paddingTop="20dp"
-                android:paddingBottom="10dp"
+                android:textSize="@dimen/_11ssp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_4sdp"
                 android:text="Bottom RecyclerView" />
 
             <androidx.recyclerview.widget.RecyclerView

@@ -1,5 +1,8 @@
 package com.lglab.ivan.lgxeducontroller.connection;
 
+import android.os.Handler;
+import android.os.Looper;
+
 public class LGCommand {
 
     public static final short NON_CRITICAL_MESSAGE = 0;
@@ -7,16 +10,18 @@ public class LGCommand {
 
     private final String command;
     private final short priorityType;
-    private final TaskListener taskListener;
+    private final Listener listener;
 
-    public interface TaskListener {
-        public void onFinished(String result);
+    /** Callback interface for delivering parsed responses. */
+    public interface Listener {
+        /** Called when a response is received. */
+        void onResponse(String response);
     }
 
-    public LGCommand(String command, short priorityType, TaskListener listener) {
+    public LGCommand(String command, short priorityType, Listener listener) {
         this.command = command;
         this.priorityType = priorityType;
-        this.taskListener = listener;
+        this.listener = listener;
     }
 
     String getCommand() {
@@ -27,9 +32,8 @@ public class LGCommand {
         return priorityType;
     }
 
-    void doAction(String result) {
-        if (this.taskListener != null) {
-            this.taskListener.onFinished(result);
-        }
+    void doAction(String response) {
+        if(listener != null)
+            new Handler(Looper.getMainLooper()).post(() -> listener.onResponse(response));
     }
 }

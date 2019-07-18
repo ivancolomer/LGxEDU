@@ -44,7 +44,7 @@
                     android:id="@+id/player1_circle"
                     android:layout_width="62sp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/horizontal_margin">
+                    android:layout_marginStart="@dimen/_4sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/ic_remove_circle_black_24dp"
@@ -77,8 +77,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:layout_marginLeft="@dimen/horizontal_margin"
-                    android:layout_marginRight="@dimen/horizontal_margin"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
                     android:gravity="center_vertical"
                     android:hint="Player1 Name"
                     android:inputType="text"
@@ -98,7 +98,7 @@
                     android:id="@+id/player2_circle"
                     android:layout_width="62sp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/horizontal_margin">
+                    android:layout_marginStart="@dimen/_4sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/ic_remove_circle_black_24dp"
@@ -128,8 +128,8 @@
                     android:id="@+id/player2_editname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/horizontal_margin"
-                    android:layout_marginRight="@dimen/horizontal_margin"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
                     android:gravity="center_vertical"
                     android:hint="Player2 Name"
                     android:inputType="text"
@@ -146,7 +146,7 @@
                     android:id="@+id/player3_circle"
                     android:layout_width="62sp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/horizontal_margin">
+                    android:layout_marginStart="@dimen/_4sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -166,7 +166,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/ic_remove_circle_black_24dp"
@@ -176,8 +176,8 @@
                     android:id="@+id/player3_editname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/horizontal_margin"
-                    android:layout_marginRight="@dimen/horizontal_margin"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
                     android:gravity="center_vertical"
                     android:hint="Player3 Name"
                     android:inputType="text"
@@ -194,7 +194,7 @@
                     android:id="@+id/player4_circle"
                     android:layout_width="62sp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/horizontal_margin">
+                    android:layout_marginStart="@dimen/_4sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -214,7 +214,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     app:srcCompat="@drawable/ic_remove_circle_black_24dp"
@@ -224,8 +224,8 @@
                     android:id="@+id/player4_editname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/horizontal_margin"
-                    android:layout_marginRight="@dimen/horizontal_margin"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
                     android:gravity="center_vertical"
                     android:hint="Player4 Name"
                     android:inputType="text"

@@ -91,12 +91,14 @@ class BleUrlDeviceDiscoverer extends UrlDeviceDiscoverer
     @Override
     @SuppressWarnings("deprecation")
     public synchronized void startScanImpl() {
-        mBluetoothAdapter.startLeScan(this);
+        if(mBluetoothAdapter != null)
+            mBluetoothAdapter.startLeScan(this);
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public synchronized void stopScanImpl() {
-        mBluetoothAdapter.stopLeScan(this);
+        if(mBluetoothAdapter != null)
+            mBluetoothAdapter.stopLeScan(this);
     }
 }

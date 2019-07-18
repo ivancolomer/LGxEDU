@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class SearchFragment extends Fragment {
     private ListView categoriesListView;
     private TextView categorySelectorTitle;
     private ArrayList<String> backIDs = new ArrayList<>();
+    private Handler handler = new Handler();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -180,8 +182,7 @@ public class SearchFragment extends Fragment {
                 if (placeToSearch != null && !placeToSearch.equals("")) {
                     editSearch.setText(placeToSearch);
                     String command = buildSearchCommand(placeToSearch);
-                    SearchTask searchTask = new SearchTask(command, false, getContext());
-                    searchTask.execute();
+                    doSearch(command, false);
 
                 } else {
                     Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_search), Toast.LENGTH_LONG).show();
@@ -279,8 +280,7 @@ public class SearchFragment extends Fragment {
             String command = "echo 'planet=earth' > /tmp/query.txt";
 
             if (!currentPlanet.equals("EARTH")) {
-                SearchTask searchTask = new SearchTask(command, true, getContext());
-                searchTask.execute();
+                doSearch(command, true);
                 currentPlanet = "EARTH";
             }
 
@@ -306,8 +306,7 @@ public class SearchFragment extends Fragment {
             String command = "echo 'planet=moon' > /tmp/query.txt";
             if (!currentPlanet.equals("MOON")) {
                 //setConnectionWithLiquidGalaxy(command);
-                SearchTask searchTask = new SearchTask(command, true, getContext());
-                searchTask.execute();
+                doSearch(command, true);
                 currentPlanet = "MOON";
                 Category category = getCategoryByName(currentPlanet);
                 categorySelectorTitle.setText(category.getName());
@@ -329,8 +328,7 @@ public class SearchFragment extends Fragment {
         mars.setOnClickListener(v -> {
             String command = "echo 'planet=mars' > /tmp/query.txt";
             if (!currentPlanet.equals("MARS")) {
-                SearchTask searchTask = new SearchTask(command, true, getContext());
-                searchTask.execute();
+                doSearch(command, true);
                 currentPlanet = "MARS";
                 Category category = getCategoryByName(currentPlanet);
                 categorySelectorTitle.setText(category.getName());
@@ -452,11 +450,7 @@ public class SearchFragment extends Fragment {
         buttonSearch.setOnClickListener(v -> {
             String placeToSearch = editSearch.getText().toString();
             if (!placeToSearch.equals("")) {
-
-                String command = "echo 'search=" + placeToSearch + "' > /tmp/query.txt";
-                SearchTask searchTask = new SearchTask(command, false, getContext());
-                searchTask.execute();
-
+                doSearch("echo 'search=" + placeToSearch + "' > /tmp/query.txt", false);
             } else {
                 Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_search), Toast.LENGTH_LONG).show();
             }
@@ -467,88 +461,32 @@ public class SearchFragment extends Fragment {
         return "echo 'search=" + search + "' > /tmp/query.txt";
     }
 
-    private static class BooleanHolder {
-        boolean bool;
+    private void doSearch(String command, boolean isChangingPlanet) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        builder.setMessage(getContext().getResources().getString(isChangingPlanet ? R.string.changingPlanet : R.string.searching));
+        builder.setView(R.layout.progress);
+        builder.setNegativeButton(getContext().getResources().getString(R.string.cancel), (dialog, id) -> dialog.cancel());
 
-        BooleanHolder(boolean bool) {
-            this.bool = bool;
-        }
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        LGCommand lgCommand = new LGCommand(command, LGCommand.CRITICAL_MESSAGE, (String response) -> {
+            if(response == null) {
+                Toast.makeText(getContext(), getContext().getResources().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
+        });
+
+        LGConnectionManager.getInstance().addCommandToLG(lgCommand);
+        //TIMEOUT 5 seconds BEFORE REMOVING COMMAND FORM LG AND DISPLAYING CONNECTION FAILURE MESSAGE
+        handler.postDelayed(() -> {
+            if(dialog.isShowing()) {
+                LGConnectionManager.getInstance().removeCommandFromLG(lgCommand);
+                Toast.makeText(getContext(), getContext().getResources().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        }, 5000);
     }
-
-    private static class SearchTask extends AsyncTask<Void, Void, String> {
-
-        String command;
-        boolean isChangingPlanet;
-        private AlertDialog dialog;
-        private Context context;
-
-        SearchTask(String command, boolean isChangingPlanet, Context context) {
-            this.command = command;
-            this.isChangingPlanet = isChangingPlanet;
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if (dialog == null) {
-
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
-
-                if (isChangingPlanet) {
-                    builder.setMessage(context.getResources().getString(R.string.changingPlanet));
-                } else {
-                    builder.setMessage(context.getResources().getString(R.string.searching));
-                }
-                builder.setView(R.layout.progress);
-                builder.setNegativeButton(context.getResources().getString(R.string.cancel), (dialog, id) -> dialog.cancel());
-
-                dialog = builder.create();
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setCancelable(true);
-                dialog.show();
-            }
-        }
-
-        private final Object syncObject = new Object();
-
-        @Override
-        protected String doInBackground(Void... params) {
-            final BooleanHolder bool = new BooleanHolder(false);
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(command, LGCommand.CRITICAL_MESSAGE, (String result1) -> {
-                synchronized (syncObject) {
-                    syncObject.notify();
-                    bool.bool = result1 != null;
-                }
-            }));
-
-            synchronized (syncObject) {
-                try {
-                    syncObject.wait();
-                } catch (InterruptedException ignored) {
-                }
-            }
-
-            if (bool.bool) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-                return "";
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String success) {
-            super.onPostExecute(success);
-            if (success != null) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
 }

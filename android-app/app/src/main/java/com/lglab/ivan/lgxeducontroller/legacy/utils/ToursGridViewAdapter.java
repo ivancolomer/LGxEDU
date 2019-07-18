@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -71,10 +72,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
         MaterialButton button = new MaterialButton(context);
         String displayName = currentTour.getName();
         button.setText(displayName);
-
-        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            button.setTextSize(15);
-        }
+        button.setTextSize(TypedValue.COMPLEX_UNIT_PX, (int) context.getResources().getDimension(R.dimen._8ssp));
 
         Drawable left = AppCompatResources.getDrawable(context, R.drawable.politour48);
         Bitmap bitmap = ((BitmapDrawable) left).getBitmap();

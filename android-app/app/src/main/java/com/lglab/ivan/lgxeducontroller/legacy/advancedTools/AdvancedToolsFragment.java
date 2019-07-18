@@ -56,7 +56,7 @@ public class AdvancedToolsFragment extends Fragment {
     private static String serverIpPattern = "\\$serverIp";
     private static String serverPortPattern = "\\$serverPort";
 
-    AppCompatImageButton documentListHelpBtn;
+    FloatingActionButton documentListHelpBtn;
     private RecyclerView rv = null;
     private SwipeRefreshLayout refreshLayout;
     private FloatingActionButton fab;

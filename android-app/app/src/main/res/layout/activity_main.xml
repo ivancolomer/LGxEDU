@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="@dimen/_4sdp"
     tools:context=".activities.main.MainActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -14,8 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="center"
+        android:scaleType="fitCenter"
         android:layout_weight="2"
-        app:srcCompat="@drawable/liquid_galaxy_logo_final" />
+        app:srcCompat="@drawable/logo_lgxedu" />
 
     <Space
         android:layout_width="0dp"
@@ -28,7 +29,7 @@
         android:layout_weight="2"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="8dp"
+        android:padding="@dimen/_4sdp"
         android:weightSum="5">
 
         <com.google.android.material.button.MaterialButton

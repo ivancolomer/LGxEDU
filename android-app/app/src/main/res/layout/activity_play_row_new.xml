@@ -8,11 +8,11 @@
         android:id="@+id/quiz_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginBottom="@dimen/_6sdp"
         android:text="Quiz Category"
-        android:textSize="24sp"
+        android:textSize="@dimen/_14ssp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,16 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/quiz_category"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:orientation="horizontal" />
 
     <View
         android:id="@+id/play_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/_1sdp"
         android:layout_below="@+id/play_rv_horizontal"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/_3sdp"
         android:background="#31C7C7CC" />
 
 

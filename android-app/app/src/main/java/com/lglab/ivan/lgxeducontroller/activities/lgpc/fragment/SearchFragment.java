@@ -81,7 +81,6 @@ public class SearchFragment extends Fragment {
 
         btnSpeak.setOnClickListener(v -> promptSpeechInput());
 
-        screenSizeTreatment();
         setSearchInLGButton();
         setPlanetsButtonsBehaviour();
 
@@ -345,108 +344,7 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void screenSizeTreatment() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
-        float scaleFactor = metrics.density;
-
-
-        //The size of the diagonal in inches is equal to the square root of the height in inches squared plus the width in inches squared.
-        float widthDp = widthPixels / scaleFactor;
-        float heightDp = heightPixels / scaleFactor;
-
-        float smallestWidth = Math.min(widthDp, heightDp);
-
-
-        if (smallestWidth == 800) {
-            //Samsung Tab E => smallestWidth:800
-
-            editSearch.setTextSize(30);
-            earth.getLayoutParams().height = 160;
-            moon.getLayoutParams().height = 160;
-            mars.getLayoutParams().height = 160;
-            earth.getLayoutParams().width = 160;
-            moon.getLayoutParams().width = 160;
-            mars.getLayoutParams().width = 160;
-            earth.requestLayout();
-            moon.requestLayout();
-            mars.requestLayout();
-            categoriesListView.getLayoutParams().width = 350;
-            if (rootView.findViewById(R.id.layoutPlanets) != null) {
-                LinearLayout layoutPlanets = rootView.findViewById(R.id.layoutPlanets);
-                LinearLayout.LayoutParams actualParams = (LinearLayout.LayoutParams) layoutPlanets.getLayoutParams();
-                actualParams.setMarginStart(0);
-                layoutPlanets.setLayoutParams(actualParams);
-            }
-
-        } else if (smallestWidth == 1032) {
-            //Tablet All In One Big => smallesWidth:1032
-            editSearch.setTextSize(50);
-            earth.getLayoutParams().height = 160;
-            moon.getLayoutParams().height = 160;
-            mars.getLayoutParams().height = 160;
-            earth.getLayoutParams().width = 160;
-            moon.getLayoutParams().width = 160;
-            mars.getLayoutParams().width = 160;
-            earth.requestLayout();
-            moon.requestLayout();
-            mars.requestLayout();
-            categoriesListView.getLayoutParams().width = 350;
-        } else if (smallestWidth > 720) {
-            editSearch.setTextSize(50);
-            earth.getLayoutParams().height = 160;
-            moon.getLayoutParams().height = 160;
-            mars.getLayoutParams().height = 160;
-            earth.getLayoutParams().width = 160;
-            moon.getLayoutParams().width = 160;
-            mars.getLayoutParams().width = 160;
-            earth.requestLayout();
-            moon.requestLayout();
-            mars.requestLayout();
-        } else if (smallestWidth <= 720 && smallestWidth >= 600) {
-            editSearch.setTextSize(20);
-            earth.getLayoutParams().height = 320;
-            moon.getLayoutParams().height = 320;
-            mars.getLayoutParams().height = 320;
-            earth.getLayoutParams().width = 320;
-            moon.getLayoutParams().width = 320;
-            mars.getLayoutParams().width = 320;
-            earth.requestLayout();
-            moon.requestLayout();
-            mars.requestLayout();
-            categoriesListView.getLayoutParams().width = 450;
-            if (rootView.findViewById(R.id.layoutPlanets) != null) {
-                LinearLayout layoutPlanets = rootView.findViewById(R.id.layoutPlanets);
-                LinearLayout.LayoutParams actualParams = (LinearLayout.LayoutParams) layoutPlanets.getLayoutParams();
-                actualParams.setMarginStart(0);
-                layoutPlanets.setLayoutParams(actualParams);
-            }
-            if (rootView.findViewById(R.id.searchLayout) != null) {
-                LinearLayout searchLayout = rootView.findViewById(R.id.searchLayout);
-                LinearLayout.LayoutParams actualParams = (LinearLayout.LayoutParams) searchLayout.getLayoutParams();
-                actualParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                searchLayout.setLayoutParams(actualParams);
-            }
-
-        } else {
-            editSearch.setTextSize(15);
-            earth.getLayoutParams().height = 75;
-            moon.getLayoutParams().height = 75;
-            mars.getLayoutParams().height = 75;
-            earth.getLayoutParams().width = 75;
-            moon.getLayoutParams().width = 75;
-            mars.getLayoutParams().width = 75;
-            earth.requestLayout();
-            moon.requestLayout();
-            mars.requestLayout();
-        }
-    }
-
     private void setSearchInLGButton() {
-
         buttonSearch.setOnClickListener(v -> {
             String placeToSearch = editSearch.getText().toString();
             if (!placeToSearch.equals("")) {

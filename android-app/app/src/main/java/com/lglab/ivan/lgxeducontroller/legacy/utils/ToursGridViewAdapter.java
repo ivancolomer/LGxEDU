@@ -4,6 +4,9 @@ package com.lglab.ivan.lgxeducontroller.legacy.utils;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
@@ -14,9 +17,14 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatDrawableManager;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
@@ -34,13 +42,10 @@ public class ToursGridViewAdapter extends BaseAdapter {
 
     private List<Tour> tourList;
     private Context context;
-    private FragmentActivity activity;
 
-
-    public ToursGridViewAdapter(List<Tour> tourList, Context context, FragmentActivity activity) {
+    public ToursGridViewAdapter(List<Tour> tourList, Context context) {
         this.tourList = tourList;
         this.context = context;
-        this.activity = activity;
     }
 
     @Override
@@ -63,7 +68,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         final Tour currentTour = this.tourList.get(i);
 
-        Button button = new Button(context);
+        MaterialButton button = new MaterialButton(context);
         String displayName = currentTour.getName();
         button.setText(displayName);
 
@@ -72,16 +77,19 @@ public class ToursGridViewAdapter extends BaseAdapter {
         }
 
         Drawable left = AppCompatResources.getDrawable(context, R.drawable.politour48);
+        Bitmap bitmap = ((BitmapDrawable) left).getBitmap();
+        left = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, (int) context.getResources().getDimension(R.dimen._6sdp), (int) context.getResources().getDimension(R.dimen._6sdp), true));
+        DrawableCompat.setTint(left, ContextCompat.getColor(context, R.color.whiteGrey));
+
         button.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
-        //left.setTint(Color.WHITE);
 
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
-        button.setMaxLines(1);
+        button.setMaxLines(2);
 
         button.setBackground(AppCompatResources.getDrawable(context, R.drawable.button_rounded_grey));
         button.setLayoutParams(params);
         button.setOnClickListener(view1 -> {
-            LaunchTourTask tourTask = new LaunchTourTask(currentTour);
+            LaunchTourTask tourTask = new LaunchTourTask(currentTour, context);
             tourTask.execute();
         });
 
@@ -89,14 +97,16 @@ public class ToursGridViewAdapter extends BaseAdapter {
     }
 
 
-    private class LaunchTourTask extends AsyncTask<Void, Void, Boolean> {
+    private static class LaunchTourTask extends AsyncTask<Void, Void, Boolean> {
 
         Tour currentTour;
         private AlertDialog dialog;
+        private Context context;
 
 
-        LaunchTourTask(Tour currentTour) {
+        private LaunchTourTask(Tour currentTour, Context context) {
             this.currentTour = currentTour;
+            this.context = context;
         }
 
         @Override
@@ -115,20 +125,6 @@ public class ToursGridViewAdapter extends BaseAdapter {
                 dialog.setCancelable(true);
 
                 dialog.show();
-
-                /*dialog = new MaterialAlertDialogBuilder(context);
-                String message = context.getResources().getString(R.string.viewing) + " " + this.currentTour.getName() + " " + context.getResources().getString(R.string.inLG);
-                dialog.setMessage(message);
-                dialog.setIndeterminate(false);
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                dialog.setCancelable(true);
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getResources().getString(R.string.stop_tour), (dialog, which) -> {
-                    dialog.dismiss();
-                    cancel(true);
-                });
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setOnCancelListener(dialog -> cancel(true));
-                dialog.show();*/
             }
         }
 
@@ -202,7 +198,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
             super.onPostExecute(success);
             resetTourSettings();
             if (!success) {
-                MaterialAlertDialogBuilder alertbox = new MaterialAlertDialogBuilder(activity);
+                MaterialAlertDialogBuilder alertbox = new MaterialAlertDialogBuilder(context);
 
                 // set the message to display
                 alertbox.setTitle("Error");
@@ -226,7 +222,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
 
 
         private void showStopAlert() {
-            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
             builder.setMessage("The tour running on LG has been stopped.")
                     .setCancelable(false)
                     .setPositiveButton("OK", (dialog, id) -> {

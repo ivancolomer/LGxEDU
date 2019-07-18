@@ -5,18 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp">
+    android:paddingTop="@dimen/_3sdp"
+    android:paddingBottom="@dimen/_3sdp"
+    android:paddingLeft="@dimen/_8sdp"
+    android:paddingRight="@dimen/_8sdp">
 
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/aboutDocHeader1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="10dp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:drawablePadding="@dimen/_4sdp"
         app:drawableLeftCompat="@drawable/ic_info_black_24dp"
         android:text="@string/aboutDocText1" />
 
@@ -25,8 +25,8 @@
         android:id="@+id/aboutDocHeader2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="10dp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:drawablePadding="@dimen/_4sdp"
         app:drawableLeftCompat="@drawable/ic_email_black_24dp"
         android:text="@string/aboutDocText2" />
 
@@ -35,8 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="10dp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:drawablePadding="@dimen/_4sdp"
         app:drawableLeftCompat="@drawable/github_32"
         android:text="@string/aboutDocText3" />
 
@@ -45,8 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:drawablePadding="@dimen/_4sdp"
         android:text="@string/aboutDocText4" />
 
 </LinearLayout>

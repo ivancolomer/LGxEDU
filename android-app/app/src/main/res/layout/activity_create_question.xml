@@ -12,11 +12,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="5"
-        android:gravity="center"
+        android:layout_marginBottom="@dimen/_2sdp"
+        android:layout_weight="7"
+        android:layout_margin="@dimen/_4sdp"
         android:orientation="horizontal"
-        android:weightSum="5">
+        android:weightSum="4">
 
 
         <!-- TriviaQuestion & Buttons -->
@@ -40,8 +40,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
 
                 android:gravity="bottom"
                 android:text="@string/correct_answer"
@@ -104,8 +104,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/addQuestionPOIButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
                     android:background="@android:color/transparent"
                     app:srcCompat="@drawable/ic_add_location_black_24dp"
                     android:scaleType="fitCenter"
@@ -113,13 +113,9 @@
             </LinearLayout>
         </LinearLayout>
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25" />
-
         <!-- Answers & POIs -->
         <LinearLayout
+            android:layout_marginLeft="@dimen/_4sdp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
@@ -156,8 +152,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/addAnswer1POIButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
@@ -203,8 +199,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/addAnswer2POIButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
@@ -249,8 +245,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/addAnswer3POIButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
@@ -295,8 +291,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/addAnswer4POIButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
@@ -314,9 +310,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:gravity="center"
-        android:weightSum="5">
+        android:layout_weight="3"
+        android:layout_margin="@dimen/_4sdp">
 
         <EditText
             android:id="@+id/informationTextEdit"

@@ -10,7 +10,7 @@
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp">
+        android:layout_margin="@dimen/_4sdp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
@@ -24,27 +24,24 @@
         android:id="@+id/add_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_margin="@dimen/_8sdp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         app:srcCompat="@drawable/ic_add_black_24dp"
         app:tint="@color/whiteGrey"
         app:backgroundTint="@color/green"
-        app:elevation="6dp"
-        app:fabSize="normal"
-        app:pressedTranslationZ="12dp"
         app:rippleColor="@color/grey" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/documentListHelp"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="fitCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"
-        android:background="@null"
-        app:backgroundTint="@color/whiteGrey"
-        app:srcCompat="@drawable/ic_help_black_24dp" />
+        app:srcCompat="@drawable/ic_help_black_24dp"
+        app:tint="@color/whiteGrey"
+        app:backgroundTint="@color/black"
+        app:rippleColor="@color/grey" />
 
 </RelativeLayout>

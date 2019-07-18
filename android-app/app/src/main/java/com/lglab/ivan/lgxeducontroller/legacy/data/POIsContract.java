@@ -215,8 +215,9 @@ public class POIsContract {
                     null);
         }
 
-        public static Cursor getCategoriesByName(FragmentActivity fragmentActivity, String categoryName) {
-            return fragmentActivity.getContentResolver().query(
+        public static Cursor getCategoriesByName(Context context, String categoryName) {
+
+            return context.getContentResolver().query(
                     CONTENT_URI,
                     null,
                     COLUMN_NAME + " LIKE ?",
@@ -323,9 +324,9 @@ public class POIsContract {
             return activity.getContentResolver().query(CONTENT_URI, null, COLUMN_HIDE + " = 0", null, null);
         }
 
-        public static int getIdByShownName(FragmentActivity activity, String shownName) {
+        public static int getIdByShownName(Context context, String shownName) {
 
-            try (Cursor c = activity.getContentResolver().query(CONTENT_URI, new String[]{_ID},
+            try (Cursor c = context.getContentResolver().query(CONTENT_URI, new String[]{_ID},
                     COLUMN_SHOWN_NAME + " LIKE ?", new String[]{shownName}, null)) {
 
                 if (c != null && c.getCount() == 1) {

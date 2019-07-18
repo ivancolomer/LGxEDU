@@ -19,7 +19,7 @@
             android:layout_centerInParent="true"
             android:text="Players"
             android:textColor="@color/grey_700"
-            android:textSize="48sp" />
+            android:textSize="@dimen/_24ssp" />
 
     </RelativeLayout>
 
@@ -37,12 +37,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:orientation="horizontal">
 
                 <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
                     android:id="@+id/player1_circle"
-                    android:layout_width="62sp"
+                    android:layout_width="@dimen/_30sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_4sdp">
 
@@ -56,15 +56,15 @@
                         android:text="1"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="24sp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
                         app:backgroundTint="@color/indicator_1" />
                 </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/remove_player_1"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
@@ -83,7 +83,7 @@
                     android:hint="Player1 Name"
                     android:inputType="text"
                     android:textColor="@color/primary_text"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
 
 
@@ -92,31 +92,36 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:orientation="horizontal">
 
                 <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
                     android:id="@+id/player2_circle"
-                    android:layout_width="62sp"
+                    android:layout_width="@dimen/_30sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_4sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="0dp"
                         android:background="@drawable/circle"
                         android:gravity="center_vertical"
                         android:text="2"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="24sp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
                         app:backgroundTint="@color/indicator_2" />
                 </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/remove_player_2"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
@@ -128,43 +133,51 @@
                     android:id="@+id/player2_editname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:layout_marginLeft="@dimen/_4sdp"
                     android:layout_marginRight="@dimen/_4sdp"
                     android:gravity="center_vertical"
                     android:hint="Player2 Name"
                     android:inputType="text"
-                    android:textSize="24sp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
-            </LinearLayout>
 
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:orientation="horizontal">
 
                 <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
                     android:id="@+id/player3_circle"
-                    android:layout_width="62sp"
+                    android:layout_width="@dimen/_30sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_4sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="0dp"
                         android:background="@drawable/circle"
                         android:gravity="center_vertical"
                         android:text="3"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="24sp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
                         app:backgroundTint="@color/indicator_3" />
                 </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/remove_player_3"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
@@ -176,43 +189,49 @@
                     android:id="@+id/player3_editname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:layout_marginLeft="@dimen/_4sdp"
                     android:layout_marginRight="@dimen/_4sdp"
                     android:gravity="center_vertical"
                     android:hint="Player3 Name"
                     android:inputType="text"
-                    android:textSize="24sp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
-            </LinearLayout>
 
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:orientation="horizontal">
 
                 <com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout
                     android:id="@+id/player4_circle"
-                    android:layout_width="62sp"
+                    android:layout_width="@dimen/_30sdp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_4sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="0dp"
                         android:background="@drawable/circle"
                         android:gravity="center_vertical"
                         android:text="4"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="24sp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
                         app:backgroundTint="@color/indicator_4" />
                 </com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/remove_player_4"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_4sdp"
                     android:background="@android:color/transparent"
@@ -224,13 +243,17 @@
                     android:id="@+id/player4_editname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:layout_marginLeft="@dimen/_4sdp"
                     android:layout_marginRight="@dimen/_4sdp"
                     android:gravity="center_vertical"
                     android:hint="Player4 Name"
                     android:inputType="text"
-                    android:textSize="24sp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold" />
+
+
             </LinearLayout>
         </LinearLayout>
 
@@ -247,7 +270,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="PlAY"
-            android:textSize="48sp" />
+            android:textSize="@dimen/_24ssp" />
 
     </RelativeLayout>
 </LinearLayout>

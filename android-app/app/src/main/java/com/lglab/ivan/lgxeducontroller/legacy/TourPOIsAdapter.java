@@ -47,37 +47,6 @@ public class TourPOIsAdapter extends BaseAdapter {
         global_interval = globalInterval;
     }
 
-    private static void screenSizeTreatment(View view, TextView poi) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
-        float scaleFactor = metrics.density;
-
-
-        //The size of the diagonal in inches is equal to the square root of the height in inches squared plus the width in inches squared.
-        float widthDp = widthPixels / scaleFactor;
-        float heightDp = heightPixels / scaleFactor;
-
-        float smallestWidth = Math.min(widthDp, heightDp);
-
-        if (smallestWidth >= 1000) {
-            AppCompatImageView down = (AppCompatImageView) view.findViewById(R.id.move_down);
-            AppCompatImageView up = (AppCompatImageView) view.findViewById(R.id.move_up);
-
-            down.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-            up.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-            poi.setTextSize(24);
-        } else if (smallestWidth > 720 && smallestWidth < 1000) {
-            poi.setTextSize(22);
-        } else if (smallestWidth <= 720 && smallestWidth >= 600) {
-            poi.setTextSize(20);
-        } else if (smallestWidth < 600 && smallestWidth >= 500) {
-            poi.setTextSize(16);
-        }
-    }
-
     private static boolean isNumeric(String str) {
         try {
             Integer.parseInt(str);
@@ -194,21 +163,8 @@ public class TourPOIsAdapter extends BaseAdapter {
     }
 
     private void setArrowsBehaviour(View view, final int position, TextView poi) {
-
-        screenSizeTreatment(view, poi);
-        view.findViewById(R.id.move_down).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveDown(position);
-            }
-        });
-
-        view.findViewById(R.id.move_up).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveUp(position);
-            }
-        });
+        view.findViewById(R.id.move_down).setOnClickListener(v -> moveDown(position));
+        view.findViewById(R.id.move_up).setOnClickListener(v -> moveUp(position));
     }
 
     private void moveUp(int position) {

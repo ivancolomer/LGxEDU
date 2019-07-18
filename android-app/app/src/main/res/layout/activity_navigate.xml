@@ -12,11 +12,11 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/wifi_gif"
-            android:layout_width="96dp"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/_6sdp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/wifi"
@@ -26,11 +26,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/_6sdp"
         android:gravity="bottom"
-        android:padding="8dp"
-        android:text="Instructions:\n1- Use one finger for rotating the earth.\n2- Use two fingers for up and down to change the tilt.\n3- Use two fingers for left and right to change the heading\n4- Either move your two fingers together or separate them to in the direction of the heading."
+        android:padding="@dimen/_4sdp"
+        android:text="\n1- Drag one finger to move the earth\n2- Drag two fingers in same direction to change tilt or heading\n3- Pinch 2 or more fingers together or apart to adjust zoom"
         android:textColor="@color/material_grey"
-        android:textSize="24sp" />
+        android:textSize="@dimen/_15ssp" />
 
 </LinearLayout>

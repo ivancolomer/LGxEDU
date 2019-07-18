@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,6 +23,9 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -34,11 +38,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.games.ISaveData;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +62,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
     private static final float MIN_DISTANCE = 1000;
     static CreatePOIFragment fragment;
     private static View rootView = null;
+    private ViewHolderPoi viewHolderPoi;
     private static Map<String, String> spinnerIDsAndShownNames;
 
     private GoogleMap map;
@@ -78,7 +87,35 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         if (itemSettings != null) {
             itemSettings.setVisible(false);
         }
+
+        inflater.inflate(R.menu.menu_create_or_edit_poi, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true);
+
+        Drawable drawable = menu.findItem(R.id.save_poi).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(getContext(), R.color.whiteGrey));
+        menu.findItem(R.id.save_poi).setIcon(drawable);
+
+        drawable = menu.findItem(R.id.close_poi).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(getContext(), R.color.whiteGrey));
+        menu.findItem(R.id.close_poi).setIcon(drawable);
+
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.save_poi) {
+            if(viewHolderPoi != null)
+                createPOI(viewHolderPoi);
+        } else if(id == R.id.close_poi) {
+            getActivity().onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -91,10 +128,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         }
         getActivity().setTitle(getResources().getString(R.string.new_poi));
         //If admin user is creating a POI, first of all layout settings are shown on the screen.
-        final ViewHolderPoi viewHolder = setPOILayoutSettings(inflater, container);
-        viewHolder.createPOI.setOnClickListener(v -> {//When POIs Creation button is clicked
-            createPOI(viewHolder);
-        });
+        viewHolderPoi = setPOILayoutSettings(inflater, container);
         SupportMapFragment fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         fragment.getMapAsync(this);
 
@@ -235,8 +269,6 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
 
         rootView = inflater.inflate(R.layout.fragment_create_or_update_poi, container, false);
         ViewHolderPoi viewHolder = new ViewHolderPoi(rootView);
-        viewHolder.updatePOI.hide();
-        viewHolder.createPOI.show();
 
         try {
             fillCategorySpinner(viewHolder.categoryID);
@@ -244,42 +276,6 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
 
         }
 
-        //On the screen there is a button to cancel the creation and return to the main administration view
-        setCancelComeBackBehaviour(viewHolder.cancel);
-
-        return viewHolder;
-    }
-
-    private ContentValues getContentValuesFromDataFromCategoryInputForm(ViewHolderCategory viewHolder) {
-        ContentValues contentValues = new ContentValues();
-
-        String categoryName = viewHolder.categoryName.getText().toString();
-        int hideValue = getHideValueFromInputForm(viewHolder.switchButtonHide);
-        int fatherID;
-        String shownName;
-
-
-        shownName = getShownNameValueFromInputForm(viewHolder.fatherID);
-        fatherID = getFatherIDValueFromInputForm(shownName);
-        shownName = shownName + viewHolder.categoryName.getText().toString() + "/";
-
-        contentValues.put(POIsContract.CategoryEntry.COLUMN_NAME, categoryName);
-        contentValues.put(POIsContract.CategoryEntry.COLUMN_FATHER_ID, fatherID);
-        contentValues.put(POIsContract.CategoryEntry.COLUMN_SHOWN_NAME, shownName);
-        contentValues.put(POIsContract.CategoryEntry.COLUMN_HIDE, hideValue);
-
-        return contentValues;
-    }
-
-    private ViewHolderCategory setCategoryLayoutSettings(LayoutInflater inflater, ViewGroup container) {
-        rootView = inflater.inflate(R.layout.fragment_create_or_update_category, container, false);
-        ViewHolderCategory viewHolder = new ViewHolderCategory(rootView);
-        viewHolder.updateCategory.hide();
-        viewHolder.createCategory.show();
-
-        fillCategorySpinner(viewHolder.fatherID);
-
-        setCancelComeBackBehaviour(viewHolder.cancel);
         return viewHolder;
     }
 
@@ -323,18 +319,12 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         }
     }
 
-    private void setCancelComeBackBehaviour(FloatingActionButton cancel) {
-
-        cancel.setOnClickListener(view -> this.getActivity().onBackPressed());
-    }
-
     //These three ViewHolder classes are a kind of containers which contain all the elements related
     //to the creation of one item. The POIs once contains the elements for creating a POI, the Tour
     //once to be able to create a Tour and the same with the Categories once.
     public static class ViewHolderPoi {
 
         public EditText name;
-        public FloatingActionButton cancel;
         EditText visitedPlaceET;
         EditText longitudeET;
         EditText latitudeET;
@@ -343,8 +333,6 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         EditText tiltET;
         EditText rangeET;
         Spinner categoryID;
-        FloatingActionButton createPOI;
-        FloatingActionButton updatePOI;
         Spinner spinnerAltitudeMode;
         private Switch switchButtonHide;
 
@@ -385,30 +373,6 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
             });
 
             switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
-            createPOI = rootView.findViewById(R.id.create_poi);
-            updatePOI = rootView.findViewById(R.id.update_poi);
-            cancel = rootView.findViewById(R.id.cancel_come_back);
         }
-    }
-
-    public static class ViewHolderCategory {
-
-        public FloatingActionButton cancel;
-        EditText categoryName;
-        Spinner fatherID;
-        FloatingActionButton createCategory;
-        FloatingActionButton updateCategory;
-        private Switch switchButtonHide;
-
-        ViewHolderCategory(View rootView) {
-
-            categoryName = rootView.findViewById(R.id.category_name);
-            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
-            fatherID = rootView.findViewById(R.id.father_spinner);
-            createCategory = rootView.findViewById(R.id.create_category);
-            updateCategory = rootView.findViewById(R.id.update_category);
-            cancel = rootView.findViewById(R.id.cancel_come_back);
-        }
-
     }
 }

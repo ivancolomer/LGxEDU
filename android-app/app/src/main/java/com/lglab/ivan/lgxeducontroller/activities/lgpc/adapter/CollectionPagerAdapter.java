@@ -20,15 +20,14 @@ public class CollectionPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
+            case PAGE_TOURS:
+                return new TourUserFragment();
             case SEARCH:
+            default:
                 if (POISFragment.getTourState()) {
                     POISFragment.resetTourSettings();
                 }
                 return new SearchFragment();
-            case PAGE_TOURS:
-                return new TourUserFragment();
-            default:
-                return getItem(SEARCH);
         }
     }
 

@@ -2,6 +2,7 @@ package com.lglab.ivan.lgxeducontroller.legacy;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,8 @@ import java.util.List;
  */
 public class TourUserFragment extends Fragment {
 
-    View rootView;
-    GridView toursGridView;
+    private View rootView;
+    private GridView toursGridView;
     private ListView categoriesListView;
     private TextView categorySelectorTitle, currentCategoryText;
     private Button show_all;
@@ -93,7 +94,7 @@ public class TourUserFragment extends Fragment {
             categorySelectorTitle.setVisibility(View.GONE);
             currentCategoryText.setVisibility(View.GONE);
         }
-        toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity(), getActivity()));
+        toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity()));
 
         Cursor queryCursor = getCategoriesCursor();
         showCategoriesOnScreen(queryCursor);
@@ -135,7 +136,7 @@ public class TourUserFragment extends Fragment {
 
     private void showAllTours() {
         final List<Tour> toursList = getAllTours();
-        toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity(), getActivity()));
+        toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity()));
         show_all.setText(getResources().getString(R.string.showByCategories));
         categorySelectorTitle.setVisibility(View.GONE);
         currentCategoryText.setVisibility(View.GONE);
@@ -204,7 +205,7 @@ public class TourUserFragment extends Fragment {
 
         final List<Tour> toursList = getNotCategorizedTours();
         if (toursList != null) {
-            toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity(), getActivity()));
+            toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity()));
         }
     }
 
@@ -223,7 +224,7 @@ public class TourUserFragment extends Fragment {
 
         final List<Tour> toursList = getTours(Integer.parseInt(backIDs.get(0)));
         if (toursList != null) {
-            toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity(), getActivity()));
+            toursGridView.setAdapter(new ToursGridViewAdapter(toursList, getActivity()));
         }
     }
 

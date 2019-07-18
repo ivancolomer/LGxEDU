@@ -62,39 +62,4 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/create_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/cancel_come_back"
-        app:srcCompat="@drawable/ic_check_black_24dp"
-        app:tint="@color/whiteGrey"
-        android:text="@string/create_category"
-        app:backgroundTint="@color/green" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/update_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/cancel_come_back"
-        app:srcCompat="@drawable/ic_check_black_24dp"
-        app:tint="@color/whiteGrey"
-        android:text="@string/update_category"
-        android:visibility="gone"
-        app:backgroundTint="@color/green" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cancel_come_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/ic_close_black_24dp"
-        app:tint="@color/whiteGrey"
-        android:text="@string/cancel"
-        app:backgroundTint="@color/red" />
-
-
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -21,6 +22,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -52,7 +56,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     private static final String Category_IDselection = POIsContract.CategoryEntry._ID + " =?";
     private static View rootView;
     private static String itemSelectedID;
-    private static ViewHolderTour viewHolderTour;
+
     private static Map<String, String> spinnerIDsAndShownNames, categoriesOfPOIsSpinner;
     private static List<TourPOI> tourPois, newTourPOIS;
     private double latitude;
@@ -63,6 +67,11 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     private Cursor queryCursor;
     private ArrayAdapter<String> adapter;
 
+    private ViewHolderPoi viewHolderPoi;
+    private static ViewHolderTour viewHolderTour;
+    private ViewHolderCategory viewHolderCategory;
+    private String oldItemShownName;
+
     public UpdateItemFragment() {
         tourPois = new ArrayList<>();
         newTourPOIS = new ArrayList<>();
@@ -70,7 +79,6 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     public static void deleteButtonTreatment(View view, final TourPOI tourPoi) {
         final AppCompatImageView delete = view.findViewById(R.id.delete);
-        screenSizeTreatment(delete);
         delete.setOnClickListener(v -> {
 
             if (tourPois.contains(tourPoi)) {
@@ -89,29 +97,8 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         });
     }
 
-    private static void screenSizeTreatment(AppCompatImageView delete) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        FragmentActivity act = (FragmentActivity) rootView.getContext();
-        act.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
-        float scaleFactor = metrics.density;
-
-
-        //The size of the diagonal in inches is equal to the square root of the height in inches squared plus the width in inches squared.
-        float widthDp = widthPixels / scaleFactor;
-        float heightDp = heightPixels / scaleFactor;
-
-        float smallestWidth = Math.min(widthDp, heightDp);
-
-        if (smallestWidth >= 1000) {
-            delete.setImageResource(R.drawable.ic_remove_circle_outline_black_24dp);
-        }
-    }
-
     //when, from POIsFragment, we are updating a TOUR and we want to ADD another POI
-    public static void setPOItoTourPOIsList(TourPOI tourPOI) {
+    static void setPOItoTourPOIsList(TourPOI tourPOI) {
         String global_interval = viewHolderTour.global_interval.getText().toString();
         if (!tourPois.contains(tourPOI)) {
             TourPOIsAdapter.setType("updating");
@@ -156,15 +143,15 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         switch (updateType) {
             case "POI": {
                 getActivity().setTitle(getResources().getString(R.string.update_poi));
-                ViewHolderPoi viewHolder = setPOILayoutSettings(inflater, container);
-                updatePOI(viewHolder);
+                viewHolderPoi = setPOILayoutSettings(inflater, container);
+                updatePOI(viewHolderPoi);
 
                 SupportMapFragment fragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
                 fragment.getMapAsync(this);
 
-                latitude = Double.parseDouble(viewHolder.latitudeET.getText().toString());
-                longitude = Double.parseDouble(viewHolder.longitudeET.getText().toString());
-                poiName = viewHolder.nameET.getText().toString();
+                latitude = Double.parseDouble(viewHolderPoi.latitudeET.getText().toString());
+                longitude = Double.parseDouble(viewHolderPoi.longitudeET.getText().toString());
+                poiName = viewHolderPoi.nameET.getText().toString();
 
 
                 break;
@@ -176,8 +163,8 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
                 break;
             default: {//CATEGORY
                 getActivity().setTitle(getResources().getString(R.string.update_category));
-                ViewHolderCategory viewHolder = setCategoryLayoutSettings(inflater, container);
-                updateCategory(viewHolder);
+                viewHolderCategory = setCategoryLayoutSettings(inflater, container);
+                updateCategory(viewHolderCategory);
                 break;
             }
         }
@@ -189,8 +176,42 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem itemSettings = menu.findItem(R.id.action_settings);
-        itemSettings.setVisible(false);
+        if(itemSettings != null)
+            itemSettings.setVisible(false);
+
+        inflater.inflate(R.menu.menu_create_or_edit_poi, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true);
+
+        Drawable drawable = menu.findItem(R.id.save_poi).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(getContext(), R.color.whiteGrey));
+        menu.findItem(R.id.save_poi).setIcon(drawable);
+
+        drawable = menu.findItem(R.id.close_poi).getIcon();
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(getContext(), R.color.whiteGrey));
+        menu.findItem(R.id.close_poi).setIcon(drawable);
+
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.save_poi) {
+            if(viewHolderPoi != null)
+                updatePOIModifications(viewHolderPoi);
+            else if(viewHolderCategory != null)
+                updateCategoryModifications(viewHolderCategory, oldItemShownName);
+            else if(viewHolderTour != null) {
+                updateTourModifications();
+                updateTourPOIsModifications();
+            }
+        } else if(id == R.id.close_poi) {
+            getActivity().onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -216,17 +237,11 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         Cursor query = getAllSelectedItemData(POIsContract.POIEntry.CONTENT_URI, POI_IDselection);
         fillPOIsCategoriesSpinner(viewHolder.categoryID);
         setDataToPOIsLayout(query, viewHolder);
-        updatePOIModifications(viewHolder);
     }
 
     private ViewHolderPoi setPOILayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_poi, container, false);
-        final ViewHolderPoi viewHolder = new ViewHolderPoi(rootView);
-        viewHolder.createPOI.hide();
-        viewHolder.updatePOI.show();
-        setCancelComeBackBehaviour(viewHolder.cancel);
-
-        return viewHolder;
+        return new ViewHolderPoi(rootView);
     }
 
     private void fillPOIsCategoriesSpinner(Spinner spinner) {
@@ -271,56 +286,50 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     private void updatePOIModifications(final ViewHolderPoi viewHolder) {
 
-        viewHolder.updatePOI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ContentValues contentValues = new ContentValues();
 
-                ContentValues contentValues = new ContentValues();
+        int categoryID;
 
-                int categoryID;
+        String visitedPlace = viewHolder.visitedPlaceET.getText().toString();
+        String completeName = viewHolder.nameET.getText().toString();
+        float longitude = Float.parseFloat(viewHolder.longitudeET.getText().toString());
+        float latitude = Float.parseFloat(viewHolder.latitudeET.getText().toString());
+        float altitude = Float.parseFloat(viewHolder.altitudeET.getText().toString());
+        float heading = Float.parseFloat(viewHolder.headingET.getText().toString());
+        float tilt = Float.parseFloat(viewHolder.tiltET.getText().toString());
+        float range = Float.parseFloat(viewHolder.rangeET.getText().toString());
+        String altitudeMode = viewHolder.spinnerAltitudeMode.getSelectedItem().toString();
 
-                String visitedPlace = viewHolder.visitedPlaceET.getText().toString();
-                String completeName = viewHolder.nameET.getText().toString();
-                float longitude = Float.parseFloat(viewHolder.longitudeET.getText().toString());
-                float latitude = Float.parseFloat(viewHolder.latitudeET.getText().toString());
-                float altitude = Float.parseFloat(viewHolder.altitudeET.getText().toString());
-                float heading = Float.parseFloat(viewHolder.headingET.getText().toString());
-                float tilt = Float.parseFloat(viewHolder.tiltET.getText().toString());
-                float range = Float.parseFloat(viewHolder.rangeET.getText().toString());
-                String altitudeMode = viewHolder.spinnerAltitudeMode.getSelectedItem().toString();
+        int hide = getHideValueFromInputForm(viewHolder.switchButtonHide);
 
-                int hide = getHideValueFromInputForm(viewHolder.switchButtonHide);
+        String shownName = getShownNameValueFromInputForm(viewHolder.categoryID);
+        categoryID = getFatherIDValueFromInputForm(shownName);
 
-                String shownName = getShownNameValueFromInputForm(viewHolder.categoryID);
-                categoryID = getFatherIDValueFromInputForm(shownName);
+        contentValues.put(POIsContract.POIEntry.COLUMN_COMPLETE_NAME, completeName);
+        contentValues.put(POIsContract.POIEntry.COLUMN_VISITED_PLACE_NAME, visitedPlace);
+        contentValues.put(POIsContract.POIEntry.COLUMN_COMPLETE_NAME, completeName);
+        contentValues.put(POIsContract.POIEntry.COLUMN_LONGITUDE, longitude);
+        contentValues.put(POIsContract.POIEntry.COLUMN_LATITUDE, latitude);
+        contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE, altitude);
+        contentValues.put(POIsContract.POIEntry.COLUMN_HEADING, heading);
+        contentValues.put(POIsContract.POIEntry.COLUMN_TILT, tilt);
+        contentValues.put(POIsContract.POIEntry.COLUMN_RANGE, range);
+        contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE_MODE, altitudeMode);
+        contentValues.put(POIsContract.POIEntry.COLUMN_HIDE, hide);
+        contentValues.put(POIsContract.POIEntry.COLUMN_CATEGORY_ID, categoryID);
 
-                contentValues.put(POIsContract.POIEntry.COLUMN_COMPLETE_NAME, completeName);
-                contentValues.put(POIsContract.POIEntry.COLUMN_VISITED_PLACE_NAME, visitedPlace);
-                contentValues.put(POIsContract.POIEntry.COLUMN_COMPLETE_NAME, completeName);
-                contentValues.put(POIsContract.POIEntry.COLUMN_LONGITUDE, longitude);
-                contentValues.put(POIsContract.POIEntry.COLUMN_LATITUDE, latitude);
-                contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE, altitude);
-                contentValues.put(POIsContract.POIEntry.COLUMN_HEADING, heading);
-                contentValues.put(POIsContract.POIEntry.COLUMN_TILT, tilt);
-                contentValues.put(POIsContract.POIEntry.COLUMN_RANGE, range);
-                contentValues.put(POIsContract.POIEntry.COLUMN_ALTITUDE_MODE, altitudeMode);
-                contentValues.put(POIsContract.POIEntry.COLUMN_HIDE, hide);
-                contentValues.put(POIsContract.POIEntry.COLUMN_CATEGORY_ID, categoryID);
+        int updatedRows = POIsContract.POIEntry.updateByID(getActivity(), contentValues, itemSelectedID);
 
-                int updatedRows = POIsContract.POIEntry.updateByID(getActivity(), contentValues, itemSelectedID);
-
-                if (updatedRows > 0) {
-                    Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-                    intent.putExtra("comeFrom", "treeView");
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), "ERROR UPDATING", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-                    intent.putExtra("comeFrom", "treeView");
-                    startActivity(intent);
-                }
-            }
-        });
+        if (updatedRows > 0) {
+            final Activity activity = getActivity();
+            if(activity != null)
+                activity.runOnUiThread(activity::onBackPressed);
+        } else {
+            Toast.makeText(getActivity(), "ERROR UPDATING", Toast.LENGTH_SHORT).show();
+            final Activity activity = getActivity();
+            if(activity != null)
+                activity.runOnUiThread(activity::onBackPressed);
+        }
     }
 
     private String getShownNameByCategoryID(Cursor query, ViewHolderPoi viewHolderPoi, ViewHolderTour viewHolderTour, String type) {
@@ -334,19 +343,14 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
     /*CATEGORY TREATMENT*/
     private void updateCategory(ViewHolderCategory viewHolder) {
         Cursor query = getAllSelectedItemData(POIsContract.CategoryEntry.CONTENT_URI, Category_IDselection);
-        String oldItemShownName = fillCategoriesSpinner(query, viewHolder);
+        oldItemShownName = fillCategoriesSpinner(query, viewHolder);
         setDataToLayout(query, viewHolder);
-        updateCategoryModifications(viewHolder, oldItemShownName);
     }
 
     private ViewHolderCategory setCategoryLayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_category, container, false);
-        final ViewHolderCategory viewHolder = new ViewHolderCategory(rootView);
-        viewHolder.createCategory.hide();
-        viewHolder.updateCategory.show();
-        setCancelComeBackBehaviour(viewHolder.cancel);
-
-        return viewHolder;
+        viewHolderCategory = new ViewHolderCategory(rootView);
+        return viewHolderCategory;
     }
 
     private String fillCategoriesSpinner(Cursor query, ViewHolderCategory viewHolder) {
@@ -384,35 +388,29 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     private void updateCategoryModifications(final UpdateItemFragment.ViewHolderCategory viewHolder, final String oldItemShownName) {
 
-        viewHolder.updateCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        //If the user wants to put some category inside one of its sons, he will not be able to,
+        //he will have to delete that category and insert it again in the correct category.
+        //For example: the order is: ESP - CAT - LLEIDA - ... If the user wants
+        //to put ESP inside CAT or LLEIDA (both are sons of ESP) he will not be able to.
 
-                //If the user wants to put some category inside one of its sons, he will not be able to,
-                //he will have to delete that category and insert it again in the correct category.
-                //For example: the order is: ESP - CAT - LLEIDA - ... If the user wants
-                //to put ESP inside CAT or LLEIDA (both are sons of ESP) he will not be able to.
+        ContentValues contentValues = new ContentValues();
+        final String categoryName = viewHolder.categoryName.getText().toString();
+        final int hideValue = getHideValueFromInputForm(viewHolder.switchButtonHide);
+        String shownNameSelected = getShownNameValueFromInputForm(viewHolder.fatherID);
+        final int fatherID = getFatherIDValueFromInputForm(shownNameSelected);
+        final String correctShownName = shownNameSelected + viewHolder.categoryName.getText().toString() + "/";
+        newShownName = correctShownName;
 
-                ContentValues contentValues = new ContentValues();
-                final String categoryName = viewHolder.categoryName.getText().toString();
-                final int hideValue = getHideValueFromInputForm(viewHolder.switchButtonHide);
-                String shownNameSelected = getShownNameValueFromInputForm(viewHolder.fatherID);
-                final int fatherID = getFatherIDValueFromInputForm(shownNameSelected);
-                final String correctShownName = shownNameSelected + viewHolder.categoryName.getText().toString() + "/";
-                newShownName = correctShownName;
+        contentValues.put(POIsContract.CategoryEntry.COLUMN_NAME, categoryName);
+        contentValues.put(POIsContract.CategoryEntry.COLUMN_FATHER_ID, fatherID);
+        contentValues.put(POIsContract.CategoryEntry.COLUMN_SHOWN_NAME, correctShownName);
+        contentValues.put(POIsContract.CategoryEntry.COLUMN_HIDE, hideValue);
 
-                contentValues.put(POIsContract.CategoryEntry.COLUMN_NAME, categoryName);
-                contentValues.put(POIsContract.CategoryEntry.COLUMN_FATHER_ID, fatherID);
-                contentValues.put(POIsContract.CategoryEntry.COLUMN_SHOWN_NAME, correctShownName);
-                contentValues.put(POIsContract.CategoryEntry.COLUMN_HIDE, hideValue);
-
-                int updatedRows = POIsContract.CategoryEntry.updateByID(getActivity(), contentValues, itemSelectedID);
-                if (updatedRows <= 0) {
-                    Toast.makeText(getActivity(), "ERROR UPDATING", Toast.LENGTH_SHORT).show();
-                }
-                updateSubCategoriesShownName(oldItemShownName);
-            }
-        });
+        int updatedRows = POIsContract.CategoryEntry.updateByID(getActivity(), contentValues, itemSelectedID);
+        if (updatedRows <= 0) {
+            Toast.makeText(getActivity(), "ERROR UPDATING", Toast.LENGTH_SHORT).show();
+        }
+        updateSubCategoriesShownName(oldItemShownName);
     }
 
     private void updateSubCategoriesShownName(String oldItemShownName) {
@@ -472,13 +470,6 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         Cursor query = getAllSelectedItemData(POIsContract.TourEntry.CONTENT_URI, TOUR_IDselection);
         fillPOIsCategoriesSpinner(viewHolder.categoryID);
         setDataToTourLayout(query, viewHolder);
-        viewHolder.updateTOUR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateTourModifications();
-                updateTourPOIsModifications();
-            }
-        });
     }
 
     private void updateTourModifications() {
@@ -510,9 +501,9 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
             POIsContract.TourPOIsEntry.createNewTourPOI(getActivity(), contentValues);
         }
 
-        Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-        intent.putExtra("comeFrom", "tours");
-        startActivity(intent);
+        final Activity activity = getActivity();
+        if(activity != null)
+            activity.runOnUiThread(activity::onBackPressed);
     }
 
     private void setDataToTourLayout(Cursor query, ViewHolderTour viewHolder) {
@@ -561,12 +552,8 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
     private ViewHolderTour setTOURLayoutSettings(LayoutInflater inflater, ViewGroup container) {
         rootView = inflater.inflate(R.layout.fragment_create_or_update_tour, container, false);
-        final ViewHolderTour viewHolder = new ViewHolderTour(rootView);
-        viewHolder.createTOUR.hide();
-        viewHolder.updateTOUR.show();
-        setCancelComeBackBehaviour(viewHolder.cancel);
-
-        return viewHolder;
+        viewHolderTour = new ViewHolderTour(rootView);
+        return viewHolderTour;
     }
 
     private ContentValues getContentValuesFromDataFromTourInputForm(ViewHolderTour viewHolder) {
@@ -618,20 +605,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
                 null, selection, new String[]{itemSelectedID}, null);
     }
 
-    private void setCancelComeBackBehaviour(FloatingActionButton cancel) {
-
-        cancel.setOnClickListener(v -> {
-            /*Intent intent = new Intent(getActivity(), LGPCAdminActivity.class);
-            startActivity(intent);*/
-            final Activity activity = getActivity();
-            if(activity != null)
-                activity.runOnUiThread(activity::onBackPressed);
-        });
-    }
-
     public static class ViewHolderPoi {
-
-        public FloatingActionButton cancel;
         int NAME = 1;
         int VISITED_PLACE_NAME = 2;
         int LONGITUDE = 3;
@@ -652,8 +626,6 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         EditText tiltET;
         EditText rangeET;
         Spinner categoryID;
-        FloatingActionButton createPOI;
-        FloatingActionButton updatePOI;
         Spinner spinnerAltitudeMode;
         private Switch switchButtonHide;
 
@@ -670,51 +642,37 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
             spinnerAltitudeMode = (Spinner) rootView.findViewById(R.id.spinnerAltitude);
             switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
             categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
-            createPOI = (FloatingActionButton) rootView.findViewById(R.id.create_poi);
-            updatePOI = (FloatingActionButton) rootView.findViewById(R.id.update_poi);
-            cancel = (FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
         }
     }
 
     public static class ViewHolderTour {
 
         public AppCompatImageView up;
-        public FloatingActionButton cancel;
         int NAME = 1;
         int CATEGORY = 2;
         int HIDE = 3;
         int INTERVAL = 4;
         EditText tourName;
         Spinner categoryID;
-        FloatingActionButton createTOUR;
-        FloatingActionButton updateTOUR;
         ListView addedPois;
         AppCompatImageView down;
         EditText global_interval;
         private Switch switchButtonHide;
 
         ViewHolderTour(View rootView) {
-
             tourName = (EditText) rootView.findViewById(R.id.tour_name);
             switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
             categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
-            createTOUR = (FloatingActionButton) rootView.findViewById(R.id.create_tour);
-            updateTOUR = (FloatingActionButton) rootView.findViewById(R.id.update_tour);
             addedPois = (ListView) rootView.findViewById(R.id.tour_pois_listview);
             up = (AppCompatImageView) rootView.findViewById(R.id.move_up);
             down = (AppCompatImageView) rootView.findViewById(R.id.move_down);
-            cancel = (FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
             global_interval = (EditText) rootView.findViewById(R.id.pois_interval);
         }
     }
 
     public static class ViewHolderCategory {
-
-        public FloatingActionButton cancel;
         EditText categoryName;
         Spinner fatherID;
-        FloatingActionButton createCategory;
-        FloatingActionButton updateCategory;
         private int NAME = 1;
         private int FATHER_ID = 2;
         private int SHOWN_NAME = 3;
@@ -725,9 +683,6 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
             categoryName = (EditText) rootView.findViewById(R.id.category_name);
             switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
             fatherID = (Spinner) rootView.findViewById(R.id.father_spinner);
-            createCategory = (FloatingActionButton) rootView.findViewById(R.id.create_category);
-            updateCategory = (FloatingActionButton) rootView.findViewById(R.id.update_category);
-            cancel = (FloatingActionButton) rootView.findViewById(R.id.cancel_come_back);
         }
     }
 

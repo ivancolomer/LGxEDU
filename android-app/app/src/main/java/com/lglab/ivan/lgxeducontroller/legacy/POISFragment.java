@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.widget.AppCompatImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +24,6 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
@@ -54,7 +53,6 @@ public class POISFragment extends Fragment {
     private final Uri POI_URI = POIsContract.POIEntry.CONTENT_URI;
     private final Uri TOUR_URI = POIsContract.TourEntry.CONTENT_URI;
     private final Uri Category_URI = POIsContract.CategoryEntry.CONTENT_URI;
-    Session session;
     private CategoriesAdapter adapter;
     private POIsAdapter adapterPOI;
     private ListView poisListView, categoriesListView;
@@ -66,7 +64,7 @@ public class POISFragment extends Fragment {
         add("0");
     }};
     private TextView seeingOptions, poisListViewTittle, route, categories_tittle;
-    private LinearLayout additionLayout, poisfragment;
+    private RelativeLayout poisfragment, additionLayout;
     private FloatingActionButton createPOI, createPOIhere, createTour, createCategory, createTourhere, createCategoryhere, cancel, edit, delete;
 
     public POISFragment() {
@@ -146,56 +144,11 @@ public class POISFragment extends Fragment {
         cancel = dialogView.findViewById(R.id.cancel_poi_selection);
         edit = dialogView.findViewById(R.id.edit_poi);
         delete = dialogView.findViewById(R.id.delete_poi);
-
-        screenSizeTreatment();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    /* Depending on the screen size, it will set different font size.*/
-    private void screenSizeTreatment() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
-        float scaleFactor = metrics.density;
-
-
-        //The size of the diagonal in inches is equal to the square root of the height in inches squared plus the width in inches squared.
-        float widthDp = widthPixels / scaleFactor;
-        float heightDp = heightPixels / scaleFactor;
-
-        float smallestWidth = Math.min(widthDp, heightDp);
-
-        if (smallestWidth >= 1000) {
-            seeingOptions.setTextSize(28);
-            categories_tittle.setTextSize(28);
-            route.setTextSize(28);
-            poisListViewTittle.setTextSize(28);
-            backStartIcon.setImageResource(R.drawable.ic_home_black_24dp);
-            backIcon.setImageResource(R.drawable.ic_reply_black_24dp);
-        } else if (smallestWidth > 720 && smallestWidth < 1000) {
-            seeingOptions.setTextSize(24);
-            categories_tittle.setTextSize(24);
-            route.setTextSize(24);
-            poisListViewTittle.setTextSize(24);
-            backStartIcon.setImageResource(R.drawable.ic_home_black_24dp);
-            backIcon.setImageResource(R.drawable.ic_reply_black_24dp);
-        } else if (smallestWidth <= 720 && smallestWidth >= 600) {
-            seeingOptions.setTextSize(22);
-            categories_tittle.setTextSize(2);
-            route.setTextSize(2);
-            poisListViewTittle.setTextSize(22);
-        } else if (smallestWidth < 600 && smallestWidth >= 500) {
-            seeingOptions.setTextSize(17);
-            categories_tittle.setTextSize(17);
-            route.setTextSize(17);
-            poisListViewTittle.setTextSize(17);
-        }
     }
 
     @Override

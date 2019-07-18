@@ -1,26 +1,27 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.lgpc.fragment.SearchFragment">
+    android:weightSum="2">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
         <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_gravity="start"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:background="@color/grey"
             android:orientation="vertical">
 
@@ -28,29 +29,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back_start_icon"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="start"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:contentDescription="@string/back_start"
                     android:focusable="false"
                     app:srcCompat="@drawable/ic_home_black_24dp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back_icon"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="end"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:contentDescription="@string/back"
                     android:focusable="false"
                     app:backgroundTint="@color/whiteGrey"
@@ -62,95 +63,98 @@
                 android:id="@+id/viewing_category_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:text="@string/viewing_category"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_10ssp" />
 
 
             <TextView
                 android:id="@+id/current_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textSize="30sp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:textSize="@dimen/_14ssp"
                 android:textStyle="bold|italic|normal" />
 
 
             <ListView
                 android:id="@+id/categories_listview"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:divider="@null"
                 android:fadeScrollbars="false"
                 android:scrollbars="vertical" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutPlanets"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/searchLayout"
                 android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/earth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
-                    android:scaleType="fitXY"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:scaleType="fitCenter"
                     app:srcCompat="@drawable/earth" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/moon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:scaleType="fitXY"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:scaleType="fitCenter"
                     app:srcCompat="@drawable/moon" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/mars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
-                    android:scaleType="fitXY"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:scaleType="fitCenter"
                     app:srcCompat="@drawable/mars" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/searchLayout"
-                android:layout_width="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start">
 
                 <EditText
                     android:id="@+id/search_edittext"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:layout_weight="2"
                     android:hint="@string/search_some_place"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_12ssp" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/searchButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:scaleType="fitXY"
+                    android:scaleType="fitCenter"
                     app:srcCompat="@drawable/ic_search_black_24dp"
                     app:tint="@color/whiteGrey"
                     app:backgroundTint="@color/blue" />
@@ -165,14 +169,15 @@
                     app:backgroundTint="@color/whiteGrey" />
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_weight="1"
         android:gravity="center">
 
         <GridView
@@ -180,13 +185,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:columnWidth="30dp"
             android:gravity="center"
-            android:horizontalSpacing="10dp"
+            android:horizontalSpacing="@dimen/_4sdp"
             android:numColumns="3"
             android:scrollbars="vertical"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="15dp" />
+            android:verticalSpacing="@dimen/_6sdp" />
 
     </LinearLayout>
 </LinearLayout>

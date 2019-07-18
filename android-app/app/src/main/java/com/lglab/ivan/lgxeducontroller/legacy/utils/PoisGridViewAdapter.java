@@ -8,11 +8,17 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.appcompat.widget.AppCompatImageView;
+
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,61 +71,37 @@ public class PoisGridViewAdapter extends BaseAdapter {
         final POI currentPoi = this.poiList.get(i);
 
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
-
         RelativeLayout layout = new RelativeLayout(context);
         layout.setBackground(AppCompatResources.getDrawable(context, R.drawable.button_rounded_grey));
         layout.setLayoutParams(params);
 
         //Rotation Button
-
         final AppCompatImageButton rotatePoiButton = new AppCompatImageButton(context);
-
-        ViewGroup.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-
-        rotatePoiButton.setLayoutParams(layoutParams);
-        rotatePoiButton.setScaleType(AppCompatImageView.ScaleType.FIT_CENTER);
-
         rotatePoiButton.setBackground(AppCompatResources.getDrawable(context, R.drawable.button_rounded_grey));
-
         rotatePoiButton.setOnClickListener(view13 -> {
             VisitPoiTask visitPoiTask = new VisitPoiTask(currentPoi, true);
             visitPoiTask.execute();
         });
-
         rotatePoiButton.setEnabled(false);
         rotatePoiButton.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_autorenew_black_24dp));
 
-        RelativeLayout.LayoutParams paramsRotate = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        paramsRotate.width = Math.round(48 * context.getResources().getDisplayMetrics().density);
-        paramsRotate.height = Math.round(48 * context.getResources().getDisplayMetrics().density);
+        RelativeLayout.LayoutParams paramsRotate = new RelativeLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen._24sdp), context.getResources().getDimensionPixelSize(R.dimen._24sdp));
         paramsRotate.addRule(RelativeLayout.ALIGN_PARENT_END);
-        rotatePoiButton.setLayoutParams(layoutParams);
+        rotatePoiButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         rotatePoiButton.setSupportImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.black)));
+        rotatePoiButton.setLayoutParams(paramsRotate);
+
+        layout.addView(rotatePoiButton);
 
         //View POI
-        RelativeLayout.LayoutParams paramsView = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams paramsView = new RelativeLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen._48sdp), context.getResources().getDimensionPixelSize(R.dimen._24sdp));
         AppCompatImageButton viewPoiButton = new AppCompatImageButton(context);
         paramsView.addRule(RelativeLayout.CENTER_VERTICAL);
-        paramsView.addRule(RelativeLayout.ALIGN_START);
+        paramsView.addRule(RelativeLayout.ALIGN_PARENT_START);
+        viewPoiButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         viewPoiButton.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_place_black_24dp));
         viewPoiButton.setBackground(AppCompatResources.getDrawable(context, R.drawable.button_rounded_grey));
         viewPoiButton.setLayoutParams(paramsView);
-        viewPoiButton.setOnClickListener(view12 -> {
-            VisitPoiTask visitPoiTask = new VisitPoiTask(currentPoi, false);
-            visitPoiTask.execute();
-
-            disableOtherRotateButtons(viewGroup);
-            handler.removeCallbacksAndMessages(null);
-            handler.postDelayed(() -> {
-                try {
-                    rotatePoiButton.setEnabled(true);
-                    rotatePoiButton.setSupportImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.whiteGrey)));
-                    rotatePoiButton.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_autorenew_black_24dp));
-                } catch (Exception e) {
-
-                }
-            }, 5000);
-        });
 
         layout.addView(viewPoiButton);
 
@@ -128,26 +110,20 @@ public class PoisGridViewAdapter extends BaseAdapter {
         //Poi Name
         RelativeLayout.LayoutParams paramsText = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         TextView poiName = new TextView(context);
-
         if (currentPoi.getName().length() > maxLengthPoiName) {
             String name = currentPoi.getName().substring(0, maxLengthPoiName) + "...";
             poiName.setText(name);
         } else {
             poiName.setText(currentPoi.getName());
         }
-
-        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            //Portrait Orientation
-            poiName.setTextSize(15);
-        } else {
-            poiName.setTextSize(20);
-        }
-
-
+        poiName.setTextSize(TypedValue.COMPLEX_UNIT_PX, (int) context.getResources().getDimension(R.dimen._10ssp));
         poiName.setMaxLines(2);
         paramsText.addRule(RelativeLayout.CENTER_IN_PARENT);
+        poiName.setLayoutParams(paramsText);
 
-        poiName.setOnClickListener(view1 -> {
+        layout.addView(poiName);
+
+        layout.setOnClickListener(view1 -> {
             VisitPoiTask visitPoiTask = new VisitPoiTask(currentPoi, false);
             visitPoiTask.execute();
 
@@ -163,12 +139,6 @@ public class PoisGridViewAdapter extends BaseAdapter {
                 }
             }, 5000);
         });
-
-        layout.addView(poiName);
-        poiName.setLayoutParams(paramsText);
-
-        layout.addView(rotatePoiButton);
-        rotatePoiButton.setLayoutParams(paramsRotate);
 
         return layout;
     }
@@ -257,8 +227,9 @@ public class PoisGridViewAdapter extends BaseAdapter {
 
 
                     dialog.show();
-                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_forward_black_24dp, 0, 0);
-                    dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_rewind_black_24dp, 0, 0);
+
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(null, AppCompatResources.getDrawable(context, R.drawable.ic_fast_forward_black_24dp), null, null);
+                    dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(null, AppCompatResources.getDrawable(context, R.drawable.ic_fast_rewind_black_24dp), null, null);
                     dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(view -> {
                         changeVelocity = true;
                         rotationFactor = rotationFactor * 2;
@@ -266,11 +237,11 @@ public class PoisGridViewAdapter extends BaseAdapter {
                         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(context.getResources().getString(R.string.speedx4));
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setText(context.getResources().getString(R.string.speeddiv2));
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
-                        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_rewind_black_24dp, 0, 0);
+                        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(null, AppCompatResources.getDrawable(context, R.drawable.ic_fast_rewind_black_24dp), null, null);
 
                         if (rotationFactor == 4) {
                             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-                            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
                         }
                     });
                     dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener(view -> {
@@ -280,10 +251,10 @@ public class PoisGridViewAdapter extends BaseAdapter {
                         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setText(context.getResources().getString(R.string.speedx2));
                         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setText(context.getResources().getString(R.string.speeddiv4));
                         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
-                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_fast_forward_black_24dp, 0, 0);
+                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawablesRelativeWithIntrinsicBounds(null, AppCompatResources.getDrawable(context, R.drawable.ic_fast_forward_black_24dp), null, null);
 
                         if (rotationFactor == 1) {
-                            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
                             dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(false);
                         }
                     });

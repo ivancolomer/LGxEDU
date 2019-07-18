@@ -233,43 +233,5 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/create_poi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@id/cancel_come_back"
-            app:srcCompat="@drawable/ic_check_black_24dp"
-            app:tint="@color/whiteGrey"
-            android:text="@string/create_poi"
-            app:backgroundTint="@color/green" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/update_poi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@id/cancel_come_back"
-            app:srcCompat="@drawable/ic_check_black_24dp"
-            app:tint="@color/whiteGrey"
-            android:text="@string/update_poi"
-            android:visibility="gone"
-            app:backgroundTint="@color/green" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/cancel_come_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/ic_close_black_24dp"
-            app:tint="@color/whiteGrey"
-            android:text="@string/cancel"
-            app:backgroundTint="@color/red" />
-    </RelativeLayout>
 </LinearLayout>

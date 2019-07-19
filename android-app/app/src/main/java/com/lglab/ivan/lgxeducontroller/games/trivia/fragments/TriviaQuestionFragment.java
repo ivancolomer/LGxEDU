@@ -1,12 +1,18 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +55,7 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
     private TextView textView;
     private RecyclerView initial_recyclerview;
     private RecyclerView[] questions_recyclerviews;
-    private TextView[] answerViews;
+    private androidx.appcompat.widget.AppCompatTextView[] answerViews;
 
 
     private TriviaQuestion question;
@@ -95,7 +101,7 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
         textView = view.findViewById(R.id.question_title);
         textView.setText(question.getQuestion());
 
-        answerViews = new TextView[TriviaQuestion.MAX_ANSWERS];
+        answerViews = new androidx.appcompat.widget.AppCompatTextView[TriviaQuestion.MAX_ANSWERS];
         answerViews[0] = getView().findViewById(R.id.question_name_1);
         answerViews[1] = getView().findViewById(R.id.question_name_2);
         answerViews[2] = getView().findViewById(R.id.question_name_3);
@@ -110,20 +116,27 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
         }
 
         List<Integer> players = new ArrayList<>();
-        for(int i = 0; i < GameManager.getInstance().getPlayersCount(); i++) {
-            players.add(i);
-        }
-        ListAdapter topListAdapter = new ListAdapter(players, this);
+
+        for(int playerId = 0; playerId < GameManager.getInstance().getPlayersCount(); playerId++)
+            if(((TriviaManager)TriviaManager.getInstance()).getAnswerFromPlayer(playerId, questionNumber) == 0)
+                players.add(playerId);
+
+        ListAdapter topListAdapter = new ListAdapter(players, this, 0, (ViewGroup)initial_recyclerview.getParent().getParent());
         initial_recyclerview.setAdapter(topListAdapter);
         initial_recyclerview.setOnDragListener(topListAdapter.getDragInstance());
 
         for(int i = 0; i < questions_recyclerviews.length; i++) {
-            ListAdapter adapter = new ListAdapter(new ArrayList<>(), this);
+            players = new ArrayList<>();
+            for(int playerId = 0; playerId < GameManager.getInstance().getPlayersCount(); playerId++)
+                if(((TriviaManager)TriviaManager.getInstance()).getAnswerFromPlayer(playerId, questionNumber) == i + 1)
+                    players.add(playerId);
+            ListAdapter adapter = new ListAdapter(players, this, i + 1, (ViewGroup)questions_recyclerviews[i].getParent().getParent().getParent());
             questions_recyclerviews[i].setAdapter(adapter);
             questions_recyclerviews[i].setOnDragListener(adapter.getDragInstance());
             answerViews[i].setOnDragListener(adapter.getDragInstance());
         }
 
+        checkDraggables();
     }
 
     @Override
@@ -134,6 +147,34 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
                 sendInitialPOIOnCreate = true;
             else
                 sendInitialPoi();
+        }
+
+    }
+
+    public void checkDraggables() {
+        if((TriviaManager.getInstance()).isQuestionDisabled(questionNumber)) {
+            if(questions_recyclerviews != null) {
+                initial_recyclerview.setOnDragListener(null);
+                ((ListAdapter)initial_recyclerview.getAdapter()).isDisabled = true;
+                for(int i = 0; i < questions_recyclerviews.length; i++) {
+                    questions_recyclerviews[i].setOnDragListener(null);
+                    ((ListAdapter)questions_recyclerviews[i].getAdapter()).isDisabled = true;
+                }
+                for (int i = 0; i < question.answers.length; i++) {
+
+                    //Rotation Button
+                    final AppCompatImageView imageView = new AppCompatImageView(getContext());
+                    imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), question.correctAnswer == i + 1 ? R.drawable.ic_check_box_black_24dp : R.drawable.ic_cancel_black_24dp));
+
+                    RelativeLayout.LayoutParams paramsRotate = new RelativeLayout.LayoutParams(getContext().getResources().getDimensionPixelSize(R.dimen._24sdp), getContext().getResources().getDimensionPixelSize(R.dimen._24sdp));
+                    paramsRotate.addRule(RelativeLayout.ALIGN_PARENT_START);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    imageView.setSupportImageTintList(ColorStateList.valueOf(question.correctAnswer == i + 1 ? Color.parseColor("#388E3C") : Color.parseColor("#C62828")));
+                    imageView.setLayoutParams(paramsRotate);
+
+                    ((ViewGroup)questions_recyclerviews[i].getParent()).addView(imageView);
+                }
+            }
         }
     }
 
@@ -147,72 +188,9 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
             POIController.getInstance().moveToPOI(question.initialPOI, true);
     }
 
-
-    public void setClickListener(final int i) {
-        /*view.findViewById(R.id.answerCard1 + i).setOnClickListener(v -> {
-            if (!hasClicked) {
-                hasClicked = true;
-
-                boolean hadAlreadyClicked = ((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(0, questionNumber);
-                if (!hadAlreadyClicked)
-                    ((TriviaManager) GameManager.getInstance()).answerQuestion(0, questionNumber, i + 1);
-
-                view.findViewById(R.id.answerCard1 + question.correctAnswer - 1).setBackgroundColor(Color.parseColor("#388E3C"));
-                answerViews[question.correctAnswer - 1].setTextColor(Color.parseColor("#000000"));
-
-                if (i != question.correctAnswer - 1) {
-                    v.setBackgroundColor(Color.parseColor("#C62828"));
-                    answerViews[i].setTextColor(Color.parseColor("#000000"));
-                }
-
-                if (!hadAlreadyClicked) {
-                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-
-                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(0, questionNumber)) {
-                        builder.setTitle("Oops! You've chosen a wrong answer!");
-                        builder.setMessage("Going to " + question.pois[i].getName());
-                        builder.setPositiveButton("SHOW CORRECT ANSWER", (dialog, id) -> {
-                            //We override this later in order to prevent alertdialog from closing after clicking this button
-                        });
-                        POIController.getInstance().moveToPOI(question.pois[i], true);
-                    } else {
-                        builder.setTitle("Great! You're totally right!");
-                        builder.setMessage("Going to " + question.pois[question.correctAnswer - 1].getName());
-                        POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
-                    }
-
-                    builder.setOnCancelListener(dialog -> checkQuizProgress());
-                    builder.setNegativeButton("SKIP", (dialog, id) -> dialog.cancel());
-
-                    activeAlertDialog = builder.create();
-                    activeAlertDialog.show();
-
-                    if (!((TriviaManager) GameManager.getInstance()).isCorrectAnswer(0, questionNumber)) {
-
-                        /*final Handler handler = new Handler();
-                        handler.postDelayed(() -> {
-                            //Do something after 15sec
-                            if(activeAlertDialog.isShowing())
-                                activeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
-                        }, 15000);*//*
-
-                        activeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v1 -> {
-                            POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
-                            activeAlertDialog.setMessage("And now going to " + question.pois[question.correctAnswer - 1].getName());
-                            v1.setEnabled(false);
-                        });
-                    }
-                }
-            }
-        });
-
-        if (((TriviaManager) GameManager.getInstance()).hasAnsweredQuestion(0, questionNumber) && ((TriviaManager) GameManager.getInstance()).getAnswerIdOfQuestion(0, questionNumber) == i + 1) {
-            view.findViewById(R.id.answerCard1 + i).performClick();
-        }*/
-    }
-
     @Override
     public void draggedViewOnRecyclerView(int playerId, int answer) {
-        ((TriviaManager)GameManager.getInstance()).answerQuestion(playerId, questionNumber, answer);
+        if(!(TriviaManager.getInstance()).isQuestionDisabled(questionNumber))
+            ((TriviaManager)GameManager.getInstance()).answerQuestion(playerId, questionNumber, answer);
     }
 }

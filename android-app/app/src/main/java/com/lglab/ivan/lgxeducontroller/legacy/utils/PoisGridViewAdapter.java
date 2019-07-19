@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -13,11 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatDrawableManager;
-import androidx.appcompat.widget.AppCompatImageView;
-
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -94,10 +88,10 @@ public class PoisGridViewAdapter extends BaseAdapter {
         layout.addView(rotatePoiButton);
 
         //View POI
-        RelativeLayout.LayoutParams paramsView = new RelativeLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen._48sdp), context.getResources().getDimensionPixelSize(R.dimen._24sdp));
+        RelativeLayout.LayoutParams paramsView = new RelativeLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen._24sdp), context.getResources().getDimensionPixelSize(R.dimen._24sdp));
         AppCompatImageButton viewPoiButton = new AppCompatImageButton(context);
         paramsView.addRule(RelativeLayout.CENTER_VERTICAL);
-        paramsView.addRule(RelativeLayout.ALIGN_PARENT_START);
+        paramsView.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         viewPoiButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
         viewPoiButton.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_place_black_24dp));
         viewPoiButton.setBackground(AppCompatResources.getDrawable(context, R.drawable.button_rounded_grey));

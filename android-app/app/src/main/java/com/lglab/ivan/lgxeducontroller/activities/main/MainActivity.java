@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,8 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
@@ -41,6 +40,9 @@ public class MainActivity extends GoogleDriveActivity {
         findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(this, NavigateActivity.class)));
         findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(this, PlayActivity.class)));
         Log.d("MAIN", getResources().getDisplayMetrics().toString());
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Log.d("MAIN", String.valueOf(metrics.densityDpi));
     }
 
     @Override

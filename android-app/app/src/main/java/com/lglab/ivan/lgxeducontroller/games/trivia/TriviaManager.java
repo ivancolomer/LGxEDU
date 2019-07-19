@@ -8,7 +8,9 @@ import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionEdit
 import com.lglab.ivan.lgxeducontroller.interfaces.IAnswerListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TriviaManager extends GameManager {
 
@@ -65,6 +67,10 @@ public class TriviaManager extends GameManager {
             listener.updateAnswer(player, question, selectedAnswer);
     }
 
+    public int getAnswerFromPlayer(int playerId, int questionId) {
+        return players[playerId].selectedAnswers.get(questionId);
+    }
+
     public boolean allPlayersHasAnswerQuestion(int i) {
         for (Player player : players) {
             if (!player.hasAnswer(i))
@@ -83,6 +89,14 @@ public class TriviaManager extends GameManager {
 
     public boolean isAnswerCorrect(int playerId, Integer index) {
         return players[playerId].isAnswerCorrect(index);
+    }
+
+    public Set<Integer> getWrongAnswers(int questionId) {
+        HashSet<Integer> set = new HashSet<>();
+        for(Player player : players)
+            if(!player.isAnswerCorrect(questionId))
+                set.add(player.selectedAnswers.get(questionId) - 1);
+        return set;
     }
 
     public String getPlayerName(int playerId) {

@@ -61,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/next_button"
                 android:layout_weight="1"
-                android:text="NEXT"
+                android:text="CHECK"
                 android:layout_marginRight="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_marginBottom="@dimen/_3sdp"

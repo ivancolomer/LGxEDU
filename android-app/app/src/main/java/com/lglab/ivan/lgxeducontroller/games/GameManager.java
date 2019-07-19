@@ -89,9 +89,11 @@ public abstract class GameManager {
     }
 
     private Game game;
+    private boolean[] finishedAnsweringQuestions;
 
     public GameManager(Game game) {
         this.game = game;
+        finishedAnsweringQuestions = new boolean[game.getQuestions().size()];
     }
 
     private void startGame(Activity activity) {
@@ -102,6 +104,14 @@ public abstract class GameManager {
 
     public Game getGame() {
         return game;
+    }
+
+    public void disableQuestionFromAnswering(int question) {
+        finishedAnsweringQuestions[question] = true;
+    }
+
+    public boolean isQuestionDisabled(int question) {
+        return finishedAnsweringQuestions[question];
     }
 
     public abstract Class<?> getGameActivity();

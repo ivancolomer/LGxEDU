@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +27,7 @@ import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import github.chenupt.multiplemodel.ItemEntity;
 import github.chenupt.multiplemodel.ItemEntityUtil;
@@ -104,8 +101,8 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
             ((RadioButton) correctAnswerRadioButton.getChildAt(question.correctAnswer - 1)).setChecked(true);
 
         for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-            if (question.answers[0] != null) {
-                textAnswers[i].setText(question.answers[0]);
+            if (question.answers[i] != null) {
+                textAnswers[i].setText(question.answers[i]);
             }
         }
 

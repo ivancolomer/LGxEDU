@@ -3,6 +3,7 @@ package com.lglab.ivan.lgxeducontroller.utils;
 import android.content.ClipData;
 import android.content.res.ColorStateList;
 import android.graphics.Point;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
@@ -25,10 +27,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
     private List<Integer> list;
     private IDraggableListener listener;
+    public int answerId;
+    private ViewGroup viewGroup;
+    public boolean isDisabled = false;
 
-    public ListAdapter(List<Integer> list, IDraggableListener listener) {
+    public ListAdapter(List<Integer> list, IDraggableListener listener, int answerId, ViewGroup viewGroup) {
         this.list = list;
         this.listener = listener;
+        this.answerId = answerId;
+        this.viewGroup = viewGroup;
+        enableBorders(false);
     }
 
     @Override
@@ -60,6 +68,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if(isDisabled)
+        {
+            Log.d("ONTOUCH", "disabled");
+            return false;
+        }
+
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 ClipData data = ClipData.newPlainText("", "");
@@ -75,9 +90,33 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
                 } else {
                     v.startDrag(data, shadowBuilder, v, 0);
                 }
+                enableBorders(true);
                 return true;
         }
         return false;
+    }
+
+    public void enableBorders(boolean visible) {
+        setBorders(viewGroup.findViewById(R.id.question_0_rv), visible);
+        setBorders(viewGroup.findViewById(R.id.question_1_rv), visible);
+        setBorders(viewGroup.findViewById(R.id.question_2_rv), visible);
+        setBorders(viewGroup.findViewById(R.id.question_3_rv), visible);
+        setBorders(viewGroup.findViewById(R.id.question_4_rv), visible);
+    }
+
+    private static void setBorders(View v, boolean visible) {
+        if(visible) {
+            GradientDrawable border = new GradientDrawable();
+            border.setColor(0x00FFFFFF); //transparent
+            border.setStroke(2, 0xFFF44336); //red border with full opacity
+            v.setBackground(border);
+        }
+        else {
+            GradientDrawable border = new GradientDrawable();
+            border.setColor(0x00FFFFFF); //transparent
+            border.setStroke(2, ContextCompat.getColor(v.getContext(), R.color.whiteGrey));
+            v.setBackground(border);
+        }
     }
 
     List<Integer> getList() {

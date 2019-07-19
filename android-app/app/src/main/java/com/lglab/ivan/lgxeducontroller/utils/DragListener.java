@@ -2,6 +2,7 @@ package com.lglab.ivan.lgxeducontroller.utils;
 
 import android.view.DragEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,23 +60,23 @@ public class DragListener implements View.OnDragListener {
                     RecyclerView target;
                     switch (viewId) {
                         case question_0_rv:
-                            target = v.getRootView().findViewById(question_0_rv);
+                            target = (RecyclerView)v;
                             break;
                         case question_name_1:
                         case question_1_rv:
-                            target = v.getRootView().findViewById(question_1_rv);
+                            target = ((ViewGroup)v.getParent()).findViewById(question_1_rv);
                             break;
                         case question_name_2:
                         case question_2_rv:
-                            target = v.getRootView().findViewById(question_2_rv);
+                            target = ((ViewGroup)v.getParent()).findViewById(question_2_rv);
                             break;
                         case question_name_3:
                         case question_3_rv:
-                            target = v.getRootView().findViewById(question_3_rv);
+                            target = ((ViewGroup)v.getParent()).findViewById(question_3_rv);
                             break;
                         case question_name_4:
                         case question_4_rv:
-                            target = v.getRootView().findViewById(question_4_rv);
+                            target = ((ViewGroup)v.getParent()).findViewById(question_4_rv);
                             break;
                         default:
                             target = (RecyclerView) v.getParent();
@@ -106,7 +107,8 @@ public class DragListener implements View.OnDragListener {
                         adapterTarget.updateList(customListTarget);
                         adapterTarget.notifyDataSetChanged();
 
-
+                        listener.draggedViewOnRecyclerView(list, adapterTarget.answerId);
+                        adapterTarget.enableBorders(false);
 
                         /*if (sourceId == rvBottom && adapterSource.getItemCount() < 1) {
                             listener.setEmptyListBottom(true);

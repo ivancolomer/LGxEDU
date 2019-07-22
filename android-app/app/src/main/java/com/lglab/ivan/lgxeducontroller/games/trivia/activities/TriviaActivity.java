@@ -11,20 +11,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.connection.LGApi;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
 import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IAnswerListener;
+import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import github.chenupt.multiplemodel.ItemEntity;
 import github.chenupt.multiplemodel.ItemEntityUtil;
@@ -119,6 +124,7 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
             builder.setTitle("Great! You were all totally right!");
             builder.setMessage("Going to " + question.pois[question.correctAnswer - 1].getName());
             POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
+            testEricsAPI(question.pois[question.correctAnswer - 1], question.information);
             builder.create().show();
         }
         else {
@@ -151,11 +157,12 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
                 if(nonVisitedAnswer == -1) {
                     POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
+                    testEricsAPI(question.pois[question.correctAnswer - 1], question.information);
                     activeAlertDialog.setMessage("And now going to " + question.pois[question.correctAnswer - 1].getName());
                     v1.setEnabled(false);
                 } else {
                     POIController.getInstance().moveToPOI(question.pois[wrongAnswers.get(nonVisitedAnswer)], true);
-                    activeAlertDialog.setMessage("And now going to " + question.pois[question.correctAnswer - 1].getName());
+                    activeAlertDialog.setMessage("And now going to " + question.pois[wrongAnswers.get(nonVisitedAnswer)].getName());
                     visitedWrongAnswers[nonVisitedAnswer] = true;
                     if(nonVisitedAnswer == visitedWrongAnswers.length - 1) {
                         ((TextView)v1).setText("SHOW CORRECT ANSWER");
@@ -163,6 +170,25 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
                 }
             });
         }
+    }
+
+    private void testEricsAPI(POI poi, String information) {
+
+        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://192.168.86.26:8080/kml/builder/deleteTag/Placemark/12345", (response) -> {
+            Log.d("ERIC", response.toString());
+        }, null);
+
+        Map params = new HashMap<String, String>() {};
+        params.put("id", "12345");
+        params.put("name", poi.getName());
+        params.put("longitude", poi.getLongitude());
+        params.put("latitude", poi.getLatitude());
+        params.put("range", poi.getRange());
+        params.put("description", information);
+
+        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://192.168.86.26:8080/kml/builder/addplacemark", (response) -> {
+
+        }, params);
     }
 
     private void nextPage() {

@@ -7,18 +7,24 @@ repositories {
 }
 
 android {
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
     signingConfigs {
-        /*DebugSignIn {
+        DebugSignIn {
             keyAlias 'key'
             keyPassword 'lgxedu_ivan'
             storeFile file('../../../key.jks')
             storePassword 'lg_ivan_edu'
-        }*/
+        }
     }
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.lglab.ivan.lgxeducontroller"
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

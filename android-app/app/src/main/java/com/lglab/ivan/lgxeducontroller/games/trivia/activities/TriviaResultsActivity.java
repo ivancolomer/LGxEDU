@@ -27,7 +27,8 @@ public class TriviaResultsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_results);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
         tabLayout = findViewById(R.id.tabLayoutResults);
         viewPager = findViewById(R.id.pagerResults);
@@ -62,7 +63,7 @@ public class TriviaResultsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        GameManager.getInstance().endGame();
+        GameManager.endGame();
         super.onBackPressed();
     }
 

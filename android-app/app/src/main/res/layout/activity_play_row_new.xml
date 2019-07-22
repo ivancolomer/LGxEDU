@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/_6sdp"
         android:layout_marginBottom="@dimen/_6sdp"
         android:text="Quiz Category"
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView

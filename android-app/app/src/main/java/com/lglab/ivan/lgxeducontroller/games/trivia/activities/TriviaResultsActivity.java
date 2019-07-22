@@ -5,7 +5,6 @@ import android.view.KeyEvent;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -13,6 +12,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.TriviaResultsPagerAdapter;
+import com.lglab.ivan.lgxeducontroller.games.utils.MultiplayerManagerGame;
 
 public class TriviaResultsActivity extends AppCompatActivity {
 
@@ -31,7 +31,7 @@ public class TriviaResultsActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabLayoutResults);
         viewPager = findViewById(R.id.pagerResults);
-        adapter = new TriviaResultsPagerAdapter(getSupportFragmentManager(), GameManager.getInstance().getPlayersCount());
+        adapter = new TriviaResultsPagerAdapter(getSupportFragmentManager(), ((MultiplayerManagerGame)GameManager.getInstance()).getPlayersCount());
 
         //Adding adapter to pager
         viewPager.setAdapter(adapter);

@@ -8,8 +8,6 @@ import android.os.Parcelable;
 import android.util.Base64;
 import android.util.Log;
 
-import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

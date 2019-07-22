@@ -20,7 +20,7 @@ import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
-import com.lglab.ivan.lgxeducontroller.interfaces.IAnswerListener;
+import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IAnswerListener;
 import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
 import java.util.ArrayList;

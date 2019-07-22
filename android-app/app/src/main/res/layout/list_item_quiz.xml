@@ -9,18 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="@dimen/_2sdp">
 
         <TextView
             android:id="@+id/list_item_quiz_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="@dimen/_4sdp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="@dimen/_8sdp"
             android:layout_gravity="center_vertical"
             android:text="Hello Card"
-            android:textSize="20sp" />
+            android:textSize="@dimen/_8ssp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,33 +28,36 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/list_share_game"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="32dp"
-                android:padding="16dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_3sdp"
+                android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/baseline_share_black_24"
                 app:tint="@color/blue" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/list_edit_game"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="32dp"
-                android:padding="16dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_3sdp"
+                android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_edit_black_24dp"
                 app:tint="@color/orange" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/list_delete_game"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="@dimen/_4sdp"
-                android:padding="16dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_3sdp"
+                android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_delete_black_24dp"
                 app:tint="@color/red" />

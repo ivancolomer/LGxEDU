@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.utils;
+package com.lglab.ivan.lgxeducontroller.games.trivia.listener;
 
 import android.view.DragEvent;
 import android.view.View;
@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.interfaces.IDraggableListener;
+import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IDraggableListener;
+import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.ListAdapter;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class DragListener implements View.OnDragListener {
     private boolean isDropped = false;
     private IDraggableListener listener;
 
-    DragListener(IDraggableListener listener) {
+    public DragListener(IDraggableListener listener) {
         this.listener = listener;
     }
 

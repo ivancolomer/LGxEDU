@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:layout_marginTop="16dp"
+    android:layout_marginBottom="@dimen/_6sdp"
+    android:layout_marginTop="@dimen/_6sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_marginStart="@dimen/_4sdp"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:textSize="24sp"
+        android:textSize="@dimen/_10ssp"
         tools:text="Category" />
 
     <LinearLayout
@@ -25,11 +25,12 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/list_item_category_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:scaleType="fitCenter"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:padding="16dp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:padding="@dimen/_3sdp"
             android:background="#0000"
             app:srcCompat="@drawable/ic_arrow_down" />
 

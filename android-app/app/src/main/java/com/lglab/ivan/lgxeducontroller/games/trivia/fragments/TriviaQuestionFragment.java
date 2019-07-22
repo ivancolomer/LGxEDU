@@ -22,9 +22,10 @@ import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
-import com.lglab.ivan.lgxeducontroller.interfaces.IDraggableListener;
+import com.lglab.ivan.lgxeducontroller.games.utils.MultiplayerManagerGame;
+import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IDraggableListener;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
-import com.lglab.ivan.lgxeducontroller.utils.ListAdapter;
+import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.ListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +118,7 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
 
         List<Integer> players = new ArrayList<>();
 
-        for(int playerId = 0; playerId < GameManager.getInstance().getPlayersCount(); playerId++)
+        for(int playerId = 0; playerId < ((MultiplayerManagerGame)GameManager.getInstance()).getPlayersCount(); playerId++)
             if(((TriviaManager)TriviaManager.getInstance()).getAnswerFromPlayer(playerId, questionNumber) == 0)
                 players.add(playerId);
 
@@ -127,7 +128,7 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
 
         for(int i = 0; i < questions_recyclerviews.length; i++) {
             players = new ArrayList<>();
-            for(int playerId = 0; playerId < GameManager.getInstance().getPlayersCount(); playerId++)
+            for(int playerId = 0; playerId < ((MultiplayerManagerGame)GameManager.getInstance()).getPlayersCount(); playerId++)
                 if(((TriviaManager)TriviaManager.getInstance()).getAnswerFromPlayer(playerId, questionNumber) == i + 1)
                     players.add(playerId);
             ListAdapter adapter = new ListAdapter(players, this, i + 1, (ViewGroup)questions_recyclerviews[i].getParent().getParent().getParent());

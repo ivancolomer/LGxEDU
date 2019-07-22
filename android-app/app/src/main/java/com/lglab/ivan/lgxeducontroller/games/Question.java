@@ -3,8 +3,6 @@ package com.lglab.ivan.lgxeducontroller.games;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

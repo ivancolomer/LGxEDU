@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/play_cv"
-        android:layout_width="@dimen/_180sdp"
+        android:layout_width="@dimen/_160sdp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:elevation="@dimen/_2sdp"
@@ -24,7 +24,7 @@
                 android:id="@+id/image_view_game"
                 android:layout_margin="@dimen/_4sdp"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_120sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:scaleType="fitCenter"
                 />
 
@@ -44,7 +44,7 @@
 
                     android:maxLines="1"
                     android:text="Some title text"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -55,7 +55,7 @@
                     android:fontFamily="sans-serif"
                     android:maxLines="1"
                     android:text="Subtitle text"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_8ssp" />
 
 
             </LinearLayout>

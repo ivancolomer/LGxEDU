@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.lglab.ivan.lgxeducontroller.interfaces.IJsonPacker;
+import com.lglab.ivan.lgxeducontroller.games.IJsonPacker;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 
 import org.json.JSONException;

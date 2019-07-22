@@ -12,7 +12,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/wifi_gif"
-            android:layout_width="@dimen/_60sdp"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
@@ -31,6 +31,6 @@
         android:padding="@dimen/_4sdp"
         android:text="\n1- Drag one finger to move the earth\n2- Drag two fingers in same direction to change tilt or heading\n3- Pinch 2 or more fingers together or apart to adjust zoom"
         android:textColor="@color/material_grey"
-        android:textSize="@dimen/_15ssp" />
+        android:textSize="@dimen/_13ssp" />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.interfaces;
+package com.lglab.ivan.lgxeducontroller.games.trivia.interfaces;
 
 public interface IDraggableListener {
 

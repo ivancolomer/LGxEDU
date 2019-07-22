@@ -2,10 +2,8 @@ package com.lglab.ivan.lgxeducontroller.legacy.utils;
 
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -14,16 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -82,7 +75,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
         button.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
 
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
-        button.setMaxLines(2);
+        button.setMaxLines(1);
 
         button.setBackground(AppCompatResources.getDrawable(context, R.drawable.button_rounded_grey));
         button.setLayoutParams(params);

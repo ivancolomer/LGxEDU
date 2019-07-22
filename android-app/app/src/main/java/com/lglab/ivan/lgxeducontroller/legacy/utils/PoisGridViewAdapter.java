@@ -111,7 +111,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
             poiName.setText(currentPoi.getName());
         }
         poiName.setTextSize(TypedValue.COMPLEX_UNIT_PX, (int) context.getResources().getDimension(R.dimen._10ssp));
-        poiName.setMaxLines(2);
+        poiName.setMaxLines(1);
         paramsText.addRule(RelativeLayout.CENTER_IN_PARENT);
         poiName.setLayoutParams(paramsText);
 

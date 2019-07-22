@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.games.multiplayer;
+package com.lglab.ivan.lgxeducontroller.games.utils.multiplayer;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout;
+import com.lglab.ivan.lgxeducontroller.games.utils.MultiplayerManagerGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,7 +185,7 @@ public class ChoosePlayersActivity extends AppCompatActivity {
         }
         String[] itemsArray = new String[playernames.size()];
         itemsArray = playernames.toArray(itemsArray);
-        GameManager.getInstance().setPlayers(itemsArray);
+        ((MultiplayerManagerGame)GameManager.getInstance()).setPlayers(itemsArray);
 
         Intent i = new Intent(this, GameManager.getInstance().getGameActivity());
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);

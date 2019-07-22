@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 
-import com.lglab.ivan.lgxeducontroller.games.multiplayer.ChoosePlayersActivity;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 
 import org.json.JSONException;
@@ -97,7 +96,7 @@ public abstract class GameManager {
     }
 
     private void startGame(Activity activity) {
-        Intent intent = new Intent(activity, ChoosePlayersActivity.class);
+        Intent intent = new Intent(activity, getGameActivity());
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         activity.startActivity(intent);
     }
@@ -117,10 +116,4 @@ public abstract class GameManager {
     public abstract Class<?> getGameActivity();
 
     public abstract Class<?> getGameEditFragment();
-
-    public abstract void setPlayers(String[] names);
-
-    public abstract int getPlayersCount();
-
-    public abstract String[] getPlayerNames();
 }

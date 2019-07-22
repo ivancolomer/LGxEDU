@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.utils;
+package com.lglab.ivan.lgxeducontroller.games.trivia.adapters;
 
 import android.content.ClipData;
 import android.content.res.ColorStateList;
@@ -17,8 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareFrameLayout;
-import com.lglab.ivan.lgxeducontroller.interfaces.IDraggableListener;
+import com.lglab.ivan.lgxeducontroller.games.trivia.listener.DragListener;
+import com.lglab.ivan.lgxeducontroller.games.utils.MultiplayerManagerGame;
+import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IDraggableListener;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
         AppCompatTextView text = ((AppCompatTextView)holder.frameLayout.getChildAt(0));
-        text.setText(GameManager.getInstance().getPlayerNames()[list.get(position)]);
+        text.setText(((MultiplayerManagerGame)GameManager.getInstance()).getPlayerNames()[list.get(position)]);
         text.setSupportBackgroundTintList(ColorStateList.valueOf(holder.itemView.getResources().getColor(colorList[list.get(position)%4])));
         holder.frameLayout.setTag(position);
         holder.frameLayout.setOnTouchListener(this);
@@ -119,11 +120,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         }
     }
 
-    List<Integer> getList() {
+    public List<Integer> getList() {
         return list;
     }
 
-    void updateList(List<Integer> list) {
+    public void updateList(List<Integer> list) {
         this.list = list;
     }
 

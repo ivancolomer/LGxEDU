@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.interfaces;
+package com.lglab.ivan.lgxeducontroller.games;
 
 import org.json.JSONException;
 import org.json.JSONObject;

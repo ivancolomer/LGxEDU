@@ -52,8 +52,10 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
         setContentView(R.layout.activity_quiz);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(TriviaManager.getInstance().getGame().getName());
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(TriviaManager.getInstance().getGame().getName());
+        }
 
         trivia = TriviaManager.getInstance().getGame();
         ((TriviaManager)GameManager.getInstance()).setListener(this);
@@ -113,13 +115,18 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
     private void showAlertAnswer() {
         final TriviaQuestion question = ((TriviaQuestion)trivia.getQuestions().get(currentQuestion));
+        final List<Integer> wrongAnswers = new ArrayList<>(((TriviaManager) TriviaManager.getInstance()).getWrongAnswers(currentQuestion));
+
+        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
+        if(page != null) {
+            ((TriviaQuestionFragment)page).checkDraggables();
+        }
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setOnCancelListener((dialog) -> nextPage());
         builder.setNegativeButton("SKIP", (dialog, id) -> dialog.cancel());
         builder.setTitle("Watching wrong answers");
 
-        final List<Integer> wrongAnswers = new ArrayList<>(((TriviaManager) TriviaManager.getInstance()).getWrongAnswers(currentQuestion));
         if(wrongAnswers.size() == 0) {
             builder.setTitle("Great! You were all totally right!");
             builder.setMessage("Going to " + question.pois[question.correctAnswer - 1].getName());
@@ -134,18 +141,15 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
                 //We override this later in order to prevent alertdialog from closing after clicking this button
 
             });
+
             POIController.getInstance().moveToPOI(question.pois[wrongAnswers.get(0)], true);
 
             final AlertDialog activeAlertDialog = builder.create();
-
             final boolean[] visitedWrongAnswers = new boolean[wrongAnswers.size()];
             visitedWrongAnswers[0] = true;
 
             activeAlertDialog.show();
-            /*for(int i = 0; i < activeAlertDialog.getListView().getCount(); i++) {
-                View v = activeAlertDialog.getListView().getChildAt(i);
-                Log.d("ALERTDIALOG", v.getId() + "||");
-            }*/
+
             activeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v1 -> {
                 int nonVisitedAnswer = -1;
                 for(int i = 0; i < visitedWrongAnswers.length; i++) {

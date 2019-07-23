@@ -22,10 +22,10 @@ import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
-import com.lglab.ivan.lgxeducontroller.games.utils.MultiplayerManagerGame;
-import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IDraggableListener;
-import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.ListAdapter;
+import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IDraggableListener;
+import com.lglab.ivan.lgxeducontroller.games.utils.MultiplayerManagerGame;
+import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +80,10 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if(questionNumber == 0) {
+            getView().findViewById(R.id.drag_drop_info).setVisibility(View.VISIBLE);
+        }
 
         initial_recyclerview = getView().findViewById(R.id.question_0_rv);
         initial_recyclerview.setLayoutManager(new LinearLayoutManager(

@@ -143,6 +143,13 @@
             android:name=".games.trivia.activities.TriviaResultsActivity"
             android:screenOrientation="sensorLandscape" />
 
+        <activity
+            android:name=".games.geofinder.activities.GeoFinderActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".games.geofinder.activities.GeoFinderResultsActivity"
+            android:screenOrientation="sensorLandscape" />
+
     </application>
 
 </manifest>

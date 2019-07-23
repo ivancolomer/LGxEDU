@@ -8,7 +8,8 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -119,7 +120,7 @@ public class LGConnectionManager implements Runnable {
         }
     }
 
-    public boolean sendLGCommand(LGCommand lgCommand) {
+    private boolean sendLGCommand(LGCommand lgCommand) {
         lgCommandToReSend = lgCommand;
         Log.d("ConnectionManager", "sending a lgcommand: " + lgCommand.getCommand());
         Session session = getSession();
@@ -129,6 +130,7 @@ public class LGConnectionManager implements Runnable {
         }
 
         ChannelExec channelSsh;
+        StringBuilder outputBuffer = new StringBuilder();
         try {
             channelSsh = (ChannelExec) session.openChannel("exec");
         } catch (Exception e) {
@@ -137,20 +139,35 @@ public class LGConnectionManager implements Runnable {
             return false;
         }
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        channelSsh.setOutputStream(baos);
-
-        channelSsh.setCommand(lgCommand.getCommand());
-
+        InputStream commandOutput;
         try {
-            channelSsh.connect();
-        } catch (Exception e) {
-            Log.d("ConnectionManager", "connect exception: " + e.getMessage());
+            commandOutput = channelSsh.getInputStream();
+            channelSsh.setCommand(lgCommand.getCommand());
+
+            try {
+                channelSsh.connect();
+            } catch (Exception e) {
+                Log.d("ConnectionManager", "connect exception: " + e.getMessage());
+                return false;
+            }
+
+            int readByte = commandOutput.read();
+
+            while(readByte != 0xffffffff)
+            {
+                outputBuffer.append((char)readByte);
+                readByte = commandOutput.read();
+            }
+        } catch(IOException ioX) {
+            Log.d("ConnectionManager", "couldn't get InputStream or read from it: " + ioX.getMessage());
             return false;
         }
 
         channelSsh.disconnect();
-        lgCommand.doAction(baos.toString());
+
+        String response = outputBuffer.toString();
+        Log.d("ConnectionManager", "response: " + response);
+        lgCommand.doAction(response);
         return true;
     }
 

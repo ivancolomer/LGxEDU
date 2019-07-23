@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingTop="@dimen/_20sdp">
+    android:paddingTop="@dimen/_10sdp">
 
     <LinearLayout
         android:id="@+id/main_layout_quiz"

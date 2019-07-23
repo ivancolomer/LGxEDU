@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="12">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/fragment_question_layout"
+        android:layout_height="0dp"
+        android:layout_weight="1.5">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/question_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="HEY"
+            android:textSize="@dimen/_17ssp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/extra_tip_first_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:layout_toEndOf="@+id/question_title"
+            android:layout_margin="@dimen/_2sdp"
+            android:text="Use the navigation interface to find the place"
+            android:textSize="@dimen/_7ssp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/navigate_container"
+        android:layout_width="match_parent"
+        android:layout_weight="10.5"
+        android:layout_height="0dp">
+    </FrameLayout>
+
+</LinearLayout>

@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IDraggableListener;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.ListAdapter;
+import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IDraggableListener;
 
 import java.util.List;
 

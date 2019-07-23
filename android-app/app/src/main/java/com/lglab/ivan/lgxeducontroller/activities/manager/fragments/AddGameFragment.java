@@ -14,10 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -137,7 +137,7 @@ public class AddGameFragment extends DialogFragment {
 
                 BitmapDrawable drawable = (BitmapDrawable) gameImage.getDrawable();
 
-                Game newGame = GameManager.createGame(gameTitleText.getText().toString(), selectedGameType, drawable != null ? drawable.getBitmap() : null, selectedCategory.getTitle(), getContext());
+                Game newGame = GameManager.createGame(gameTitleText.getText().toString(), selectedGameType, drawable != null ? drawable.getBitmap() : null, categoryAutoComplete.getText().toString(), getContext());
                 newGame.getQuestions().add(newGame.createQuestion());
                 GameManager.editGame(newGame);
 

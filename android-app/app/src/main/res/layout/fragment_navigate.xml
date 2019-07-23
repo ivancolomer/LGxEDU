@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/image_wifi_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/wifi_gif"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/_6sdp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wifi"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/image_wifi_layout"
+        android:layout_margin="@dimen/_6sdp"
+        android:gravity="bottom"
+        android:padding="@dimen/_4sdp"
+        android:text="\n1- Drag one finger to move the earth\n2- Drag two fingers in same direction to change tilt or heading\n3- Pinch 2 or more fingers together or apart to adjust zoom"
+        android:textColor="@color/material_grey"
+        android:textSize="@dimen/_13ssp" />
+</RelativeLayout>

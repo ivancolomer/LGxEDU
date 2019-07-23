@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/_8sdp">
+
+    <EditText
+        android:id="@+id/questionTextEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f1f1f1"
+        android:gravity="top"
+        android:textSize="@dimen/_14ssp"
+        android:hint="Write a place to be search" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/initialPOILayout"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_below="@id/questionTextEdit">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/initialPOITextEdit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="#f1f1f1"
+                android:hint="Initial POI to be shown (for example Europe)"
+                android:textSize="@dimen/_9ssp"
+                android:singleLine="true" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/initialPOIButton"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_add_location_black_24dp"
+                app:tint="@color/green" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/placeToBeSearchLayout"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_below="@id/initialPOILayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/placeToBeSearchPOITextEdit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#f1f1f1"
+                android:hint="The place to be search"
+                android:textSize="@dimen/_9ssp"
+                android:singleLine="true" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/placeToBeSearchPOIButton"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_add_location_black_24dp"
+                app:tint="@color/green" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/areaOfThePlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_below="@id/placeToBeSearchLayout"
+        android:background="#f1f1f1"
+        android:gravity="top"
+        android:inputType="number"
+        android:digits="0123456789."
+        android:textSize="@dimen/_9ssp"
+        android:hint="Write the area of the place in km2" />
+
+    <!-- Bottom Layout -->
+    <LinearLayout
+        android:id="@+id/informationLayout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/areaOfThePlace"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_8sdp">
+        <EditText
+            android:id="@+id/informationTextEdit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4.25"
+            android:textSize="@dimen/_9ssp"
+            android:background="#f1f1f1"
+            android:gravity="top"
+            android:hint="@string/bubble_text"
+            tools:ignore="NestedWeights" />
+
+    </LinearLayout>
+</RelativeLayout>
+
+
+
+
+
+

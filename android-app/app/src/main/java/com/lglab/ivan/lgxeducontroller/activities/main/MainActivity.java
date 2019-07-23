@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities.lgpc.LGPC;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.NavigateActivity;
 import com.lglab.ivan.lgxeducontroller.activities.play.PlayActivity;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
@@ -34,11 +35,12 @@ public class MainActivity extends GoogleDriveActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.navigate).setOnClickListener(view -> startActivity(new Intent(this, NavigateActivity.class)));
-        findViewById(R.id.play).setOnClickListener(view -> startActivity(new Intent(this, PlayActivity.class)));
+        findViewById(R.id.navigate_button).setOnClickListener(view -> startActivity(new Intent(this, NavigateActivity.class)));
+        findViewById(R.id.play_button).setOnClickListener(view -> startActivity(new Intent(this, PlayActivity.class)));
+        findViewById(R.id.pois_and_tours_button).setOnClickListener(view -> startActivity(new Intent(this, LGPC.class)));
+
         Log.d("MAIN", getResources().getDisplayMetrics().toString());
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);

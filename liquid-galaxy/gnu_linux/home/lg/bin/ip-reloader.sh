@@ -37,7 +37,10 @@ while true; do
         while [[ -z $(~/bin/list_devices_input | grep virtual-spaceavigator |  head -1) ]]; do
             sleep 0.1
         done
-        sudo ln -sf $(~/bin/list_devices_input | grep virtual-spaceavigator |  head -1 | cut -d ' ' -f 1) /dev/input/spacenavigator 
+        echo $(sudo ~/bin/list_devices_input | grep virtual-spaceavigator |  head -1 | cut -d ' ' -f 1) > /home/lg/virtual_spacenavigator_event
+        if [[ -z $(ls -la /dev/input/ | grep spacenavigator |  head -1) ]]; then
+            sudo ln -sf $(cat /home/lg/virtual_spacenavigator_event) /dev/input/spacenavigator
+        fi
     fi
 
     if [[ -z $(sudo iptables -S | grep 10.42. |  head -1) ]]; then

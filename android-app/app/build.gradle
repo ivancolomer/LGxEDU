@@ -41,7 +41,7 @@ android {
             resValue 'string', "api_key", MyAwesomeApp_ApiKey
         }
         debug {
-            //signingConfig signingConfigs.DebugSignIn
+            signingConfig signingConfigs.DebugSignIn
             buildConfigField 'String', "ApiKey", MyAwesomeApp_ApiKey
             resValue 'string', "api_key", MyAwesomeApp_ApiKey
         }

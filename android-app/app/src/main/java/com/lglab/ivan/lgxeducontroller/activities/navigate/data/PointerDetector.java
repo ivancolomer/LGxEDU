@@ -121,12 +121,19 @@ public class PointerDetector {
 
     public void removePointer(int id) {
         if (pointers[0] != null && pointers[0].pointerId == id) {
+            Pointer removedPointer = pointers[0];
             pointers[0] = pointers[1];
             pointers[1] = null;
             currentAction = pointers[0] != null ? Action.MOVE_POSITION : Action.NONE;
-            if ((previousAction == Action.ZOOM_IN || previousAction == Action.ZOOM_OUT) && currentAction == Action.MOVE_POSITION) {
-                pointers[0].changedFromZoomAction();
+            if (currentAction == Action.MOVE_POSITION) {
+                if (previousAction == Action.ZOOM_IN || previousAction == Action.ZOOM_OUT) {
+                    pointers[0].changedFromZoomAction();
+                    removedPointer.changedFromZoomAction();
+                }
+                pointers[0].initialX = pointers[0].currentX - (removedPointer.currentX - removedPointer.initialX);
+                pointers[0].initialY = pointers[0].currentY - (removedPointer.currentY - removedPointer.initialY);
             }
+
         } else if (pointers[1] != null && pointers[1].pointerId == id) {
             pointers[1] = null;
             currentAction = Action.MOVE_POSITION;

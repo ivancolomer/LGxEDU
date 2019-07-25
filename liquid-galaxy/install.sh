@@ -126,7 +126,7 @@ echo "Checking for system updates..."
 sudo apt-get -qq update && sudo apt-get -yq upgrade
 
 echo "Installing new packages..."
-sudo apt-get install -yq python3 python3-pip tcpdump chromium-browser nano git openssh-server sshpass squid squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping libglib2.0-bin libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6 libc6-dev-i386
+sudo apt-get install -yq python3 python3-pip tcpdump chromium-browser nano git openssh-server sshpass squid squid3 squid-cgi apache2 xdotool unclutter zip wish iptables bc lsb-core lsb iputils-ping libglib2.0-bin libfontconfig1 libx11-6 libxrender1 libxext6 libglu1-mesa libglib2.0-0 libsm6 libc6-dev-i386 gcc
 
 pip3 install evdev
 
@@ -288,6 +288,7 @@ sudo tee "/etc/iptables.conf" > /dev/null << EOM
 #-A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 81 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 8111 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 8112 -j ACCEPT
 
 #-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
 -A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 80 -j ACCEPT
@@ -365,6 +366,9 @@ then
     printf "setxkbmap es\n" >> ~/.bashrc
     source ~/.bashrc
 fi
+
+gcc -m32 -o "$HOME"/write-event $GIT_FOLDER_NAME/input_event/write-event.c 
+sudo chmod 0755 "$HOME"/write-event
 
 # Web interface
 if [ $IS_MASTER == true ]; then

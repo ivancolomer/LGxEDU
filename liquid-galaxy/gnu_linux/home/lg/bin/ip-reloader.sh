@@ -62,6 +62,7 @@ while true; do
 #-A INPUT -p tcp -m multiport --dports 81,8111 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 81 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 8111 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 8112 -j ACCEPT
 
 #-A INPUT -s 10.42.$OCTET.0/24 -p tcp -m multiport --dports 80,3128,3130 -j ACCEPT
 -A INPUT -s 10.42.$OCTET.0/24 -p tcp -m tcp --dport 80 -j ACCEPT

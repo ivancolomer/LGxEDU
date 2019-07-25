@@ -121,6 +121,9 @@ sudo -v
 # General
 #
 
+export LC_ALL=en_US.UTF-8
+sudo locale-gen en_US.UTF-8
+
 # Update OS
 echo "Checking for system updates..."
 sudo apt-get -qq update && sudo apt-get -yq upgrade
@@ -364,6 +367,12 @@ fi
 if ! grep -Fq "setxkbmap" ~/.bashrc
 then
     printf "setxkbmap es\n" >> ~/.bashrc
+    source ~/.bashrc
+fi
+
+if ! grep -Fq "export LC_ALL=en_US.UTF-8" ~/.bashrc
+then
+    printf "export LC_ALL=en_US.UTF-8\n" >> ~/.bashrc
     source ~/.bashrc
 fi
 

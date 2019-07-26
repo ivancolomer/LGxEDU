@@ -8,11 +8,12 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/lg_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_80sdp"
         android:layout_marginBottom="10dp"
         android:contentDescription="@string/desc_lg_icon"
-        app:srcCompat="@drawable/lg_icon_trans" />
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/liquid_galaxy_logo_final" />
 
     <TextView
         android:id="@+id/lg_header_title"

@@ -96,10 +96,10 @@ public class GeoFinderQuestionFragment extends Fragment {
     private void sendInitialPoi() {
         long poiId = question.initialPOI.getId();
         if (poiId == -1)
-            POIController.getInstance().moveToPOI(EARTH_POI, true);
+            POIController.getInstance().moveToPOI(EARTH_POI, null);
         else if (poiId == -2)
-            POIController.getInstance().moveToPOI(EUROPE_POI, true);
+            POIController.getInstance().moveToPOI(EUROPE_POI, null);
         else
-            POIController.getInstance().moveToPOI(question.initialPOI, true);
+            POIController.getInstance().moveToPOI(question.initialPOI, null);
     }
 }

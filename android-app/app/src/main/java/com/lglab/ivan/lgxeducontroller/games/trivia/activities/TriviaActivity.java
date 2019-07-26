@@ -130,7 +130,7 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
         if(wrongAnswers.size() == 0) {
             builder.setTitle("Great! You were all totally right!");
             builder.setMessage("Going to " + question.pois[question.correctAnswer - 1].getName());
-            POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
+            POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], null);
             testEricsAPI(question.pois[question.correctAnswer - 1], question.information);
             builder.create().show();
         }
@@ -142,7 +142,7 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
             });
 
-            POIController.getInstance().moveToPOI(question.pois[wrongAnswers.get(0)], true);
+            POIController.getInstance().moveToPOI(question.pois[wrongAnswers.get(0)], null);
 
             final AlertDialog activeAlertDialog = builder.create();
             final boolean[] visitedWrongAnswers = new boolean[wrongAnswers.size()];
@@ -160,12 +160,12 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
                 }
 
                 if(nonVisitedAnswer == -1) {
-                    POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], true);
+                    POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], null);
                     testEricsAPI(question.pois[question.correctAnswer - 1], question.information);
                     activeAlertDialog.setMessage("And now going to " + question.pois[question.correctAnswer - 1].getName());
                     v1.setEnabled(false);
                 } else {
-                    POIController.getInstance().moveToPOI(question.pois[wrongAnswers.get(nonVisitedAnswer)], true);
+                    POIController.getInstance().moveToPOI(question.pois[wrongAnswers.get(nonVisitedAnswer)], null);
                     activeAlertDialog.setMessage("And now going to " + question.pois[wrongAnswers.get(nonVisitedAnswer)].getName());
                     visitedWrongAnswers[nonVisitedAnswer] = true;
                     if(nonVisitedAnswer == visitedWrongAnswers.length - 1) {

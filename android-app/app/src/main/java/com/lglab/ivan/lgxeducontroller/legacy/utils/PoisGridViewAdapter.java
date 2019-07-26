@@ -259,13 +259,13 @@ public class PoisGridViewAdapter extends BaseAdapter {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                POIController.getInstance().moveToPOI(currentPoi, true);
+                POIController.getInstance().moveToPOI(currentPoi, null);
 
                 if (this.rotate) {
                     boolean isFirst = true;
                     POI newPoi = new POI(currentPoi);
                     while (!isCancelled()) {
-                        POIController.getInstance().moveToPOI(newPoi, true);
+                        POIController.getInstance().moveToPOI(newPoi, null);
                         if (isFirst) {
                             isFirst = false;
                             Thread.sleep(7000);

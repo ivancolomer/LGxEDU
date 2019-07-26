@@ -23,20 +23,18 @@ public class POIController {
         return INSTANCE;
     }
 
-    private static double STEP_XY = 0.000001; //0.0001% of RANGE
-
     private POI currentPOI;
     private POI previousPOI;
 
     private POIController() {
         currentPOI = EARTH_POI;
-        moveToPOI(EARTH_POI, true);
+        moveToPOI(EARTH_POI, null);
     }
 
-    public synchronized boolean moveToPOI(POI poi, boolean inBackground) {
+    public LGCommand moveToPOI(POI poi, LGCommand.Listener listener) {
         previousPOI = new POI(currentPOI);
         currentPOI = new POI(poi);
-        return sendPoiToLG(inBackground);
+        return sendPoiToLG(listener);
     }
 
     public synchronized void moveXY(double angle, double percentDistance) {
@@ -44,6 +42,8 @@ public class POIController {
         //.setLatitude() [-90 to +90]: Y (sin)
 
         POI newPoi = new POI(currentPOI);
+        //0.0001% of RANGE
+        double STEP_XY = 0.000001;
         newPoi.setLongitude(newPoi.getLongitude() + Math.cos(angle) * percentDistance * STEP_XY * newPoi.getRange());
         while (newPoi.getLongitude() > 180) {
             newPoi.setLongitude(newPoi.getLongitude() - 360);
@@ -60,7 +60,7 @@ public class POIController {
             newPoi.setLatitude(newPoi.getLatitude() + 180);
         }
 
-        moveToPOI(newPoi, true);
+        moveToPOI(newPoi, null);
     }
 
     public synchronized void moveCameraAngle(double angle, double percentDistance) {
@@ -76,14 +76,14 @@ public class POIController {
         //.setRange() [0 to 999999]
     }
 
-    private synchronized boolean sendPoiToLG(boolean inBackground) {
-        if (inBackground) {
-            LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE, null));
-            return true;
-        }
-
-        LGConnectionManager.getInstance().addCommandToLG(new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE, (String result) -> currentPOI = new POI(previousPOI)));
-        return true;
+    private LGCommand sendPoiToLG(LGCommand.Listener listener) {
+        LGCommand lgCommand = new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE, (String result) -> {
+            currentPOI = new POI(previousPOI);
+            if(listener != null)
+                listener.onResponse(result);
+        });
+        LGConnectionManager.getInstance().addCommandToLG(lgCommand);
+        return lgCommand;
     }
 
     private static String buildCommand(POI poi) {

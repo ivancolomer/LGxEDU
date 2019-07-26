@@ -7,11 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -26,6 +26,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
+import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.TourPOI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
@@ -920,26 +922,36 @@ public class POISFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            if (!POIController.getInstance().moveToPOI(poi, false)) {
+            LGCommand lgCommand = POIController.getInstance().moveToPOI(poi, response ->  {
                 cancel(true);
                 if (dialog != null) {
                     dialog.hide();
                     dialog.dismiss();
                 }
-                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
-            }
-            return "";
-        }
+            });
 
-        @Override
-        protected void onPostExecute(String success) {
-            super.onPostExecute(success);
-            if (success != null) {
+            //TIMEOUT 5 seconds BEFORE REMOVING COMMAND FORM LG AND DISPLAYING CONNECTION FAILURE MESSAGE
+            long currentTime = System.currentTimeMillis();
+            try {
+                while(System.currentTimeMillis() - currentTime <= 5000) {
+                    if(!LGConnectionManager.getInstance().containsCommandFromLG(lgCommand))
+                        break;
+                    Thread.sleep(100);
+                }
+            }
+            catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(LGConnectionManager.getInstance().removeCommandFromLG(lgCommand)) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_galaxy), Toast.LENGTH_LONG).show();
+                Log.d("error", "Error in connection with Liquid Galaxy.");
                 if (dialog != null) {
                     dialog.hide();
                     dialog.dismiss();
                 }
             }
+            return "";
         }
     }
 }

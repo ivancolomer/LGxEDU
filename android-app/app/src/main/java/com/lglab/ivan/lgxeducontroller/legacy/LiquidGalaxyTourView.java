@@ -5,12 +5,16 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.BuildConfig;
+import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
+import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.ArrayList;
@@ -84,7 +88,7 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
     }
 
     private void sendTourPOIs(List<POI> pois, List<Integer> poisDuration) {
-        sendFirstTourPOI(pois.get(0));
+        sendTourPOI(0, pois.get(0));
         sendOtherTourPOIs(pois, poisDuration);
     }
 
@@ -99,24 +103,34 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         }
     }
 
-    private void sendFirstTourPOI(POI firstPoi) {
-        if (POIController.getInstance().moveToPOI(firstPoi, false)) {
-            Log.d(TAG, "First send");
-        } else {
-            Log.d(TAG, "Error in connection with Liquid Galaxy.");
-        }
-    }
-
-    private void sendTourPOI(Integer duration, POI poi) {
+    private void sendTourPOI(Integer duration, POI firstPoi) {
         try {
-            Thread.sleep((long) (duration * 1000));
-
-            if (!POIController.getInstance().moveToPOI(poi, false)) {
-                Log.d(TAG, "Error in connection with Liquid Galaxy.");
-            }
+            if(duration != 0)
+                Thread.sleep((long) (duration * 1000));
         } catch (InterruptedException e) {
             e.printStackTrace();
             Log.d(TAG, "Error in duration of POIs.");
+            return;
+        }
+
+        LGCommand lgCommand = POIController.getInstance().moveToPOI(firstPoi, (response -> Log.d(TAG, "POI SENT")));
+
+        //TIMEOUT 5 seconds BEFORE REMOVING COMMAND FORM LG AND DISPLAYING CONNECTION FAILURE MESSAGE
+        long currentTime = System.currentTimeMillis();
+        try {
+            while(System.currentTimeMillis() - currentTime <= 5000) {
+                if(!LGConnectionManager.getInstance().containsCommandFromLG(lgCommand))
+                    break;
+                Thread.sleep(500);
+            }
+        }
+        catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if(LGConnectionManager.getInstance().removeCommandFromLG(lgCommand)) {
+            Toast.makeText(poisFragmentAct.getApplicationContext(), poisFragmentAct.getApplicationContext().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Error in connection with Liquid Galaxy.");
         }
     }
 

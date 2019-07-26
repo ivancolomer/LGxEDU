@@ -190,8 +190,12 @@ public class LGConnectionManager implements Runnable {
         queue.offer(lgCommand);
     }
 
-    public void removeCommandFromLG(LGCommand lgCommand) {
-        queue.remove(lgCommand);
+    public boolean removeCommandFromLG(LGCommand lgCommand) {
+        return queue.remove(lgCommand);
+    }
+
+    public boolean containsCommandFromLG(LGCommand lgCommand) {
+        return queue.contains(lgCommand);
     }
 
     @Override

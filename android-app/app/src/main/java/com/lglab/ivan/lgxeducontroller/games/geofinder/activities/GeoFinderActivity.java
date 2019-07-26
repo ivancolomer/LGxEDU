@@ -1,22 +1,25 @@
 package com.lglab.ivan.lgxeducontroller.games.geofinder.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinder;
 import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinderManager;
+import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinderQuestion;
 import com.lglab.ivan.lgxeducontroller.games.geofinder.fragments.GeoFinderQuestionFragment;
 import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
@@ -89,29 +92,44 @@ public class GeoFinderActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(!GameManager.getInstance().isQuestionDisabled(currentQuestion)) {
-                    GameManager.getInstance().disableQuestionFromAnswering(currentQuestion);
-                    //do whatever to check answer from LG and show results...
-
-                    final Dialog loading_dialog = new MaterialAlertDialogBuilder(this)
-                    .setView(R.layout.progress)
-                    .setOnCancelListener((dialog) -> nextPage())
-                    //.setMessage("");
-                    .setTitle("Getting position from the LiquidGalaxy").create();
-
-                    LGConnectionManager.getInstance().addCommandToLG(new LGCommand("echo $(/home/lg/bin/lg-locate)", LGCommand.CRITICAL_MESSAGE, (response -> {
-                        String[] splitted = response.split(" ", 2);
-                        ((GeoFinderManager)GeoFinderManager.getInstance()).answerQuestion(currentQuestion, Double.parseDouble(splitted[0]), Double.parseDouble(splitted[1]));
-                        loading_dialog.cancel();
-                    })));
-
-                    loading_dialog.setCancelable(false);
-                    loading_dialog.setCanceledOnTouchOutside(false);
-                    loading_dialog.show();
-                }
-                else {
+                if(GameManager.getInstance().isQuestionDisabled(currentQuestion)) {
                     nextPage();
+                    return;
                 }
+
+                GameManager.getInstance().disableQuestionFromAnswering(currentQuestion);
+
+                final AlertDialog loading_dialog = new MaterialAlertDialogBuilder(this)
+                .setView(R.layout.progress)
+                .setTitle("Getting position from the LiquidGalaxy")
+                .setOnCancelListener((dialog) -> nextPage())
+                .setNegativeButton("SKIP", (dialog, id) -> dialog.cancel())
+                .setPositiveButton("SHOW ANSWER", (dialog, id) -> { })
+                .create();
+
+                loading_dialog.setCancelable(false);
+                loading_dialog.setCanceledOnTouchOutside(false);
+                loading_dialog.show();
+
+                loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.GONE);
+                loading_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setVisibility(View.GONE);
+
+                LGConnectionManager.getInstance().addCommandToLG(new LGCommand("echo $(/home/lg/bin/lg-locate)", LGCommand.CRITICAL_MESSAGE, (response -> {
+                    String[] responseSplitted = response.split(" ", 2);
+                    ((GeoFinderManager)GeoFinderManager.getInstance()).answerQuestion(currentQuestion, Double.parseDouble(responseSplitted[0]), Double.parseDouble(responseSplitted[1]));
+                    int score = ((GeoFinderManager)GeoFinderManager.getInstance()).getScoreQuestion(currentQuestion);
+                    loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener((view) -> {
+                        POIController.getInstance().moveToPOI(((GeoFinderQuestion)(GeoFinderManager.getInstance().getGame().getQuestions().get(currentQuestion))).poi, null);
+                        view.setEnabled(false);
+                        loading_dialog.setCancelable(true);
+                        loading_dialog.setCanceledOnTouchOutside(true);
+                    });
+                    loading_dialog.setMessage("You have scored " + score + " out of 1000 points!");
+                    loading_dialog.getListView().findViewById(R.id.loader).setVisibility(View.GONE);
+                    loading_dialog.getListView().findViewById(R.id.loading_msg).setVisibility(View.GONE);
+                    loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.VISIBLE);
+                    loading_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setVisibility(View.VISIBLE);
+                })));
             }
         });
     }

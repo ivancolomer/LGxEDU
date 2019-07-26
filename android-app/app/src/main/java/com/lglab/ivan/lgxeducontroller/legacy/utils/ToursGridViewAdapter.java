@@ -22,6 +22,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
+import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.Tour;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
@@ -146,7 +148,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
         }
 
         private boolean sendTourPOIs(List<POI> pois, List<Integer> poisDuration) {
-            if (!sendFirstTourPOI(pois.get(0)))
+            if (!sendTourPOI(0, pois.get(0)))
                 return false;
             return sendOtherTourPOIs(pois, poisDuration);
         }
@@ -161,18 +163,30 @@ public class ToursGridViewAdapter extends BaseAdapter {
             return true;
         }
 
-        private boolean sendFirstTourPOI(POI firstPoi) {
-            return POIController.getInstance().moveToPOI(firstPoi, false);
-        }
+        private boolean sendTourPOI(int duration, POI firstPoi) {
+            LGCommand lgCommand = POIController.getInstance().moveToPOI(firstPoi, response ->  { });
 
-        private boolean sendTourPOI(Integer duration, POI poi) {
             try {
-                Thread.sleep((long) ((duration * 2) * 1000));
-                return POIController.getInstance().moveToPOI(poi, false);
+                if(duration != 0)
+                    Thread.sleep((long) ((duration * 2) * 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return false;
+
+            //TIMEOUT 5 seconds BEFORE REMOVING COMMAND FORM LG AND DISPLAYING CONNECTION FAILURE MESSAGE
+            long currentTime = System.currentTimeMillis();
+            try {
+                while(System.currentTimeMillis() - currentTime <= 5000) {
+                    if(!LGConnectionManager.getInstance().containsCommandFromLG(lgCommand))
+                        break;
+                    Thread.sleep(100);
+                }
+            }
+            catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return !LGConnectionManager.getInstance().removeCommandFromLG(lgCommand);
         }
 
 

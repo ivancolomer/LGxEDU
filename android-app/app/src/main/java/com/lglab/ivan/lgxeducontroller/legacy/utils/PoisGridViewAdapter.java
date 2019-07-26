@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
+import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import java.util.List;
@@ -259,7 +262,26 @@ public class PoisGridViewAdapter extends BaseAdapter {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                POIController.getInstance().moveToPOI(currentPoi, null);
+                LGCommand lgCommand = POIController.getInstance().moveToPOI(currentPoi, null);
+                //TIMEOUT 5 seconds BEFORE REMOVING COMMAND FORM LG AND DISPLAYING CONNECTION FAILURE MESSAGE
+                long currentTime = System.currentTimeMillis();
+                try {
+                    while(System.currentTimeMillis() - currentTime <= 5000) {
+                        if(!LGConnectionManager.getInstance().containsCommandFromLG(lgCommand))
+                            break;
+                        Thread.sleep(500);
+                    }
+                }
+                catch(InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                if(LGConnectionManager.getInstance().removeCommandFromLG(lgCommand)) {
+                    Toast.makeText(activity.getApplicationContext(), activity.getApplicationContext().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
+                    Log.d("poisgrid", "Error in connection with Liquid Galaxy.");
+                    return null;
+                }
+
 
                 if (this.rotate) {
                     boolean isFirst = true;
@@ -279,7 +301,7 @@ public class PoisGridViewAdapter extends BaseAdapter {
                         }
                     }
                 }
-                return "";
+                return null;
             } catch (InterruptedException e) {
                 activity.runOnUiThread(() -> Toast.makeText(context, context.getResources().getString(R.string.visualizationCanceled), Toast.LENGTH_LONG).show());
                 return null;
@@ -292,12 +314,13 @@ public class PoisGridViewAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(String success) {
             super.onPostExecute(success);
-            if (success != null) {
-                if (dialog != null) {
+            if (dialog != null) {
+                activity.runOnUiThread(() -> {
                     dialog.hide();
                     dialog.dismiss();
-                }
+                });
             }
+
         }
     }
 }

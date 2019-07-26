@@ -191,11 +191,14 @@ public class LGConnectionManager implements Runnable {
     }
 
     public boolean removeCommandFromLG(LGCommand lgCommand) {
+        if(lgCommand == lgCommandToReSend) {
+            lgCommandToReSend = null;
+        }
         return queue.remove(lgCommand);
     }
 
     public boolean containsCommandFromLG(LGCommand lgCommand) {
-        return queue.contains(lgCommand);
+        return lgCommand == lgCommandToReSend || queue.contains(lgCommand);
     }
 
     @Override

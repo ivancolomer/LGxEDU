@@ -663,7 +663,7 @@ public class POISFragment extends Fragment {
                     stopButton.setClickable(true);
 
                     invalidateOtherClickableElements();
-                    stopButtonBehaviour(tour);
+                    stopButtonBehaviour();
                 }
             }
         });
@@ -718,7 +718,7 @@ public class POISFragment extends Fragment {
 
 
                     invalidateOtherClickableElements();
-                    stopButtonBehaviour(tour);
+                    stopButtonBehaviour();
                 }
             }
         });
@@ -756,7 +756,7 @@ public class POISFragment extends Fragment {
     }
 
     //The following six methods are called when user stops the view of one Tour on the LG screens.
-    private void stopButtonBehaviour(final LiquidGalaxyTourView tour) {
+    private void stopButtonBehaviour() {
         stopButton.setOnClickListener(v -> showAlert(stopButton, tour));
     }
 

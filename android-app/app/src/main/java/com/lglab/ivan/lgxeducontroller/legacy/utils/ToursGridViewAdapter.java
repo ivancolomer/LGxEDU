@@ -112,8 +112,9 @@ public class ToursGridViewAdapter extends BaseAdapter {
                 builder.setMessage(message);
                 builder.setView(R.layout.progress);
                 builder.setNegativeButton(context.getResources().getString(R.string.stop_tour), (dialog, id) -> dialog.cancel());
-
+                builder.setOnCancelListener((dialog) -> cancel(true));
                 dialog = builder.create();
+
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.setCancelable(true);
 
@@ -135,10 +136,7 @@ public class ToursGridViewAdapter extends BaseAdapter {
                     pois.add(getPOIData(poiID));
                 }
                 try {
-                    if (!sendTourPOIs(pois, poisDuration)) {
-                        return false;
-                    }
-                    return true;
+                    return sendTourPOIs(pois, poisDuration);
                 } catch (IndexOutOfBoundsException e) {
                     return false;
                 }
@@ -148,15 +146,9 @@ public class ToursGridViewAdapter extends BaseAdapter {
         }
 
         private boolean sendTourPOIs(List<POI> pois, List<Integer> poisDuration) {
-            if (!sendTourPOI(0, pois.get(0)))
-                return false;
-            return sendOtherTourPOIs(pois, poisDuration);
-        }
-
-        private boolean sendOtherTourPOIs(List<POI> pois, List<Integer> poisDuration) {
-            int i = 1;
+            int i = 0;
             while (!isCancelled()) {
-                if (!sendTourPOI(poisDuration.get(i), pois.get(i % pois.size())))
+                if (!sendTourPOI(poisDuration.get(i % pois.size()), pois.get(i % pois.size())))
                     return false;
                 i++;
             }
@@ -165,13 +157,6 @@ public class ToursGridViewAdapter extends BaseAdapter {
 
         private boolean sendTourPOI(int duration, POI firstPoi) {
             LGCommand lgCommand = POIController.getInstance().moveToPOI(firstPoi, response ->  { });
-
-            try {
-                if(duration != 0)
-                    Thread.sleep((long) ((duration * 2) * 1000));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
             //TIMEOUT 5 seconds BEFORE REMOVING COMMAND FORM LG AND DISPLAYING CONNECTION FAILURE MESSAGE
             long currentTime = System.currentTimeMillis();
@@ -183,6 +168,13 @@ public class ToursGridViewAdapter extends BaseAdapter {
                 }
             }
             catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if(duration > 0)
+                    Thread.sleep((long) ((duration * 2) * 1000));
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 

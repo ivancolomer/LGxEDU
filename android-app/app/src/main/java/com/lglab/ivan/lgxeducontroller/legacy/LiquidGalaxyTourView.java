@@ -1,7 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.legacy;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -33,7 +31,7 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
 
     private FragmentActivity poisFragmentAct;
 
-    public LiquidGalaxyTourView(FragmentActivity activity) {
+    LiquidGalaxyTourView(FragmentActivity activity) {
         this.poisFragmentAct = activity;
     }
 
@@ -70,7 +68,9 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
             new MaterialAlertDialogBuilder(this.poisFragmentAct)
                     .setTitle("Error")
                     .setMessage("There's probably no POI inside this Tour")
-                    .setPositiveButton("OK", new TourDialog())
+                    .setPositiveButton("OK", (dialog, id) -> {
+
+                    })
                     .show();
         }
     }
@@ -88,33 +88,16 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
     }
 
     private void sendTourPOIs(List<POI> pois, List<Integer> poisDuration) {
-        sendTourPOI(0, pois.get(0));
-        sendOtherTourPOIs(pois, poisDuration);
-    }
-
-    private void sendOtherTourPOIs(List<POI> pois, List<Integer> poisDuration) {
-        int i = 1;
+        int i = 0;
         while (!isCancelled()) {
-            sendTourPOI(poisDuration.get(i), pois.get(i));
+            sendTourPOI(poisDuration.get(i % pois.size()), pois.get(i % pois.size()));
             i++;
-            if (i == pois.size()) {
-                i = 0;
-            }
         }
     }
 
-    private void sendTourPOI(Integer duration, POI firstPoi) {
-        try {
-            if(duration != 0)
-                Thread.sleep((long) (duration * 1000));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Log.d(TAG, "Error in duration of POIs.");
-            return;
-        }
-
-        LGCommand lgCommand = POIController.getInstance().moveToPOI(firstPoi, (response -> Log.d(TAG, "POI SENT")));
-
+    private void sendTourPOI(int duration, POI firstPoi) {
+        LGCommand lgCommand = POIController.getInstance().moveToPOI(firstPoi, (response -> Log.d("LOL", "POI SENT")));
+        Log.d("LOL", String.valueOf(duration));
         //TIMEOUT 5 seconds BEFORE REMOVING COMMAND FORM LG AND DISPLAYING CONNECTION FAILURE MESSAGE
         long currentTime = System.currentTimeMillis();
         try {
@@ -131,18 +114,20 @@ public class LiquidGalaxyTourView extends AsyncTask<String, Void, String> {
         if(LGConnectionManager.getInstance().removeCommandFromLG(lgCommand)) {
             Toast.makeText(poisFragmentAct.getApplicationContext(), poisFragmentAct.getApplicationContext().getString(R.string.connection_failure), Toast.LENGTH_LONG).show();
             Log.d(TAG, "Error in connection with Liquid Galaxy.");
+            cancel(true);
+        }
+
+        try {
+            if(duration > 0)
+                Thread.sleep((long) (duration * 1000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error in duration of POIs.");
+            return;
         }
     }
 
     protected void onCancelled() {
         super.onCancelled();
-    }
-
-    class TourDialog implements OnClickListener {
-        TourDialog() {
-        }
-
-        public void onClick(DialogInterface arg0, int arg1) {
-        }
     }
 }

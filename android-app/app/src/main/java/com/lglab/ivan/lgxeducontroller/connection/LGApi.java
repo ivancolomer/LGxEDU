@@ -18,17 +18,18 @@ public class LGApi {
     public static void sendJsonRequest(Context context, int requestMethod, String url, Response.Listener<JSONArray> callback, Map<String, String> params) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonArrayRequest request = new JsonArrayRequest(requestMethod, url, null, callback, error -> Log.d("LGAPI", error.toString())) {
-            /*@Override
+
+            @Override
             protected Map<String, String> getParams()
             {
                 return params;
-            }*/
+            }
 
             @Override
             public Map<String, String> getHeaders() {
                 Map<String,String> params = new HashMap<>();
                 //params.put("Content-Type","application/x-www-form-urlencoded");
-                params.put("Content-Type","application/json");
+                params.put("Content-Type","application/form-data");
                 return params;
             }
         };

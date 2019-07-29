@@ -17,14 +17,13 @@ import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.main.MainActivity;
-import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsDbHelper;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
@@ -34,7 +33,7 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Calendar;
 
-public class LGPCAdminActivity extends GoogleDriveActivity {
+public class LGPCAdminActivity extends AppCompatActivity {
 
     AdminCollectionPagerAdapter adapter;
     ViewPager viewPager;
@@ -91,11 +90,6 @@ public class LGPCAdminActivity extends GoogleDriveActivity {
                 viewPager.setCurrentItem(AdminCollectionPagerAdapter.PAGE_TREEEVIEW);
             }
         }
-
-    }
-
-    @Override
-    public void handleStringFromDrive(String input) {
 
     }
 

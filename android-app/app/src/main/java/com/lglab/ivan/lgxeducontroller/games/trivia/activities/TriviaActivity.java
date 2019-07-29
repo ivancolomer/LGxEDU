@@ -178,11 +178,11 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
     private void testEricsAPI(POI poi, String information) {
 
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://192.168.86.26:8080/kml/builder/deleteTag/Placemark/12345", (response) -> {
-            Log.d("ERIC", response.toString());
-        }, null);
+        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://192.168.86.90:8080/kml/builder/deleteTag/Placemark/12345", (response) -> {
+            Log.d("LGAPI", response.toString());
+        }, new HashMap<>());
 
-        Map params = new HashMap<String, String>() {};
+        Map params = new HashMap<String, String>();
         params.put("id", "12345");
         params.put("name", poi.getName());
         params.put("longitude", poi.getLongitude());
@@ -190,8 +190,8 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
         params.put("range", poi.getRange());
         params.put("description", information);
 
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://192.168.86.26:8080/kml/builder/addplacemark", (response) -> {
-
+        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://192.168.86.90:8080/kml/builder/addplacemark", (response) -> {
+            Log.d("LGAPI", response.toString());
         }, params);
     }
 

@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +18,12 @@ import com.lglab.ivan.lgxeducontroller.activities.lgpc.LGPC;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.NavigateActivity;
 import com.lglab.ivan.lgxeducontroller.activities.play.PlayActivity;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
-import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.Help;
 import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
+import com.lglab.ivan.lgxeducontroller.utils.ServerAppCompatActivity;
 
 
-public class MainActivity extends GoogleDriveActivity {
+public class MainActivity extends ServerAppCompatActivity {
 
     /*static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -41,10 +39,10 @@ public class MainActivity extends GoogleDriveActivity {
         findViewById(R.id.play_button).setOnClickListener(view -> startActivity(new Intent(this, PlayActivity.class)));
         findViewById(R.id.pois_and_tours_button).setOnClickListener(view -> startActivity(new Intent(this, LGPC.class)));
 
-        Log.d("MAIN", getResources().getDisplayMetrics().toString());
+        /*Log.d("MAIN", getResources().getDisplayMetrics().toString());
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        Log.d("MAIN", String.valueOf(metrics.densityDpi));
+        Log.d("MAIN", String.valueOf(metrics.densityDpi));*/
     }
 
     @Override
@@ -53,11 +51,6 @@ public class MainActivity extends GoogleDriveActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
-    }
-
-    @Override
-    public void handleStringFromDrive(String input) {
-        //Nothing here...
     }
 
     @Override
@@ -132,9 +125,7 @@ public class MainActivity extends GoogleDriveActivity {
                 .setTitle(getResources().getString(R.string.about_Controller_message))
                 .setView(dialogView)
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.close), (dialog, id) -> {
-                    dialog.dismiss();
-                })
+                .setPositiveButton(getString(R.string.close), (dialog, id) -> dialog.dismiss())
                 .create();
 
         alert.show();

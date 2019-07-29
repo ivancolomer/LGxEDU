@@ -87,6 +87,16 @@ public class POIController {
     }
 
     private static String buildCommand(POI poi) {
-        return "echo 'flytoview=<gx:duration>3</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>" + poi.getLongitude() + "</longitude><latitude>" + poi.getLatitude() + "</latitude><altitude>" + poi.getAltitude() + "</altitude><heading>" + poi.getHeading() + "</heading><tilt>" + poi.getTilt() + "</tilt><range>" + poi.getRange() + "</range><gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
+        //return "echo 'flytoview=<gx:duration>3</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt><longitude>" + poi.getLongitude() + "</longitude><latitude>" + poi.getLatitude() + "</latitude><altitude>" + poi.getAltitude() + "</altitude><heading>" + poi.getHeading() + "</heading><tilt>" + poi.getTilt() + "</tilt><range>" + poi.getRange() + "</range><gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode></LookAt>' > /tmp/query.txt";
+
+        return "echo 'flytoview=<gx:duration>3</gx:duration><gx:flyToMode>smooth</gx:flyToMode><LookAt>" +
+                "<longitude>" + poi.getLongitude() + "</longitude>" +
+                "<latitude>" + poi.getLatitude() + "</latitude>" +
+                "<altitude>" + poi.getAltitude() + "</altitude>" +
+                "<heading>" + poi.getHeading() + "</heading>" +
+                "<tilt>" + poi.getTilt() + "</tilt>" +
+                "<range>" + poi.getRange() + "</range>" +
+                "<gx:altitudeMode>" + poi.getAltitudeMode() + "</gx:altitudeMode>" +
+                "</LookAt>' > /tmp/query.txt";
     }
 }

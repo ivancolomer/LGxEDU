@@ -24,15 +24,15 @@ public class POIController {
     }
 
     private POI currentPOI;
-    private POI previousPOI;
+    //private POI previousPOI;
 
     private POIController() {
-        currentPOI = EARTH_POI;
-        moveToPOI(EARTH_POI, null);
+        /*currentPOI = EARTH_POI;
+        moveToPOI(EARTH_POI, null);*/
     }
 
     public LGCommand moveToPOI(POI poi, LGCommand.Listener listener) {
-        previousPOI = new POI(currentPOI);
+        //previousPOI = new POI(currentPOI);
         currentPOI = new POI(poi);
         return sendPoiToLG(listener);
     }
@@ -41,7 +41,7 @@ public class POIController {
         //.setLongitude() [-180 to +180]: X (cos)
         //.setLatitude() [-90 to +90]: Y (sin)
 
-        POI newPoi = new POI(currentPOI);
+        /*POI newPoi = new POI(currentPOI);
         //0.0001% of RANGE
         double STEP_XY = 0.000001;
         newPoi.setLongitude(newPoi.getLongitude() + Math.cos(angle) * percentDistance * STEP_XY * newPoi.getRange());
@@ -60,7 +60,7 @@ public class POIController {
             newPoi.setLatitude(newPoi.getLatitude() + 180);
         }
 
-        moveToPOI(newPoi, null);
+        moveToPOI(newPoi, null);*/
     }
 
     public synchronized void moveCameraAngle(double angle, double percentDistance) {
@@ -78,7 +78,7 @@ public class POIController {
 
     private LGCommand sendPoiToLG(LGCommand.Listener listener) {
         LGCommand lgCommand = new LGCommand(buildCommand(currentPOI), LGCommand.CRITICAL_MESSAGE, (String result) -> {
-            currentPOI = new POI(previousPOI);
+            //currentPOI = new POI(previousPOI);
             if(listener != null)
                 listener.onResponse(result);
         });

@@ -178,21 +178,17 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
     private void testEricsAPI(POI poi, String information) {
 
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://192.168.86.90:8080/kml/builder/deleteTag/Placemark/12345", (response) -> {
-            Log.d("LGAPI", response.toString());
-        }, new HashMap<>());
+        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://192.168.86.90:8080/kml/builder/deleteTag/Placemark/12345", (response) -> Log.d("LGAPI", response.toString()), new HashMap<>());
 
-        Map params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("id", "12345");
         params.put("name", poi.getName());
-        params.put("longitude", poi.getLongitude());
-        params.put("latitude", poi.getLatitude());
-        params.put("range", poi.getRange());
+        params.put("longitude", String.valueOf(poi.getLongitude()));
+        params.put("latitude", String.valueOf(poi.getLatitude()));
+        params.put("range", String.valueOf(poi.getRange()));
         params.put("description", information);
 
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://192.168.86.90:8080/kml/builder/addplacemark", (response) -> {
-            Log.d("LGAPI", response.toString());
-        }, params);
+        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://192.168.86.90:8080/kml/builder/addplacemark", (response) -> Log.d("LGAPI", response.toString()), params);
     }
 
     private void nextPage() {

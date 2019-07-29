@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public abstract class Game implements IJsonPacker, Parcelable {
 
@@ -172,11 +173,11 @@ public abstract class Game implements IJsonPacker, Parcelable {
     }
 
     public Bitmap getImage(Context context) {
-        if (imageName.startsWith("1234_")) {
+        if (imageName.startsWith("games/")) {
             // load image
             try {
                 // get input stream
-                InputStream ims = context.getAssets().open(imageName.substring(5));
+                InputStream ims = context.getAssets().open(imageName);
                 // load image as Drawable
                 return BitmapFactory.decodeStream(ims);
             } catch (IOException ex) {
@@ -184,7 +185,8 @@ public abstract class Game implements IJsonPacker, Parcelable {
             }
         }
 
-        return !imageName.equals("") ? BitmapFactory.decodeFile(new File(context.getFilesDir().toString() + "/saved_images", imageName).getAbsolutePath()) : null;
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        return !imageName.equals("") ? BitmapFactory.decodeFile(new File(context.getFilesDir().toString() + "/saved_images", imageName).getAbsolutePath()) :  Bitmap.createBitmap(300, 300, conf);
     }
 
     public void setImage(File file) {
@@ -192,7 +194,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
     }
 
     public void setNewImage(Bitmap bitmap, Context context) {
-        imageName = generateRandomString();
+        imageName = UUID.randomUUID().toString();
 
         if (bitmap == null) {
             Bitmap.Config conf = Bitmap.Config.ARGB_8888;
@@ -205,12 +207,17 @@ public abstract class Game implements IJsonPacker, Parcelable {
             String root = context.getFilesDir().toString();
             File myDir = new File(root + "/saved_images");
             if (!myDir.exists()) {
-                myDir.mkdirs();
+                if(myDir.mkdirs()) {
+                    Log.d("Game", "OOPS!");
+                }
             }
 
             File file = new File(myDir, imageName);
-            if (file.exists())
-                file.delete();
+            if (file.exists()) {
+                if(!file.delete()) {
+                    Log.d("Game", "OOPS!");
+                }
+            }
             try {
                 FileOutputStream out = new FileOutputStream(file);
                 bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, out);
@@ -257,7 +264,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
             encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
             return encodedImage;
         } catch (Exception e) {
-            Log.d("Game", e.getMessage());
+            Log.d("Game", e.toString());
             return "";
         }
     }
@@ -265,26 +272,10 @@ public abstract class Game implements IJsonPacker, Parcelable {
     private static Bitmap getBitmapFromString(String stringPicture) {
         try {
             byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            return decodedByte;
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         } catch (Exception e) {
-            Log.d("Game", e.getMessage());
+            Log.d("Game", e.toString());
             return null;
         }
-    }
-
-    private static String generateRandomString() {
-
-        int leftLimit = 97; // letter 'a'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 30;
-
-        StringBuilder buffer = new StringBuilder(targetStringLength);
-        for (int i = 0; i < targetStringLength; i++) {
-            int randomLimitedInt = leftLimit + (int)
-                    (random.nextFloat() * (rightLimit - leftLimit + 1));
-            buffer.append((char) randomLimitedInt);
-        }
-        return buffer.toString();
     }
 }

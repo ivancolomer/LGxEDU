@@ -130,7 +130,7 @@ public class LGConnectionManager implements Runnable {
         }
 
         ChannelExec channelSsh;
-        StringBuilder outputBuffer = new StringBuilder();
+        StringBuilder outputBuffer = lgCommand.getPriorityType() == LGCommand.CRITICAL_MESSAGE ? new StringBuilder() : null;
         try {
             channelSsh = (ChannelExec) session.openChannel("exec");
         } catch (Exception e) {
@@ -151,12 +151,13 @@ public class LGConnectionManager implements Runnable {
                 return false;
             }
 
-            int readByte = commandOutput.read();
+            if(lgCommand.getPriorityType() == LGCommand.CRITICAL_MESSAGE) {
+                int readByte = commandOutput.read();
 
-            while(readByte != 0xffffffff)
-            {
-                outputBuffer.append((char)readByte);
-                readByte = commandOutput.read();
+                while (readByte != 0xffffffff) {
+                    outputBuffer.append((char) readByte);
+                    readByte = commandOutput.read();
+                }
             }
         } catch(IOException ioX) {
             Log.d("ConnectionManager", "couldn't get InputStream or read from it: " + ioX.getMessage());
@@ -165,8 +166,13 @@ public class LGConnectionManager implements Runnable {
 
         channelSsh.disconnect();
 
-        String response = outputBuffer.toString();
-        Log.d("ConnectionManager", "response: " + response);
+        String response = "";
+
+        if(lgCommand.getPriorityType() == LGCommand.CRITICAL_MESSAGE) {
+            response = outputBuffer.toString();
+            Log.d("ConnectionManager", "response: " + response);
+        }
+
         lgCommand.doAction(response);
         return true;
     }

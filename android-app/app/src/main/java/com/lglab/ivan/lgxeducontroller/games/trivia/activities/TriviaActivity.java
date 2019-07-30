@@ -176,19 +176,36 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
         }
     }
 
+    private static final String SERVER_IP = "192.168.86.145";
+    private static final int PORT = 8112;
+
     private void testEricsAPI(POI poi, String information) {
 
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://192.168.86.90:8080/kml/builder/deleteTag/Placemark/12345", (response) -> Log.d("LGAPI", response.toString()), new HashMap<>());
+        //LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/deleteTag/Placemark/12345", (response) -> Log.d("LGAPI", response.toString()), new HashMap<>());
 
-        Map<String, String> params = new HashMap<>();
-        params.put("id", "12345");
-        params.put("name", poi.getName());
-        params.put("longitude", String.valueOf(poi.getLongitude()));
-        params.put("latitude", String.valueOf(poi.getLatitude()));
-        params.put("range", String.valueOf(poi.getRange()));
-        params.put("description", information);
+        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.GET, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/clean", (response) -> {
+            Log.d("LGAPI", response.toString());
+            LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/new?name=IvanKML", (response1) -> {
+                Log.d("LGAPI", response1.toString());
+                Map<String, String> params = new HashMap<>();
+                params.put("id", "12345");
+                params.put("name", poi.getName());
+                params.put("longitude", String.valueOf(poi.getLongitude()));
+                params.put("latitude", String.valueOf(poi.getLatitude()));
+                params.put("range", String.valueOf(poi.getRange()));
+                params.put("description", information);
 
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://192.168.86.90:8080/kml/builder/addplacemark", (response) -> Log.d("LGAPI", response.toString()), params);
+                LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/addplacemark", (response2) -> {
+                    Log.d("LGAPI", response2.toString());
+                    LGApi.sendJsonRequest(getApplicationContext(), Request.Method.GET, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/balloon/12345/1", (response3) -> Log.d("LGAPI", response3.toString()), new HashMap<>());
+                }, params);
+            }, new HashMap<>());
+        }, new HashMap<>());
+
+
+
+
+
     }
 
     private void nextPage() {

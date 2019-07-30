@@ -35,6 +35,6 @@ public abstract class ServerAppCompatActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        WebServer.removeHandler();
+        WebServer.removeHandler(handler);
     }
 }

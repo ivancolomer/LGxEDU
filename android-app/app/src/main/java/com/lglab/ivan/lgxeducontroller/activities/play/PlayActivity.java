@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +21,7 @@ import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
+import com.lglab.ivan.lgxeducontroller.utils.ServerAppCompatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class PlayActivity extends AppCompatActivity {
+public class PlayActivity extends ServerAppCompatActivity {
 
     private static final String TAG = PlayActivity.class.getSimpleName();
 

@@ -104,7 +104,25 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
                 getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         textView = view.findViewById(R.id.question_title);
-        textView.setText(question.getQuestion());
+        if(question.getQuestion().startsWith("%flag_mode% ")) {
+            textView.setText("Where is this flag from ");
+            AppCompatImageView imageView = view.findViewById(R.id.flag_image);
+            try {
+                imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), getContext().getResources().getIdentifier(question.getQuestion().substring(12), "drawable", getContext().getPackageName())));
+            } catch(Exception ignored) {
+                imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), R.drawable.ic_close_black_24dp));
+                imageView.setSupportImageTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.red)));
+
+            }
+            imageView.setVisibility(View.VISIBLE);
+            if(questionNumber == 0) {
+                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.drag_drop_info).getLayoutParams()).removeRule(RelativeLayout.END_OF);
+                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.drag_drop_info).getLayoutParams()).addRule(RelativeLayout.END_OF, imageView.getId());
+            }
+        }
+        else {
+            textView.setText(question.getQuestion());
+        }
 
         answerViews = new androidx.appcompat.widget.AppCompatTextView[TriviaQuestion.MAX_ANSWERS];
         answerViews[0] = getView().findViewById(R.id.question_name_1);

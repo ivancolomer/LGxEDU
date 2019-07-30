@@ -6,15 +6,14 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.lgpc.adapter.CollectionPagerAdapter;
+import com.lglab.ivan.lgxeducontroller.utils.ServerAppCompatActivity;
 
-public class LGPC extends AppCompatActivity {
+public class LGPC extends ServerAppCompatActivity {
     CollectionPagerAdapter adapter;
     ViewPager viewPager;
     TabLayout tabLayout;

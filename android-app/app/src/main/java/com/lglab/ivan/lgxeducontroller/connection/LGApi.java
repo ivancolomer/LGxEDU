@@ -5,19 +5,22 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LGApi {
 
-    public static void sendJsonRequest(Context context, int requestMethod, String url, Response.Listener<JSONArray> callback, Map<String, String> params) {
+    public static void sendJsonRequest(Context context, int requestMethod, String url, Response.Listener<JSONObject> callback, Map<String, String> params) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonArrayRequest request = new JsonArrayRequest(requestMethod, url, null, callback, error -> Log.d("LGAPI", error.toString())) {
+        JsonObjectRequest request = new JsonObjectRequest(requestMethod, url, null, callback, error -> {
+            Log.d("LGAPI", error.toString());
+            callback.onResponse(new JSONObject());
+        }) {
 
             @Override
             protected Map<String, String> getParams()

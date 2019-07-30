@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.utils.ServerAppCompatActivity;
 
-public class NavigateActivity extends AppCompatActivity {
+public class NavigateActivity extends ServerAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

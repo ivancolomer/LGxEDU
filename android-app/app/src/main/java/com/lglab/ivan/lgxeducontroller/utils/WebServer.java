@@ -36,8 +36,8 @@ public class WebServer extends NanoHTTPD {
         }
     }
 
-    public static void removeHandler() {
-        if(server != null) {
+    public static void removeHandler(IAssistantHandler oldHandler) {
+        if(server != null && (oldHandler == null || server.handler == oldHandler)) {
             server.handler = new IAssistantHandler() {
                 @Override
                 public AssistantHandler.Result handleNewResponse(Method method, String[] uri, Map<String, List<String>> parms) {

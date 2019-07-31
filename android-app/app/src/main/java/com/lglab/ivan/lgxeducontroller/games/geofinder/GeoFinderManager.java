@@ -66,7 +66,7 @@ public class GeoFinderManager extends GameManager {
     }
 
     private static double getCircleRadiusFromArea(double area) {
-        return Math.sqrt(area / Math.PI);
+        return Math.sqrt((area*1e6) / Math.PI); //multiply 10^6 in order to convert from km² to m²
     }
 
     @Override

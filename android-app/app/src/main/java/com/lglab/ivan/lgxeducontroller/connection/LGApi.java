@@ -15,8 +15,16 @@ import java.util.Map;
 
 public class LGApi {
 
+    private static RequestQueue requestQueue = null;
+
+    private static RequestQueue getRequestQueue(Context context) {
+        if(requestQueue == null)
+            requestQueue = Volley.newRequestQueue(context);
+        return requestQueue;
+    }
+
     public static void sendJsonRequest(Context context, int requestMethod, String url, Response.Listener<JSONObject> callback, Map<String, String> params) {
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        RequestQueue requestQueue = getRequestQueue(context);
         JsonObjectRequest request = new JsonObjectRequest(requestMethod, url, null, callback, error -> {
             Log.d("LGAPI", error.toString());
             callback.onResponse(new JSONObject());

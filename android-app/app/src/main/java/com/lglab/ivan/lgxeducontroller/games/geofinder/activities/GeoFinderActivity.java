@@ -2,6 +2,7 @@ package com.lglab.ivan.lgxeducontroller.games.geofinder.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -102,6 +103,7 @@ public class GeoFinderActivity extends AppCompatActivity {
                 final AlertDialog loading_dialog = new MaterialAlertDialogBuilder(this)
                 .setView(R.layout.progress)
                 .setTitle("Getting position from the LiquidGalaxy")
+                .setMessage("")
                 .setOnCancelListener((dialog) -> nextPage())
                 .setNegativeButton("SKIP", (dialog, id) -> dialog.cancel())
                 .setPositiveButton("SHOW ANSWER", (dialog, id) -> { })
@@ -115,7 +117,8 @@ public class GeoFinderActivity extends AppCompatActivity {
                 loading_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setVisibility(View.GONE);
 
                 LGConnectionManager.getInstance().addCommandToLG(new LGCommand("echo $(/home/lg/bin/lg-locate)", LGCommand.CRITICAL_MESSAGE, (response -> {
-                    String[] responseSplitted = response.split(" ", 2);
+                    String[] responseSplitted = response.split(" ", 3);
+                    Log.d("Test", response);
                     ((GeoFinderManager)GeoFinderManager.getInstance()).answerQuestion(currentQuestion, Double.parseDouble(responseSplitted[0]), Double.parseDouble(responseSplitted[1]));
                     int score = ((GeoFinderManager)GeoFinderManager.getInstance()).getScoreQuestion(currentQuestion);
                     loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener((view) -> {
@@ -125,8 +128,8 @@ public class GeoFinderActivity extends AppCompatActivity {
                         loading_dialog.setCanceledOnTouchOutside(true);
                     });
                     loading_dialog.setMessage("You have scored " + score + " out of 1000 points!");
-                    loading_dialog.getListView().findViewById(R.id.loader).setVisibility(View.GONE);
-                    loading_dialog.getListView().findViewById(R.id.loading_msg).setVisibility(View.GONE);
+                    loading_dialog.findViewById(R.id.loader).setVisibility(View.GONE);
+                    loading_dialog.findViewById(R.id.loading_msg).setVisibility(View.GONE);
                     loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.VISIBLE);
                     loading_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setVisibility(View.VISIBLE);
                 })));

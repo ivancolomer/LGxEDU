@@ -119,19 +119,19 @@ public class POIsProvider extends ContentProvider {
     }
 
     public static void updateGameById(long gameId, String data) {
-        mOpenHelper.getReadableDatabase().execSQL("UPDATE game SET data = '" + data + "' WHERE _id = ?", new String[]{String.valueOf(gameId)});
+        mOpenHelper.getReadableDatabase().execSQL("UPDATE game SET data = ? WHERE _id = ?", new Object[]{data, gameId});
     }
 
     public static void updateGameFileIdById(long gameId, String fileId) {
-        mOpenHelper.getReadableDatabase().execSQL("UPDATE game SET google_drive_file_id = '" + fileId + "' WHERE _id = ?", new String[]{String.valueOf(gameId)});
+        mOpenHelper.getReadableDatabase().execSQL("UPDATE game SET google_drive_file_id = ? WHERE _id = ?", new Object[]{fileId, gameId});
     }
 
     public static void removeGameById(long gameId) {
-        mOpenHelper.getReadableDatabase().execSQL("DELETE FROM game WHERE _ID = ?", new String[]{String.valueOf(gameId)});
+        mOpenHelper.getReadableDatabase().execSQL("DELETE FROM game WHERE _ID = ?", new Object[]{gameId});
     }
 
     public static void removeCategoryGameById(long categoryId) {
-        mOpenHelper.getReadableDatabase().execSQL("DELETE FROM game_category WHERE _ID = ?", new String[]{String.valueOf(categoryId)});
+        mOpenHelper.getReadableDatabase().execSQL("DELETE FROM game_category WHERE _ID = ?", new Object[]{categoryId});
     }
 
     public static Cursor getLGConnectionData() {
@@ -140,7 +140,7 @@ public class POIsProvider extends ContentProvider {
     }
 
     public static void updateLGConnectionData(String user, String password, String hostname, int port) {
-        mOpenHelper.getReadableDatabase().execSQL("UPDATE lg_connection_info SET user = '" + user + "', password = '" + password + "', hostname = '" + hostname + "', port = ?", new String[]{String.valueOf(port)});
+        mOpenHelper.getReadableDatabase().execSQL("UPDATE lg_connection_info SET user = ?, password = ?, hostname = ?, port = ?", new Object[]{user, password, hostname, port});
     }
 
     public static long insertGame(String data, String fileId) {

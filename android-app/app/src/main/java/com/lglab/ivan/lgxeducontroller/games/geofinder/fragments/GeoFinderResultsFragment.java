@@ -12,27 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
+import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinderManager;
+import com.lglab.ivan.lgxeducontroller.games.geofinder.adapters.ResultsAdapter;
 
 public class GeoFinderResultsFragment extends Fragment {
-
-    private int playerId = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (getArguments() != null) {
-            playerId = getArguments().getInt("playerId");
-        }
 
         View view = inflater.inflate(R.layout.activity_results_page, container, false);
 
         RecyclerView rv = view.findViewById(R.id.my_recycler_view);
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
         rv.setLayoutManager(llm);
+        ResultsAdapter adapter = new ResultsAdapter();
+        rv.setAdapter(adapter);
 
-        ((TextView) view.findViewById(R.id.textViewScore)).setText("You have scored " + ((TriviaManager) GameManager.getInstance()).correctAnsweredQuestionsCount()[playerId] + " out of " + GameManager.getInstance().getGame().getQuestions().size() + "!");
+        ((TextView) view.findViewById(R.id.textViewScore)).setText("You have scored " + ((GeoFinderManager) GameManager.getInstance()).getTotalScore() + " out of " + GameManager.getInstance().getGame().getQuestions().size() * 1000 + "!");
 
         return view;
     }

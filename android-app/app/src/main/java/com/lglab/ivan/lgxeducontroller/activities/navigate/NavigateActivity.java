@@ -24,7 +24,7 @@ public class NavigateActivity extends ServerAppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.navigate_container, new NavigateFragment())
+                .add(R.id.navigate_container, new NavigateFragment(true))
                 .commit();
     }
 

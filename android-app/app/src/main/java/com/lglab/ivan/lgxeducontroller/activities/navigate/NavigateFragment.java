@@ -25,10 +25,15 @@ import java.util.List;
 
 public class NavigateFragment extends Fragment implements ILGConnection {
 
-    private AppCompatImageView wifiGif;
+    public AppCompatImageView wifiGif;
     private short currentStatus;
 
     private boolean isOnChromeBook = false;
+    private boolean setInstanceToLGConnectionManager = true;
+
+    public NavigateFragment(boolean setInstanceToLGConnectionManager) {
+        this.setInstanceToLGConnectionManager = setInstanceToLGConnectionManager;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +44,9 @@ public class NavigateFragment extends Fragment implements ILGConnection {
     public void onStart() {
         super.onStart();
 
-        LGConnectionManager.getInstance().setActivity(this);
+        if(setInstanceToLGConnectionManager)
+            LGConnectionManager.getInstance().setActivity(this);
+
         currentStatus = 0;
     }
 
@@ -93,7 +100,7 @@ public class NavigateFragment extends Fragment implements ILGConnection {
     @Override
     public void onStop() {
         super.onStop();
-        LGConnectionManager.getInstance().setActivity(null);
+        LGConnectionManager.getInstance().removeActivity(this);
     }
 
     @Override

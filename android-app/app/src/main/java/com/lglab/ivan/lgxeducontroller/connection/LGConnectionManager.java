@@ -188,6 +188,11 @@ public class LGConnectionManager implements Runnable {
         addCommandToLG(new LGCommand("echo 'connection';", LGCommand.CRITICAL_MESSAGE, null));
     }
 
+    public void removeActivity(ILGConnection activity) {
+        if(this.activity == activity)
+            this.activity = null;
+    }
+
     public void setActivity(ILGConnection activity) {
         this.activity = activity;
     }

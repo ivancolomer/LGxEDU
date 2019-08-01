@@ -13,6 +13,7 @@ import com.android.volley.toolbox.BaseHttpStack;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
+import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -25,6 +26,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LGApi {
@@ -48,6 +50,57 @@ public class LGApi {
         }, params);
         getRequestQueue(context).add(request);
     }
+
+
+    private static final String SERVER_IP = "192.168.86.145";
+    private static final int PORT = 8112;
+
+    public static void sendBalloonToPoi(Context context, POI poi, String information) {
+        //LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/deleteTag/Placemark/12345", (response) -> Log.d("LGAPI", response), null);
+
+        LGApi.sendJsonRequest(context, Request.Method.POST, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/addplacemark", (response) -> Log.d("LGAPI", "ADDED PLACEMARK SUCCESS: " + response), new HashMap<String, String>() {{
+            put("id", "12345");
+            put("name", "");
+            put("longitude", String.valueOf(poi.getLongitude()));
+            put("latitude", String.valueOf(poi.getLatitude()));
+            put("range", "0");
+            put("description", "<![CDATA[\n" +
+                    "  <head>\n" +
+                    "    <!-- Required meta tags -->\n" +
+                    "    <meta charset=\"utf-8\">\n" +
+                    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n" +
+                    "\n" +
+                    "    <!-- Bootstrap CSS -->\n" +
+                    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n" +
+                    "\n" +
+                    "  </head>\n" +
+                    "  <body>\n" +
+                    "    <div class=\"p-lg-5\" align=\"center\">\n" +
+                    "\n" +
+                    "        <h1>" + poi.getName() + "</h1>\n" +
+                    "        <hr>\n" +
+                    "        <h3>" + information + "</h3>\n" +
+                    "        <br>\n" +
+                    "\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "    <script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\" integrity=\"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN\" crossorigin=\"anonymous\"></script>\n" +
+                    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>\n" +
+                    "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\" integrity=\"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl\" crossorigin=\"anonymous\"></script>\n" +
+                    "  </body>\n" +
+                    "]]>");
+            put("icon", "afasfas");
+        }});
+        LGApi.sendJsonRequest(context, Request.Method.GET, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/balloon/12345/1", (response) -> Log.d("LGAPI", response), null);
+    }
+
+    public static void cleanBalloon(Context context) {
+        LGApi.sendJsonRequest(context, Request.Method.GET, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/clean", (response) -> Log.d("LGAPI", "CLEAN SUCCESS: " + response), null);
+        LGApi.sendJsonRequest(context, Request.Method.POST, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/new?name=IvanKML", (response) -> Log.d("LGAPI", response), null);
+    }
+
+
+
 
     private static RequestQueue newRequestQueue(Context context) {
         return newRequestQueue(context, (BaseHttpStack) null);

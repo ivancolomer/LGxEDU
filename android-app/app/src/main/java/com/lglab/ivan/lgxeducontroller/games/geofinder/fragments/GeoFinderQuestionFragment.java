@@ -42,6 +42,7 @@ public class GeoFinderQuestionFragment extends Fragment {
     private AppCompatTextView textView;
     private GeoFinderQuestion question;
     private int questionNumber;
+    public NavigateFragment navigateFragment;
 
     private boolean sendInitialPOIOnCreate = false;
 
@@ -70,9 +71,11 @@ public class GeoFinderQuestionFragment extends Fragment {
         textView = view.findViewById(R.id.question_title);
         textView.setText(question.getQuestion());
 
+        navigateFragment = new NavigateFragment(false);
+
         getChildFragmentManager()
                 .beginTransaction()
-                .add(R.id.navigate_container, new NavigateFragment())
+                .add(R.id.navigate_container, navigateFragment)
                 .commit();
 
         if (sendInitialPOIOnCreate) {

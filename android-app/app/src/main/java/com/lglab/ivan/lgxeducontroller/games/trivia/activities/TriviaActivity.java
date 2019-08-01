@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.Request;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
@@ -23,11 +22,9 @@ import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
 import com.lglab.ivan.lgxeducontroller.games.trivia.interfaces.IAnswerListener;
-import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import github.chenupt.multiplemodel.ItemEntity;
@@ -130,7 +127,7 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
             builder.setTitle("Great! You were all totally right!");
             builder.setMessage("Going to " + question.pois[question.correctAnswer - 1].getName());
             POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], null);
-            testEricsAPI(question.pois[question.correctAnswer - 1], question.information);
+            LGApi.sendBalloonToPoi(getApplicationContext(), question.pois[question.correctAnswer - 1], question.information);
             builder.create().show();
         }
         else {
@@ -160,7 +157,7 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
                 if(nonVisitedAnswer == -1) {
                     POIController.getInstance().moveToPOI(question.pois[question.correctAnswer - 1], null);
-                    testEricsAPI(question.pois[question.correctAnswer - 1], question.information);
+                    LGApi.sendBalloonToPoi(getApplicationContext(), question.pois[question.correctAnswer - 1], question.information);
                     activeAlertDialog.setMessage("And now going to " + question.pois[question.correctAnswer - 1].getName());
                     v1.setEnabled(false);
                 } else {
@@ -175,50 +172,10 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
         }
     }
 
-    private static final String SERVER_IP = "192.168.86.145";
-    private static final int PORT = 8112;
 
-    private void testEricsAPI(POI poi, String information) {
-        //LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/deleteTag/Placemark/12345", (response) -> Log.d("LGAPI", response), null);
-
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/addplacemark", (response) -> Log.d("LGAPI", "ADDED PLACEMARK SUCCESS: " + response), new HashMap<String, String>() {{
-            put("id", "12345");
-            put("name", "");
-            put("longitude", String.valueOf(poi.getLongitude()));
-            put("latitude", String.valueOf(poi.getLatitude()));
-            put("range", "0");
-            put("description", "<![CDATA[\n" +
-                    "  <head>\n" +
-                    "    <!-- Required meta tags -->\n" +
-                    "    <meta charset=\"utf-8\">\n" +
-                    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n" +
-                    "\n" +
-                    "    <!-- Bootstrap CSS -->\n" +
-                    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n" +
-                    "\n" +
-                    "  </head>\n" +
-                    "  <body>\n" +
-                    "    <div class=\"p-lg-5\" align=\"center\">\n" +
-                    "\n" +
-                    "        <h1>" + poi.getName() + "</h1>\n" +
-                    "        <hr></hr>\n" +
-                    "        <h2>" + information + "</h2>\n" +
-                    "\n" +
-                    "    </div>\n" +
-                    "\n" +
-                    "    <script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\" integrity=\"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN\" crossorigin=\"anonymous\"></script>\n" +
-                    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>\n" +
-                    "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\" integrity=\"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl\" crossorigin=\"anonymous\"></script>\n" +
-                    "  </body>\n" +
-                    "]]>");
-            put("icon", "afasfas");
-        }});
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.GET, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/balloon/12345/1", (response) -> Log.d("LGAPI", response), null);
-    }
 
     private void nextPage() {
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.GET, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/clean", (response) -> Log.d("LGAPI", "CLEAN SUCCESS: " + response), null);
-        LGApi.sendJsonRequest(getApplicationContext(), Request.Method.POST, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/new?name=IvanKML", (response) -> Log.d("LGAPI", response), null);
+        LGApi.cleanBalloon(getApplicationContext());
         if(currentQuestion + 1 < trivia.getQuestions().size())
             currentQuestion++;
         buttonNext.setEnabled(((TriviaManager) TriviaManager.getInstance()).allPlayersHasAnswerQuestion(currentQuestion));

@@ -127,12 +127,14 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
             Map.Entry<String, Category> entry = iter.next();
             if (entry.getValue().getItems().size() == 0) {
                 iter.remove();
+            } else {
+                Collections.sort(entry.getValue().getItems(), (p1, p2) -> p1.getName().compareTo(p2.getName()));
             }
         }
 
         //ORDER CATEGORIES BY ID
         ArrayList<Category> orderedCategories = new ArrayList<>(categories.values());
-        Collections.sort(orderedCategories, (p1, p2) -> Long.compare(p1.id, p2.id));
+        Collections.sort(orderedCategories, (f1, f2) -> f1.getTitle().compareTo(f2.getTitle()));
 
         return orderedCategories;
     }

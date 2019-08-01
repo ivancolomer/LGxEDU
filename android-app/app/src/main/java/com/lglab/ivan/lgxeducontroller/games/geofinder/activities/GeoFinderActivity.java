@@ -1,6 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.games.geofinder.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -9,12 +10,14 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities.navigate.NavigateFragment;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
+import com.lglab.ivan.lgxeducontroller.connection.ILGConnection;
+import com.lglab.ivan.lgxeducontroller.connection.LGApi;
 import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -33,13 +36,14 @@ import github.chenupt.multiplemodel.viewpager.ModelPagerAdapter;
 import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
 
-public class GeoFinderActivity extends AppCompatActivity {
+public class GeoFinderActivity extends AppCompatActivity implements ILGConnection {
 
     private CustomScrollerViewPager viewPager;
 
     private GeoFinder geofinder;
     private MaterialButton buttonNext, buttonBack;
     private int currentQuestion = 0;
+    private short currentStatus = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,10 @@ public class GeoFinderActivity extends AppCompatActivity {
                 buttonNext.setEnabled(true);
                 buttonNext.setText(!GameManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : "NEXT");
                 viewPager.setCurrentItem(currentQuestion, true);
+
+                short previousStatus = currentStatus;
+                currentStatus = 0;
+                setStatus(previousStatus);
             }
         });
 
@@ -123,6 +131,7 @@ public class GeoFinderActivity extends AppCompatActivity {
                     int score = ((GeoFinderManager)GeoFinderManager.getInstance()).getScoreQuestion(currentQuestion);
                     loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener((view) -> {
                         POIController.getInstance().moveToPOI(((GeoFinderQuestion)(GeoFinderManager.getInstance().getGame().getQuestions().get(currentQuestion))).poi, null);
+                        LGApi.sendBalloonToPoi(getApplicationContext(), ((GeoFinderQuestion)(GeoFinderManager.getInstance().getGame().getQuestions().get(currentQuestion))).poi, ((GeoFinderQuestion)(GeoFinderManager.getInstance().getGame().getQuestions().get(currentQuestion))).information);
                         view.setEnabled(false);
                         loading_dialog.setCancelable(true);
                         loading_dialog.setCanceledOnTouchOutside(true);
@@ -137,18 +146,32 @@ public class GeoFinderActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        LGConnectionManager.getInstance().setActivity(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LGConnectionManager.getInstance().removeActivity(this);
+    }
+
     private void nextPage() {
+        LGApi.cleanBalloon(getApplicationContext());
+
         if(currentQuestion + 1 < geofinder.getQuestions().size())
             currentQuestion++;
         buttonNext.setEnabled(true);
         buttonNext.setText(!GeoFinderManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : currentQuestion + 1 >= geofinder.getQuestions().size() ? "FINISH" : "NEXT");
         buttonBack.setEnabled(true);
-        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
-        if(page != null) {
-            //((TriviaQuestionFragment)page).checkDraggables();
-        }
 
         viewPager.setCurrentItem(currentQuestion, true);
+
+        short previousStatus = currentStatus;
+        currentStatus = 0;
+        setStatus(previousStatus);
     }
 
     public List<String> getTitles() {
@@ -193,6 +216,36 @@ public class GeoFinderActivity extends AppCompatActivity {
         Intent i = new Intent(this, GeoFinderResultsActivity.class);
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); //Adds the FLAG_ACTIVITY_NO_HISTORY flag
         startActivity(i);
+    }
+
+    @Override
+    public void setStatus(short status) {
+        runOnUiThread(() -> {
+
+            if (status != currentStatus) {
+                currentStatus = status;
+                GeoFinderQuestionFragment fragment = ((GeoFinderQuestionFragment)getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem()));
+                if(fragment != null) {
+                    NavigateFragment page = fragment.navigateFragment;
+                    if (page != null && page.wifiGif != null) {
+                        switch (status) {
+                            case LGConnectionManager.CONNECTED:
+                                page.wifiGif.setColorFilter(Color.parseColor("#4CAF50"));
+                                break;
+                            case LGConnectionManager.NOT_CONNECTED:
+                                page.wifiGif.setColorFilter(Color.parseColor("#F44336"));
+                                break;
+                            case LGConnectionManager.QUEUE_BUSY:
+                                page.wifiGif.setColorFilter(Color.parseColor("#FF9800"));
+                                break;
+                            default:
+                                page.wifiGif.setColorFilter(Color.argb(255, 255, 255, 255));
+                                break;
+                        }
+                    }
+                }
+            }
+        });
     }
 }
 

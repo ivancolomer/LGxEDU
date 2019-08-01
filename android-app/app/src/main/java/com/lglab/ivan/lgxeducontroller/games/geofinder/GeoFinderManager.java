@@ -31,7 +31,7 @@ public class GeoFinderManager extends GameManager {
     public void answerQuestion(int questionId, double lat, double lon) {
         if(answers[questionId] == null) {
             answers[questionId] = new LatLon(lat, lon);
-            scoreQuestion(questionId);
+            scores[questionId] = scoreQuestion(questionId);
         }
     }
 
@@ -47,13 +47,12 @@ public class GeoFinderManager extends GameManager {
         return sum;
     }
 
-
-
     private int scoreQuestion(int questionId) {
         GeoFinderQuestion question = ((GeoFinderQuestion)getGame().getQuestions().get(questionId));
         double radiusAnswer = getCircleRadiusFromArea(question.area);
         double distance = calculateDistance(answers[questionId], new LatLon(question.poi.getLatitude(), question.poi.getLongitude()));
-        return distance <= (3*radiusAnswer/4) ? 1000 : (int)Math.round(1000 * radiusAnswer / (distance - (radiusAnswer/4)));
+        //Log.d("SCORE", String.valueOf(distance) + "||" + radiusAnswer);
+        return distance <= (3*radiusAnswer/4) ? 1000 : (int)Math.round((1000*radiusAnswer)/(distance - (radiusAnswer/4)));
     }
 
     private final static double R = 6371e3;
@@ -79,14 +78,6 @@ public class GeoFinderManager extends GameManager {
         LatLon(double lat, double lon) {
             this.lat = lat;
             this.lon = lon;
-        }
-
-        public double getLat() {
-            return lat;
-        }
-
-        public double getLon() {
-            return lon;
         }
     }
 }

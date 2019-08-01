@@ -22,6 +22,20 @@ public class PointerDetector {
     private Action previousAction = Action.NONE;
     private Action currentAction = Action.NONE;
 
+    private long lastTimeSentRepetitiveMove = 0;
+
+    private void restartLastTimeSentRepetitiveMove() {
+        lastTimeSentRepetitiveMove = 0;
+    }
+
+    private boolean canSendRepetitiveMove() {
+        if(lastTimeSentRepetitiveMove == 0 || System.currentTimeMillis() - lastTimeSentRepetitiveMove >= 250) {
+            lastTimeSentRepetitiveMove = System.currentTimeMillis();
+            return true;
+        }
+        return false;
+    }
+
     private List<Pair<String, Boolean>> commands = new ArrayList<>();
 
     public void preAction() {
@@ -37,10 +51,14 @@ public class PointerDetector {
                 commands.add(new Pair<>(mouseMoveCommand(0, 0), true));
             if (!currentAction.initialCommand.equals(""))
                 commands.add(new Pair<>(currentAction.initialCommand, true));
+
+            restartLastTimeSentRepetitiveMove();
         }
 
         if (currentAction == Action.MOVE_POSITION) {
-            commands.add(new Pair<>(mouseMoveCommand((int) pointers[0].getAngleFromInitial(), (int) pointers[0].getDistanceFromInitial()), false));
+            if(pointers[0].hasMoved || canSendRepetitiveMove()) {
+                commands.add(new Pair<>(mouseMoveCommand((int) pointers[0].getAngleFromInitial(), (int) pointers[0].getDistanceFromInitial()), false));
+            }
         } else if (currentAction != Action.NONE) {
 
             double angleDiff = Pointer.getAngleDiff(pointers[0].getAngleFromPrevious(), pointers[1].getAngleFromPrevious());
@@ -83,7 +101,9 @@ public class PointerDetector {
                     pointers[1].changedFromZoomAction();
                 }
 
-                commands.add(new Pair<>(mouseMoveCommand((int) pointers[0].getAngleFromInitial(), (int) pointers[0].getDistanceFromInitial()), false));
+                if(pointers[0].hasMoved || canSendRepetitiveMove()) {
+                    commands.add(new Pair<>(mouseMoveCommand((int) pointers[0].getAngleFromInitial(), (int) pointers[0].getDistanceFromInitial()), false));
+                }
             }
         }
 

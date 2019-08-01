@@ -140,13 +140,15 @@ public class PlayActivity extends ServerAppCompatActivity {
             Map.Entry<String, Category> entry = iter.next();
             if (entry.getValue().getItems().size() == 0) {
                 iter.remove();
+            } else {
+                Collections.sort(entry.getValue().getItems(), (p1, p2) -> p1.getName().compareTo(p2.getName()));
             }
         }
 
         allGames = new ArrayList<>(categories.values());
 
-        //ORDER CATEGORIES BY ID
-        Collections.sort(allGames, (p1, p2) -> Long.compare(p1.id, p2.id));
+        //ORDER CATEGORIES BY NAME
+        Collections.sort(allGames, (f1, f2) -> f1.getTitle().compareTo(f2.getTitle()));
     }
 
 

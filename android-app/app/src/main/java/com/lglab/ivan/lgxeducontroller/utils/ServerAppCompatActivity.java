@@ -1,5 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.utils;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -14,13 +15,13 @@ public abstract class ServerAppCompatActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new AssistantHandler(this);
-        new CreateWebServer().execute(handler);
+        new CreateWebServer().execute(getApplicationContext(), handler);
     }
 
-    private static class CreateWebServer extends AsyncTask<IAssistantHandler, Integer, Void> {
-        protected Void doInBackground(IAssistantHandler... handlers) {
+    private static class CreateWebServer extends AsyncTask<Object, Integer, Void> {
+        protected Void doInBackground(Object... handlers) {
             if(WebServer.getInstance() == null) {
-                WebServer.createServer(handlers[0]);
+                WebServer.createServer((Context)handlers[0], (IAssistantHandler)handlers[1]);
             }
             return null;
         }

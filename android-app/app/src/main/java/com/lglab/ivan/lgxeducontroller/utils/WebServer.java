@@ -1,11 +1,21 @@
 package com.lglab.ivan.lgxeducontroller.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+
+import androidx.core.content.ContextCompat;
+
+import com.lglab.ivan.lgxeducontroller.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +25,9 @@ public class WebServer extends NanoHTTPD {
 
     private static WebServer server;
 
-    public static boolean createServer(IAssistantHandler handler) {
+    static boolean createServer(Context context, IAssistantHandler handler) {
         try {
-            server = new WebServer(handler);
+            server = new WebServer(context);
             handler.onServerCreated(Utils.getIPAddress(true), String.valueOf(server.getListeningPort()));
             return true;
         } catch (IOException e) {
@@ -36,7 +46,7 @@ public class WebServer extends NanoHTTPD {
         }
     }
 
-    public static void removeHandler(IAssistantHandler oldHandler) {
+    static void removeHandler(IAssistantHandler oldHandler) {
         if(server != null && (oldHandler == null || server.handler == oldHandler)) {
             server.handler = new IAssistantHandler() {
                 @Override
@@ -54,9 +64,11 @@ public class WebServer extends NanoHTTPD {
     }
 
     private IAssistantHandler handler;
+    private Context context;
 
-    private WebServer(IAssistantHandler handler) throws IOException {
+    private WebServer(Context context) throws IOException {
         super(8080);
+        this.context = context;
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
     }
 
@@ -69,6 +81,17 @@ public class WebServer extends NanoHTTPD {
 
         String[] uriSplitted = uri.split("/");
         AssistantHandler.Result result = AssistantHandler.Result.PATH_NOT_FOUND;
+
+        if(method == Method.GET && uri.equals("/logo")) {
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            ((BitmapDrawable) ContextCompat.getDrawable(context, R.drawable.logos_ivan)).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+            InputStream inputStream = new ByteArrayInputStream(stream.toByteArray());
+
+            //res.addHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
+            return newChunkedResponse(Response.Status.OK, "image/png", inputStream);
+        }
+
         if(method == Method.GET && uriSplitted.length > 1) {
             if(handler != null) {
                 result = handler.handleNewResponse(method, uriSplitted, session.getParameters());
@@ -77,6 +100,7 @@ public class WebServer extends NanoHTTPD {
                 Log.e("WEBSERVER", "No handler found!");
             }
         }
+
 
         Response response;
         try {

@@ -1,16 +1,15 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager.adapters;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.AppCompatImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -31,6 +30,10 @@ import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import org.json.JSONException;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<CategoryManagerAdapter.CategoryViewHolder, CategoryManagerAdapter.GameViewHolder> {
@@ -137,7 +140,36 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             }
 
             this.shareButton.setOnClickListener(view -> {
-                new MaterialAlertDialogBuilder(itemView.getContext())
+                File outputFile = null;
+
+                try {
+                    File outputDir = ContextCompat.getExternalCacheDirs(view.getContext())[0];
+                    outputFile = File.createTempFile("shared_game", "json", outputDir);
+
+                    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile));
+                    bos.write(game.pack_external(view.getContext()).toString().getBytes());
+                    bos.flush();
+                    bos.close();
+                }
+                catch (JSONException ignored) {
+                    Toast.makeText(view.getContext(), "Error", Toast.LENGTH_LONG).show();
+                }
+                catch (IOException e) {
+                    // handle exception here
+                }
+                catch(Exception ignored) {
+
+                }
+
+                if(outputFile == null)
+                    return;
+
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(outputFile));
+                shareIntent.setType("application/json");
+                view.getContext().startActivity(Intent.createChooser(shareIntent, "Share Game"));
+                /*new MaterialAlertDialogBuilder(itemView.getContext())
                         .setTitle("Do you want to upload \"" + game.getName() + "\" to your drive?")
                         //.setMessage("")
                         .setPositiveButton("Upload", (dialog, id) -> {
@@ -184,7 +216,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                         })
                         .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
                         .create()
-                        .show();
+                        .show();*/
             });
 
             this.editButton.setOnClickListener(view -> {
@@ -209,4 +241,5 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                             .show());
         }
     }
+
 }

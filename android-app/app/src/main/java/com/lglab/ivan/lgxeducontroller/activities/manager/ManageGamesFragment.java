@@ -1,6 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +29,7 @@ import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -169,5 +172,46 @@ public class ManageGamesFragment extends Fragment implements IGamesAdapterActivi
             textView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onDestroy() { super.onDestroy();
+
+        try {
+            trimCache(getContext());
+            // Toast.makeText(this,"onDestroy " ,Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void trimCache(Context context) {
+        try {
+            File[] dirs = ContextCompat.getExternalCacheDirs(context);
+            for (File dir : dirs) {
+                if (dir != null && dir.isDirectory()) {
+                    deleteDir(dir);
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir.delete();
     }
 }

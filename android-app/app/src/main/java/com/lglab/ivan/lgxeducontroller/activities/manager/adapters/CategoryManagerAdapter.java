@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -144,7 +145,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
                 try {
                     File outputDir = ContextCompat.getExternalCacheDirs(view.getContext())[0];
-                    outputFile = File.createTempFile("shared_game", "json", outputDir);
+                    outputFile = File.createTempFile("shared_game", ".json", outputDir);
 
                     BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile));
                     bos.write(game.pack_external(view.getContext()).toString().getBytes());
@@ -166,8 +167,9 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(outputFile));
-                shareIntent.setType("application/json");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(view.getContext(), view.getContext().getApplicationContext().getPackageName() + ".fileprovider", outputFile));
+                shareIntent.setType("text/html");
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 view.getContext().startActivity(Intent.createChooser(shareIntent, "Share Game"));
                 /*new MaterialAlertDialogBuilder(itemView.getContext())
                         .setTitle("Do you want to upload \"" + game.getName() + "\" to your drive?")

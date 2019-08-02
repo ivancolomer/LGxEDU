@@ -1,8 +1,21 @@
 package com.lglab.ivan.lgxeducontroller.utils;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
 //import org.apache.http.conn.util.InetAddressUtils;
 
 public class Utils {
@@ -119,6 +132,29 @@ public class Utils {
             }
         } catch (Exception ignored) { } // for now eat exceptions
         return "";
+    }
+
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                .getHeight(), Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xFF424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = pixels;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+
     }
 
 }

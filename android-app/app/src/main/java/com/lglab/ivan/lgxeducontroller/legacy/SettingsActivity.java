@@ -12,9 +12,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatDelegate;
-
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.connection.LGApi;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 
 /**
@@ -43,11 +42,16 @@ public class SettingsActivity extends PreferenceActivity
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.za
-        bindPreferenceSummaryToValue(findPreference("User"));
-        bindPreferenceSummaryToValue(findPreference("Password"));
-        bindPreferenceSummaryToValue(findPreference("HostName"));
-        bindPreferenceSummaryToValue(findPreference("Port"));
+        bindPreferenceSummaryToValue(findPreference("SSH-USER"));
+        bindPreferenceSummaryToValue(findPreference("SSH-PASSWORD"));
+        bindPreferenceSummaryToValue(findPreference("SSH-IP"));
+        bindPreferenceSummaryToValue(findPreference("SSH-PORT"));
+
         bindPreferenceSummaryToValue(findPreference("isOnChromeBook"));
+        bindPreferenceSummaryToValue(findPreference("KML-API-IP"));
+        bindPreferenceSummaryToValue(findPreference("KML-API-PORT"));
+
+
         bindPreferenceSummaryToValue(findPreference("AdminPassword"));
         bindPreferenceSummaryToValue(findPreference("pref_kiosk_mode"));
         bindPreferenceSummaryToValue(findPreference("ServerIp"));
@@ -58,7 +62,10 @@ public class SettingsActivity extends PreferenceActivity
         super.onStop();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
+        LGConnectionManager.getInstance().setData(prefs.getString("SSH-USER", "lg"), prefs.getString("SSH-PASSWORD", "lqgalaxy"), prefs.getString("SSH-IP", "192.168.86.39"), Integer.parseInt(prefs.getString("SSH-PORT", "22")));
+
+        LGApi.SERVER_IP = prefs.getString("KML-API-IP", "192.168.86.145");
+        LGApi.PORT = Integer.parseInt(prefs.getString("KML-API-PORT", "8112"));
     }
 
     /**
@@ -92,7 +99,7 @@ public class SettingsActivity extends PreferenceActivity
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
-        } else if (preference.getKey().contains("Password")) {
+        } else if (preference.getKey().toLowerCase().contains("password")) {
             EditText edit = ((EditTextPreference) preference).getEditText();
             String pref = edit.getTransformationMethod().getTransformation(stringValue, edit).toString();
             preference.setSummary(pref);

@@ -17,6 +17,7 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.lgpc.LGPC;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.NavigateActivity;
 import com.lglab.ivan.lgxeducontroller.activities.play.PlayActivity;
+import com.lglab.ivan.lgxeducontroller.connection.LGApi;
 import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.legacy.Help;
 import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
@@ -50,7 +51,10 @@ public class MainActivity extends ServerAppCompatActivity {
         super.onResume();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        LGConnectionManager.getInstance().setData(prefs.getString("User", "lg"), prefs.getString("Password", "lqgalaxy"), prefs.getString("HostName", "192.168.86.39"), Integer.parseInt(prefs.getString("Port", "22")));
+        LGConnectionManager.getInstance().setData(prefs.getString("SSH-USER", "lg"), prefs.getString("SSH-PASSWORD", "lqgalaxy"), prefs.getString("SSH-IP", "192.168.86.39"), Integer.parseInt(prefs.getString("SSH-PORT", "22")));
+
+        LGApi.SERVER_IP = prefs.getString("KML-API-IP", "192.168.86.145");
+        LGApi.PORT = Integer.parseInt(prefs.getString("KML-API-PORT", "8112"));
     }
 
     @Override

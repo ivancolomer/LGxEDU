@@ -15,14 +15,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -123,7 +122,7 @@ public class AdvancedToolsFragment extends Fragment {
                 if (taskId == 1) {
                     //If the task is the LG task, we need to add the  browser URL parameter
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    String hostname = prefs.getString("HostName", "172.26.17.21");
+                    String hostname = prefs.getString("SSH-IP", "172.26.17.21");
                     LGTask task = getTaskData(taskId);
                     if (task.getBrowserUrl() == null) {
                         LGTaskEntry.updateTaskURlById(String.valueOf(taskId), hostname + ":81/php-interface/index.php");
@@ -418,7 +417,7 @@ public class AdvancedToolsFragment extends Fragment {
 
                 if (browserUrl != null) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    browserUrl = browserUrl.replaceAll(serverIpPattern, prefs.getString("ServerIp", "")).replaceAll(lgIpPattern, prefs.getString("HostName", "")).replaceAll(serverPortPattern, prefs.getString("ServerPort", ""));
+                    browserUrl = browserUrl.replaceAll(serverIpPattern, prefs.getString("ServerIp", "")).replaceAll(lgIpPattern, prefs.getString("SSH-IP", "")).replaceAll(serverPortPattern, prefs.getString("ServerPort", ""));
                 }
 
                 if (browserUrl != null && !browserUrl.equals("")) {
@@ -451,12 +450,12 @@ public class AdvancedToolsFragment extends Fragment {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
             String threatedCommand = settingsVariablesSubstitution(command);
-            pIp = pIp.replaceAll(serverIpPattern, prefs.getString("ServerIp", "")).replaceAll(lgIpPattern, prefs.getString("HostName", ""));
+            pIp = pIp.replaceAll(serverIpPattern, prefs.getString("ServerIp", "")).replaceAll(lgIpPattern, prefs.getString("SSH-IP", ""));
 
-            String user = (pUser != null && !pUser.equals("")) ? pUser : prefs.getString("User", "lg");
-            String password = (pPassword != null && !pPassword.equals("")) ? pPassword : prefs.getString("Password", "lqgalaxy");
-            String hostname = (pIp != null && !pIp.equals("")) ? pIp : prefs.getString("HostName", "172.26.17.21");
-            int port = Integer.parseInt(prefs.getString("Port", "22"));
+            String user = (pUser != null && !pUser.equals("")) ? pUser : prefs.getString("SSH-USER", "lg");
+            String password = (pPassword != null && !pPassword.equals("")) ? pPassword : prefs.getString("SSH-PASSWORD", "lqgalaxy");
+            String hostname = (pIp != null && !pIp.equals("")) ? pIp : prefs.getString("SSH-IP", "172.26.17.21");
+            int port = Integer.parseInt(prefs.getString("SSH-PORT", "22"));
 
             JSch jsch = new JSch();
 
@@ -489,7 +488,7 @@ public class AdvancedToolsFragment extends Fragment {
 
         private String settingsVariablesSubstitution(String command) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String hostname = prefs.getString("HostName", "172.26.17.21");
+            String hostname = prefs.getString("SSH-IP", "172.26.17.21");
             String serverIp = prefs.getString("ServerIp", "");
             String serverPort = prefs.getString("ServerPort", "");
 

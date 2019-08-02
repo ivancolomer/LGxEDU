@@ -1,39 +1,57 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+    indPreferenceSummaryToValue(findPreference("SSH-User"));
+    bindPreferenceSummaryToValue(findPreference("SSH-Password"));
+    bindPreferenceSummaryToValue(findPreference("SSH-IP"));
+    bindPreferenceSummaryToValue(findPreference("SSH-Port"));
     <EditTextPreference
         android:defaultValue="lg"
         android:inputType="text"
-        android:key="User"
+        android:key="SSH-USER"
         android:singleLine="true"
-        android:title="Liquid Galaxy connection User" />
+        android:title="LiquidGalaxy SSH-USER" />
 
     <EditTextPreference
         android:defaultValue="lqgalaxy"
         android:inputType="textPassword"
-        android:key="Password"
+        android:key="SSH-PASSWORD"
         android:password="true"
         android:singleLine="true"
-        android:title="Liquid Galaxy connection Password" />
+        android:title="LiquidGalaxy SSH-PASSWORD" />
 
     <EditTextPreference
         android:defaultValue="192.168.86.39"
         android:digits="0123456789."
         android:inputType="numberDecimal"
-        android:key="HostName"
+        android:key="SSH-IP"
         android:singleLine="true"
-        android:title="Liquid Galaxy connection Host Name (IP)" />
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="isOnChromeBook"
-        android:title="On ChromeBook" />
+        android:title="LiquidGalaxy SSH-IP" />
 
     <EditTextPreference
         android:defaultValue="22"
         android:inputType="number"
-        android:key="Port"
+        android:key="SSH-PORT"
         android:singleLine="true"
-        android:title="Liquid Galaxy connection Port" />
+        android:title="LiquidGalaxy SSH-PORT" />
+
+    <EditTextPreference
+        android:defaultValue="192.168.86.145"
+        android:digits="0123456789."
+        android:inputType="numberDecimal"
+        android:key="KML-API-IP"
+        android:singleLine="true"
+        android:title="KML-API-IP" />
+
+    <EditTextPreference
+        android:defaultValue="8112"
+        android:inputType="number"
+        android:key="KML-API-PORT"
+        android:singleLine="true"
+        android:title="KML-API-PORT" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="isOnChromeBook"
+        android:title="LiquidGalaxy ChromeBook Installation" />
 
     <EditTextPreference
         android:defaultValue="lg"

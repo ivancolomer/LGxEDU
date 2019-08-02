@@ -52,8 +52,8 @@ public class LGApi {
     }
 
 
-    private static final String SERVER_IP = "192.168.86.145";
-    private static final int PORT = 8112;
+    public static String SERVER_IP = "192.168.86.145";
+    public static int PORT = 8112;
 
     public static void sendBalloonToPoi(Context context, POI poi, String information) {
         //LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/deleteTag/Placemark/12345", (response) -> Log.d("LGAPI", response), null);

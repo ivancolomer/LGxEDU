@@ -6,15 +6,16 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.utils.Utils;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.GameVi
 
         //new DownloadImageTask(holder.imageViewMovie).execute("https://i.ytimg.com/vi/ymIhLJ5AKpE/maxresdefault.jpg");
         Bitmap image = game.getImage(this.context);
+        image = Utils.getRoundedCornerBitmap(image, (int) holder.itemView.getContext().getResources().getDimension(R.dimen._10sdp));
         if (image != null)
             holder.imageViewMovie.setImageBitmap(image);
 

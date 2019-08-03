@@ -68,6 +68,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation(name: 'uribeacon-library-release', ext: 'aar')
 
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation 'androidx.exifinterface:exifinterface:1.1.0-beta01'

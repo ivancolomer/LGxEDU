@@ -1,8 +1,10 @@
 package com.lglab.ivan.lgxeducontroller.games.trivia.listener;
 
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,8 @@ import java.util.List;
 public class DragListener implements View.OnDragListener {
 
     private boolean isDropped = false;
+    private boolean isDragEnded = true;
+
     private IDraggableListener listener;
 
     public DragListener(IDraggableListener listener) {
@@ -23,7 +27,10 @@ public class DragListener implements View.OnDragListener {
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
-        if (event.getAction() == DragEvent.ACTION_DROP) {
+        if(event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
+            isDragEnded = false;
+        }
+        else if (event.getAction() == DragEvent.ACTION_DROP) {
             isDropped = true;
             int positionTarget = -1;
 
@@ -109,7 +116,6 @@ public class DragListener implements View.OnDragListener {
                         adapterTarget.notifyDataSetChanged();
 
                         listener.draggedViewOnRecyclerView(list, adapterTarget.answerId);
-                        adapterTarget.enableBorders(false);
 
                         /*if (sourceId == rvBottom && adapterSource.getItemCount() < 1) {
                             listener.setEmptyListBottom(true);
@@ -127,6 +133,17 @@ public class DragListener implements View.OnDragListener {
                     break;
             }
         }
+        else if (event.getAction() == DragEvent.ACTION_DRAG_ENDED && !isDragEnded) {
+            isDragEnded = true;
+            RecyclerView source = v.getRootView().findViewById(R.id.question_0_rv);
+            if(source != null) {
+                ListAdapter adapterSource = (ListAdapter) source.getAdapter();
+                if(adapterSource != null) {
+                    adapterSource.enableBorders(false);
+                }
+            }
+        }
+        Log.d("draggable", String.valueOf(event.getAction()));
 
         if (!isDropped && event.getLocalState() != null) {
             ((View) event.getLocalState()).setVisibility(View.VISIBLE);

@@ -3,6 +3,7 @@ package com.lglab.ivan.lgxeducontroller.activities.play.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,11 +45,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.GameVi
         holder.textViewGenre.setText(game.getType().name());
 
         //new DownloadImageTask(holder.imageViewMovie).execute("https://i.ytimg.com/vi/ymIhLJ5AKpE/maxresdefault.jpg");
-        Bitmap image = game.getImage(this.context);
-        image = Utils.getRoundedCornerBitmap(image, (int) holder.itemView.getContext().getResources().getDimension(R.dimen._10sdp));
-        if (image != null)
-            holder.imageViewMovie.setImageBitmap(image);
-
+        try {
+            Bitmap image = game.getImage(this.context);
+            image = Utils.getRoundedCornerBitmap(image, (int) holder.itemView.getContext().getResources().getDimension(R.dimen._10sdp));
+            if (image != null)
+                holder.imageViewMovie.setImageBitmap(image);
+        } catch(Exception e) {
+            Log.e("ERROR", e.toString() + " || " + game.getName());
+        }
         holder.itemView.setOnClickListener(arg0 -> startGame((Activity) holder.itemView.getContext(), position));
         /*Picasso.with(context).
                 load(context.getResources().getString(R.string.image_url) + movie.getPoster())

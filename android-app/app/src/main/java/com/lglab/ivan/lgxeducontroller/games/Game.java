@@ -197,11 +197,10 @@ public abstract class Game implements IJsonPacker, Parcelable {
         imageName = UUID.randomUUID().toString();
 
         if (bitmap == null) {
-            Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-            bitmap = Bitmap.createBitmap(300, 300, conf);
+            bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
         }
 
-        final Bitmap bitmap1 = bitmap;
+        final Bitmap bitmap1 = getScaledBitmap(bitmap);
 
         new Thread(() -> {
             String root = context.getFilesDir().toString();
@@ -220,7 +219,7 @@ public abstract class Game implements IJsonPacker, Parcelable {
             }
             try {
                 FileOutputStream out = new FileOutputStream(file);
-                bitmap1.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, out);
                 out.flush();
                 out.close();
 
@@ -253,13 +252,11 @@ public abstract class Game implements IJsonPacker, Parcelable {
     }
 
     private static String getStringFromBitmap(Bitmap bitmapPicture) {
-        final int COMPRESSION_QUALITY = 100;
         String encodedImage;
         try {
             ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-            bitmapPicture = Bitmap.createScaledBitmap(bitmapPicture, 300, 300, true);
-            bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
-                    byteArrayBitmapStream);
+            bitmapPicture = getScaledBitmap(bitmapPicture);
+            bitmapPicture.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayBitmapStream);
             byte[] b = byteArrayBitmapStream.toByteArray();
             encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
             return encodedImage;
@@ -277,5 +274,23 @@ public abstract class Game implements IJsonPacker, Parcelable {
             Log.d("Game", e.toString());
             return null;
         }
+    }
+
+    private static Bitmap getScaledBitmap(Bitmap bitmap) {
+        final int maxSize = 300;
+
+        int outWidth;
+        int outHeight;
+        int inWidth = bitmap.getWidth();
+        int inHeight = bitmap.getHeight();
+        if(inWidth > inHeight){
+            outWidth = maxSize;
+            outHeight = (inHeight * maxSize) / inWidth;
+        } else {
+            outHeight = maxSize;
+            outWidth = (inWidth * maxSize) / inHeight;
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
     }
 }

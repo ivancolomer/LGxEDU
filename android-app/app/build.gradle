@@ -109,6 +109,8 @@ dependencies {
     implementation('org.apache.httpcomponents:httpmime:4.3') {
         exclude module: "httpclient"
     }
+
+    implementation 'androidx.browser:browser:1.0.0'
 }
 configurations {
     all*.exclude group: 'com.google.guava', module: 'listenablefuture'

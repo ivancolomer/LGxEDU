@@ -1,5 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.activities.main;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -92,7 +93,7 @@ public class MainActivity extends ServerAppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         input.setLayoutParams(lp);
 
-        new MaterialAlertDialogBuilder(this)
+        Dialog dialog = new MaterialAlertDialogBuilder(this)
                 .setMessage("Please, enter the password:")
                 .setView(input)
                 .setPositiveButton("Confirm", (arg0, arg1) -> {
@@ -106,8 +107,10 @@ public class MainActivity extends ServerAppCompatActivity {
                     }
                 })
                 .setNegativeButton("Cancel", (arg0, arg1) -> {
-                })
-                .show();
+                }).create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     }
 
     private void incorrectPasswordAlertMessage() {

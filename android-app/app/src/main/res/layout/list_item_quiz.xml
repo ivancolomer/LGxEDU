@@ -1,15 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        card_view:cardCornerRadius="@dimen/_2sdp">
+    android:id="@+id/card_view"
+    android:layout_margin="5dp">
 
         <TextView
             android:id="@+id/list_item_quiz_name"
@@ -25,6 +19,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/upload_drive_game"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_3sdp"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_google_drive_logo" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/list_share_game"
@@ -63,7 +68,4 @@
                 app:tint="@color/red" />
         </LinearLayout>
 
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

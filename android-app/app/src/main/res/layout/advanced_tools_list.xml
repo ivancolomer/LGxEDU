@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8sdp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/ic_add_black_24dp"
         app:tint="@color/whiteGrey"
         app:backgroundTint="@color/green"

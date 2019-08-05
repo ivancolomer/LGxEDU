@@ -47,20 +47,15 @@ public abstract class GameManager {
         INSTANCE = null;
     }
 
-    public static Game unpackGame(JSONObject obj) throws JSONException {
-        GameEnum gameEnum = GameEnum.findByName(obj.getString("type"));
-        if (gameEnum == null)
-            throw new JSONException("No type game found");
-
+    private static Game newGameByType(GameEnum gameEnum) {
         Game game = null;
         switch (gameEnum) {
             case TRIVIA:
-                game = new Trivia().unpack(obj);
+                game = new Trivia();
                 break;
             case GEOFINDER:
-                game = new GeoFinder().unpack(obj);
+                game = new GeoFinder();
                 break;
-
             case MILLIONAIRE:
                 break;
             case HANGMAN:
@@ -69,22 +64,24 @@ public abstract class GameManager {
         return game;
     }
 
+    public static Game unpackGame(JSONObject obj) throws JSONException {
+        GameEnum gameEnum = GameEnum.findByName(obj.getString("type"));
+        if (gameEnum == null)
+            throw new JSONException("No type game found");
+
+        return newGameByType(gameEnum).unpack(obj);
+    }
+
+    public static Game unpackExternalGame(JSONObject obj, Context context) throws JSONException {
+        GameEnum gameEnum = GameEnum.findByName(obj.getString("type"));
+        if (gameEnum == null)
+            throw new JSONException("No type game found");
+
+        return newGameByType(gameEnum).unpack_external(obj, context);
+    }
+
     public static Game createGame(String name, GameEnum type, Bitmap image, String category, Context context) {
-        Game game = null;
-        switch (type) {
-            case TRIVIA:
-                game = new Trivia();
-                break;
-            case GEOFINDER:
-                game = new GeoFinder();
-                break;
-
-            case MILLIONAIRE:
-                break;
-            case HANGMAN:
-                break;
-        }
-
+        Game game = newGameByType(type);
         game.setName(name);
         game.setType(type);
         game.setNewImage(image, context);

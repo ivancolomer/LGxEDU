@@ -1,7 +1,6 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager.adapters;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.manager.EditGameActivity;
 import com.lglab.ivan.lgxeducontroller.activities.manager.IGamesAdapterActivity;
+import com.lglab.ivan.lgxeducontroller.activities.manager.ManageGamesFragment;
 import com.lglab.ivan.lgxeducontroller.activities.manager.fragments.AddGameFragment;
-import com.lglab.ivan.lgxeducontroller.drive.GoogleDriveManager;
 import com.lglab.ivan.lgxeducontroller.games.Category;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -120,6 +119,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
         private AppCompatImageButton editButton;
         private AppCompatImageButton deleteButton;
         private AppCompatImageButton shareButton;
+        private AppCompatImageButton driveButton;
 
         GameViewHolder(View itemView) {
             super(itemView);
@@ -128,6 +128,7 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
             editButton = itemView.findViewById(R.id.list_edit_game);
             deleteButton = itemView.findViewById(R.id.list_delete_game);
             shareButton = itemView.findViewById(R.id.list_share_game);
+            driveButton = itemView.findViewById(R.id.upload_drive_game);
         }
 
         void onBind(Game game, final CategoryManagerAdapter adapter, final int flatPosition) {
@@ -136,16 +137,16 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
 
             this.quizName.setOnClickListener(view -> AddGameFragment.newInstance(game, adapter, flatPosition).show(((FragmentActivity) itemView.getContext()).getSupportFragmentManager(), "fragment_modify_game"));
 
-            if(!game.getFileId().equals("") && GoogleDriveManager.DriveServiceHelper != null && GoogleDriveManager.DriveServiceHelper.files.keySet().contains(game.getFileId())) {
+            /*if(!game.getFileId().equals("") && GoogleDriveManager.DriveServiceHelper != null && GoogleDriveManager.DriveServiceHelper.files.keySet().contains(game.getFileId())) {
                 this.shareButton.setVisibility(View.GONE);
-            }
+            }*/
 
             this.shareButton.setOnClickListener(view -> {
                 File outputFile = null;
 
                 try {
                     File outputDir = ContextCompat.getExternalCacheDirs(view.getContext())[0];
-                    outputFile = File.createTempFile("shared_game", ".json", outputDir);
+                    outputFile = File.createTempFile(game.getNameForExporting(), ".json", outputDir);
 
                     BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile));
                     bos.write(game.pack_external(view.getContext()).toString().getBytes());
@@ -171,54 +172,6 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                 shareIntent.setType("text/html");
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 view.getContext().startActivity(Intent.createChooser(shareIntent, "Share Game"));
-                /*new MaterialAlertDialogBuilder(itemView.getContext())
-                        .setTitle("Do you want to upload \"" + game.getName() + "\" to your drive?")
-                        //.setMessage("")
-                        .setPositiveButton("Upload", (dialog, id) -> {
-
-                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(itemView.getContext());
-                            builder.setView(R.layout.progress);
-                            Dialog loading_dialog = builder.create();
-                            loading_dialog.setCancelable(false);
-                            loading_dialog.setCanceledOnTouchOutside(false);
-                            loading_dialog.show();
-
-                            //upload to GoogleDrive
-                            if(GoogleDriveManager.DriveServiceHelper == null) {
-                                loading_dialog.dismiss();
-                                Toast.makeText(view.getContext(), "unable to login to google drive", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-
-                            GoogleDriveManager.DriveServiceHelper.createFile()
-                                    .addOnSuccessListener((result) -> {
-                                        try {
-                                            GoogleDriveManager.DriveServiceHelper.saveFile(result, game.getNameForExporting(), game.pack_external(view.getContext()).toString())
-                                                .addOnFailureListener(exception -> Log.d("drive", exception.toString()))
-                                                .addOnSuccessListener(result2 -> {
-                                                    view.setVisibility(View.GONE);
-                                                    Log.d("drive", result);
-                                                    game.setFileId(result);
-                                                    POIsProvider.updateGameFileIdById(game.getId(), result);
-                                                    GoogleDriveManager.DriveServiceHelper.files.put(result, game.getNameForExporting());
-                                                    loading_dialog.dismiss();
-                                                    Toast.makeText(view.getContext(), "Exported successfully to Google Drive", Toast.LENGTH_LONG).show();
-                                                });
-                                        }
-                                        catch (JSONException ignored) {
-                                            loading_dialog.dismiss();
-                                            Toast.makeText(view.getContext(), "Error", Toast.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(exception ->  {
-                                        Log.d("drive", exception.toString());
-                                        loading_dialog.dismiss();
-                                        Toast.makeText(view.getContext(), "Error", Toast.LENGTH_LONG).show();
-                                    });
-                        })
-                        .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
-                        .create()
-                        .show();*/
             });
 
             this.editButton.setOnClickListener(view -> {
@@ -241,6 +194,14 @@ public class CategoryManagerAdapter extends ExpandableRecyclerViewAdapter<Catego
                             .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
                             .create()
                             .show());
+
+            this.driveButton.setOnClickListener(view -> {
+                try {
+                    ((ManageGamesFragment) adapter.activity).updateGameToDrive(game, game.pack_external(itemView.getContext()).toString());
+                } catch (JSONException ignored) {
+
+                }
+            });
         }
     }
 

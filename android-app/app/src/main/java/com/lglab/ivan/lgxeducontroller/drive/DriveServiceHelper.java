@@ -37,12 +37,12 @@ public class DriveServiceHelper {
         mDriveService = driveService;
     }
 
-    public Task<String> createFile() {
+    public Task<String> createFile(String title) {
         return Tasks.call(mExecutor, () -> {
             File metadata = new File()
                     .setParents(Collections.singletonList(drive_app_folder))
                     .setMimeType(JSON_MIME_TYPE)
-                    .setName("Untitled file");
+                    .setName(title);
 
             File googleFile = mDriveService.files().create(metadata).execute();
             if (googleFile == null) {

@@ -381,32 +381,29 @@ public class ManageGamesFragment extends GoogleDriveApp implements IGamesAdapter
                         this.uploadingGame = null;
                     });
         } else {
-            GoogleDriveManager.DriveServiceHelper.createFile()
-                    .addOnSuccessListener((result) -> {
-                        GoogleDriveManager.DriveServiceHelper.saveFile(result, uploadingGame.getNameForExporting(), jsonToUpload)
-                                .addOnFailureListener(exception ->  {
-                                    Toast.makeText(getContext(), "Failed to upload to Google Drive", Toast.LENGTH_LONG).show();
-                                    if(loadingDialog != null) {
-                                        loadingDialog.dismiss();
-                                        loadingDialog = null;
-                                    }
-                                    this.jsonToUpload = null;
-                                    this.uploadingGame = null;
-                                })
-                                .addOnSuccessListener(result2 -> {
-                                    uploadingGame.setFileId(result);
-                                    POIsProvider.updateGameFileIdById(uploadingGame.getId(), result);
-                                    GoogleDriveManager.DriveServiceHelper.files.put(result, uploadingGame.getNameForExporting());
-                                    Toast.makeText(getContext(), "Uploaded to Google Drive", Toast.LENGTH_LONG).show();
-                                    if(loadingDialog != null) {
-                                        loadingDialog.dismiss();
-                                        loadingDialog = null;
-                                    }
-                                    this.jsonToUpload = null;
-                                    this.uploadingGame = null;
-                                });
-
-                    })
+            GoogleDriveManager.DriveServiceHelper.createFile(uploadingGame.getNameForExporting())
+                    .addOnSuccessListener((result) -> GoogleDriveManager.DriveServiceHelper.saveFile(result, uploadingGame.getNameForExporting(), jsonToUpload)
+                            .addOnFailureListener(exception ->  {
+                                Toast.makeText(getContext(), "Failed to upload to Google Drive", Toast.LENGTH_LONG).show();
+                                if(loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
+                                this.jsonToUpload = null;
+                                this.uploadingGame = null;
+                            })
+                            .addOnSuccessListener(result2 -> {
+                                uploadingGame.setFileId(result);
+                                POIsProvider.updateGameFileIdById(uploadingGame.getId(), result);
+                                GoogleDriveManager.DriveServiceHelper.files.put(result, uploadingGame.getNameForExporting());
+                                Toast.makeText(getContext(), "Uploaded to Google Drive", Toast.LENGTH_LONG).show();
+                                if(loadingDialog != null) {
+                                    loadingDialog.dismiss();
+                                    loadingDialog = null;
+                                }
+                                this.jsonToUpload = null;
+                                this.uploadingGame = null;
+                            }))
                     .addOnFailureListener(exception ->  {
                         Toast.makeText(getContext(), "Failed to upload to Google Drive", Toast.LENGTH_LONG).show();
                         if(loadingDialog != null) {

@@ -342,9 +342,9 @@ public class ManageGamesFragment extends GoogleDriveApp implements IGamesAdapter
         if(GoogleDriveManager.DriveServiceHelper.files == null) {
             setLoadingDialog("Google Drive", "Searching files from LGxEDU");
             GoogleDriveManager.DriveServiceHelper.searchForAppFolderID(() -> {
-                /*for (String filename : GoogleDriveManager.DriveServiceHelper.files.values()) {
+                for (String filename : GoogleDriveManager.DriveServiceHelper.files.values()) {
                     Log.d("drive", filename);
-                }*/
+                }
                 updateGame();
 
             }, null);
@@ -359,8 +359,18 @@ public class ManageGamesFragment extends GoogleDriveApp implements IGamesAdapter
             ((TextView)loadingDialog.findViewById(android.R.id.message)).setText("Uploading game...");
 
         //UPLOAD TO DRIVE
-        if(uploadingGame.getFileId() != null && GoogleDriveManager.DriveServiceHelper.files.containsKey(uploadingGame.getFileId())) {
+        if(uploadingGame.getFileId() != null && (GoogleDriveManager.DriveServiceHelper.files.containsKey(uploadingGame.getFileId()) || GoogleDriveManager.DriveServiceHelper.files.containsValue(uploadingGame.getNameForExporting()))) {
             //Already on Drive, so let's only update it...
+            if(uploadingGame.getFileId() == null || uploadingGame.getFileId().equals("")) {
+                for(String key : GoogleDriveManager.DriveServiceHelper.files.keySet()) {
+                    if(GoogleDriveManager.DriveServiceHelper.files.get(key).equals(uploadingGame.getNameForExporting())) {
+                        uploadingGame.setFileId(key);
+                        POIsProvider.updateGameFileIdById(uploadingGame.getId(), key);
+                        break;
+                    }
+                }
+            }
+
             GoogleDriveManager.DriveServiceHelper.saveFile(uploadingGame.getFileId(), uploadingGame.getNameForExporting(), jsonToUpload)
                     .addOnSuccessListener((result) -> {
                         Toast.makeText(getContext(), "Uploaded to Google Drive", Toast.LENGTH_LONG).show();

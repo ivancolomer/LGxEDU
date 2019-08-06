@@ -4,68 +4,77 @@
     android:layout_height="wrap_content"
     android:id="@+id/card_view"
     android:layout_margin="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/list_item_quiz_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/icons_layout"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:text="Hello Card"
+                android:textSize="@dimen/_8ssp" />
 
-        <TextView
-            android:id="@+id/list_item_quiz_name"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_gravity="center_vertical"
-            android:text="Hello Card"
-            android:textSize="@dimen/_8ssp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/upload_drive_game"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+            <LinearLayout
+                android:id="@+id/icons_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:padding="@dimen/_3sdp"
-                android:scaleType="fitCenter"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_google_drive_logo" />
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/list_share_game"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:padding="@dimen/_3sdp"
-                android:scaleType="fitCenter"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/baseline_share_black_24"
-                app:tint="@color/blue" />
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/upload_drive_game"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_3sdp"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/ic_google_drive_logo" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/list_edit_game"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:padding="@dimen/_3sdp"
-                android:scaleType="fitCenter"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_edit_black_24dp"
-                app:tint="@color/orange" />
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/list_share_game"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_3sdp"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/baseline_share_black_24"
+                    app:tint="@color/blue" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/list_delete_game"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:padding="@dimen/_3sdp"
-                android:scaleType="fitCenter"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_delete_black_24dp"
-                app:tint="@color/red" />
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/list_edit_game"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_3sdp"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/ic_edit_black_24dp"
+                    app:tint="@color/orange" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/list_delete_game"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_3sdp"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/ic_delete_black_24dp"
+                    app:tint="@color/red"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

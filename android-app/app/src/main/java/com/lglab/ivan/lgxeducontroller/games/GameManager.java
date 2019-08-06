@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 
 import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinder;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.Millionaire;
 import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
 
 import org.json.JSONException;
@@ -57,9 +58,10 @@ public abstract class GameManager {
                 game = new GeoFinder();
                 break;
             case MILLIONAIRE:
+                game = new Millionaire();
                 break;
-            case HANGMAN:
-                break;
+            /*case HANGMAN:
+                break;*/
         }
         return game;
     }

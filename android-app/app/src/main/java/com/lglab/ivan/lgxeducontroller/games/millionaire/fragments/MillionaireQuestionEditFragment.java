@@ -1,4 +1,4 @@
-package com.lglab.ivan.lgxeducontroller.games.trivia.fragments;
+package com.lglab.ivan.lgxeducontroller.games.millionaire.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,7 +21,8 @@ import com.lglab.ivan.lgxeducontroller.activities.manager.CreatePOIActivity;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.ISaveData;
-import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.Millionaire;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireQuestion;
 import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
@@ -34,12 +35,12 @@ import github.chenupt.multiplemodel.ItemEntityUtil;
 
 import static android.app.Activity.RESULT_OK;
 
-public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
+public class MillionaireQuestionEditFragment extends Fragment implements ISaveData {
 
     private int questionNumber;
-    private Trivia trivia;
+    private Millionaire millionaire;
     private View view;
-    private TriviaQuestion question;
+    private MillionaireQuestion question;
 
     private List<POI> poiList;
     private ArrayAdapter<POI> poiStringList;
@@ -48,7 +49,7 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
     private EditText[] textAnswers;
 
     private AutoCompleteTextView textQuestionPOI;
-    private AutoCompleteTextView[] answersPOITextEdit;
+    private AutoCompleteTextView answersPOITextEdit;
 
     private EditText additionalInformation;
 
@@ -57,8 +58,8 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         super.onCreate(savedInstanceState);
         ItemEntity<Integer> itemEntity = ItemEntityUtil.getModelData(this);
         questionNumber = itemEntity.getContent();
-        trivia = (Trivia) GameManager.getInstance().getGame();
-        question = (TriviaQuestion) trivia.getQuestions().get(questionNumber);
+        millionaire = (Millionaire) GameManager.getInstance().getGame();
+        question = (MillionaireQuestion) millionaire.getQuestions().get(questionNumber);
 
         poiStringList = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item);
         getPOIStringsFromDatabase();
@@ -66,16 +67,13 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_create_trivia_question, container, false);
-
+        view = inflater.inflate(R.layout.activity_create_millionaire_question, container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
 
         questionEditText = view.findViewById(R.id.questionTextEdit);
         correctAnswerRadioButton = view.findViewById(R.id.radio_group_correct_answer);
@@ -84,13 +82,12 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         POIButton(R.id.addQuestionPOIButton, 0); //0
 
         textAnswers = new EditText[TriviaQuestion.MAX_ANSWERS];
-        answersPOITextEdit = new AutoCompleteTextView[TriviaQuestion.MAX_ANSWERS];
+        answersPOITextEdit= view.findViewById(R.id.answerPOITextEdit);
+        answerPOIText(answersPOITextEdit);
+        POIButton(R.id.addAnswerPOIButton, 1);
 
         for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-            textAnswers[i] = view.findViewById(R.id.answer1TextEdit + 2 * i);
-            answersPOITextEdit[i] = view.findViewById(R.id.answer1POITextEdit + 2 * i);
-            answerPOIText(i, answersPOITextEdit[i]);
-            POIButton(R.id.addAnswer1POIButton + i, i + 1);
+            textAnswers[i] = view.findViewById(R.id.answer1TextEdit + i);
         }
 
         additionalInformation = view.findViewById(R.id.informationTextEdit);
@@ -109,11 +106,11 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         if (question.initialPOI != null)
             textQuestionPOI.setText(question.initialPOI.getName());
 
-        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-            if (question.pois[i] != null) {
-                answersPOITextEdit[i].setText(question.pois[i].getName());
-            }
+
+        if (question.poi != null) {
+            answersPOITextEdit.setText(question.poi.getName());
         }
+
 
         if (question.information != null)
             additionalInformation.setText(question.information);
@@ -163,8 +160,8 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
             createPoiIntent.putExtra("POI_BUTTON", resultCode);
             if(resultCode == 0 && question != null && question.initialPOI != null)
                 createPoiIntent.putExtra("POI", question.initialPOI);
-            else if(resultCode >= 1 && resultCode <= 4 && question != null && question.pois != null && question.pois[resultCode - 1] != null)
-                createPoiIntent.putExtra("POI", question.pois[resultCode - 1]);
+            else if(resultCode == 1 && question != null && question.poi != null)
+                createPoiIntent.putExtra("POI", question.poi);
             startActivityForResult(createPoiIntent, 0);
         });
     }
@@ -183,9 +180,9 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
             if (button == 0) {
                 question.initialPOI = returnedPOI;
                 textQuestionPOI.setText(namePOI);
-            } else if (button >= 1 && button <= 4) {
-                question.pois[button - 1] = returnedPOI;
-                answersPOITextEdit[button - 1].setText(namePOI);
+            } else if (button == 1) {
+                question.poi = returnedPOI;
+                answersPOITextEdit.setText(namePOI);
             } else if (button == 6) {
                 //Code for intent from Manager (get the quiz Trivia and if editing only one question or the whole quiz Boolean)
 
@@ -193,12 +190,12 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         }
     }
 
-    private void answerPOIText(int pos, AutoCompleteTextView textPOI) {
+    private void answerPOIText(AutoCompleteTextView textPOI) {
         textPOI.setAdapter(poiStringList);
 
         textPOI.setOnItemClickListener((parent, view, position, id) -> {
             POI poi = poiStringList.getItem(position);
-            question.pois[pos] = poi;
+            question.poi = poi;
         });
     }
 
@@ -244,11 +241,9 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
             answers[i] = text;
         }
 
-        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-            if (this.question.pois[i] == null) {
-                //Toast.makeText(getContext(), "POI of the answer " + (i + 1) + " is not selected, please select one", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        if (this.question.poi == null) {
+            //Toast.makeText(getContext(), "POI of the answer " + (i + 1) + " is not selected, please select one", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (question.initialPOI == null) {

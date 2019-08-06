@@ -1,7 +1,7 @@
 package com.lglab.ivan.lgxeducontroller.games;
 
 public enum GameEnum {
-    TRIVIA, MILLIONAIRE, HANGMAN, GEOFINDER;
+    TRIVIA, MILLIONAIRE, GEOFINDER; //HANGMAN, ;
 
     public static GameEnum findByName(String name) {
         try {

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.geofinder.adapters.ResultsAdapter;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.adapters.ResultsAdapter;
 
 public class MillionaireResultsFragment extends Fragment {
 

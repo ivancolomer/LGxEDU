@@ -157,9 +157,16 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
             MarkerOptions marker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
             marker.position(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude())).draggable(true);
             map.addMarker(marker);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude()), (2500000.0f - (float)initialPOI.getRange())/2500000.0f*21.0f));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude()), getZoomLevel(initialPOI.getRange())));
         }
 
+    }
+
+    public static float getZoomLevel(double radius) {
+        /*double scale = radius / 500;
+        float zoomLevel =(int) (16 - Math.log(scale) / Math.log(2));
+        return zoomLevel +.5f;*/
+        return 16.5f - ((int)(Math.log(radius/1000) / Math.log(2)));
     }
 
     @Override

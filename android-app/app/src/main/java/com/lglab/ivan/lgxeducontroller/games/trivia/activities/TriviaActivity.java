@@ -180,7 +180,10 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
             currentQuestion++;
         buttonNext.setEnabled(((TriviaManager) TriviaManager.getInstance()).allPlayersHasAnswerQuestion(currentQuestion));
         buttonNext.setText(!TriviaManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : currentQuestion + 1 >= trivia.getQuestions().size() ? "FINISH" : "NEXT");
-        buttonBack.setEnabled(true);
+
+        if(trivia.getQuestions().size() > 1)
+            buttonBack.setEnabled(true);
+
         Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
         if(page != null) {
             ((TriviaQuestionFragment)page).checkDraggables();

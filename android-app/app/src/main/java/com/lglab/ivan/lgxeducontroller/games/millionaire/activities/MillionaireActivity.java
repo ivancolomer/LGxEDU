@@ -2,27 +2,19 @@ package com.lglab.ivan.lgxeducontroller.games.millionaire.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.connection.LGApi;
-import com.lglab.ivan.lgxeducontroller.connection.LGCommand;
-import com.lglab.ivan.lgxeducontroller.connection.LGConnectionManager;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
-import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinder;
-import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinderManager;
-import com.lglab.ivan.lgxeducontroller.games.geofinder.GeoFinderQuestion;
-import com.lglab.ivan.lgxeducontroller.games.geofinder.activities.GeoFinderResultsActivity;
-import com.lglab.ivan.lgxeducontroller.games.geofinder.fragments.GeoFinderQuestionFragment;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.Millionaire;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireManager;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.fragments.MillionaireQuestionFragment;
 import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
 import java.util.ArrayList;
@@ -38,10 +30,9 @@ public class MillionaireActivity extends AppCompatActivity {
 
     private CustomScrollerViewPager viewPager;
 
-    private GeoFinder geofinder;
+    private Millionaire millionaire;
     private MaterialButton buttonNext, buttonBack;
     private int currentQuestion = 0;
-    private short currentStatus = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +40,12 @@ public class MillionaireActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_quiz);
 
-        geofinder = (GeoFinder)GeoFinderManager.getInstance().getGame();
+        millionaire = (Millionaire) MillionaireManager.getInstance().getGame();
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(geofinder.getName());
+            actionBar.setTitle(millionaire.getName());
         }
 
         viewPager = findViewById(R.id.view_pager);
@@ -63,8 +54,8 @@ public class MillionaireActivity extends AppCompatActivity {
         springIndicator.setOnTabClickListener((position) -> false);
 
         List<ItemEntity> list = new ArrayList<>();
-        for (int i = 0; i < geofinder.getQuestions().size(); i++) {
-            ItemEntityUtil.create(i).setModelView(GeoFinderQuestionFragment.class).attach(list);
+        for (int i = 0; i < millionaire.getQuestions().size(); i++) {
+            ItemEntityUtil.create(i).setModelView(MillionaireQuestionFragment.class).attach(list);
         }
         PagerManager manager = PagerManager.begin().addFragments(list).setTitles(getTitles());
 
@@ -85,15 +76,12 @@ public class MillionaireActivity extends AppCompatActivity {
                 buttonNext.setEnabled(true);
                 buttonNext.setText(!GameManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : "NEXT");
                 viewPager.setCurrentItem(currentQuestion, true);
-
-                short previousStatus = currentStatus;
-                currentStatus = 0;
             }
         });
 
         buttonNext.setOnClickListener((v) -> {
             if(buttonNext.isEnabled()) {
-                if(currentQuestion + 1 >= geofinder.getQuestions().size() && GameManager.getInstance().isQuestionDisabled(currentQuestion)) {
+                if(currentQuestion + 1 >= millionaire.getQuestions().size() && GameManager.getInstance().isQuestionDisabled(currentQuestion)) {
                     exit();
                     return;
                 }
@@ -105,7 +93,7 @@ public class MillionaireActivity extends AppCompatActivity {
 
                 GameManager.getInstance().disableQuestionFromAnswering(currentQuestion);
 
-                final AlertDialog loading_dialog = new MaterialAlertDialogBuilder(this)
+                /*final AlertDialog loading_dialog = new MaterialAlertDialogBuilder(this)
                         .setView(R.layout.progress)
                         .setTitle("Getting position from the LiquidGalaxy")
                         .setMessage("")
@@ -138,7 +126,8 @@ public class MillionaireActivity extends AppCompatActivity {
                     loading_dialog.findViewById(R.id.loading_msg).setVisibility(View.GONE);
                     loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.VISIBLE);
                     loading_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setVisibility(View.VISIBLE);
-                })));
+                })));*/
+                nextPage();
             }
         });
     }
@@ -146,20 +135,19 @@ public class MillionaireActivity extends AppCompatActivity {
     private void nextPage() {
         LGApi.cleanBalloon(getApplicationContext());
 
-        if(currentQuestion + 1 < geofinder.getQuestions().size())
+        if(currentQuestion + 1 < millionaire.getQuestions().size())
             currentQuestion++;
         buttonNext.setEnabled(true);
-        buttonNext.setText(!GeoFinderManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : currentQuestion + 1 >= geofinder.getQuestions().size() ? "FINISH" : "NEXT");
-        buttonBack.setEnabled(true);
+        buttonNext.setText(!MillionaireManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : currentQuestion + 1 >= millionaire.getQuestions().size() ? "FINISH" : "NEXT");
+
+        if(millionaire.getQuestions().size() > 1)
+            buttonBack.setEnabled(true);
 
         viewPager.setCurrentItem(currentQuestion, true);
-
-        short previousStatus = currentStatus;
-        currentStatus = 0;
     }
 
     public List<String> getTitles() {
-        int size = geofinder.getQuestions().size();
+        int size = millionaire.getQuestions().size();
 
         ArrayList<String> list = new ArrayList<>(size);
 
@@ -197,7 +185,7 @@ public class MillionaireActivity extends AppCompatActivity {
     }
 
     public void exit() {
-        Intent i = new Intent(this, GeoFinderResultsActivity.class);
+        Intent i = new Intent(this, MillionaireResultsActivity.class);
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); //Adds the FLAG_ACTIVITY_NO_HISTORY flag
         startActivity(i);
     }

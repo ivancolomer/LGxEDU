@@ -170,7 +170,7 @@ public class EditGameActivity extends AppCompatActivity {
                                 PrintWriter pw = new PrintWriter(sw);
                                 e.printStackTrace(pw);
                                 Log.e("ERROR", sw.toString());
-                                
+
                                 viewPager.setCurrentItem(i, true);
                                 Toast.makeText(EditGameActivity.this, "Please fill all the information from this page in order to save the game", Toast.LENGTH_SHORT).show();
                                 return;

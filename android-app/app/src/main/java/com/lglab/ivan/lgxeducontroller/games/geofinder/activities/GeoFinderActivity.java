@@ -165,7 +165,9 @@ public class GeoFinderActivity extends AppCompatActivity implements ILGConnectio
             currentQuestion++;
         buttonNext.setEnabled(true);
         buttonNext.setText(!GeoFinderManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : currentQuestion + 1 >= geofinder.getQuestions().size() ? "FINISH" : "NEXT");
-        buttonBack.setEnabled(true);
+
+        if(geofinder.getQuestions().size() > 1)
+            buttonBack.setEnabled(true);
 
         viewPager.setCurrentItem(currentQuestion, true);
 

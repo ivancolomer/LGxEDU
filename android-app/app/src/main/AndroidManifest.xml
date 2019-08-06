@@ -161,6 +161,13 @@
             android:name=".games.geofinder.activities.GeoFinderResultsActivity"
             android:screenOrientation="sensorLandscape" />
 
+        <activity
+            android:name=".games.millionaire.activities.MillionaireActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".games.millionaire.activities.MillionaireResultsActivity"
+            android:screenOrientation="sensorLandscape" />
+
     </application>
 
 </manifest>

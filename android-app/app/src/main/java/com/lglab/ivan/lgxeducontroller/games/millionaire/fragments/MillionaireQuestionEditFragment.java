@@ -23,7 +23,6 @@ import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.ISaveData;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.Millionaire;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireQuestion;
-import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaQuestion;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
@@ -81,13 +80,13 @@ public class MillionaireQuestionEditFragment extends Fragment implements ISaveDa
         questionPOIText();
         POIButton(R.id.addQuestionPOIButton, 0); //0
 
-        textAnswers = new EditText[TriviaQuestion.MAX_ANSWERS];
+        textAnswers = new EditText[MillionaireQuestion.MAX_ANSWERS];
         answersPOITextEdit= view.findViewById(R.id.answerPOITextEdit);
         answerPOIText(answersPOITextEdit);
         POIButton(R.id.addAnswerPOIButton, 1);
 
-        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-            textAnswers[i] = view.findViewById(R.id.answer1TextEdit + i);
+        for (int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
+            textAnswers[i] = view.findViewById(R.id.millionaire_answer1TextEdit + i);
         }
 
         additionalInformation = view.findViewById(R.id.informationTextEdit);
@@ -97,7 +96,7 @@ public class MillionaireQuestionEditFragment extends Fragment implements ISaveDa
         if (question.correctAnswer > 0)
             ((RadioButton) correctAnswerRadioButton.getChildAt(question.correctAnswer - 1)).setChecked(true);
 
-        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
+        for (int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
             if (question.answers[i] != null) {
                 textAnswers[i].setText(question.answers[i]);
             }
@@ -230,9 +229,9 @@ public class MillionaireQuestionEditFragment extends Fragment implements ISaveDa
         RadioButton pressedRadioButton = view.findViewById(idSelectedRadioButton);
         int correctAnswer = Integer.parseInt(pressedRadioButton.getText().toString());
 
-        String[] answers = new String[TriviaQuestion.MAX_ANSWERS];
+        String[] answers = new String[MillionaireQuestion.MAX_ANSWERS];
 
-        for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
+        for (int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
             String text = getTextFromEditText(textAnswers[i]);
             if (text == null || text.isEmpty()) {
                 //Toast.makeText(getContext(), "Answer " + (i + 1) + " POI", Toast.LENGTH_SHORT).show();

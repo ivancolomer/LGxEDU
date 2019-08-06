@@ -2,6 +2,7 @@ package com.lglab.ivan.lgxeducontroller.activities.manager;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,8 @@ import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
 import org.json.JSONException;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,6 +165,12 @@ public class EditGameActivity extends AppCompatActivity {
                                 game.getQuestions().get(i).pack();
                             } catch (JSONException | NullPointerException e) {
                                 //THERE'S A QUESTION i THAT HASN'T BEEN FILLED SUCCESSFULLY!!!
+
+                                StringWriter sw = new StringWriter();
+                                PrintWriter pw = new PrintWriter(sw);
+                                e.printStackTrace(pw);
+                                Log.e("ERROR", sw.toString());
+                                
                                 viewPager.setCurrentItem(i, true);
                                 Toast.makeText(EditGameActivity.this, "Please fill all the information from this page in order to save the game", Toast.LENGTH_SHORT).show();
                                 return;

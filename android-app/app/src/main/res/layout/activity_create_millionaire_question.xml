@@ -128,7 +128,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/answer1TextEdit"
+                    android:id="@+id/millionaire_answer1TextEdit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
@@ -151,7 +151,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/answer2TextEdit"
+                    android:id="@+id/millionaire_answer2TextEdit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
@@ -173,7 +173,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/answer3TextEdit"
+                    android:id="@+id/millionaire_answer3TextEdit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
@@ -197,7 +197,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/answer4TextEdit"
+                    android:id="@+id/millionaire_answer4TextEdit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"

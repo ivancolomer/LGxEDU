@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:divider="?android:attr/dividerVertical"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/_4sdp"
+    android:paddingBottom="@dimen/_8sdp"
     android:paddingLeft="@dimen/_8sdp"
     android:paddingRight="@dimen/_8sdp"
-    android:paddingTop="@dimen/_4sdp"
+    android:paddingTop="@dimen/_8sdp"
     tools:context="legacy.LGTools">
 
     <LinearLayout
@@ -17,31 +18,35 @@
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/import_pois"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:layout_weight="1"
-            android:background="@drawable/button_rounded_blue"
+            app:backgroundTint="#2196F3"
             android:text="@string/import_pois"
-            android:textColor="@color/black"/>
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:textColor="@color/whiteGrey"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/relaunch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:layout_weight="1"
-            android:background="@drawable/button_rounded_green"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:backgroundTint="#4CAF50"
             android:text="@string/relaunch_lg"
-            android:textColor="@color/black"/>
+            android:textColor="@color/whiteGrey"/>
 
     </LinearLayout>
 
@@ -52,31 +57,37 @@
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/reboot"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
             android:layout_weight="1"
-            android:background="@drawable/button_rounded_yellow"
+            app:backgroundTint="#F9A825"
             android:text="@string/reboot_lg"
-            android:textColor="@color/black"/>
+            android:textColor="@color/whiteGrey"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/shutdown"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_2sdp"
             android:layout_weight="1"
-            android:background="@drawable/button_rounded_red"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:backgroundTint="#f44336"
             android:text="@string/shutdown_lg"
-            android:textColor="@color/black"/>
+            android:textColor="@color/whiteGrey"/>
 
     </LinearLayout>
 
@@ -87,18 +98,18 @@
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/cleanKmls"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginEnd="150dp"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_rounded_magenta"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:backgroundTint="#673AB7"
             android:text="@string/clean_KML"
-            android:textColor="@color/black"/>
+            android:textColor="@color/whiteGrey"/>
 
     </LinearLayout>
 

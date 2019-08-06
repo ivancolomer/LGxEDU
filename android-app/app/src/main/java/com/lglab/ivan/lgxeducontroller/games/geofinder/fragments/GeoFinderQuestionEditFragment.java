@@ -148,6 +148,8 @@ public class GeoFinderQuestionEditFragment extends Fragment implements ISaveData
         view.findViewById(id).setOnClickListener(view -> {
             Intent createPoiIntent = new Intent(getContext(), CreatePOIActivity.class);
             createPoiIntent.putExtra("POI_BUTTON", resultCode);
+            if(question != null && question.initialPOI != null)
+                createPoiIntent.putExtra("POI", question.initialPOI);
             startActivityForResult(createPoiIntent, 0);
         });
     }

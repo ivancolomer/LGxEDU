@@ -1,6 +1,5 @@
 package com.lglab.ivan.lgxeducontroller.activities.manager;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -38,15 +37,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lglab.ivan.lgxeducontroller.R;
-import com.lglab.ivan.lgxeducontroller.games.ISaveData;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +62,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
     private GoogleMap map;
     private LocationManager locationManager;
     private int POIButton = 0;
+    private POI initialPOI = null;
 
     public static CreatePOIFragment newInstance() {
         fragment = new CreatePOIFragment();
@@ -122,10 +117,11 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle extras = getActivity().getIntent().getExtras();
         rootView = null;
-
         if (extras != null) {
             POIButton = extras.getInt("POI_BUTTON");
+            initialPOI = extras.getParcelable("POI");
         }
+
         getActivity().setTitle(getResources().getString(R.string.new_poi));
         //If admin user is creating a POI, first of all layout settings are shown on the screen.
         viewHolderPoi = setPOILayoutSettings(inflater, container);
@@ -156,6 +152,14 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         map.setOnMapLongClickListener(this);
         map.setOnMarkerDragListener(this);
+
+        if(initialPOI != null) {
+            MarkerOptions marker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+            marker.position(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude())).draggable(true);
+            map.addMarker(marker);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude()), (2500000.0f - (float)initialPOI.getRange())/2500000.0f*21.0f));
+        }
+
     }
 
     @Override
@@ -268,12 +272,33 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
     private ViewHolderPoi setPOILayoutSettings(LayoutInflater inflater, ViewGroup container) {
 
         rootView = inflater.inflate(R.layout.fragment_create_or_update_poi, container, false);
+
         ViewHolderPoi viewHolder = new ViewHolderPoi(rootView);
 
         try {
             fillCategorySpinner(viewHolder.categoryID);
         } catch (Exception ignored) {
 
+        }
+
+        if(initialPOI != null) {
+            ((EditText) rootView.findViewById(R.id.name)).setText(String.valueOf(initialPOI.getName()));
+            ((EditText) rootView.findViewById(R.id.visited_place)).setText(String.valueOf(initialPOI.getVisited_place()));
+            ((EditText) rootView.findViewById(R.id.longitude)).setText(String.valueOf(initialPOI.getLongitude()));
+            ((EditText) rootView.findViewById(R.id.latitude)).setText(String.valueOf(initialPOI.getLatitude()));
+            ((EditText) rootView.findViewById(R.id.altitude)).setText(String.valueOf(initialPOI.getAltitude()));
+            ((EditText) rootView.findViewById(R.id.heading)).setText(String.valueOf(initialPOI.getHeading()));
+            ((EditText) rootView.findViewById(R.id.tilt)).setText(String.valueOf(initialPOI.getTilt()));
+            ((EditText) rootView.findViewById(R.id.range)).setText(String.valueOf(initialPOI.getRange()));
+            String[] altitudes = getResources().getStringArray(R.array.altitudeMode);
+            for(int i = 0; i < altitudes.length; i++) {
+                if(altitudes[i].toLowerCase().equals(initialPOI.getAltitudeMode().toLowerCase())) {
+                    ((Spinner)rootView.findViewById(R.id.spinnerAltitude)).setSelection(i);
+                    break;
+                }
+            }
+
+            ((Switch)rootView.findViewById(R.id.switchButtonHide)).setChecked(initialPOI.isHidden());
         }
 
         return viewHolder;

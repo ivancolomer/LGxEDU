@@ -47,7 +47,7 @@ public class PointerDetector {
         if (currentAction != previousAction) {
             if (!previousAction.finalCommand.equals(""))
                 commands.add(new Pair<>(previousAction.finalCommand, true));
-            if (currentAction == Action.NONE)
+            if (currentAction == Action.NONE || previousAction == Action.NONE)
                 commands.add(new Pair<>(mouseMoveCommand(0, 0), true));
             if (!currentAction.initialCommand.equals(""))
                 commands.add(new Pair<>(currentAction.initialCommand, true));
@@ -163,7 +163,7 @@ public class PointerDetector {
         }
     }
 
-    private static String mouseMoveCommand(int angle, int distance) {
+    public static String mouseMoveCommand(int angle, int distance) {
         return "mousemove --polar " + angle + " " + distance;
     }
 

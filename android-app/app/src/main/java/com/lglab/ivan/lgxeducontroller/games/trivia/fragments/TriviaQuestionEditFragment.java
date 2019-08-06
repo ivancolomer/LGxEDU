@@ -161,6 +161,10 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
         view.findViewById(id).setOnClickListener(view -> {
             Intent createPoiIntent = new Intent(getContext(), CreatePOIActivity.class);
             createPoiIntent.putExtra("POI_BUTTON", resultCode);
+            if(resultCode == 0 && question != null && question.initialPOI != null)
+                createPoiIntent.putExtra("POI", question.initialPOI);
+            else if(resultCode >= 1 && resultCode <= 4 && question != null && question.pois != null && question.pois[resultCode - 1] != null)
+                createPoiIntent.putExtra("POI", question.pois[resultCode - 1]);
             startActivityForResult(createPoiIntent, 0);
         });
     }

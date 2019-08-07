@@ -17,6 +17,7 @@ import com.hadiidbouk.charts.ChartProgressBar;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireQuestion;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
@@ -49,6 +50,7 @@ public class MillionaireQuestionFragment extends Fragment {
     private com.google.android.material.textview.MaterialTextView[] textAnswers;
 
     private MillionaireQuestion question;
+    private MillionaireManager manager;
     private int questionNumber;
 
     private boolean sendInitialPOIOnCreate = false;
@@ -59,6 +61,7 @@ public class MillionaireQuestionFragment extends Fragment {
         ItemEntity<Integer> itemEntity = ItemEntityUtil.getModelData(this);
         questionNumber = itemEntity.getContent();
         question = (MillionaireQuestion) GameManager.getInstance().getGame().getQuestions().get(questionNumber);
+        manager = (MillionaireManager) GameManager.getInstance();
     }
 
     @Override
@@ -92,7 +95,7 @@ public class MillionaireQuestionFragment extends Fragment {
 
         for(int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
             relativeLayouts[i] = view.findViewById(R.id.answer1_millionaire_layout + i * 3);
-            //charts[i] = view.findViewById(R.id.ChartProgressBar_millionaire_1 + i);
+            charts[i] = view.findViewById(R.id.ChartProgressBar_millionaire_1 + i);
             textAnswers[i] = view.findViewById(R.id.answerText1_millionaire + i);
         }
 

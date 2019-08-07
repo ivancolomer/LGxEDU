@@ -1,14 +1,19 @@
 package com.lglab.ivan.lgxeducontroller.games.millionaire.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textview.MaterialTextView;
+import com.hadiidbouk.charts.ChartProgressBar;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -39,6 +44,10 @@ public class MillionaireQuestionFragment extends Fragment {
             .setAltitudeMode("relativeToSeaFloor");
 
     private AppCompatTextView textView;
+    private RelativeLayout[] relativeLayouts;
+    private ChartProgressBar[] charts;
+    private com.google.android.material.textview.MaterialTextView[] textAnswers;
+
     private MillionaireQuestion question;
     private int questionNumber;
 
@@ -54,11 +63,11 @@ public class MillionaireQuestionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_geofinder_question, container, false);
+        return inflater.inflate(R.layout.fragment__millionaire_question, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@Nullable View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         if(questionNumber == 0) {
@@ -68,6 +77,34 @@ public class MillionaireQuestionFragment extends Fragment {
 
         textView = view.findViewById(R.id.question_title);
         textView.setText(question.getQuestion());
+
+        /*
+        Log.d("DEBUG", String.valueOf(R.id.answer1_millionaire_layout));
+        Log.d("DEBUG", String.valueOf(R.id.answer2_millionaire_layout));
+        Log.d("DEBUG", String.valueOf(R.id.answerText1_millionaire));
+        Log.d("DEBUG", String.valueOf(R.id.answerText2_millionaire));
+        Log.d("DEBUG", String.valueOf(R.id.ChartProgressBar_millionaire_1));
+        Log.d("DEBUG", String.valueOf(R.id.ChartProgressBar_millionaire_2));*/
+
+        relativeLayouts = new RelativeLayout[MillionaireQuestion.MAX_ANSWERS];
+        charts = new ChartProgressBar[MillionaireQuestion.MAX_ANSWERS];
+        textAnswers = new MaterialTextView[MillionaireQuestion.MAX_ANSWERS];
+
+        for(int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
+            relativeLayouts[i] = view.findViewById(R.id.answer1_millionaire_layout + i * 3);
+            //charts[i] = view.findViewById(R.id.ChartProgressBar_millionaire_1 + i);
+            textAnswers[i] = view.findViewById(R.id.answerText1_millionaire + i);
+        }
+
+        for(int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
+            relativeLayouts[i].setOnTouchListener(new TouchListener());
+
+            /*charts[i].setDataList(Collections.singletonList(new BarData("Sep", 3.4f, "3.4€")));
+            charts[i].build();*/
+
+            //charts[i].selectBar(0);
+            //charts[i].disableBar(0);
+        }
 
         if (sendInitialPOIOnCreate) {
             sendInitialPOIOnCreate = false;
@@ -95,5 +132,20 @@ public class MillionaireQuestionFragment extends Fragment {
             POIController.getInstance().moveToPOI(EUROPE_POI, null);
         else
             POIController.getInstance().moveToPOI(question.initialPOI, null);
+    }
+
+    private static class TouchListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            final int Y = 100 - Math.min(100, Math.max(0, (int) motionEvent.getY() * 100 / view.getHeight()));
+            Log.d("DEBUG", "||" + Y);
+
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                view.performClick();
+            }
+
+            return true;
+        }
     }
 }

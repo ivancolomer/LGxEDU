@@ -42,4 +42,27 @@
     <color name="si_default_text_color">#FF0000</color>
     <color name="si_default_text_color_selected">#FF00FF</color>
     <color name="si_default_indicator_bg">#ee9999</color>
+
+    <color name="empty">#ffc1c1</color>
+	<color name="progress">#8c9eff</color>
+	<color name="progress_click">#bbdefb</color>
+	<color name="pin_background">#2c2c65</color>
+	<color name="pin_text">#8c8c8c</color>
+	<color name="bar_title_color">#000000</color>
+	<color name="bar_title_txt_selected_color">#eaa</color>
+	<color name="progress_disable">@android:color/darker_gray</color>
+    <color name="bar_title_selected_color">#FFFFFF</color>
+
+    <color name="color_text">@android:color/black</color>
+    <color name="color_progress">#fbfbfb</color>
+    <color name="color_background">#4b4b4b</color>
+
+    <color name="color_answer_1">#e21b3c</color>
+    <color name="color_answer_background_1">#ea5f76</color>
+    <color name="color_answer_2">#1268cd</color>
+    <color name="color_answer_background_2">#5995dc</color>
+    <color name="color_answer_3">#d89e00</color>
+    <color name="color_answer_background_3">#e3bb4c</color>
+    <color name="color_answer_4">#2a8f0d</color>
+    <color name="color_answer_background_4">#69b055</color>
 </resources>

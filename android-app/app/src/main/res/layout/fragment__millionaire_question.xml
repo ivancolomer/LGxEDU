@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/question_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="GRID LAYOUT"
+            android:textColor="@color/grey_700"
+            android:textSize="@dimen/_18ssp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/extra_tip_first_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:layout_toEndOf="@+id/question_title"
+            android:layout_margin="@dimen/_2sdp"
+            android:text="Move up/down the bar below each answer to assign your points"
+            android:textSize="@dimen/_8ssp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/mainGrid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        app:columnCount="2"
+        app:rowCount="2">
+
+        <!-- ROW 1  -->
+        <!-- COLUMN 1  -->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/answerCard1_millionaire"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/_4sdp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:id="@+id/answer1_millionaire_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/answerText1_millionaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey_700"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold" />
+
+                <!--<com.hadiidbouk.charts.ChartProgressBar
+                    android:id="@+id/ChartProgressBar_millionaire_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/answerText1_millionaire"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    app:hdBarCanBeClick="true"
+                    app:hdBarHeight="@dimen/_40sdp"
+                    app:hdBarWidth="@dimen/_40sdp"
+                    app:hdBarRadius="@dimen/_2sdp"
+                    app:hdMaxValue="10"
+                    app:hdEmptyColor="@color/empty"
+                    app:hdProgressColor="@color/progress"
+                    app:hdProgressClickColor="@color/progress_click"
+                    app:hdPinBackgroundColor="@color/pin_background"
+                    app:hdPinTextColor="@color/pin_text"
+                    app:hdPinPaddingBottom="0dp"
+                    app:hdBarTitleColor="@color/bar_title_color"
+                    app:hdBarTitleTxtSize="@dimen/_8ssp"
+                    app:hdPinTxtSize="@dimen/_8ssp"
+                    app:hdPinMarginTop="0dp"
+                    app:hdPinMarginBottom="0dp"
+                    app:hdPinMarginEnd="0dp"
+                    app:hdBarTitleMarginTop="0dp"
+                    app:hdPinDrawable="@drawable/ic_pin"
+                    app:hdProgressDisableColor="@color/progress_disable"
+                    app:hdBarTitleSelectedColor="@color/bar_title_selected_color"/>-->
+                <abak.tr.com.boxedverticalseekbar.BoxedVertical
+                    android:id="@+id/ChartProgressBar_millionaire_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/answerText1_millionaire"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    app:backgroundColor="@color/color_answer_background_1"
+                    app:progressColor="@color/color_answer_1"
+                    app:textColor="#FFFFFF"
+                    app:textStyle="bold"
+                    app:cornerRadius="@dimen/_4sdp"
+                    app:defaultValue="140"
+                    app:imageEnabled="false"
+                    app:textEnabled="true"
+                    app:max="300"
+                    app:step="5"
+                    app:textBottomPadding="@dimen/_4sdp"
+                    app:libCornerRadius="@dimen/_4sdp"
+                    app:textSize="@dimen/_8ssp"
+                    app:touchDisabled="true" />
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- COLUMN 2  -->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/answerCard2_millionaire"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/_4sdp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:id="@+id/answer2_millionaire_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/answerText2_millionaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey_700"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold" />
+                <abak.tr.com.boxedverticalseekbar.BoxedVertical
+                    android:id="@+id/ChartProgressBar_millionaire_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/answerText2_millionaire"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    app:backgroundColor="@color/color_answer_background_2"
+                    app:progressColor="@color/color_answer_2"
+                    app:textColor="#FFFFFF"
+                    app:textStyle="bold"
+                    app:cornerRadius="@dimen/_4sdp"
+                    app:defaultValue="140"
+                    app:imageEnabled="false"
+                    app:textEnabled="true"
+                    app:max="300"
+                    app:step="5"
+                    app:textBottomPadding="@dimen/_4sdp"
+                    app:libCornerRadius="@dimen/_4sdp"
+                    app:textSize="@dimen/_8ssp"
+                    app:touchDisabled="true" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ROW 2  -->
+        <!-- COLUMN 1  -->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/answerCard3_millionaire"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/_4sdp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:id="@+id/answer3_millionaire_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/answerText3_millionaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey_700"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold" />
+                <abak.tr.com.boxedverticalseekbar.BoxedVertical
+                    android:id="@+id/ChartProgressBar_millionaire_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/answerText3_millionaire"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    app:backgroundColor="@color/color_answer_background_3"
+                    app:progressColor="@color/color_answer_3"
+                    app:textColor="#FFFFFF"
+                    app:textStyle="bold"
+                    app:cornerRadius="@dimen/_4sdp"
+                    app:defaultValue="140"
+                    app:imageEnabled="false"
+                    app:textEnabled="true"
+                    app:max="300"
+                    app:step="5"
+                    app:textBottomPadding="@dimen/_4sdp"
+                    app:libCornerRadius="@dimen/_4sdp"
+                    app:textSize="@dimen/_8ssp"
+                    app:touchDisabled="true" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/answerCard4_millionaire"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_6sdp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/_4sdp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:id="@+id/answer4_millionaire_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_4sdp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/answerText4_millionaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey_700"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold" />
+                <abak.tr.com.boxedverticalseekbar.BoxedVertical
+                    android:id="@+id/ChartProgressBar_millionaire_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/answerText4_millionaire"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    app:backgroundColor="@color/color_answer_background_4"
+                    app:progressColor="@color/color_answer_4"
+                    app:textColor="#FFFFFF"
+                    app:textStyle="bold"
+                    app:cornerRadius="@dimen/_4sdp"
+                    app:defaultValue="140"
+                    app:imageEnabled="false"
+                    app:textEnabled="true"
+                    app:max="300"
+                    app:step="5"
+                    app:textBottomPadding="@dimen/_4sdp"
+                    app:libCornerRadius="@dimen/_4sdp"
+                    app:textSize="@dimen/_8ssp"
+                    app:touchDisabled="true" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
+</LinearLayout>

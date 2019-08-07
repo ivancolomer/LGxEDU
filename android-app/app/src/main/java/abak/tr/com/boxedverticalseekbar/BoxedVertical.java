@@ -46,11 +46,6 @@ public class BoxedVertical extends View{
     private int mMax = MAX;
 
     /**
-     * The increment/decrement value for each movement of progress.
-     */
-    private int mStep = 10;
-
-    /**
      * The corner radius of the view.
      */
     private int mCornerRadius = 10;
@@ -130,7 +125,7 @@ public class BoxedVertical extends View{
             mPoints = a.getInteger(R.styleable.BoxedVertical_points, mPoints);
             mMax = a.getInteger(R.styleable.BoxedVertical_max, mMax);
             mMin = a.getInteger(R.styleable.BoxedVertical_min, mMin);
-            mStep = a.getInteger(R.styleable.BoxedVertical_step, mStep);
+           // mStep = a.getInteger(R.styleable.BoxedVertical_step, mStep);
             mDefaultValue = a.getInteger(R.styleable.BoxedVertical_defaultValue, mDefaultValue);
             mCornerRadius = a.getDimensionPixelSize(R.styleable.BoxedVertical_libCornerRadius, mCornerRadius);
             mtextBottomPadding = a.getDimensionPixelSize(R.styleable.BoxedVertical_textBottomPadding, mtextBottomPadding);
@@ -292,11 +287,6 @@ public class BoxedVertical extends View{
                     updateOnTouch(event);
                     break;
                 case MotionEvent.ACTION_UP:
-                    if (mOnValuesChangeListener != null)
-                        mOnValuesChangeListener.onStopTrackingTouch(this);
-                    setPressed(false);
-                    this.getParent().requestDisallowInterceptTouchEvent(false);
-                    break;
                 case MotionEvent.ACTION_CANCEL:
                     if (mOnValuesChangeListener != null)
                         mOnValuesChangeListener.onStopTrackingTouch(this);
@@ -316,12 +306,10 @@ public class BoxedVertical extends View{
      */
     private void updateOnTouch(MotionEvent event) {
         setPressed(true);
-        double mTouch = convertTouchEventPoint(event.getY());
-        int progress = (int) Math.round(mTouch);
-        updateProgress(progress);
+        updateProgress(convertTouchEventPoint(event.getY()));
     }
 
-    private double convertTouchEventPoint(float yPos) {
+    private float convertTouchEventPoint(float yPos) {
         float wReturn;
 
         if (yPos > (scrHeight *2)) {
@@ -338,20 +326,21 @@ public class BoxedVertical extends View{
         return wReturn;
     }
 
-    private void updateProgress(int progress) {
+    private void updateProgress(float progress) {
         mProgressSweep = progress;
 
         progress = (progress > scrHeight) ? scrHeight : progress;
         progress = (progress < 0) ? 0 : progress;
 
         //convert progress to min-max range
-        mPoints = progress * (mMax - mMin) / scrHeight + mMin;
+        mPoints = (int) (progress * (mMax - mMin) / scrHeight + mMin);
         //reverse value because progress is descending
         mPoints = mMax + mMin - mPoints;
+
         //if value is not max or min, apply step
-        if (mPoints != mMax && mPoints != mMin) {
+        /*if (mPoints != mMax && mPoints != mMin) {
             mPoints = mPoints - (mPoints % mStep) + (mMin % mStep);
-        }
+        }*/
 
         if (mOnValuesChangeListener != null) {
             mOnValuesChangeListener
@@ -443,14 +432,6 @@ public class BoxedVertical extends View{
             throw new IllegalArgumentException("Default value should not be bigger than max value.");
         this.mDefaultValue = mDefaultValue;
 
-    }
-
-    public int getStep() {
-        return mStep;
-    }
-
-    public void setStep(int step) {
-        mStep = step;
     }
 
     public boolean isImageEnabled() {

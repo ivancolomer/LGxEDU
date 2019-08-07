@@ -40,7 +40,7 @@
             android:layout_alignParentEnd="true"
             android:gravity="end"
             android:layout_toEndOf="@+id/question_title"
-            android:layout_margin="@dimen/_2sdp"
+            android:layout_margin="@dimen/_4sdp"
             android:text="Drag and drop your name to the correct answer"
             android:textSize="@dimen/_7ssp"
             android:visibility="gone"/>

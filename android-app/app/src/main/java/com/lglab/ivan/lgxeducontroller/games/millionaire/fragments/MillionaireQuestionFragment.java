@@ -19,8 +19,10 @@ import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireQuestion;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.interfaces.IAnswerListener;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
+import abak.tr.com.boxedverticalseekbar.BoxedVertical;
 import github.chenupt.multiplemodel.ItemEntity;
 import github.chenupt.multiplemodel.ItemEntityUtil;
 
@@ -44,9 +46,10 @@ public class MillionaireQuestionFragment extends Fragment {
             .setRange(3000000.0d)
             .setAltitudeMode("relativeToSeaFloor");
 
+
     private AppCompatTextView textView;
-    private RelativeLayout[] relativeLayouts;
-    private ChartProgressBar[] charts;
+    //private RelativeLayout[] relativeLayouts;
+    private BoxedVertical[] charts;
     private com.google.android.material.textview.MaterialTextView[] textAnswers;
 
     private MillionaireQuestion question;
@@ -81,37 +84,64 @@ public class MillionaireQuestionFragment extends Fragment {
         textView = view.findViewById(R.id.question_title);
         textView.setText(question.getQuestion());
 
-        /*
-        Log.d("DEBUG", String.valueOf(R.id.answer1_millionaire_layout));
-        Log.d("DEBUG", String.valueOf(R.id.answer2_millionaire_layout));
-        Log.d("DEBUG", String.valueOf(R.id.answerText1_millionaire));
-        Log.d("DEBUG", String.valueOf(R.id.answerText2_millionaire));
-        Log.d("DEBUG", String.valueOf(R.id.ChartProgressBar_millionaire_1));
-        Log.d("DEBUG", String.valueOf(R.id.ChartProgressBar_millionaire_2));*/
-
-        relativeLayouts = new RelativeLayout[MillionaireQuestion.MAX_ANSWERS];
-        charts = new ChartProgressBar[MillionaireQuestion.MAX_ANSWERS];
+        //relativeLayouts = new RelativeLayout[MillionaireQuestion.MAX_ANSWERS];
+        charts = new BoxedVertical[MillionaireQuestion.MAX_ANSWERS];
         textAnswers = new MaterialTextView[MillionaireQuestion.MAX_ANSWERS];
 
         for(int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
-            relativeLayouts[i] = view.findViewById(R.id.answer1_millionaire_layout + i * 3);
+            //relativeLayouts[i] = view.findViewById(R.id.answer1_millionaire_layout + i * 3);
             charts[i] = view.findViewById(R.id.ChartProgressBar_millionaire_1 + i);
             textAnswers[i] = view.findViewById(R.id.answerText1_millionaire + i);
         }
 
         for(int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
-            relativeLayouts[i].setOnTouchListener(new TouchListener());
+            textAnswers[i].setText(question.answers[i]);
 
-            /*charts[i].setDataList(Collections.singletonList(new BarData("Sep", 3.4f, "3.4€")));
-            charts[i].build();*/
+            charts[i].setOnBoxedPointsChangeListener(new BoxedVertical.OnValuesChangeListener() {
+                @Override
+                public void onPointsChanged(BoxedVertical boxedPoints, int points) {
+                    if(!manager.isQuestionDisabled(questionNumber)) {
+                        int i = 0;
+                        for(BoxedVertical boxedVertical : charts) {
+                            if(boxedVertical == boxedPoints)
+                                break;
+                            i++;
+                        }
 
-            //charts[i].selectBar(0);
-            //charts[i].disableBar(0);
+                        if(manager.setPoints(questionNumber, i, points))
+                            loadSeekBars();
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(BoxedVertical boxedPoints) { }
+                @Override
+                public void onStopTrackingTouch(BoxedVertical boxedPoints) { }
+            });
         }
+
+        loadSeekBars();
 
         if (sendInitialPOIOnCreate) {
             sendInitialPOIOnCreate = false;
             sendInitialPoi();
+        }
+    }
+
+    public void loadSeekBars() {
+        int[] points = manager.getPointsForQuestion(questionNumber);
+        int leftPoints = manager.getPointsLeftForQuestion(questionNumber);
+
+        for(int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
+            if(points[i] + leftPoints == 0) {
+                charts[i].setMax(1);
+                charts[i].setEnabled(false);
+            } else {
+                charts[i].setMax(points[i] + leftPoints);
+                charts[i].setEnabled(!manager.isQuestionDisabled(questionNumber));
+            }
+
+            charts[i].setValue(points[i]);
         }
     }
 
@@ -135,20 +165,5 @@ public class MillionaireQuestionFragment extends Fragment {
             POIController.getInstance().moveToPOI(EUROPE_POI, null);
         else
             POIController.getInstance().moveToPOI(question.initialPOI, null);
-    }
-
-    private static class TouchListener implements View.OnTouchListener {
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            final int Y = 100 - Math.min(100, Math.max(0, (int) motionEvent.getY() * 100 / view.getHeight()));
-            Log.d("DEBUG", "||" + Y);
-
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                view.performClick();
-            }
-
-            return true;
-        }
     }
 }

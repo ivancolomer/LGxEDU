@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -15,6 +16,9 @@ import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.Millionaire;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.fragments.MillionaireQuestionFragment;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.interfaces.IAnswerListener;
+import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
 import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
 import java.util.ArrayList;
@@ -26,7 +30,7 @@ import github.chenupt.multiplemodel.viewpager.ModelPagerAdapter;
 import github.chenupt.multiplemodel.viewpager.PagerManager;
 import github.chenupt.springindicator.SpringIndicator;
 
-public class MillionaireActivity extends AppCompatActivity {
+public class MillionaireActivity extends AppCompatActivity implements IAnswerListener {
 
     private CustomScrollerViewPager viewPager;
 
@@ -41,6 +45,7 @@ public class MillionaireActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         millionaire = (Millionaire) MillionaireManager.getInstance().getGame();
+        ((MillionaireManager)GameManager.getInstance()).setListener(this);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -67,7 +72,6 @@ public class MillionaireActivity extends AppCompatActivity {
 
         buttonBack = findViewById(R.id.back_button);
         buttonNext = findViewById(R.id.next_button);
-        buttonNext.setEnabled(true);
 
         buttonBack.setOnClickListener((v) -> {
             if(buttonBack.isEnabled()) {
@@ -143,6 +147,11 @@ public class MillionaireActivity extends AppCompatActivity {
         if(millionaire.getQuestions().size() > 1)
             buttonBack.setEnabled(true);
 
+        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
+        if(page != null) {
+            ((MillionaireQuestionFragment)page).loadSeekBars();
+        }
+
         viewPager.setCurrentItem(currentQuestion, true);
     }
 
@@ -188,6 +197,14 @@ public class MillionaireActivity extends AppCompatActivity {
         Intent i = new Intent(this, MillionaireResultsActivity.class);
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); //Adds the FLAG_ACTIVITY_NO_HISTORY flag
         startActivity(i);
+    }
+
+    @Override
+    public void updateAnswer(int questionId) {
+        if(questionId == currentQuestion) {
+            buttonNext.setEnabled(((MillionaireManager) MillionaireManager.getInstance()).getPointsLeftForQuestion(currentQuestion) == 0);
+            buttonNext.setText(!MillionaireManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : currentQuestion + 1 >= millionaire.getQuestions().size() ? "FINISH" : "NEXT");
+        }
     }
 }
 

@@ -144,6 +144,8 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
             final boolean[] visitedWrongAnswers = new boolean[wrongAnswers.size()];
             visitedWrongAnswers[0] = true;
 
+            activeAlertDialog.setCancelable(false);
+            activeAlertDialog.setCanceledOnTouchOutside(false);
             activeAlertDialog.show();
 
             activeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v1 -> {
@@ -160,6 +162,8 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
                     LGApi.sendBalloonToPoi(getApplicationContext(), question.pois[question.correctAnswer - 1], question.information);
                     activeAlertDialog.setMessage("And now going to " + question.pois[question.correctAnswer - 1].getName());
                     v1.setEnabled(false);
+                    activeAlertDialog.setCancelable(true);
+                    activeAlertDialog.setCanceledOnTouchOutside(true);
                 } else {
                     POIController.getInstance().moveToPOI(question.pois[wrongAnswers.get(nonVisitedAnswer)], null);
                     activeAlertDialog.setMessage("And now going to " + question.pois[wrongAnswers.get(nonVisitedAnswer)].getName());

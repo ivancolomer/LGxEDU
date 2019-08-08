@@ -121,7 +121,6 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setOnCancelListener((dialog) -> nextPage());
         builder.setNegativeButton("SKIP", (dialog, id) -> dialog.cancel());
-        builder.setTitle("Watching wrong answers");
 
         if(wrongAnswers.size() == 0) {
             builder.setTitle("Great! You were all totally right!");

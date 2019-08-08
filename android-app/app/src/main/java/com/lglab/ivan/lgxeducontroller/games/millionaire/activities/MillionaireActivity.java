@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
+import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.connection.LGApi;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.Millionaire;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireManager;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireQuestion;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.fragments.MillionaireQuestionFragment;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.interfaces.IAnswerListener;
-import com.lglab.ivan.lgxeducontroller.games.trivia.TriviaManager;
-import com.lglab.ivan.lgxeducontroller.games.trivia.fragments.TriviaQuestionFragment;
 import com.lglab.ivan.lgxeducontroller.utils.CustomScrollerViewPager;
 
 import java.util.ArrayList;
@@ -97,41 +97,37 @@ public class MillionaireActivity extends AppCompatActivity implements IAnswerLis
 
                 GameManager.getInstance().disableQuestionFromAnswering(currentQuestion);
 
-                /*final AlertDialog loading_dialog = new MaterialAlertDialogBuilder(this)
-                        .setView(R.layout.progress)
-                        .setTitle("Getting position from the LiquidGalaxy")
-                        .setMessage("")
-                        .setOnCancelListener((dialog) -> nextPage())
-                        .setNegativeButton("SKIP", (dialog, id) -> dialog.cancel())
-                        .setPositiveButton("SHOW ANSWER", (dialog, id) -> { })
-                        .create();
+                int[] points = ((MillionaireManager)MillionaireManager.getInstance()).getPointsForQuestion(currentQuestion);
 
-                loading_dialog.setCancelable(false);
-                loading_dialog.setCanceledOnTouchOutside(false);
-                loading_dialog.show();
+                int maxPoints = points[0];
+                int answerWithMaxPoints = 0;
+                for(int i = 1; i < points.length; i++) {
+                    if(points[i] > maxPoints) {
+                        answerWithMaxPoints = i;
+                        maxPoints = points[i];
+                    }
+                }
 
-                loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.GONE);
-                loading_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setVisibility(View.GONE);
+                MillionaireQuestion question = ((MillionaireQuestion)GameManager.getInstance().getGame().getQuestions().get(currentQuestion));
 
-                LGConnectionManager.getInstance().addCommandToLG(new LGCommand("echo $(/home/lg/bin/lg-locate)", LGCommand.CRITICAL_MESSAGE, (response -> {
-                    String[] responseSplitted = response.split(" ", 3);
-                    Log.d("Test", response);
-                    ((GeoFinderManager)GeoFinderManager.getInstance()).answerQuestion(currentQuestion, Double.parseDouble(responseSplitted[0]), Double.parseDouble(responseSplitted[1]));
-                    int score = ((GeoFinderManager)GeoFinderManager.getInstance()).getScoreQuestion(currentQuestion);
-                    loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener((view) -> {
-                        POIController.getInstance().moveToPOI(((GeoFinderQuestion)(GeoFinderManager.getInstance().getGame().getQuestions().get(currentQuestion))).poi, null);
-                        LGApi.sendBalloonToPoi(getApplicationContext(), ((GeoFinderQuestion)(GeoFinderManager.getInstance().getGame().getQuestions().get(currentQuestion))).poi, ((GeoFinderQuestion)(GeoFinderManager.getInstance().getGame().getQuestions().get(currentQuestion))).information);
-                        view.setEnabled(false);
-                        loading_dialog.setCancelable(true);
-                        loading_dialog.setCanceledOnTouchOutside(true);
-                    });
-                    loading_dialog.setMessage("You have scored " + score + " out of 1000 points!");
-                    loading_dialog.findViewById(R.id.loader).setVisibility(View.GONE);
-                    loading_dialog.findViewById(R.id.loading_msg).setVisibility(View.GONE);
-                    loading_dialog.getButton(AlertDialog.BUTTON_POSITIVE).setVisibility(View.VISIBLE);
-                    loading_dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setVisibility(View.VISIBLE);
-                })));*/
-                nextPage();
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+                builder.setOnCancelListener((dialog) -> nextPage());
+                builder.setNegativeButton("SKIP", (dialog, id) -> dialog.cancel());
+
+                if(maxPoints == 0 || answerWithMaxPoints != question.correctAnswer - 1) {
+                    //OOPS, you weren't right
+                    builder.setTitle("Oops! You were wrong!");
+                } else {
+                    //great, you were right
+                    builder.setTitle("Great! You were right!");
+                }
+
+                builder.setMessage("The answer is " + question.answers[question.correctAnswer - 1] + ".\n" +
+                        "You have " + points[question.correctAnswer - 1] + " points left.\n" +
+                        "Going to " + question.poi.getName());
+                POIController.getInstance().moveToPOI(question.poi, null);
+                LGApi.sendBalloonToPoi(getApplicationContext(), question.poi, question.information);
+                builder.create().show();
             }
         });
     }
@@ -141,7 +137,8 @@ public class MillionaireActivity extends AppCompatActivity implements IAnswerLis
 
         if(currentQuestion + 1 < millionaire.getQuestions().size())
             currentQuestion++;
-        buttonNext.setEnabled(true);
+
+        buttonNext.setEnabled(((MillionaireManager) MillionaireManager.getInstance()).getPointsLeftForQuestion(currentQuestion) == 0);
         buttonNext.setText(!MillionaireManager.getInstance().isQuestionDisabled(currentQuestion) ? "CHECK" : currentQuestion + 1 >= millionaire.getQuestions().size() ? "FINISH" : "NEXT");
 
         if(millionaire.getQuestions().size() > 1)
@@ -150,6 +147,13 @@ public class MillionaireActivity extends AppCompatActivity implements IAnswerLis
         Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + viewPager.getCurrentItem());
         if(page != null) {
             ((MillionaireQuestionFragment)page).loadSeekBars();
+        }
+
+        if(currentQuestion != viewPager.getCurrentItem()) {
+            page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + currentQuestion);
+            if(page != null) {
+                ((MillionaireQuestionFragment)page).loadSeekBars();
+            }
         }
 
         viewPager.setCurrentItem(currentQuestion, true);

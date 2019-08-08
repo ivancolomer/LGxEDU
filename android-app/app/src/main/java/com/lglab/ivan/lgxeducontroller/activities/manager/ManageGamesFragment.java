@@ -228,7 +228,7 @@ public class ManageGamesFragment extends GoogleDriveApp implements IGamesAdapter
                 Category category = categories.get(newGame.getCategory().toLowerCase());
                 if (category == null) {
                     long id = POIsProvider.insertCategoryGame(newGame.getCategory());
-                    categories.put(newGame.getCategory().toLowerCase(), new Category(id, newGame.getCategory(), Collections.singletonList(newGame)));
+                    categories.put(newGame.getCategory().toLowerCase(), new Category(id, newGame.getCategory(), new ArrayList<>(Collections.singletonList(newGame))));
                 } else {
                     category.getItems().add(newGame);
                 }

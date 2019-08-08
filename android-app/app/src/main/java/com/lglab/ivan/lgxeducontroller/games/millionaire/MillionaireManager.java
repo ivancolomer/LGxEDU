@@ -14,15 +14,13 @@ public class MillionaireManager extends GameManager {
 
     private IAnswerListener listener;
     private int[][] pointsAssigned;
-    private int currentLeftPoints;
 
-    public MillionaireManager(Game game) {
+    MillionaireManager(Game game) {
         super(game);
         pointsAssigned = new int[game.getQuestions().size()][];
         for(int i = 0; i < pointsAssigned.length; i++) {
             pointsAssigned[i] = new int[MillionaireQuestion.MAX_ANSWERS];
         }
-        currentLeftPoints = STARTING_POINTS;
     }
 
     public void setListener(IAnswerListener listener) {
@@ -43,22 +41,17 @@ public class MillionaireManager extends GameManager {
 
     public boolean setPoints(int questionId, int answer, int points) {
         int diff = points - pointsAssigned[questionId][answer];
+
+        if(diff == 0)
+            return false;
+
         int pointsLeft = getPointsLeftForQuestion(questionId);
-        if(diff != 0) {
-            if (diff <= pointsLeft) {
-                pointsAssigned[questionId][answer] = points;
-                if(listener != null)
-                    listener.updateAnswer(questionId);
-                return true;
-            }
 
-            pointsAssigned[questionId][answer] = pointsLeft;
-            if(listener != null)
-                listener.updateAnswer(questionId);
+        pointsAssigned[questionId][answer] = diff <= pointsLeft ? points : pointsLeft;
+
+        if(listener != null)
+            listener.updateAnswer(questionId);
             return true;
-        }
-
-        return false;
     }
 
     @Override

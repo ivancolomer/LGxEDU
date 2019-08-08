@@ -39,6 +39,13 @@ public class MillionaireManager extends GameManager {
         return leftPoints;
     }
 
+    public int getPointsCorrectInQuestion(int questionId) {
+        if(questionId < 0)
+            return STARTING_POINTS;
+
+        return pointsAssigned[questionId][((MillionaireQuestion)getGame().getQuestions().get(questionId)).correctAnswer - 1];
+    }
+
     public boolean setPoints(int questionId, int answer, int points) {
         int diff = points - pointsAssigned[questionId][answer];
 

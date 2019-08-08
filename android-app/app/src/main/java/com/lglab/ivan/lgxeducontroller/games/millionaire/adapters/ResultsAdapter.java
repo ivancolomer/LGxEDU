@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireQuestion;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout;
 
@@ -28,9 +29,10 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsV
 
         personViewHolder.questionName.setText(question.getQuestion());
         personViewHolder.questionNumber.setText(String.valueOf(i + 1));
-        //personViewHolder.questionSolution.setText("Score points: " + ((MillionaireManager)GameManager.getInstance()).getScoreQuestion(i));
+        personViewHolder.questionSolution.setText("Score points before: " + ((MillionaireManager)GameManager.getInstance()).getPointsCorrectInQuestion(i - 1) + "\n" +
+                "Score points after: " + ((MillionaireManager)GameManager.getInstance()).getPointsCorrectInQuestion(i));
 
-        personViewHolder.rl.setBackgroundColor(Color.parseColor("#388E3C"));
+        personViewHolder.rl.setBackgroundColor(((MillionaireManager)GameManager.getInstance()).getPointsCorrectInQuestion(i) == 0 ? Color.parseColor("#C62828") : Color.parseColor("#388E3C"));
     }
 
     @Override

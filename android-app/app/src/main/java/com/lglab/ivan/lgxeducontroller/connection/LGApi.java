@@ -67,7 +67,7 @@ public class LGApi {
             put("description", "<![CDATA[\n" +
                     "  <head>\n" +
                     "    <!-- Required meta tags -->\n" +
-                    "    <meta charset=\"utf-8\">\n" +
+                    "    <meta charset=\"UTF-8\">\n" +
                     "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n" +
                     "\n" +
                     "    <!-- Bootstrap CSS -->\n" +
@@ -89,6 +89,7 @@ public class LGApi {
                     "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\" integrity=\"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl\" crossorigin=\"anonymous\"></script>\n" +
                     "  </body>\n" +
                     "]]>");
+            Log.d("DEBUG", get("description"));
             put("icon", "afasfas");
         }});
         LGApi.sendJsonRequest(context, Request.Method.GET, "http://" + SERVER_IP + ":" + PORT + "/kml/manage/balloon/12345/1", (response) -> Log.d("LGAPI", response), null);

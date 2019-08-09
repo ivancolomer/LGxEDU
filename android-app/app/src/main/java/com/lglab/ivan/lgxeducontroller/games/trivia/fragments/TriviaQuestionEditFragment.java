@@ -85,10 +85,10 @@ public class TriviaQuestionEditFragment extends Fragment implements ISaveData {
 
         textAnswers = new EditText[TriviaQuestion.MAX_ANSWERS];
         answersPOITextEdit = new AutoCompleteTextView[TriviaQuestion.MAX_ANSWERS];
-        
+
         for (int i = 0; i < TriviaQuestion.MAX_ANSWERS; i++) {
-            textAnswers[i] = view.findViewById(R.id.answer1TextEdit + 2 * i);
-            answersPOITextEdit[i] = view.findViewById(R.id.answer1POITextEdit + 3 * i);
+            textAnswers[i] = view.findViewById(R.id.answer1TextEdit + (R.id.answer2TextEdit - R.id.answer1TextEdit) * i);
+            answersPOITextEdit[i] = view.findViewById(R.id.answer1POITextEdit + (R.id.answer2POITextEdit - R.id.answer1POITextEdit) * i);
             answerPOIText(i, answersPOITextEdit[i]);
             POIButton(R.id.addAnswer1POIButton + i, i + 1);
         }

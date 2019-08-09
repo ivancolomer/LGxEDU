@@ -10,6 +10,29 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/question_title"
+
+            >
+            <TextView
+                android:id="@+id/points_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="Gasdasd\nsadads\nadsads"
+                android:background="@drawable/back"
+                android:padding="@dimen/_4sdp"
+                android:layout_margin="@dimen/_4sdp"
+                android:layout_toLeftOf="@id/question_title"
+                android:textSize="@dimen/_12ssp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
         <TextView
             android:id="@+id/question_title"
             android:layout_width="wrap_content"
@@ -19,16 +42,15 @@
             android:textColor="@color/grey_700"
             android:textSize="@dimen/_18ssp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/extra_tip_first_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="end"
-            android:layout_toEndOf="@+id/question_title"
-            android:layout_margin="@dimen/_4sdp"
-            android:text="Move up/down the bar below each answer to assign your points"
-            android:textSize="@dimen/_8ssp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_toEndOf="@id/question_title"
+            app:srcCompat="@drawable/ic_help_black_24dp"
+            app:tint="@color/whiteGrey"
+            app:backgroundTint="@color/primary_dark"
             android:visibility="gone"/>
 
     </RelativeLayout>

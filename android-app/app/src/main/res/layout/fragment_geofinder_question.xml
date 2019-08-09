@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:weightSum="12">
 
@@ -19,16 +20,15 @@
             android:text="HEY"
             android:textSize="@dimen/_17ssp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/extra_tip_first_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="end"
-            android:layout_toEndOf="@+id/question_title"
-            android:layout_margin="@dimen/_4sdp"
-            android:text="Use the navigation interface to find the place"
-            android:textSize="@dimen/_7ssp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_toEndOf="@id/question_title"
+            app:srcCompat="@drawable/ic_help_black_24dp"
+            app:tint="@color/whiteGrey"
+            app:backgroundTint="@color/primary_dark"
             android:visibility="gone"/>
 
     </RelativeLayout>

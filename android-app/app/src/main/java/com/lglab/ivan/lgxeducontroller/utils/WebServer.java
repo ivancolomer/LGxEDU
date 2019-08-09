@@ -82,14 +82,37 @@ public class WebServer extends NanoHTTPD {
         String[] uriSplitted = uri.split("/");
         AssistantHandler.Result result = AssistantHandler.Result.PATH_NOT_FOUND;
 
-        if(method == Method.GET && uri.equals("/logo")) {
+        if(method == Method.GET && uri.equals("/logo.jpg")) {
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            ((BitmapDrawable) ContextCompat.getDrawable(context, R.drawable.logos_ivan)).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+            ((BitmapDrawable) ContextCompat.getDrawable(context, R.drawable.logos_vertical)).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
             InputStream inputStream = new ByteArrayInputStream(stream.toByteArray());
 
             //res.addHeader("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"");
-            return newChunkedResponse(Response.Status.OK, "image/png", inputStream);
+            return newChunkedResponse(Response.Status.OK, "image/jpeg", inputStream);
+        }
+
+        if(method == Method.GET && uri.equals("/logo.kml")) {
+            String kml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                    "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n" +
+                    "  <Document>\n" +
+                    "        <Folder>\n" +
+                    "<ScreenOverlay>\n" +
+                    "  <name>LOGOS</name>\n" +
+                    "  <Icon>\n" +
+                    "    <href>\n" +
+                    "      http://" + Utils.getIPAddress(true) + ":" + server.getListeningPort() + "/logo.png\n" +
+                    "    </href>\n" +
+                    "  </Icon>\n" +
+                    "  <overlayXY x=\"0\" y=\"1\" xunits=\"fraction\" yunits=\"fraction\"/>\n" +
+                    "  <screenXY x=\"0\" y=\"1\" xunits=\"fraction\" yunits=\"fraction\"/>\n" +
+                    "  <rotationXY x=\"0.5\" y=\"0.5\" xunits=\"fraction\" yunits=\"fraction\"/>\n" +
+                    "  <size x=\"250\" y=\"450\" xunits=\"pixels\" yunits=\"pixels\"/>\n" +
+                    "</ScreenOverlay>\n" +
+                    "        </Folder>\n" +
+                    "  </Document>\n" +
+                    "</kml>";
+            return newChunkedResponse(Response.Status.OK, "application/vnd.google-earth.kml+xml", new ByteArrayInputStream(kml.getBytes()));
         }
 
         if(method == Method.GET && uriSplitted.length > 1) {

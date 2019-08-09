@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
@@ -82,7 +83,13 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
         super.onViewCreated(view, savedInstanceState);
 
         if(questionNumber == 0) {
-            getView().findViewById(R.id.drag_drop_info).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.extra_tip_first_page).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.extra_tip_first_page).setOnClickListener((v) -> new MaterialAlertDialogBuilder(getContext())
+                    .setTitle("Help")
+                    .setMessage("Drag and drop your name to the correct answer.")
+                    .setNegativeButton(R.string.close, (dialog, id) -> dialog.cancel())
+                    .create()
+                    .show());
         }
 
         initial_recyclerview = getView().findViewById(R.id.question_0_rv);
@@ -116,8 +123,8 @@ public class TriviaQuestionFragment extends Fragment implements IDraggableListen
             }
             imageView.setVisibility(View.VISIBLE);
             if(questionNumber == 0) {
-                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.drag_drop_info).getLayoutParams()).removeRule(RelativeLayout.END_OF);
-                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.drag_drop_info).getLayoutParams()).addRule(RelativeLayout.END_OF, imageView.getId());
+                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.extra_tip_first_page).getLayoutParams()).removeRule(RelativeLayout.END_OF);
+                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.extra_tip_first_page).getLayoutParams()).addRule(RelativeLayout.END_OF, imageView.getId());
             }
         }
         else {

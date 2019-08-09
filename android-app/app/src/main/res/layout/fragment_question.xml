@@ -33,16 +33,15 @@
             android:background="@drawable/black_border"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/drag_drop_info"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/extra_tip_first_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="end"
-            android:layout_toEndOf="@+id/question_title"
-            android:layout_margin="@dimen/_4sdp"
-            android:text="Drag and drop your name to the correct answer"
-            android:textSize="@dimen/_7ssp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_toEndOf="@id/question_title"
+            app:srcCompat="@drawable/ic_help_black_24dp"
+            app:tint="@color/whiteGrey"
+            app:backgroundTint="@color/primary_dark"
             android:visibility="gone"/>
 
     </RelativeLayout>

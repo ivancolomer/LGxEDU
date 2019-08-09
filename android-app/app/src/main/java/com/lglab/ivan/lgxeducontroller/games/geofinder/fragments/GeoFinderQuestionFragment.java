@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.NavigateFragment;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
@@ -64,8 +65,15 @@ public class GeoFinderQuestionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if(questionNumber == 0) {
-            if(getView() != null)
+            if(getView() != null) {
                 getView().findViewById(R.id.extra_tip_first_page).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.extra_tip_first_page).setOnClickListener((v) -> new MaterialAlertDialogBuilder(getContext())
+                        .setTitle("Help")
+                        .setMessage("Use the navigation interface to find the place.")
+                        .setNegativeButton(R.string.close, (dialog, id) -> dialog.cancel())
+                        .create()
+                        .show());
+            }
         }
 
         textView = view.findViewById(R.id.question_title);

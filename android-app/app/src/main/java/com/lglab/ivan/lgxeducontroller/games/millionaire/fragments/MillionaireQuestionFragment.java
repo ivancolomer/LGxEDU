@@ -1,25 +1,22 @@
 package com.lglab.ivan.lgxeducontroller.games.millionaire.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
-import com.hadiidbouk.charts.ChartProgressBar;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.POIController;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireManager;
 import com.lglab.ivan.lgxeducontroller.games.millionaire.MillionaireQuestion;
-import com.lglab.ivan.lgxeducontroller.games.millionaire.interfaces.IAnswerListener;
 import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 
 import abak.tr.com.boxedverticalseekbar.BoxedVertical;
@@ -77,8 +74,15 @@ public class MillionaireQuestionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if(questionNumber == 0) {
-            if(getView() != null)
+            if(getView() != null) {
                 getView().findViewById(R.id.extra_tip_first_page).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.extra_tip_first_page).setOnClickListener((v) -> new MaterialAlertDialogBuilder(getContext())
+                        .setTitle("Help")
+                        .setMessage("Move up/down the bar below each answer to assign your points.")
+                        .setNegativeButton(R.string.close, (dialog, id) -> dialog.cancel())
+                        .create()
+                        .show());
+            }
         }
 
         textView = view.findViewById(R.id.question_title);
@@ -128,6 +132,10 @@ public class MillionaireQuestionFragment extends Fragment {
         }
     }
 
+    public void updatePointsInformation(int pointsLeft) {
+        ((TextView)getView().findViewById(R.id.points_information)).setText("Points left: " + pointsLeft);
+    }
+
     public void loadSeekBars() {
         int[] points = manager.getPointsForQuestion(questionNumber);
         int leftPoints = manager.getPointsLeftForQuestion(questionNumber);
@@ -143,6 +151,8 @@ public class MillionaireQuestionFragment extends Fragment {
 
             charts[i].setValue(points[i]);
         }
+
+        updatePointsInformation(leftPoints);
     }
 
     @Override

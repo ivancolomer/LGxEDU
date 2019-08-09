@@ -157,7 +157,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
             MarkerOptions marker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
             marker.position(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude())).draggable(true);
             map.addMarker(marker);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude()), getZoomLevel(initialPOI.getRange())));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude()), getZoomLevel(initialPOI.getRange())));
         }
 
     }
@@ -167,6 +167,10 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         float zoomLevel =(int) (16 - Math.log(scale) / Math.log(2));
         return zoomLevel +.5f;*/
         return 16.5f - ((int)(Math.log(radius/1000) / Math.log(2)));
+    }
+
+    public static double getRadiusFromZoomLevel(float level) {
+        return 1000 * Math.pow(2, ((16.5f - level)));
     }
 
     @Override
@@ -215,11 +219,11 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
         MarkerOptions marker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
         marker.position(latLng).draggable(true);
         map.addMarker(marker);
-
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, map.getCameraPosition().zoom));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, map.getCameraPosition().zoom));
 
         ((EditText) rootView.findViewById(R.id.longitude)).setText(String.valueOf(marker.getPosition().longitude));
         ((EditText) rootView.findViewById(R.id.latitude)).setText(String.valueOf(marker.getPosition().latitude));
+        ((EditText) rootView.findViewById(R.id.range)).setText(String.format("%.2f", getRadiusFromZoomLevel(map.getCameraPosition().zoom)));
 
     }
 

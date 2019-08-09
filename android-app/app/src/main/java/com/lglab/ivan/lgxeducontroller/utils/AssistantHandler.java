@@ -10,6 +10,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.Game;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
+import com.lglab.ivan.lgxeducontroller.games.trivia.Trivia;
+import com.lglab.ivan.lgxeducontroller.games.utils.multiplayer.ChoosePlayersActivity;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
 import org.json.JSONException;
@@ -28,7 +30,7 @@ public class AssistantHandler implements IAssistantHandler {
     private FragmentActivity fragmentActivity;
 
     enum Result {
-        OK, GAME_NOT_FOUND, POI_NOT_FOUND, PATH_NOT_FOUND, NOT_IN_ACTIVITY
+        OK, GAME_NOT_FOUND, POI_NOT_FOUND, PATH_NOT_FOUND, NOT_IN_ACTIVITY, IS_MULTIPLAYER_GAME
     }
 
     AssistantHandler(FragmentActivity fragmentActivity) {
@@ -64,12 +66,37 @@ public class AssistantHandler implements IAssistantHandler {
                         if(result.getScore() >= 80) {
                             Game game = games.get(result.getString());
                             GameManager.startGame(fragmentActivity, game);
+                            if(game instanceof Trivia)
+                                return Result.IS_MULTIPLAYER_GAME;
                             return Result.OK;
                         }
                     }
                     return Result.GAME_NOT_FOUND;
                 }
             }
+        } else if(uri[1].equals("player")) {
+            if(uri.length > 2) {
+                if (fragmentActivity instanceof ChoosePlayersActivity) {
+                    ChoosePlayersActivity activity = (ChoosePlayersActivity) fragmentActivity;
+                    final AssistantHandler.Result[] result = {Result.OK};
+
+                    BlockingOnUIRunnable actionRunnable = new BlockingOnUIRunnable( fragmentActivity, () -> {
+                        // Execute your activity code here
+                        if (activity.addNewPlayerName(uri[2])) {
+                            result[0] = Result.IS_MULTIPLAYER_GAME;
+                        } else {
+                            result[0] = Result.OK;
+                        }
+                    });
+
+                    actionRunnable.startOnUiAndWait();
+
+
+
+                    return result[0];
+                }
+            }
+            return Result.PATH_NOT_FOUND;
         }
         return Result.PATH_NOT_FOUND;
     }

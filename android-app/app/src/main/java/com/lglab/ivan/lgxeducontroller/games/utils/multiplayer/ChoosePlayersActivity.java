@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.widget.ImageViewCompat;
 
@@ -21,11 +20,12 @@ import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout;
 import com.lglab.ivan.lgxeducontroller.games.utils.MultiplayerManagerGame;
+import com.lglab.ivan.lgxeducontroller.utils.ServerAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChoosePlayersActivity extends AppCompatActivity {
+public class ChoosePlayersActivity extends ServerAppCompatActivity {
 
     /*static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -65,10 +65,10 @@ public class ChoosePlayersActivity extends AppCompatActivity {
 
         findViewById(R.id.play_button_game).setOnClickListener(view -> enterGame());
 
-        remove_player_buttons[0].setOnClickListener(view -> removePlayer(0));
-        remove_player_buttons[1].setOnClickListener(view -> removePlayer(1));
-        remove_player_buttons[2].setOnClickListener(view -> removePlayer(2));
-        remove_player_buttons[3].setOnClickListener(view -> removePlayer(3));
+        remove_player_buttons[0].setOnClickListener(view -> removeOrAddPlayer(0));
+        remove_player_buttons[1].setOnClickListener(view -> removeOrAddPlayer(1));
+        remove_player_buttons[2].setOnClickListener(view -> removeOrAddPlayer(2));
+        remove_player_buttons[3].setOnClickListener(view -> removeOrAddPlayer(3));
 
         addOnTextChanged(player_names_text[0], 0);
         addOnTextChanged(player_names_text[1], 1);
@@ -105,7 +105,6 @@ public class ChoosePlayersActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
 
             @Override
@@ -124,7 +123,7 @@ public class ChoosePlayersActivity extends AppCompatActivity {
     }
 
     public static String getPlayerSubName(int playerId, String name) {
-        List<String> names = Lists.newArrayList(name.toString().split(" "));
+        List<String> names = Lists.newArrayList(name.split(" "));
         String textToWrite = String.valueOf(playerId + 1);
 
         for(int i2 = names.size() - 1; i2 >= 0; i2--) {
@@ -142,7 +141,7 @@ public class ChoosePlayersActivity extends AppCompatActivity {
         return textToWrite;
     }
 
-    private void removePlayer(int id) {
+    private void removeOrAddPlayer(int id) {
         updateArray();
         if(playernames.size() > 1 && id < playernames.size()) {
             playernames.remove(id);
@@ -160,6 +159,29 @@ public class ChoosePlayersActivity extends AppCompatActivity {
                 playernames.add(text.getText().toString());
             }
         }
+    }
+
+    public boolean addNewPlayerName(String name) {
+        updateArray();
+
+        int i;
+        for(i = 0; i < playernames.size(); i++) {
+            if(playernames.get(i) == null || playernames.get(i).equals("")) {
+                break;
+            }
+        }
+
+        if(i == MAX_PLAYERS)
+            return false;
+
+        if(i >= playernames.size())
+            removeOrAddPlayer(i);
+
+        playernames.set(i, name);
+        player_names_text[i].setText(name);
+        reloadPlayers();
+
+        return i < MAX_PLAYERS - 1;
     }
 
     private void reloadPlayers() {

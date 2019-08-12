@@ -95,8 +95,10 @@ public class AssistantHandler implements IAssistantHandler {
 
                     return result[0];
                 }
+                return Result.PATH_NOT_FOUND;
             }
-            return Result.PATH_NOT_FOUND;
+
+            return (fragmentActivity instanceof ChoosePlayersActivity) ? Result.IS_MULTIPLAYER_GAME : Result.PATH_NOT_FOUND;
         }
         return Result.PATH_NOT_FOUND;
     }

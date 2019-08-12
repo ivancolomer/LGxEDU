@@ -34,6 +34,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,6 +43,7 @@ import com.lglab.ivan.lgxeducontroller.legacy.beans.POI;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsContract;
 import com.lglab.ivan.lgxeducontroller.legacy.data.POIsProvider;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -157,7 +159,7 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
             MarkerOptions marker = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
             marker.position(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude())).draggable(true);
             map.addMarker(marker);
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude()), getZoomLevel(initialPOI.getRange())));
+            map.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(initialPOI.getLatitude(), initialPOI.getLongitude()), getZoomLevel(initialPOI.getRange()), initialPOI.getTilt() > 30.0d ? 30.0f : (float)initialPOI.getTilt(), (float)initialPOI.getHeading())));
         }
 
     }
@@ -223,8 +225,9 @@ public class CreatePOIFragment extends Fragment implements OnMapReadyCallback, G
 
         ((EditText) rootView.findViewById(R.id.longitude)).setText(String.valueOf(marker.getPosition().longitude));
         ((EditText) rootView.findViewById(R.id.latitude)).setText(String.valueOf(marker.getPosition().latitude));
-        ((EditText) rootView.findViewById(R.id.range)).setText(String.format("%.2f", getRadiusFromZoomLevel(map.getCameraPosition().zoom)));
-
+        ((EditText) rootView.findViewById(R.id.range)).setText(new DecimalFormat("#0.00").format(getRadiusFromZoomLevel(map.getCameraPosition().zoom)));
+        ((EditText) rootView.findViewById(R.id.heading)).setText(new DecimalFormat("#0.00").format(map.getCameraPosition().bearing > 180.0f ? map.getCameraPosition().bearing - 360.0f : map.getCameraPosition().bearing));
+        ((EditText) rootView.findViewById(R.id.tilt)).setText(new DecimalFormat("#0.00").format(map.getCameraPosition().tilt));
     }
 
     /*POIs TREATMENT*/

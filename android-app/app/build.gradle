@@ -39,11 +39,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "ApiKey", MyAwesomeApp_ApiKey
             resValue 'string', "api_key", MyAwesomeApp_ApiKey
+            resValue 'string', "ai_api_key", accessTokenAIAPI
         }
         debug {
             signingConfig signingConfigs.DebugSignIn
             buildConfigField 'String', "ApiKey", MyAwesomeApp_ApiKey
             resValue 'string', "api_key", MyAwesomeApp_ApiKey
+            resValue 'string', "ai_api_key", accessTokenAIAPI
         }
     }
     buildToolsVersion '29.0.0'
@@ -77,7 +79,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
     implementation 'androidx.media:media:1.1.0-rc01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta02'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
@@ -89,7 +91,7 @@ dependencies {
     implementation('com.google.apis:google-api-services-drive:v3-rev173-1.25.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    implementation 'com.google.android.material:material:1.1.0-alpha08'
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
@@ -111,6 +113,12 @@ dependencies {
     }
 
     implementation 'androidx.browser:browser:1.0.0'
+
+    implementation 'ai.api:sdk:2.0.7@aar'
+    implementation 'ai.api:libai:1.6.12'
+
+    /*implementation 'com.google.cloud:google-cloud-dialogflow:0.100.0-alpha'
+    implementation 'io.grpc:grpc-okhttp:1.15.1'*/
 }
 configurations {
     all*.exclude group: 'com.google.guava', module: 'listenablefuture'

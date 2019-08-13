@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.lglab.ivan.lgxeducontroller.legacy.LGPCAdminActivity;
 import com.lglab.ivan.lgxeducontroller.utils.ServerAppCompatActivity;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import ai.api.AIDataService;
@@ -50,9 +52,10 @@ import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
 
-public class MainActivity extends ServerAppCompatActivity implements AIListener {
+public class MainActivity extends ServerAppCompatActivity implements AIListener, TextToSpeech.OnInitListener {
     private static final int REQUEST_AUDIO_PERMISSION_RESULT = 13;
-    private static final int SPEECH_REQUEST_CODE = 0;
+    private static final int SPEECH_REQUEST_CODE = 14;
+    private static final int MY_DATA_CHECK_CODE = 15;
 
     /*static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -61,6 +64,8 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener 
 
 
     private AIDataService aiService;
+    private TextToSpeech myTTS;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +105,10 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener 
                 startListening();
             }
         }));
+
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
     }
 
     @Override
@@ -133,6 +142,17 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener 
                     }
                 }
             }.execute(aiRequest);
+        } else if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                //the user has the necessary data - create the TTS
+                myTTS = new TextToSpeech(this, this);
+            }
+            else {
+                //no data - install it now
+                Intent installTTSIntent = new Intent();
+                installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installTTSIntent);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -285,6 +305,9 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener 
                     "\nAction: " + result.getAction() +
                     "\nParameters: " + parameterString);
         }
+
+        if(myTTS != null)
+            myTTS.speak(result.getFulfillment().getSpeech(), TextToSpeech.QUEUE_FLUSH, null);
     }
 
     @Override
@@ -310,5 +333,19 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener 
     @Override
     public void onListeningFinished() {
 
+    }
+
+    public void onInit(int initStatus) {
+
+        //check for successful instantiation
+        if (initStatus == TextToSpeech.SUCCESS) {
+            if(myTTS.isLanguageAvailable(Locale.ENGLISH)==TextToSpeech.LANG_AVAILABLE)
+                myTTS.setLanguage(Locale.ENGLISH);
+            else if(myTTS.isLanguageAvailable(Locale.US)==TextToSpeech.LANG_AVAILABLE)
+                myTTS.setLanguage(Locale.US);
+        }
+        else if (initStatus == TextToSpeech.ERROR) {
+            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+        }
     }
 }

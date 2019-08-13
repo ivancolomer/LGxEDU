@@ -1,21 +1,33 @@
 package com.lglab.ivan.lgxeducontroller.games.utils.multiplayer;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonElement;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout;
@@ -24,12 +36,28 @@ import com.lglab.ivan.lgxeducontroller.utils.ServerAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
-public class ChoosePlayersActivity extends ServerAppCompatActivity {
+import ai.api.AIDataService;
+import ai.api.AIListener;
+import ai.api.AIServiceException;
+import ai.api.android.AIConfiguration;
+import ai.api.model.AIError;
+import ai.api.model.AIRequest;
+import ai.api.model.AIResponse;
+import ai.api.model.Result;
 
-    /*static {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }*/
+import static com.lglab.ivan.lgxeducontroller.utils.StringHelper.convertToUTF8;
+
+public class ChoosePlayersActivity extends ServerAppCompatActivity implements AIListener, TextToSpeech.OnInitListener {
+
+    private static final int REQUEST_AUDIO_PERMISSION_RESULT = 13;
+    private static final int SPEECH_REQUEST_CODE = 14;
+    private static final int MY_DATA_CHECK_CODE = 15;
+
+    private AIDataService aiService;
+    private TextToSpeech myTTS;
 
     private final int MAX_PLAYERS = 4;
 
@@ -78,6 +106,104 @@ public class ChoosePlayersActivity extends ServerAppCompatActivity {
         playernames.clear();
         playernames.add("");
         reloadPlayers();
+
+        final AIConfiguration config = new AIConfiguration(getResources().getString(R.string.ai_api_key),
+                AIConfiguration.SupportedLanguages.English,
+                AIConfiguration.RecognitionEngine.System);
+        aiService = new AIDataService(config);
+
+        findViewById(R.id.assistant_button).setOnClickListener((view -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    startListening();
+                } else {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO)) {
+                        Toast.makeText(this, "App required access to audio", Toast.LENGTH_SHORT).show();
+                    }
+                    requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO
+                    }, REQUEST_AUDIO_PERMISSION_RESULT);
+                }
+
+            } else {
+                startListening();
+            }
+        }));
+
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
+            Log.d("AII", spokenText);
+            // Do something with spokenText
+            final AIRequest aiRequest = new AIRequest();
+            aiRequest.setQuery(spokenText);
+
+            new AsyncTask<AIRequest, Void, AIResponse>() {
+                @Override
+                protected AIResponse doInBackground(AIRequest... requests) {
+                    final AIRequest request = requests[0];
+                    try {
+                        final AIResponse response = aiService.request(aiRequest);
+                        return response;
+                    } catch (AIServiceException e) {
+                        Log.e("AII", e.toString());
+                    }
+                    return null;
+                }
+                @Override
+                protected void onPostExecute(AIResponse aiResponse) {
+                    if (aiResponse != null) {
+                        onResult(aiResponse);
+                    }
+                }
+            }.execute(aiRequest);
+        } else if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                //the user has the necessary data - create the TTS
+                myTTS = new TextToSpeech(this, this);
+            }
+            else {
+                //no data - install it now
+                Intent installTTSIntent = new Intent();
+                installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installTTSIntent);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void startListening() {
+        try {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            startActivityForResult(intent, SPEECH_REQUEST_CODE);
+        }
+        catch(ActivityNotFoundException e) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://market.android.com/details?id=com.prometheusinteractive.voice_launcher"));
+            startActivity(browserIntent);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_AUDIO_PERMISSION_RESULT) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(),
+                        "Application needs permission", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -163,7 +289,7 @@ public class ChoosePlayersActivity extends ServerAppCompatActivity {
 
     public boolean addNewPlayerName(String name) {
         updateArray();
-
+        name = convertToUTF8(name);
         int i;
         for(i = 0; i < playernames.size(); i++) {
             if(playernames.get(i) == null || playernames.get(i).equals("")) {
@@ -212,6 +338,64 @@ public class ChoosePlayersActivity extends ServerAppCompatActivity {
         Intent i = new Intent(this, GameManager.getInstance().getGameActivity());
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(i);
+    }
+
+    @Override
+    public void onResult(AIResponse response) {
+        Log.d("AII", "onResult");
+        Result result = response.getResult();
+        if (result.getParameters() != null && !result.getParameters().isEmpty()) {
+            String parameterString = "";
+            for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
+                parameterString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
+            }
+
+            Log.d("AII", "Query:" + result.getResolvedQuery() +
+                    "\nAction: " + result.getAction() +
+                    "\nParameters: " + parameterString);
+        }
+
+        if(myTTS != null)
+            myTTS.speak(result.getFulfillment().getSpeech(), TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    public void onError(AIError error) {
+        Log.d("AII", error.toString());
+    }
+
+    @Override
+    public void onAudioLevel(float level) {
+
+    }
+
+    @Override
+    public void onListeningStarted() {
+
+    }
+
+    @Override
+    public void onListeningCanceled() {
+
+    }
+
+    @Override
+    public void onListeningFinished() {
+
+    }
+
+    public void onInit(int initStatus) {
+
+        //check for successful instantiation
+        if (initStatus == TextToSpeech.SUCCESS) {
+            if(myTTS.isLanguageAvailable(Locale.ENGLISH)==TextToSpeech.LANG_AVAILABLE)
+                myTTS.setLanguage(Locale.ENGLISH);
+            else if(myTTS.isLanguageAvailable(Locale.US)==TextToSpeech.LANG_AVAILABLE)
+                myTTS.setLanguage(Locale.US);
+        }
+        else if (initStatus == TextToSpeech.ERROR) {
+            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+        }
     }
 }
 

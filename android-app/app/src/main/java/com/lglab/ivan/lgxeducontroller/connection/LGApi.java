@@ -29,6 +29,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.lglab.ivan.lgxeducontroller.utils.StringHelper.convertToUTF8;
+
 public class LGApi {
 
     private static final String DEFAULT_CACHE_DIR = "volley";
@@ -77,7 +79,7 @@ public class LGApi {
                     "  <body>\n" +
                     "    <div class=\"p-lg-5\" align=\"center\">\n" +
                     "\n" +
-                    "        <h1>" + poi.getName() + "</h1>\n" +
+                    "        <h1>" + convertToUTF8(poi.getName()) + "</h1>\n" +
                     "        <hr>\n" +
                     "        <h3>" + information + "</h3>\n" +
                     "        <br>\n" +

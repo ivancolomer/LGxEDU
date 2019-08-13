@@ -20,6 +20,18 @@
             android:text="Players"
             android:textColor="@color/grey_700"
             android:textSize="@dimen/_24ssp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/assistant_button"
+            android:layout_margin="@dimen/_8sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:backgroundTint="@color/primary"
+            app:srcCompat="@drawable/ic_mic_black_24dp"
+            app:tint="@color/whiteGrey"
+            >
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     </RelativeLayout>
 

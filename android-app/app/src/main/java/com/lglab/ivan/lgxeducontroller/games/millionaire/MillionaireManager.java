@@ -32,7 +32,7 @@ public class MillionaireManager extends GameManager {
     }
 
     public int getPointsLeftForQuestion(int questionId) {
-        int leftPoints = questionId == 0 ? STARTING_POINTS : pointsAssigned[questionId - 1][((MillionaireQuestion)getGame().getQuestions().get(questionId)).correctAnswer - 1];
+        int leftPoints = getPointsCorrectInQuestion(questionId - 1);
         for(int i = 0; i < MillionaireQuestion.MAX_ANSWERS; i++) {
             leftPoints -= pointsAssigned[questionId][i];
         }

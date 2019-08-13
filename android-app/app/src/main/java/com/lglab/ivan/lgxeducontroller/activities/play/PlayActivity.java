@@ -148,7 +148,7 @@ public class PlayActivity extends ServerAppCompatActivity implements AIListener,
         for (Category c : allGames) {
             Category new_category = new Category(c);
             for (int i = new_category.getItemCount() - 1; i >= 0; i--) {
-                if (!searchInput.isEmpty() && !new_category.getItems().get(i).getName().toLowerCase().startsWith(searchInput))
+                if (!searchInput.isEmpty() && !new_category.getItems().get(i).getName().toLowerCase().contains(searchInput))
                     new_category.getItems().remove(i);
             }
             if (new_category.getItemCount() > 0) {

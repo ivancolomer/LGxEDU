@@ -48,7 +48,7 @@ android {
             resValue 'string', "ai_api_key", accessTokenAIAPI
         }
     }
-    buildToolsVersion '29.0.0'
+    buildToolsVersion '29.0.1'
     compileOptions {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'

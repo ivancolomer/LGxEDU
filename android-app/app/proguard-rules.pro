@@ -33,3 +33,11 @@
 -keep class com.jcraft.jsch.** { *; }
 -dontwarn com.jcraft.jsch.**
 -dontnote com.jcraft.jsch.**
+
+-keep class ai.api.** { *; }
+-dontwarn ai.api.**
+-dontnote ai.api.**
+
+# -keep class org.apache.commons.** { *; }
+# -dontnote org.apache.commons.**
+# -dontwarn org.apache.commons.**

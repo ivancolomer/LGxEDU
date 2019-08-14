@@ -169,6 +169,11 @@ public class ChoosePlayersActivity extends ServerAppCompatActivity implements AI
         } else if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 //the user has the necessary data - create the TTS
+                if(myTTS != null) {
+                    myTTS.stop();
+                    myTTS.shutdown();
+                    myTTS = null;
+                }
                 myTTS = new TextToSpeech(this, this);
             }
             else {
@@ -396,6 +401,17 @@ public class ChoosePlayersActivity extends ServerAppCompatActivity implements AI
         else if (initStatus == TextToSpeech.ERROR) {
             Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(myTTS != null) {
+            myTTS.stop();
+            myTTS.shutdown();
+            myTTS = null;
+        }
+
+        super.onDestroy();
     }
 }
 

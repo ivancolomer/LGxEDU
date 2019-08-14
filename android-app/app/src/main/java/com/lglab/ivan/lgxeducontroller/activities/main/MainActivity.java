@@ -144,6 +144,11 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener,
             }.execute(aiRequest);
         } else if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                if(myTTS != null) {
+                    myTTS.stop();
+                    myTTS.shutdown();
+                    myTTS = null;
+                }
                 //the user has the necessary data - create the TTS
                 myTTS = new TextToSpeech(this, this);
             }
@@ -347,5 +352,16 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener,
         else if (initStatus == TextToSpeech.ERROR) {
             Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(myTTS != null) {
+            myTTS.stop();
+            myTTS.shutdown();
+            myTTS = null;
+        }
+
+        super.onDestroy();
     }
 }

@@ -20,6 +20,12 @@ android {
             storeFile file('../../../key.jks')
             storePassword 'lg_ivan_edu'
         }
+        ReleaseSignIn {
+            keyAlias 'key'
+            keyPassword 'lgxedu_ivan'
+            storeFile file('../../../key.jks')
+            storePassword 'lg_ivan_edu'
+        }
     }
     compileSdkVersion 29
     defaultConfig {
@@ -34,6 +40,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.ReleaseSignIn
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -43,6 +50,7 @@ android {
         }
         debug {
             signingConfig signingConfigs.DebugSignIn
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "ApiKey", MyAwesomeApp_ApiKey
             resValue 'string', "api_key", MyAwesomeApp_ApiKey
             resValue 'string', "ai_api_key", accessTokenAIAPI

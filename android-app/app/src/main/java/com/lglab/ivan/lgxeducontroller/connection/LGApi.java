@@ -26,6 +26,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -180,15 +181,9 @@ public class LGApi {
         @Override
         protected Response<String> parseNetworkResponse(NetworkResponse response) {
 
-            try {
-//          System.out.println("Network Response "+ new String(response.data, "UTF-8"));
-                return Response.success(new String(response.data, "UTF-8"),
-                        getCacheEntry());
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                // fuck it, it should never happen though
-                return Response.success(new String(response.data), getCacheEntry());
-            }
+            //          System.out.println("Network Response "+ new String(response.data, "UTF-8"));
+            return Response.success(new String(response.data, StandardCharsets.UTF_8),
+                    getCacheEntry());
         }
 
         @Override

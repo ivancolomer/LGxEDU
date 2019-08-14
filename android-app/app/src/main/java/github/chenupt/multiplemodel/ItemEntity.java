@@ -93,7 +93,7 @@ public class ItemEntity<T> implements Serializable{
     }
 
     public T getContent(Class<T> c) {
-        return (T)content;
+        return content;
     }
 
     public ItemEntity setContent(T content) {
@@ -205,10 +205,7 @@ public class ItemEntity<T> implements Serializable{
         if(attrs == null){
             return false;
         }
-        if(attrs.get(key) == null){
-            return false;
-        }
-        return true;
+        return attrs.get(key) != null;
     }
 
     public void removeAttr(String key){

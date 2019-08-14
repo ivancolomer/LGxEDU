@@ -11,6 +11,6 @@ public interface TabClickListener {
      * @param position ViewPager item position.
      * @return Call setCurrentItem if return true.
      */
-    public boolean onTabClick(int position);
+    boolean onTabClick(int position);
 
 }

@@ -219,7 +219,7 @@ public class ChoosePlayersActivity extends ServerAppCompatActivity implements AI
 
     @Override
     public void onBackPressed() {
-        GameManager.getInstance().endGame();
+        GameManager.endGame();
         super.onBackPressed();
     }
 

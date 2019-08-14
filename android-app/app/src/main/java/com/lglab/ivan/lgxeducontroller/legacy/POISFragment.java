@@ -706,7 +706,7 @@ public class POISFragment extends Fragment {
                     dialog.show();
                     cancelButtonTreatment(cancel, dialog);
                     editButtonTreatment(String.valueOf(itemSelectedID), "TOUR", edit, dialog);
-                    String whereClauseForRefreshing = POIsContract.TourEntry.COLUMN_CATEGORY_ID + " = " + String.valueOf(categoryID);
+                    String whereClauseForRefreshing = POIsContract.TourEntry.COLUMN_CATEGORY_ID + " = " + categoryID;
                     deleteButtonTreatment(itemSelectedID, TOUR_URI, TOUR_IDselection, "TOUR", getWhereClauseCategory("CATEGORY LEVEL"), whereClauseForRefreshing, delete, dialog);
                 } else {
                     tour = new LiquidGalaxyTourView(getActivity());

@@ -37,6 +37,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by Ivan Josa on 25/05/16.
@@ -334,7 +335,7 @@ public class EditTaskFragment extends DialogFragment {
 
             try {
                 FileInputStream inputStream = new FileInputStream(file);
-                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                 String line;
 
                 while ((line = br.readLine()) != null) {

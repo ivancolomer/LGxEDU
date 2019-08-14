@@ -36,7 +36,7 @@ class POIsAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        TextView poiName = (TextView) view.findViewById(R.id.poi_list_item_textview);
+        TextView poiName = view.findViewById(R.id.poi_list_item_textview);
         if (itemName != null) {
             switch (itemName) {
                 case "POI":

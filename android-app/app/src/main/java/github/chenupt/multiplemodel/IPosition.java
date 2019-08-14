@@ -25,6 +25,6 @@ package github.chenupt.multiplemodel;
  */
 public interface IPosition {
 
-    public void bindViewPosition(int viewPosition);
+    void bindViewPosition(int viewPosition);
 
 }

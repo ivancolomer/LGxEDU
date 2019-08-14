@@ -168,7 +168,7 @@ public class NearbyBeaconsFragment extends ListFragment implements UrlDeviceDisc
         mGroupIdQueue = new ArrayList<>();
         mHandler = new Handler();
 
-        mSwipeRefreshWidget = (SwipeRefreshWidget) rootView.findViewById(R.id.swipe_refresh_widget);
+        mSwipeRefreshWidget = rootView.findViewById(R.id.swipe_refresh_widget);
         mSwipeRefreshWidget.setColorSchemeResources(R.color.swipe_refresh_widget_first_color,
                 R.color.swipe_refresh_widget_second_color);
         mSwipeRefreshWidget.setOnRefreshListener(this);
@@ -177,13 +177,13 @@ public class NearbyBeaconsFragment extends ListFragment implements UrlDeviceDisc
         mNearbyDeviceAdapter = new NearbyBeaconsAdapter();
         setListAdapter(mNearbyDeviceAdapter);
         //Get the top drawable
-        mScanningAnimationTextView = (TextView) rootView.findViewById(android.R.id.empty);
+        mScanningAnimationTextView = rootView.findViewById(android.R.id.empty);
         mScanningAnimationDrawable =
                 (AnimationDrawable) mScanningAnimationTextView.getCompoundDrawables()[1];
-        ListView listView = (ListView) rootView.findViewById(android.R.id.list);
+        ListView listView = rootView.findViewById(android.R.id.list);
         listView.setOnItemLongClickListener(mAdapterViewItemLongClickListener);
 
-        arrowDownLayout = (LinearLayout) rootView.findViewById(R.id.arrow_down);
+        arrowDownLayout = rootView.findViewById(R.id.arrow_down);
 
     }
 
@@ -621,8 +621,8 @@ public class NearbyBeaconsFragment extends ListFragment implements UrlDeviceDisc
             setText(view, R.id.description, pwsResult.getDescription());
             ((AppCompatImageView)view.findViewById(R.id.icon)).setImageBitmap(Utils.getBitmapIcon(mPwCollection, pwsResult));
 
-            Button btnImportAsPOIs = (Button) view.findViewById(R.id.btnImportAsPOIS);
-            Button btnImportAsTour = (Button) view.findViewById(R.id.btnImportAsTour);
+            Button btnImportAsPOIs = view.findViewById(R.id.btnImportAsPOIS);
+            Button btnImportAsTour = view.findViewById(R.id.btnImportAsTour);
 
             if (pwsResult.getSiteUrl().contains("drive")) {
                 btnImportAsPOIs.setVisibility(View.VISIBLE);

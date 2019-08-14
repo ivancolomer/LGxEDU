@@ -39,7 +39,7 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
     public View createNodeView(final TreeNode node, final IconTreeItem value) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.treeview_node, null, false);
-        tvValue = (TextView) view.findViewById(R.id.node_value);
+        tvValue = view.findViewById(R.id.node_value);
         tvValue.setText(value.text);
 
         if (value.type == 1) {
@@ -48,13 +48,13 @@ public class TreeItemHolder extends TreeNode.BaseNodeViewHolder<TreeItemHolder.I
             }
         }
 
-        final AppCompatImageView iconView = (AppCompatImageView) view.findViewById(R.id.imageIcon);
+        final AppCompatImageView iconView = view.findViewById(R.id.imageIcon);
         iconView.setImageDrawable(AppCompatResources.getDrawable(context, value.icon));
 
-        arrowView = (AppCompatImageView) view.findViewById(R.id.arrow_icon);
-        addCategoryButton = (AppCompatImageView) view.findViewById(R.id.btn_addCategory);
-        addPOIButton = (AppCompatImageView) view.findViewById(R.id.btn_addPOI);
-        editButton = (AppCompatImageView) view.findViewById(R.id.btn_edit);
+        arrowView = view.findViewById(R.id.arrow_icon);
+        addCategoryButton = view.findViewById(R.id.btn_addCategory);
+        addPOIButton = view.findViewById(R.id.btn_addPOI);
+        editButton = view.findViewById(R.id.btn_edit);
 
         if (value.type == 1) {
             //It's a POI

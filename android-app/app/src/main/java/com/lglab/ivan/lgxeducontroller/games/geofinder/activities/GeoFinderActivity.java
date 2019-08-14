@@ -202,7 +202,7 @@ public class GeoFinderActivity extends AppCompatActivity implements ILGConnectio
 
     @Override
     public void onBackPressed() {
-        GameManager.getInstance().endGame();
+        GameManager.endGame();
         super.onBackPressed();
     }
 

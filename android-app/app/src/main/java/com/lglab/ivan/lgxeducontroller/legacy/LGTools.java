@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +53,11 @@ public class LGTools extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lgtools, container, false);
-        importPois = (Button) view.findViewById(R.id.import_pois);
-        relaunch = (Button) view.findViewById(R.id.relaunch);
-        reboot = (Button) view.findViewById(R.id.reboot);
-        shutDown = (Button) view.findViewById(R.id.shutdown);
-        cleanKML = (Button) view.findViewById(R.id.cleanKmls);
+        importPois = view.findViewById(R.id.import_pois);
+        relaunch = view.findViewById(R.id.relaunch);
+        reboot = view.findViewById(R.id.reboot);
+        shutDown = view.findViewById(R.id.shutdown);
+        cleanKML = view.findViewById(R.id.cleanKmls);
         setImportPOIsButtonBehaviour();
         setRelaunchButtonBehaviour();
         setRebootButtonBehaviour();
@@ -369,7 +370,7 @@ public class LGTools extends Fragment {
                 long total = 0;
                 try {
                     FileInputStream inputStream = new FileInputStream(file);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                     String line;
                     int numLines = countLines(this.path);
                     while ((line = br.readLine()) != null) {

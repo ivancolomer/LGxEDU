@@ -1581,7 +1581,7 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
     /**
      * Helper interface to offload orientation based decisions
      */
-    static interface OrientationHelper {
+    interface OrientationHelper {
 
         /**
          * @param view The view element to check

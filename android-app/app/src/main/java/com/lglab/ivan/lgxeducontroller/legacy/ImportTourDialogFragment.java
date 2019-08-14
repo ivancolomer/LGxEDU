@@ -53,15 +53,15 @@ public class ImportTourDialogFragment extends DialogFragment {
 
         getDialog().setTitle(R.string.tourValues);
 
-        tourName = (EditText) rootView.findViewById(R.id.tour_name);
-        visibility = (Switch) rootView.findViewById(R.id.switchButtonHide);
-        duration = (EditText) rootView.findViewById(R.id.pois_interval);
-        category = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
+        tourName = rootView.findViewById(R.id.tour_name);
+        visibility = rootView.findViewById(R.id.switchButtonHide);
+        duration = rootView.findViewById(R.id.pois_interval);
+        category = rootView.findViewById(R.id.categoryID_spinner);
 
-        saveBtn = (Button) rootView.findViewById(R.id.saveTourBtn);
+        saveBtn = rootView.findViewById(R.id.saveTourBtn);
 
-        tourNameInputLayout = (TextInputLayout) rootView.findViewById(R.id.tourNameinputLayout);
-        poisIntervalInputLayout = (TextInputLayout) rootView.findViewById(R.id.poisIntervalInputLayout);
+        tourNameInputLayout = rootView.findViewById(R.id.tourNameinputLayout);
+        poisIntervalInputLayout = rootView.findViewById(R.id.poisIntervalInputLayout);
 
         fillCategorySpinner(category);
 
@@ -94,7 +94,7 @@ public class ImportTourDialogFragment extends DialogFragment {
             }
         });
 
-        cancelBtn = (Button) rootView.findViewById(R.id.cancelTourBtn);
+        cancelBtn = rootView.findViewById(R.id.cancelTourBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

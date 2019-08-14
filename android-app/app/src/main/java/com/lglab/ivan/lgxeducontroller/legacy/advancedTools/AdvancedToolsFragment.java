@@ -203,7 +203,7 @@ public class AdvancedToolsFragment extends Fragment {
                 taskHolder.user = lgTask.getUser();
                 taskHolder.password = lgTask.getPassword();
 
-                Toolbar toolbarCard = (Toolbar) viewHolder.itemView.findViewById(R.id.taskToolbar);
+                Toolbar toolbarCard = viewHolder.itemView.findViewById(R.id.taskToolbar);
                 if (lgTask.isRunning()) {
                     //We hide the play button
                     toolbarCard.getMenu().getItem(0).setVisible(false);

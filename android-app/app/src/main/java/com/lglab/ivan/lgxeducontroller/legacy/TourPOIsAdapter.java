@@ -125,11 +125,11 @@ public class TourPOIsAdapter extends BaseAdapter {
         }
 
         //we get the poi name
-        TextView name = (TextView) view.findViewById(R.id.poi_complete_name);
+        TextView name = view.findViewById(R.id.poi_complete_name);
         name.setText(tourPOI.getPoiName());
 
         //we get the POI field called Seconds and we set its behaviour when user types on it.
-        EditText seconds = (EditText) view.findViewById(R.id.poi_seconds);
+        EditText seconds = view.findViewById(R.id.poi_seconds);
         seconds.setText(String.valueOf(tourPOI.getDuration()));
         secondsBehaviour(tourPOI, seconds);
 

@@ -34,6 +34,6 @@ public class AAModelListAdapter extends ModelListAdapter {
 
     @Override
     public View modelNewInstance(Context context, Class<?> owner) throws Exception {
-        return (View)owner.getMethod("build", new Class[]{Context.class}).invoke(owner, context);
+        return (View)owner.getMethod("build", Context.class).invoke(owner, context);
     }
 }

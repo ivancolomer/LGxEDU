@@ -83,9 +83,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
             if (tourPois.contains(tourPoi)) {
                 tourPois.remove(tourPoi);
-            } else if (newTourPOIS.contains(tourPoi)) {
-                newTourPOIS.remove(tourPoi);
-            }
+            } else newTourPOIS.remove(tourPoi);
 
             String id = String.valueOf(tourPoi.getPoiID());
             FragmentActivity activity = (FragmentActivity) rootView.getContext();
@@ -431,7 +429,7 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
                 currentShownName = cursor.getString(1);
                 if (!currentShownName.equals(oldItemShownName)) {
                     //remove the bad shownName
-                    String currentWithoutOldPartition = currentShownName.substring(oldItemShownName.length(), currentShownName.length());
+                    String currentWithoutOldPartition = currentShownName.substring(oldItemShownName.length());
                     //write the good one
                     finalShownName = newShownName + currentWithoutOldPartition;
 
@@ -631,17 +629,17 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
 
         ViewHolderPoi(View rootView) {
 
-            nameET = (EditText) rootView.findViewById(R.id.name);
-            visitedPlaceET = (EditText) rootView.findViewById(R.id.visited_place);
-            longitudeET = (EditText) rootView.findViewById(R.id.longitude);
-            latitudeET = (EditText) rootView.findViewById(R.id.latitude);
-            altitudeET = (EditText) rootView.findViewById(R.id.altitude);
-            headingET = (EditText) rootView.findViewById(R.id.heading);
-            tiltET = (EditText) rootView.findViewById(R.id.tilt);
-            rangeET = (EditText) rootView.findViewById(R.id.range);
-            spinnerAltitudeMode = (Spinner) rootView.findViewById(R.id.spinnerAltitude);
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
-            categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
+            nameET = rootView.findViewById(R.id.name);
+            visitedPlaceET = rootView.findViewById(R.id.visited_place);
+            longitudeET = rootView.findViewById(R.id.longitude);
+            latitudeET = rootView.findViewById(R.id.latitude);
+            altitudeET = rootView.findViewById(R.id.altitude);
+            headingET = rootView.findViewById(R.id.heading);
+            tiltET = rootView.findViewById(R.id.tilt);
+            rangeET = rootView.findViewById(R.id.range);
+            spinnerAltitudeMode = rootView.findViewById(R.id.spinnerAltitude);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
+            categoryID = rootView.findViewById(R.id.categoryID_spinner);
         }
     }
 
@@ -660,13 +658,13 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         private Switch switchButtonHide;
 
         ViewHolderTour(View rootView) {
-            tourName = (EditText) rootView.findViewById(R.id.tour_name);
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
-            categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
-            addedPois = (ListView) rootView.findViewById(R.id.tour_pois_listview);
-            up = (AppCompatImageView) rootView.findViewById(R.id.move_up);
-            down = (AppCompatImageView) rootView.findViewById(R.id.move_down);
-            global_interval = (EditText) rootView.findViewById(R.id.pois_interval);
+            tourName = rootView.findViewById(R.id.tour_name);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
+            categoryID = rootView.findViewById(R.id.categoryID_spinner);
+            addedPois = rootView.findViewById(R.id.tour_pois_listview);
+            up = rootView.findViewById(R.id.move_up);
+            down = rootView.findViewById(R.id.move_down);
+            global_interval = rootView.findViewById(R.id.pois_interval);
         }
     }
 
@@ -680,9 +678,9 @@ public class UpdateItemFragment extends Fragment implements OnMapReadyCallback, 
         private Switch switchButtonHide;
 
         ViewHolderCategory(View rootView) {
-            categoryName = (EditText) rootView.findViewById(R.id.category_name);
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
-            fatherID = (Spinner) rootView.findViewById(R.id.father_spinner);
+            categoryName = rootView.findViewById(R.id.category_name);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
+            fatherID = rootView.findViewById(R.id.father_spinner);
         }
     }
 

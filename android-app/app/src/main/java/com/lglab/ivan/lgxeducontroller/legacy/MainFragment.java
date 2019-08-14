@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
      */
     private void setPOIButtonBehaviour(View rootView) {
 
-        final Button button = (Button) rootView.findViewById(R.id.POI_button);
+        final Button button = rootView.findViewById(R.id.POI_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +71,7 @@ public class MainFragment extends Fragment {
 
     private void setTourButtonBehaviour(View rootView) {
 
-        final Button button = (Button) rootView.findViewById(R.id.TOUR_button);
+        final Button button = rootView.findViewById(R.id.TOUR_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +90,7 @@ public class MainFragment extends Fragment {
      */
     private void setAdminButtonBehaviour(View rootView, final int adminButtonID) {
 
-        final Button button = (Button) rootView.findViewById(adminButtonID);
+        final Button button = rootView.findViewById(adminButtonID);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +127,7 @@ public class MainFragment extends Fragment {
     }
 
     private void cancelButtonTreatment(View popupView) {
-        final Button cancelButton = (Button) popupView.findViewById(R.id.pass_cancel);
+        final Button cancelButton = popupView.findViewById(R.id.pass_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,11 +138,11 @@ public class MainFragment extends Fragment {
 
     private void doneButtonTreatment(final View popupView) {
 
-        final Button doneButton = (Button) popupView.findViewById(R.id.pass_done);
+        final Button doneButton = popupView.findViewById(R.id.pass_done);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView incorrectPass = (TextView) popupView.findViewById(R.id.incorrect_pass);
+                TextView incorrectPass = popupView.findViewById(R.id.incorrect_pass);
                 String password = getPasswordFromUser(popupView);
                 if (password.equals(correctPassword)) {
                     if (incorrectPass.isShown()) {
@@ -162,7 +162,7 @@ public class MainFragment extends Fragment {
     }
 
     private String getPasswordFromUser(View popupView) {
-        EditText editText = (EditText) popupView.findViewById(R.id.password);
+        EditText editText = popupView.findViewById(R.id.password);
         return editText.getText().toString();
     }
 

@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A class that represents an HTTP request for a JSON object.
@@ -58,7 +59,7 @@ class JsonObjectRequest extends Request<JSONObject> {
         urlConnection.setRequestProperty("Accept", "application/json");
         urlConnection.setRequestMethod("POST");
         OutputStream os = urlConnection.getOutputStream();
-        os.write(mJsonObject.toString().getBytes("UTF-8"));
+        os.write(mJsonObject.toString().getBytes(StandardCharsets.UTF_8));
         os.close();
     }
 
@@ -70,7 +71,7 @@ class JsonObjectRequest extends Request<JSONObject> {
      */
     protected JSONObject readInputStream(InputStream is) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        BufferedReader in = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         String line;
         while ((line = in.readLine()) != null) {
             stringBuilder.append(line);

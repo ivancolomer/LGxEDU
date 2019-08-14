@@ -36,7 +36,7 @@ public class NewPOISList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.new_fragment_pois, null, false);
-        ViewGroup containerView = (ViewGroup) rootView.findViewById(R.id.container);
+        ViewGroup containerView = rootView.findViewById(R.id.container);
 
         TreeNode root = TreeNode.root();
 

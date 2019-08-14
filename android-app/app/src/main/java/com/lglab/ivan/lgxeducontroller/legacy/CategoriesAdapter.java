@@ -29,7 +29,7 @@ public class CategoriesAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView poiName = (TextView) view.findViewById(R.id.category_list_item_textview);
+        TextView poiName = view.findViewById(R.id.category_list_item_textview);
         String showName = cursor.getString(CATEGORY_COLUMN_NAME);
         poiName.setText(showName);
     }

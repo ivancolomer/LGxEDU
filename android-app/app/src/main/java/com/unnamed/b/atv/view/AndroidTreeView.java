@@ -378,7 +378,7 @@ public class AndroidTreeView {
     private void selectNode(TreeNode parent, boolean selected, boolean skipCollapsed) {
         parent.setSelected(selected);
         toogleSelectionForNode(parent, true);
-        boolean toContinue = skipCollapsed ? parent.isExpanded() : true;
+        boolean toContinue = !skipCollapsed || parent.isExpanded();
         if (toContinue) {
             for (TreeNode node : parent.getChildren()) {
                 selectNode(node, selected, skipCollapsed);

@@ -516,7 +516,7 @@ public class ChartProgressBar extends FrameLayout {
 						if (view instanceof Bar) {
 							BarAnimation anim = new BarAnimation(((Bar) view), (int) (mDataList.get(i).getBarValue() * 100), 0);
 							anim.setDuration(250);
-							((Bar) view).startAnimation(anim);
+							view.startAnimation(anim);
 						}
 					}
 				}
@@ -561,7 +561,7 @@ public class ChartProgressBar extends FrameLayout {
 						if (view instanceof Bar) {
 							BarAnimation anim = new BarAnimation(((Bar) view), 0, (int) (mDataList.get(i).getBarValue() * 100));
 							anim.setDuration(250);
-							((Bar) view).startAnimation(anim);
+							view.startAnimation(anim);
 						}
 					}
 				}

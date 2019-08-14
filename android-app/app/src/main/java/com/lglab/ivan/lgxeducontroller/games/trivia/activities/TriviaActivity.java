@@ -221,7 +221,7 @@ public class TriviaActivity extends AppCompatActivity implements IAnswerListener
 
     @Override
     public void onBackPressed() {
-        GameManager.getInstance().endGame();
+        GameManager.endGame();
         super.onBackPressed();
     }
 

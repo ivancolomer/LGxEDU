@@ -25,6 +25,6 @@ package github.chenupt.multiplemodel;
  */
 public interface IItemView<T> {
 
-    public void bindView(ItemEntity<T> model);
+    void bindView(ItemEntity<T> model);
 
 }

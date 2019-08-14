@@ -37,6 +37,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by Ivan Josa on 25/05/16.
@@ -163,11 +164,11 @@ public class CreateTaskFragment extends DialogFragment {
 
         getDialog().setTitle(R.string.add_new_task);
 
-        Button saveTask = (Button) rootView.findViewById(R.id.btn_add_task);
-        Button btnCancel = (Button) rootView.findViewById(R.id.btn_cancel_add_task);
+        Button saveTask = rootView.findViewById(R.id.btn_add_task);
+        Button btnCancel = rootView.findViewById(R.id.btn_cancel_add_task);
 
         iconview = rootView.findViewById(android.R.id.icon);
-        Button pickPhotoBtn = (Button) rootView.findViewById(R.id.pickPhoto);
+        Button pickPhotoBtn = rootView.findViewById(R.id.pickPhoto);
         pickPhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,19 +178,19 @@ public class CreateTaskFragment extends DialogFragment {
         });
 
 
-        new_task_shutdown_script_input = (EditText) rootView.findViewById(R.id.new_task_shutdown_script_input);
-        new_task_ip = (EditText) rootView.findViewById(R.id.new_task_ip_input);
-        new_task_user = (EditText) rootView.findViewById(R.id.new_task_user_input);
-        new_task_password = (EditText) rootView.findViewById(R.id.new_task_password_input);
-        new_task_browser_URL = (EditText) rootView.findViewById(R.id.new_task_url_openBrowser_input);
+        new_task_shutdown_script_input = rootView.findViewById(R.id.new_task_shutdown_script_input);
+        new_task_ip = rootView.findViewById(R.id.new_task_ip_input);
+        new_task_user = rootView.findViewById(R.id.new_task_user_input);
+        new_task_password = rootView.findViewById(R.id.new_task_password_input);
+        new_task_browser_URL = rootView.findViewById(R.id.new_task_url_openBrowser_input);
 
-        new_task_name_input = (EditText) rootView.findViewById(R.id.new_task_name_input);
-        new_task_name = (TextInputLayout) rootView.findViewById(R.id.new_task_name);
+        new_task_name_input = rootView.findViewById(R.id.new_task_name_input);
+        new_task_name = rootView.findViewById(R.id.new_task_name);
 
-        new_task_description_input = (EditText) rootView.findViewById(R.id.new_task_description_input);
-        new_task_script_input = (EditText) rootView.findViewById(R.id.new_task_script_input);
+        new_task_description_input = rootView.findViewById(R.id.new_task_description_input);
+        new_task_script_input = rootView.findViewById(R.id.new_task_script_input);
 
-        Button uploadExecutionScript = (Button) rootView.findViewById(R.id.uploadExecutionScript);
+        Button uploadExecutionScript = rootView.findViewById(R.id.uploadExecutionScript);
         uploadExecutionScript.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
@@ -198,7 +199,7 @@ public class CreateTaskFragment extends DialogFragment {
             startActivityForResult(intent, ACTION_UPLOAD_EXEC_SCRIPT);
         });
 
-        Button uploadShutdownScript = (Button) rootView.findViewById(R.id.uploadShutDownScript);
+        Button uploadShutdownScript = rootView.findViewById(R.id.uploadShutDownScript);
         uploadShutdownScript.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
@@ -299,7 +300,7 @@ public class CreateTaskFragment extends DialogFragment {
 
             try {
                 FileInputStream inputStream = new FileInputStream(file);
-                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                 String line;
 
                 while ((line = br.readLine()) != null) {

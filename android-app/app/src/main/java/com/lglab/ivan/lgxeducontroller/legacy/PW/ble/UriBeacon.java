@@ -282,7 +282,7 @@ public class UriBeacon {
     }
 
     private static byte[] encodeUrnUuid(String urn, int position, ByteBuffer bb) {
-        String uuidString = urn.substring(position, urn.length());
+        String uuidString = urn.substring(position);
         UUID uuid;
         try {
             uuid = UUID.fromString(uuidString);

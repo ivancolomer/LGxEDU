@@ -39,7 +39,7 @@ public class SwipeRefreshWidget extends SwipeRefreshLayout {
     @Override
     public boolean canChildScrollUp() {
         // The real child maps cares about is the list, so check if that can scroll.
-        ListView target = (ListView) findViewById(android.R.id.list);
+        ListView target = findViewById(android.R.id.list);
         return target.getChildCount() > 0
                 && (target.getFirstVisiblePosition() > 0
                 || target.getChildAt(0).getTop() < target.getPaddingTop());

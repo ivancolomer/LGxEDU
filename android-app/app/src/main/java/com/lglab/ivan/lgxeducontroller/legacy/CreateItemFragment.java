@@ -622,17 +622,17 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
 
         ViewHolderPoi(final View rootView) {
 
-            name = (EditText) rootView.findViewById(R.id.name);
-            visitedPlaceET = (EditText) rootView.findViewById(R.id.visited_place);
-            longitudeET = (EditText) rootView.findViewById(R.id.longitude);
-            latitudeET = (EditText) rootView.findViewById(R.id.latitude);
-            altitudeET = (EditText) rootView.findViewById(R.id.altitude);
-            headingET = (EditText) rootView.findViewById(R.id.heading);
-            tiltET = (EditText) rootView.findViewById(R.id.tilt);
-            rangeET = (EditText) rootView.findViewById(R.id.range);
-            spinnerAltitudeMode = (Spinner) rootView.findViewById(R.id.spinnerAltitude);
+            name = rootView.findViewById(R.id.name);
+            visitedPlaceET = rootView.findViewById(R.id.visited_place);
+            longitudeET = rootView.findViewById(R.id.longitude);
+            latitudeET = rootView.findViewById(R.id.latitude);
+            altitudeET = rootView.findViewById(R.id.altitude);
+            headingET = rootView.findViewById(R.id.heading);
+            tiltET = rootView.findViewById(R.id.tilt);
+            rangeET = rootView.findViewById(R.id.range);
+            spinnerAltitudeMode = rootView.findViewById(R.id.spinnerAltitude);
 
-            categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
+            categoryID = rootView.findViewById(R.id.categoryID_spinner);
             categoryID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long selectedItemId) {
@@ -655,7 +655,7 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
                 }
             });
 
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
         }
     }
 
@@ -668,11 +668,11 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
 
         ViewHolderTour(View rootView) {
 
-            tourName = (EditText) rootView.findViewById(R.id.tour_name);
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
-            categoryID = (Spinner) rootView.findViewById(R.id.categoryID_spinner);
-            addedPois = (ListView) rootView.findViewById(R.id.tour_pois_listview);
-            globalInterval = (EditText) rootView.findViewById(R.id.pois_interval);
+            tourName = rootView.findViewById(R.id.tour_name);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
+            categoryID = rootView.findViewById(R.id.categoryID_spinner);
+            addedPois = rootView.findViewById(R.id.tour_pois_listview);
+            globalInterval = rootView.findViewById(R.id.pois_interval);
         }
     }
 
@@ -683,9 +683,9 @@ public class CreateItemFragment extends Fragment implements OnMapReadyCallback, 
 
         ViewHolderCategory(View rootView) {
 
-            categoryName = (EditText) rootView.findViewById(R.id.category_name);
-            switchButtonHide = (Switch) rootView.findViewById(R.id.switchButtonHide);
-            fatherID = (Spinner) rootView.findViewById(R.id.father_spinner);
+            categoryName = rootView.findViewById(R.id.category_name);
+            switchButtonHide = rootView.findViewById(R.id.switchButtonHide);
+            fatherID = rootView.findViewById(R.id.father_spinner);
         }
 
     }

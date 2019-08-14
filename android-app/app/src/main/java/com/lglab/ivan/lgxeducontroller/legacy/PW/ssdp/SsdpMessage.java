@@ -30,7 +30,7 @@ public class SsdpMessage {
     public static final int TYPE_NOTIFY = 1;
     public static final int TYPE_FOUND = 2;
     private static final String NL = "\r\n";
-    private static final String FIRST_LINE[] = {
+    private static final String[] FIRST_LINE = {
             Ssdp.TYPE_M_SEARCH + " * HTTP/1.1",
             Ssdp.TYPE_NOTIFY + " * HTTP/1.1",
             "HTTP/1.1 " + Ssdp.TYPE_200_OK
@@ -43,7 +43,7 @@ public class SsdpMessage {
     }
 
     public SsdpMessage(String txt) {
-        String lines[] = txt.split(NL);
+        String[] lines = txt.split(NL);
         String line = lines[0].trim();
         if (line.startsWith(Ssdp.TYPE_M_SEARCH)) {
             this.mType = TYPE_SEARCH;

@@ -100,7 +100,7 @@ public class EditGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        GameManager.getInstance().endGame();
+        GameManager.endGame();
         super.onBackPressed();
     }
 

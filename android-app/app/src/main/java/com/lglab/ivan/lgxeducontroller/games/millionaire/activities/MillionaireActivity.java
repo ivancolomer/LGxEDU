@@ -185,7 +185,7 @@ public class MillionaireActivity extends AppCompatActivity implements IAnswerLis
 
     @Override
     public void onBackPressed() {
-        GameManager.getInstance().endGame();
+        GameManager.endGame();
         super.onBackPressed();
     }
 

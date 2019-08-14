@@ -60,6 +60,9 @@ public class LGApi {
     public static void sendBalloonToPoi(Context context, POI poi, String information) {
         //LGApi.sendJsonRequest(getApplicationContext(), Request.Method.DELETE, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/deleteTag/Placemark/12345", (response) -> Log.d("LGAPI", response), null);
 
+        //clean before sending
+        cleanBalloon(context);
+
         LGApi.sendJsonRequest(context, Request.Method.POST, "http://" + SERVER_IP + ":" + PORT + "/kml/builder/addplacemark", (response) -> Log.d("LGAPI", "ADDED PLACEMARK SUCCESS: " + response), new HashMap<String, String>() {{
             put("id", "12345");
             put("name", "");

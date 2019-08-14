@@ -18,9 +18,6 @@
     <string name="answer_4_POI">Answer 4 POI</string>
     <!-- End Create TriviaQuestion -->
 
-    <string name="create_game">Add a Game</string>
-    <string name="manage_drive">Google Drive</string>
-
     <!-- Legacy -->
     <string name="tittle">Liquid Galaxy Controller</string>
     <string name="action_settings">Settings</string>
@@ -34,9 +31,6 @@
     <string name="new_poi">New POI</string>
     <string name="new_category">New Category</string>
     <string name="new_tour">New TOUR</string>
-    <string name="create_poi">Create POI</string>
-    <string name="create_category">Create Category</string>
-    <string name="create_tour">Create Tour</string>
     <string name="update_category">Update Category</string>
     <string name="update_tour">Update Tour</string>
     <string name="update_poi">Update POI</string>

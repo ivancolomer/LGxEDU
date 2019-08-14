@@ -6,12 +6,6 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
-    <color name="background">#FAFAFA</color>
-
-
-    <style name="TreeNodeStyle">
-        <item name="android:paddingLeft">@dimen/_8sdp</item>
-    </style>
 
     <style name="TreeNodeStyleCustom">
         <item name="android:paddingLeft">@dimen/_4sdp</item>

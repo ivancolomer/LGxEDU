@@ -46,7 +46,7 @@ public abstract class GoogleDriveApp extends Fragment {
                                     getContext(), Collections.singleton(DriveScopes.DRIVE_FILE)); //DRIVE
                     credential.setSelectedAccount(googleAccount.getAccount());
                     Drive googleDriveService = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
-                            .setApplicationName("LGxEDU")
+                            .setApplicationName("LiquidGalaxyForEducation")
                             .build();
 
                     GoogleDriveManager.DriveServiceHelper = new DriveServiceHelper(googleDriveService);

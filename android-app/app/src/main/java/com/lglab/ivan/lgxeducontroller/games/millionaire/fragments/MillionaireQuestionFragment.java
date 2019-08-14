@@ -1,12 +1,16 @@
 package com.lglab.ivan.lgxeducontroller.games.millionaire.fragments;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
@@ -86,7 +90,25 @@ public class MillionaireQuestionFragment extends Fragment {
         }
 
         textView = view.findViewById(R.id.question_title);
-        textView.setText(question.getQuestion());
+        if(question.getQuestion().startsWith("%flag_mode% ")) {
+            textView.setText("Where is this flag from ");
+            AppCompatImageView imageView = view.findViewById(R.id.flag_image);
+            try {
+                imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), getContext().getResources().getIdentifier(question.getQuestion().substring(12), "drawable", getContext().getPackageName())));
+            } catch(Exception ignored) {
+                imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), R.drawable.ic_close_black_24dp));
+                imageView.setSupportImageTintList(ColorStateList.valueOf(getContext().getResources().getColor(R.color.red)));
+
+            }
+            imageView.setVisibility(View.VISIBLE);
+            if(questionNumber == 0) {
+                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.extra_tip_first_page).getLayoutParams()).removeRule(RelativeLayout.END_OF);
+                ((RelativeLayout.LayoutParams)getView().findViewById(R.id.extra_tip_first_page).getLayoutParams()).addRule(RelativeLayout.END_OF, imageView.getId());
+            }
+        }
+        else {
+            textView.setText(question.getQuestion());
+        }
 
         //relativeLayouts = new RelativeLayout[MillionaireQuestion.MAX_ANSWERS];
         charts = new BoxedVertical[MillionaireQuestion.MAX_ANSWERS];

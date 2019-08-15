@@ -59,7 +59,7 @@ import ai.api.model.Result;
 public class PlayActivity extends ServerAppCompatActivity implements AIListener, TextToSpeech.OnInitListener {
 
     private static final String TAG = PlayActivity.class.getSimpleName();
-    private static final int REQUEST_AUDIO_PERMISSION_RESULT = 13;
+    //private static final int REQUEST_AUDIO_PERMISSION_RESULT = 13;
     private static final int SPEECH_REQUEST_CODE = 14;
     private static final int MY_DATA_CHECK_CODE = 15;
 
@@ -108,10 +108,10 @@ public class PlayActivity extends ServerAppCompatActivity implements AIListener,
         aiService = new AIDataService(config);
 
         findViewById(R.id.assistant_button).setOnClickListener((view -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
                         PackageManager.PERMISSION_GRANTED) {
-                    startListening();
+                    */startListening();/*
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO)) {
                         Toast.makeText(this, "App required access to audio", Toast.LENGTH_SHORT).show();
@@ -122,7 +122,7 @@ public class PlayActivity extends ServerAppCompatActivity implements AIListener,
 
             } else {
                 startListening();
-            }
+            }*/
         }));
 
         Intent checkTTSIntent = new Intent();
@@ -271,7 +271,7 @@ public class PlayActivity extends ServerAppCompatActivity implements AIListener,
         }
     }
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -281,7 +281,7 @@ public class PlayActivity extends ServerAppCompatActivity implements AIListener,
                         "Application needs permission", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -28,6 +28,7 @@ import androidx.core.widget.ImageViewCompat;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
+import com.lglab.ivan.lgxeducontroller.BuildConfig;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.games.GameManager;
 import com.lglab.ivan.lgxeducontroller.games.trivia.adapters.DynamicSquareLayout;
@@ -107,7 +108,7 @@ public class ChoosePlayersActivity extends ServerAppCompatActivity implements AI
         playernames.add("");
         reloadPlayers();
 
-        final AIConfiguration config = new AIConfiguration(getResources().getString(R.string.ai_api_key),
+        final AIConfiguration config = new AIConfiguration(BuildConfig.AiApiKey,
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
         aiService = new AIDataService(config);

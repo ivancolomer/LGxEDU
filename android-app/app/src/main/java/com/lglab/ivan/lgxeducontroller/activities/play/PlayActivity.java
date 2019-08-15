@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonElement;
+import com.lglab.ivan.lgxeducontroller.BuildConfig;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.play.adapters.PlayAdapter;
 import com.lglab.ivan.lgxeducontroller.games.Category;
@@ -102,7 +103,7 @@ public class PlayActivity extends ServerAppCompatActivity implements AIListener,
 
         reloadAdapter();
 
-        final AIConfiguration config = new AIConfiguration(getResources().getString(R.string.ai_api_key),
+        final AIConfiguration config = new AIConfiguration(BuildConfig.AiApiKey,
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
         aiService = new AIDataService(config);

@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.JsonElement;
+import com.lglab.ivan.lgxeducontroller.BuildConfig;
 import com.lglab.ivan.lgxeducontroller.R;
 import com.lglab.ivan.lgxeducontroller.activities.lgpc.LGPC;
 import com.lglab.ivan.lgxeducontroller.activities.navigate.NavigateActivity;
@@ -82,7 +83,7 @@ public class MainActivity extends ServerAppCompatActivity implements AIListener,
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         Log.d("MAIN", String.valueOf(metrics.densityDpi));*/
 
-        final AIConfiguration config = new AIConfiguration(getResources().getString(R.string.ai_api_key),
+        final AIConfiguration config = new AIConfiguration(BuildConfig.AiApiKey,
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
         aiService = new AIDataService(config);

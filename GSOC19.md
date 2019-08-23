@@ -1,11 +1,14 @@
 # GSOC 2019 - Ivan Colomer
 
+The Liquid Galaxy platform is an open source project that utilizes a cluster of computers, controllers, and multiple displays to provide an immersive panoramic experience. Starting as a Google 20% project, the Liquid Galaxy can now be found in over 600 permanent locations globally, as well as numerous conferences and events.
+
 Liquid Galaxy for Education GSOC 2019 Project contains differents pieces of software, all of them contained within this repository and explained in the README.MD files.
+
 Additionally, there's a WikiPage [here](https://github.com/ivancolomer/lgxedu/wiki) where you can see all the documentation of the project.
 
 This project is divided into two parts:
 * On one hand, there's the Liquid Galaxy installation files modified in order to make it work on Chromebooks with a fully documented installation of Liquid Galaxy on Chromebooks with useful explanations in each step. The link of the documentation can be found here: [https://github.com/ivancolomer/lgxedu/wiki/LiquidGalaxy-on-ChromeBooks-Installation](https://github.com/ivancolomer/lgxedu/wiki/LiquidGalaxy-on-ChromeBooks-Installation)
-* On the other hand, an Android application for Tablets where students can play educational games interacting with the Liquid Galaxy. Furthermore, teachers can create and share new content in this application. Moreover, this Android Application has all the functionalities that [GSOC2016 Liquid Galaxy POIs Controller Project](https://github.com/navijo/Liquid-Galaxy-POIs-Controller/) has. The link of how to install, configure and create new content in the Android Application can be found here: [https://github.com/ivancolomer/lgxedu/wiki/LGxEDU-App-Documentation](https://github.com/ivancolomer/lgxedu/wiki/LGxEDU-App-Documentation)
+* On the other hand, an Android application for Tablets where students can play educational games interacting with the Liquid Galaxy. Furthermore, teachers can create and share new content in this application. Moreover, this Android Application has all the functionalities that [GSOC2016 Liquid Galaxy POIs Controller Project](https://github.com/navijo/Liquid-Galaxy-POIs-Controller/) has. This application can interact with Liquid Galaxy over Ubuntu's or over Chromebooks. There's a setting where you can choose which installation are you using. The link of how to install, configure and create new content in the Android Application can be found here: [https://github.com/ivancolomer/lgxedu/wiki/LGxEDU-App-Documentation](https://github.com/ivancolomer/lgxedu/wiki/LGxEDU-App-Documentation)
 
 It includes a [README](https://github.com/LiquidGalaxyLAB/LGxEDU/blob/master/README.md) with the general project details.
 
